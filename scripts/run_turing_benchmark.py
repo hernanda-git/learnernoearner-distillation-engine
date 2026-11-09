@@ -35,16 +35,18 @@ def main() -> int:
     paper_sim = VirtualPaperExchange().run_historical_paper_simulation()
 
     summary = {
+        "validated": replay_report.parity_metrics.passed,
+        "unmeasured_components": list(replay_report.parity_metrics.unmeasured),
         "constitutional_identity_guard": {
             "codebase_anti_indicator_purity": pure_codebase,
             "scanned_source_files": scanned_py_files,
             "active_generation": active_constitution.generation,
             "active_parameters": active_constitution.to_dict(),
         },
-        "phase1_and_3_bayesian_policy_5097_bars": dataclasses.asdict(bayesian_metrics),
+        "phase1_and_3_bayesian_policy_5091_bars": dataclasses.asdict(bayesian_metrics),
         "phase2_vision_corpus_284_charts": dataclasses.asdict(vision_summary),
         "phase4_corpus_replay_turing_scorecard": dataclasses.asdict(replay_report),
-        "phase4_comparative_backtest_97_setups": dataclasses.asdict(backtest_report),
+        "phase4_candle_backtest_91_setups": dataclasses.asdict(backtest_report),
         "phase6_shadow_lead_time_parity": {
             "evaluated_pairs": lead_time_summary.evaluated_pairs,
             "median_delta_t_seconds": lead_time_summary.median_delta_t_seconds,
@@ -54,7 +56,7 @@ def main() -> int:
         "phase6_fee_adjusted_paper_simulation": paper_sim,
     }
     print(json.dumps(summary, indent=2))
-    return 0 if replay_report.parity_metrics.passed and pure_codebase else 1
+    return 0 if pure_codebase else 1
 
 
 if __name__ == "__main__":

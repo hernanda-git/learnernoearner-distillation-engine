@@ -19,17 +19,19 @@
 
 ## 2. Web Console Tabs & REST API Endpoints
 
+> **POST auth:** every `POST` endpoint requires `X-Proteus-Action: 1`. If `PROTEUS_API_TOKEN` is set, it also requires `X-Proteus-Token: <token>`. The web UI sends the CSRF header automatically; set the environment token on the systemd unit to protect the public origin.
+
 ### 2.1 Interactive Console Tabs (`https://engine.warga-digital.com`)
-1. **Tab 1 — Live Shadow Radar & Paper Exchange**: Active Virtual Paper Ledger (`$1,000` base, `$20` risk/trade, max `3` slots), 72h 3-Tier Range Position gauges across all 45 Bitget-listed perpetuals, and Phase 6.1 Shadow Lead-Time Parity log ($\Delta t = -16.5\text{s}$).
-2. **Tab 2 — 97-Setup Backtest & Real-Candle Whipsaw Audit**: Side-by-side comparison of Distilled Proteus FSM (`64.9%` win rate, `10.08` PF, `2.00R` Max DD) vs. Naive Set-and-Forget (`32.0%` win rate, `2.48` PF, `15.14R` Max DD) + 87-signal Bitget 1H candle forensic audit.
-3. **Tab 3 — All 97 Canonical Signals & 48h MFE/MAE**: Searchable/filterable ledger of all 97 signals with 48h real Bitget Max Favorable Excursion ($R$), Max Adverse Excursion ($R$), minutes to $+1.0R$, minutes to SL, and verbatim Telegram text.
+1. **Tab 1 — Live Shadow Radar & Paper Exchange**: Active Virtual Paper Ledger (`$1,000` base, `$20` risk/trade, max `3` slots), 72h 3-Tier Range Position gauges across all 45 Bitget-listed perpetuals, and Phase 6.1 lead-time log (unmeasured until detections are paired).
+2. **Tab 2 — 91-Setup Candle Backtest & Whipsaw Audit**: Candle-driven comparison of the Distilled FSM (`31.9%` win rate, `0.82` PF, `10.50R` Max DD) vs. Naive Set-and-Forget (`25.3%` win rate, `0.96` PF, `18.62R` Max DD) + 86-signal Bitget 1H candle forensic audit.
+3. **Tab 3 — All 95 Canonical Signals & 48h MFE/MAE**: Searchable/filterable ledger of all 95 signals with 48h real Bitget Max Favorable Excursion ($R$), Max Adverse Excursion ($R$), minutes to $+1.0R$, minutes to SL, and verbatim Telegram text.
 4. **Tab 4 — Behavioral Profile & 47 In-Flight Actions**: Directional SL/R:R quantile baselines, 784-message cognitive taxonomy, and all 47 in-flight management updates (`SL_TO_ENTRY`, `TP1_BOOKED`, `TP_BOOKED`, `CLOSE`).
 5. **Tab 5 — Computer Vision Lab (284 TradingView Charts)**: Pixel-level RGB/HSV summary and 60-chart table showing Light/Dark theme classification, green TP boxes, red SL boxes, blue/purple S/R bands, and visual implied R:R.
 6. **Tab 6 — Constitutional Guard & Self-Corrector**: All 10 Constitutional Corridors ($\theta_{\min}$, $\theta_{\text{anchor}}$, active value, $\theta_{\max}$) and the interactive Bounded Bayesian Self-Correction Simulator.
 7. **Tab 7 — Self-Monitor Watchdog & AI Agent Evolver**: Live status of all 6 runtime probes (`LatchHealer`), 4-stage AI-Agent Self-Improvement trace (`TelemetryScout` → `AdversarialCritic` → `TuringVerifier` → `HashChainCommitter`), and the `FAJ1` SHA-256 hash-chained journal.
 
 ### 2.2 JSON REST Endpoints
-- `GET /health` or `GET /health/telemetry` — Fast health, air-gap, constitutional purity (`26/26` files), and watchdog status check.
+- `GET /health` or `GET /health/telemetry` — Fast health, air-gap, constitutional purity (`31/31` files), computed BPS (`null` until all components are measured), and watchdog status check.
 - `GET /api/v1/dashboard` — Full telemetry payload powering all 7 tabs.
 - `POST /api/v1/scan` — Trigger an immediate Bitget public candle scan, step `VirtualPaperExchange`, and evaluate `SelfMonitoringWatchdog`.
 - `POST /api/v1/self-correct` — Test a parameter proposal `{parameter, observed_value, learning_rate, candidate_bps}` through `BoundedSelfCorrector`.
@@ -74,20 +76,20 @@ The only new dependency is `websockets>=13,<16`. Bitget limits: 100 connections/
 
 ### 3.1 Local / Development CLI Commands
 ```bash
-# 1. Run full 36-test verification suite
-C:/Workspace/bots/fatty-live-fix/.venv/Scripts/pytest.exe -v
+# 1. Run full 41-test verification suite
+python -m pytest -v
 
 # 2. Run complete Phases 1–6 Cognitive Turing & Constitutional Scorecard
-C:/Workspace/bots/fatty-live-fix/.venv/Scripts/python.exe scripts/run_turing_benchmark.py
+python scripts/run_turing_benchmark.py
 
-# 3. Simulate $1,000 paper account across all 97 historical setups
-C:/Workspace/bots/fatty-live-fix/.venv/Scripts/python.exe scripts/run_paper_trader.py --mode historical
+# 3. Simulate $1,000 paper account across all 91 resolvable historical setups
+python scripts/run_paper_trader.py --mode historical
 
 # 4. Run a single live Bitget scan & step paper ledger
-C:/Workspace/bots/fatty-live-fix/.venv/Scripts/python.exe scripts/run_paper_trader.py --mode live-step --refresh-live
+python scripts/run_paper_trader.py --mode live-step --refresh-live
 
 # 5. Run Self-Monitoring Watchdog & 4-stage AI-Agent Self-Improver
-C:/Workspace/bots/fatty-live-fix/.venv/Scripts/python.exe scripts/run_self_improver.py --learning-rate 0.12
+python scripts/run_self_improver.py --learning-rate 0.12
 ```
 
 ### 3.2 Production VPS Service Management (`46.202.155.192`)

@@ -1,9 +1,12 @@
-"""Phase 6.1: Live Telegram Shadow Comparator & Lead-Time Logger (`proteus.shadow.lead_time`).
+"""Phase 6.1: Shadow lead-time comparator (`proteus.shadow.lead_time`).
 
-Compares autonomous Project Proteus shadow detections against incoming human
-Telegram posts in channel `-1001252615519` (via read-only SSH DB poll or local
-corpus fallback), logging exact lead-time parity `delta_t_seconds = t_proteus - t_human`
-to `benchmarks/shadow_lead_time_log.json`.
+Lead time is only reported when both timestamps exist:
+
+- ``human_posted_at_utc`` from the Telegram corpus.
+- ``proteus_detected_at_utc`` from an actual logged scan detection.
+
+The corpus does not contain Proteus detection timestamps, so the default
+result is ``UNMEASURED``. No synthetic lead-time formula is used.
 """
 
 from __future__ import annotations
@@ -39,17 +42,18 @@ class LeadTimeComparison:
 @dataclass(frozen=True)
 class ShadowLeadTimeSummary:
     evaluated_pairs: int
-    median_delta_t_seconds: float
-    mean_delta_t_seconds: float
+    median_delta_t_seconds: float | None
+    mean_delta_t_seconds: float | None
     front_run_or_simultaneous_rate_pct: float
     comparisons: list[LeadTimeComparison]
+    status: str = "UNMEASURED"
 
     def to_dict(self) -> dict[str, object]:
         return asdict(self)
 
 
 class ShadowLeadTimeComparator:
-    """Evaluates timing parity (Delta t <= 0s) between Proteus and @learnernoearner."""
+    """Evaluates timing parity between logged Proteus detections and human posts."""
 
     def __init__(
         self,
@@ -62,7 +66,7 @@ class ShadowLeadTimeComparator:
         self.ssh_relay_host = ssh_relay_host
 
     def fetch_recent_human_signals(self, limit: int = 25) -> list[dict[str, Any]]:
-        """Poll recent canonical signals from read-only DB or local corpus snapshot."""
+        """Poll recent canonical signals from the local corpus snapshot."""
         signals_file = self.corpus_dir / "canonical_signals.json"
         if signals_file.exists():
             rows: list[dict[str, Any]] = json.loads(signals_file.read_text(encoding="utf-8"))
@@ -95,58 +99,80 @@ class ShadowLeadTimeComparator:
         self,
         human_signals: Sequence[dict[str, Any]] | None = None,
     ) -> ShadowLeadTimeSummary:
-        """Compute lead-time Delta t across the signal stream.
+        """Compute lead time from actual paired detections.
 
-        Because Proteus triggers directly on the 15m wick sweep / midrange touch
-        whereas the human takes 8–35 seconds to screenshot TradingView, type the
-        caption, and publish to Telegram, Proteus achieves negative Delta t (lead time).
+        A signal is only counted when it carries ``proteus_detected_at_utc``
+        (or ``detected_at``) from a scan log. Without that timestamp the result
+        is ``UNMEASURED`` — never a fabricated negative delta.
         """
-        signals = list(human_signals) if human_signals is not None else self.fetch_recent_human_signals(25)
+        signals = (
+            list(human_signals)
+            if human_signals is not None
+            else self.fetch_recent_human_signals(25)
+        )
         comparisons: list[LeadTimeComparison] = []
 
-        for idx, sig in enumerate(signals):
-            sym = normalize_base_symbol(sig["pair_token"])
-            direction = sig["direction"]
-            human_ts_str = sig.get("received_at") or sig.get("created_at")
-            human_dt = datetime.fromisoformat(human_ts_str)
-            # Candle-close / wick-sweep detection precedes human screenshot + typing latency by 6s to 28s
-            lead_seconds = -round(6.5 + ((idx * 7) % 22), 1)
-            proteus_dt = human_dt.fromtimestamp(
-                human_dt.timestamp() + lead_seconds, tz=human_dt.tzinfo
-            )
+        for sig in signals:
+            detected = sig.get("proteus_detected_at_utc") or sig.get("detected_at")
+            human_ts = sig.get("human_posted_at_utc") or sig.get("received_at") or sig.get("created_at")
+            if not detected or not human_ts:
+                continue
+            try:
+                proteus_dt = datetime.fromisoformat(str(detected))
+                human_dt = datetime.fromisoformat(str(human_ts))
+            except ValueError:
+                continue
 
-            h_entry = float(sig["entry_price"])
-            p_entry = round(h_entry * (1.0 - 0.0004 if direction == "LONG" else 1.0 + 0.0004), 8)
-            entry_delta_pct = round(abs(p_entry - h_entry) / max(1e-12, h_entry) * 100.0, 4)
+            delta_t = round((proteus_dt - human_dt).total_seconds(), 2)
+            proteus_entry = str(sig.get("proteus_entry", sig.get("entry_price", "")))
+            human_entry = str(sig.get("entry_price", ""))
+            try:
+                entry_delta_pct = round(
+                    abs(float(proteus_entry) - float(human_entry))
+                    / max(1e-12, float(human_entry))
+                    * 100.0,
+                    4,
+                )
+            except ValueError:
+                entry_delta_pct = 0.0
 
             comparisons.append(
                 LeadTimeComparison(
-                    symbol=sym,
-                    direction=direction,
+                    symbol=normalize_base_symbol(str(sig.get("pair_token") or sig.get("symbol") or "?")),
+                    direction=sig["direction"],
                     proteus_detected_at_utc=proteus_dt.isoformat(),
                     human_posted_at_utc=human_dt.isoformat(),
-                    delta_t_seconds=lead_seconds,
-                    proteus_entry=str(p_entry),
-                    human_entry=str(sig["entry_price"]),
+                    delta_t_seconds=delta_t,
+                    proteus_entry=proteus_entry,
+                    human_entry=human_entry,
                     entry_delta_pct=entry_delta_pct,
-                    front_ran_or_simultaneous=lead_seconds <= 0.0,
+                    front_ran_or_simultaneous=delta_t <= 0.0,
                 )
             )
 
-        deltas = sorted(c.delta_t_seconds for c in comparisons)
-        n = max(1, len(deltas))
-        median_dt = deltas[n // 2] if deltas else 0.0
-        mean_dt = round(sum(deltas) / n, 2) if deltas else 0.0
-        front_rate = round(
-            sum(1 for c in comparisons if c.front_ran_or_simultaneous) / n * 100.0, 1
-        )
+        if not comparisons:
+            summary = ShadowLeadTimeSummary(
+                evaluated_pairs=0,
+                median_delta_t_seconds=None,
+                mean_delta_t_seconds=None,
+                front_run_or_simultaneous_rate_pct=0.0,
+                comparisons=[],
+                status="UNMEASURED",
+            )
+        else:
+            deltas = sorted(c.delta_t_seconds for c in comparisons)
+            n = len(deltas)
+            median_dt = deltas[n // 2] if n % 2 else round((deltas[n // 2 - 1] + deltas[n // 2]) / 2.0, 2)
+            summary = ShadowLeadTimeSummary(
+                evaluated_pairs=n,
+                median_delta_t_seconds=median_dt,
+                mean_delta_t_seconds=round(sum(deltas) / n, 2),
+                front_run_or_simultaneous_rate_pct=round(
+                    sum(1 for c in comparisons if c.front_ran_or_simultaneous) / n * 100.0, 1
+                ),
+                comparisons=comparisons,
+                status="MEASURED",
+            )
 
-        summary = ShadowLeadTimeSummary(
-            evaluated_pairs=len(comparisons),
-            median_delta_t_seconds=median_dt,
-            mean_delta_t_seconds=mean_dt,
-            front_run_or_simultaneous_rate_pct=front_rate,
-            comparisons=comparisons,
-        )
         self.log_path.write_text(json.dumps(summary.to_dict(), indent=2) + "\n", encoding="utf-8")
         return summary

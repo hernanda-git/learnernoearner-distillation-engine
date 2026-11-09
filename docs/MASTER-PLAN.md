@@ -45,7 +45,7 @@
 ```mermaid
 flowchart TD
     subgraph INGESTION [1. Multimodal Lakehouse]
-        SQL[Read-Only DB Export: 784 Msgs, 97 Signals]
+        SQL[Read-Only DB Export: 784 Msgs, 95 Signals]
         IMG[230 TradingView Screenshots]
         CCXT[Public Historical CCXT: 1D, 4h, 1h, 15m, 1m]
         SQL & IMG & CCXT --> LAKE[(DuckDB Local Lakehouse)]
@@ -69,7 +69,7 @@ flowchart TD
     end
 
     subgraph BENCHMARK [5. Cognitive Turing Test]
-        VIRTUAL --> SCORE[Behavioral Parity Scorecard vs. 97 Human Signals]
+        VIRTUAL --> SCORE[Behavioral Parity Scorecard vs. 95 Human Signals]
     end
 ```
 
@@ -79,7 +79,7 @@ The distilled engine comprises 7 decoupled modules:
 - Ingests and maintains local multi-timeframe arrays:
   - **1D / 4h**: Higher-Timeframe market structure, 3-day high/low, daily open, volume profile.
   - **15m / 5m**: Lower-timeframe execution, wick expansion speed, order block boundaries.
-- **Scope**: All 45 perpetuals `@learnernoearner` traded in the 97-setup corpus that remain listed on Bitget USDT-FUTURES (`TRADABLE_UNIVERSE` in `src/proteus/market/__init__.py`; `SAGA`, `BONK`, `FLOW` excluded as delisted). Scanned at 8 req/s through a token bucket, well under Bitget's 20 req/s/IP ceiling.
+- **Scope**: All 45 perpetuals `@learnernoearner` traded in the 95-setup corpus that remain listed on Bitget USDT-FUTURES (`TRADABLE_UNIVERSE` in `src/proteus/market/__init__.py`; `SAGA`, `BONK`, `FLOW` excluded as delisted). Scanned at 8 req/s through a token bucket, well under Bitget's 20 req/s/IP ceiling.
 
 ### Module 2: The Macro Compass Gate (`proteus.compass`)
 - Implements the trader's fundamental rule: *Altcoins follow Bitcoin's structural stance.*
@@ -106,7 +106,7 @@ The distilled engine comprises 7 decoupled modules:
   - Evaluates spatial overlap (Intersection-over-Union, IoU).
 
 ### Module 5: Cognitive Action Policy & Abstention Gate (`proteus.policy`)
-- Formulated as a probabilistic classifier trained on the 97 historical signals and 5,000 negative samples:
+- Formulated as a probabilistic classifier trained on 91 usable historical signals and 5,000 negative samples:
   $$\pi(a \mid s) \quad \text{where } a \in \{\text{ABSTAIN}, \text{ENTER\_LONG}, \text{ENTER\_SHORT}\}$$
 - Enforces the **80/20 Long-Bias Ceiling**: Shorts require higher structural conviction ($\ge 0.85$ confidence) than Longs ($\ge 0.65$ confidence).
 - Enforces the **Abstention Default**: If price is in "no-man's land" between Mid Range and Range High, probability of `ABSTAIN` must exceed $0.85$.
@@ -143,13 +143,13 @@ gantt
     Cognitive Action / Abstention Classifier         :m3_1, after m2_3, 4d
     Trade Lifecycle FSM (1R BE + Circadian Derisking):m3_2, after m3_1, 3d
     section Phase 4: Turing Validation & Benchmarks
-    Historical 97-signal replay benchmark            :m4_1, after m3_2, 4d
+    Historical 95-signal replay benchmark            :m4_1, after m3_2, 4d
     Forward shadow testing vs Live Telegram alerts   :m4_2, after m4_1, 7d
 ```
 
 ### Phase 1: Data Lakehouse & State Alignment
 - **Input**: `telegram_messages`, `canonical_signals`, 230 screenshots from `/app/runtime/media/`.
-- **Action**: Build local DuckDB lakehouse. For each of the 97 signals, align historical 1m, 15m, 1h, and 1D candles covering $T_0 - 30\text{d}$ to $T_0 + 48\text{h}$.
+- **Action**: Build local DuckDB lakehouse. For each of the 91 signals with a Bitget series, align historical 1m, 15m, 1h, and 1D candles covering $T_0 - 30\text{d}$ to $T_0 + 48\text{h}$.
 - **Negative Space Mining**: Construct a negative dataset by sampling 5,000 intraday bars where the human actively abstained from trading.
 - **Success Criteria**: 100% of historical signals successfully joined with tick-accurate market state.
 
@@ -160,7 +160,7 @@ gantt
 
 ### Phase 3: Cognitive Policy & Trade Lifecycle FSM
 - **Input**: Feature matrix + negative dataset.
-- **Action**: Train the Action/Abstention model (`proteus.policy`). Enforce the 80.4% Long-bias and the median 2.60% stop-loss boundary. Implement the in-flight management FSM (1R SL-to-BE, partial profit taking, bedtime derisking).
+- **Action**: Train the Action/Abstention model (`proteus.policy`). Enforce the 80.0% Long-bias and the median 2.61% stop-loss boundary. Implement the in-flight management FSM (1R SL-to-BE, partial profit taking, bedtime derisking).
 - **Success Criteria**: Negative space abstention accuracy $\ge 95\%$.
 
 ### Phase 4: Cognitive Turing Validation Harness
@@ -179,7 +179,7 @@ gantt
 | Metric Dimension | Acceptance Threshold | Failure Condition | Diagnostic Remedy |
 | :--- | :--- | :--- | :--- |
 | **Directional Concordance** | $\ge 90\%$ | $< 80\%$ (Bot longs when human shorts) | Tighten Range-High rejection filter |
-| **Setup Recall** | $\ge 75\%$ of 97 signals | $< 65\%$ (Bot is too timid) | Lower confirmation threshold on 15m wick retests |
+| **Setup Recall** | $\ge 75\%$ of 95 signals | $< 65\%$ (Bot is too timid) | Lower confirmation threshold on 15m wick retests |
 | **Abstention Accuracy** | $\ge 95\%$ on negative pool | $< 90\%$ (Bot overtrades) | Increase penalization weight on "no-man's land" bars |
 | **SL Proximity** | $|SL_{\text{bot}} - SL_{\text{human}}| \le 0.5\%$ | $> 1.0\%$ delta | Re-anchor SL strictly to swing wick extreme |
 | **Target Proximity** | $|TP_{\text{bot}} - TP_{\text{human}}| \le 1.0\%$ | $> 2.0\%$ delta | Align target directly to opposite range boundary |
@@ -204,15 +204,17 @@ Before initializing any code execution for Project Proteus:
 
 ---
 
-## 6. Implementation & Verification Status (Phases 1–6 Complete)
+## 6. Implementation & Verification Status (Phases 1–6 Implemented, Unvalidated)
 
-All six phases—plus the Constitutional Identity Guard, Self-Monitoring Watchdog, 4-Stage AI-Agent Self-Improver, and 7-Tab Web Console at [`https://engine.warga-digital.com`](https://engine.warga-digital.com)—are implemented and verified (**21/21 `pytest` passing in `1.63s`**):
+All six phases are implemented. The evidence layer is **unvalidated**: BPS is `None`, vision has no human labels, and lead time has no paired detections. The test suite is **41/41 passing**.
+
+> The retired `PF 10.08` / `$2,938.51` figures came from keyword→fixed-R and SHA-256 outcome mappings. See `docs/AUDIT-2026-11-10.md` for the independent re-simulation.
 
 | Phase | Module Path | Status | Verification Evidence |
 | :--- | :--- | :--- | :--- |
-| **Phase 1: Lakehouse & Negative Space** | `src/proteus/market/lakehouse.py` | **COMPLETED** | `5,097` aligned 11-D feature vectors (`97` signals + `5,000` negative-space bars) + `87` real Bitget 1H `[T₀−72h, T₀+48h]` candle audits |
-| **Phase 2: Geometry & Vision Lab** | `src/proteus/geometry/` & `vision/` | **COMPLETED** | 72h 3-tier range engine + RGB/HSV TradingView box extractor across **284 real screenshots** ($\text{IoU} \ge 0.88$) + `160×100` synthetic renderer |
-| **Phase 3: Policy & Lifecycle FSM** | `src/proteus/policy/bayesian.py` & `fsm/` | **COMPLETED** | Fitted 5,097-bar Gaussian Naive Bayes classifier (`100%` abstention & recall) + 2-hour coupled impulse FSM (`119.1m` BE / `123.6m` TP1) |
-| **Phase 4: Turing Harness & Backtest** | `src/proteus/replay/` & `backtest/` | **COMPLETED** | Verified **$BPS = 0.9700$** ($\ge 0.85$) · Comparative 97-setup backtest (`PF = 10.08`, `Max DD = 2.00R` vs. Naive `PF = 2.48`, `Max DD = 15.14R`) |
-| **Phase 5: Forward Shadow Mode** | `src/proteus/shadow/` & `paper/` | **COMPLETED** | Live 24/7 systemd daemon (`proteus-paper-daemon.service`) + `$1,000` `VirtualPaperExchange` with Bitget Maker (`2 bps`) / Taker (`6 bps`) fees & 3-slot eviction |
-| **Phase 6: Self-Monitor, AI Evolver & Web UI** | `src/proteus/constitution/`, `monitor/`, `evolver/`, `web/` | **COMPLETED** | 6-probe `SelfMonitoringWatchdog` (`LatchHealer`), 4-stage `AgenticSelfImprover` (`FAJ1` SHA-256 hash-chain journal), and 7-tab console at `https://engine.warga-digital.com` |
+| **Phase 1: Lakehouse & Negative Space** | `src/proteus/market/lakehouse.py` | **IMPLEMENTED** | `5,091` aligned 9-D feature vectors (`91` usable signals + `5,000` negative-space bars); `4` signals unresolved; `86` real Bitget 1H `[T₀−72h, T₀+48h]` candle audits |
+| **Phase 2: Geometry & Vision Lab** | `src/proteus/geometry/` & `vision/` | **IMPLEMENTED / UNVALIDATED** | 72h 3-tier range engine + filled-rectangle box extractor across **284 screenshots**; legacy annotations have no human labels, so IoU is unmeasured |
+| **Phase 3: Policy & Lifecycle FSM** | `src/proteus/policy/bayesian.py` & `fsm/` | **IMPLEMENTED** | Leak-free 5,091-bar Gaussian Naive Bayes (`98.56%` abstention / `4.4%` recall) + FSM (`+1.0R` BE / `50%` at `+1.5R`) |
+| **Phase 4: Turing Harness & Backtest** | `src/proteus/replay/` & `backtest/` | **IMPLEMENTED / UNVALIDATED** | BPS `None` (unmeasured components); candle-driven 91-setup backtest: Naive `−3.03R / PF 0.96 / DD 18.62R` vs FSM `−7.76R / PF 0.82 / DD 10.50R` |
+| **Phase 5: Forward Shadow Mode** | `src/proteus/shadow/` & `paper/` | **IMPLEMENTED** | Live systemd daemon + stateful `VirtualPaperExchange` with Bitget Maker (`2 bps`) / Taker (`6 bps`) fees & 3-slot eviction; lead time unmeasured until detections are logged |
+| **Phase 6: Self-Monitor, AI Evolver & Web UI** | `src/proteus/constitution/`, `monitor/`, `evolver/`, `web/` | **IMPLEMENTED** | 6-probe `SelfMonitoringWatchdog` (`LatchHealer`), 4-stage `AgenticSelfImprover` (`FAJ1` SHA-256 hash-chain journal; updates rejected while BPS is unmeasured), and 7-tab console |

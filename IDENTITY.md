@@ -15,11 +15,11 @@ We do **not** curve-fit arbitrary indicators to historical noise. We model the h
 2. **3-Tier Horizontal Range Perception**: Markets are navigated via 72-hour horizontal `Range High` (supply), `50% Mid Range` (equilibrium confirmation pivot), and `Range Low` (demand) levels—plus session liquidity wick sweeps (`wick_ratio >= 0.35`) and visual chart bounding boxes (`IoU >= 0.80`).
 3. **Abstention as Primary Alpha**: When price floats in interior "no-man's land" between structural tiers, the engine **does nothing** ($P(\text{ABSTAIN}) \ge 0.85$). Over $85\%\text{–}98\%$ of intraday bars are rejected.
 4. **Directional & Risk Asymmetry**:
-   - **80.4% Long vs. 19.6% Short** structural bias (Short admission requires strictly higher conviction: $\theta_{\text{Short}} \ge \theta_{\text{Long}} + 0.15$).
-   - **Tighter Short Stops vs. Wider Long Stops**: Shorts anchor tighter above Range-High wicks (**~2.17% median SL**, **~4.46R TP**); Longs anchor below 15m swing lows (**~2.67% median SL**, **~4.87R TP**).
+   - **80.0% Long vs. 20.0% Short** structural bias (Short admission requires strictly higher conviction: $\theta_{\text{Short}} \ge \theta_{\text{Long}} + 0.15$).
+   - **Tighter Short Stops vs. Wider Long Stops**: Shorts anchor tighter above Range-High wicks (**~2.17% median SL**, **~4.46R TP**); Longs anchor below 15m swing lows (**~2.68% median SL**, **~4.89R TP**).
    - **Single Structural Destination**: 92.8% of setups target a single opposing range boundary—never 5-tier retail scalp ladders.
 5. **The 2-Hour Coupled Impulse FSM & Circadian Derisking**:
-   - At the **~2.0-hour impulse mark** (8 bars on 15m, $+1.0R \text{ to } +1.5R$), the engine migrates Stop-Loss to Entry (`sl to entry` at median `119.1m`) and books $50\%$ partial profit (`tp1 booked` at median `123.6m`). This rescues **61.7% of $+1.0R$ impulses** from 48-hour whipsaw reversals and collapses Max Drawdown from `15.14R` to `2.00R`.
+   - At the **~2.0-hour impulse mark** (8 bars on 15m, $+1.0R \text{ to } +1.5R$), the engine migrates Stop-Loss to Entry (`sl to entry` at median `119.1m`) and books $50\%$ partial profit (`tp1 booked` at median `123.6m`). The FSM hypothesis is **not yet validated**: a conservative 1H re-simulation with fees reduces Max Drawdown from `18.62R` to `10.50R` but remains unprofitable (`PF 0.82`). See `docs/AUDIT-2026-11-10.md`.
    - At **UTC 21:00–23:59 (Bedtime Window)**, unmonitored profitable trades are derisked before sleep.
    - At **3/3 active portfolio slots**, stalled trades ($-0.15R \le \text{unrealized\_r} \le +0.35R$) are evicted when a higher-conviction setup arrives.
 
@@ -32,9 +32,9 @@ The following mutations are **permanently forbidden** (`IdentityDriftError`):
 | Forbidden Drift | Why It Violates Identity | Machine Enforcement |
 | :--- | :--- | :--- |
 | **1. Lagging Retail Indicator Bot** (`RSI`, `MACD`, `EMA cross`, `Bollinger`, `Stochastic`, `Ichimoku`, `ADX`) | `@learnernoearner` never uses lagging oscillators. Adding them turns Proteus into a generic retail TA bot. | `ConstitutionalIdentityGuard.verify_codebase_purity()` scans AST/source and blocks forbidden indicator symbols. |
-| **2. High-Frequency Scalper / Over-Trader** | Lowering abstention thresholds to force trades in "no-man's land" destroys the 10.08 Profit Factor. | `abstain_prob_no_mans_land >= 0.85` and `abstention_accuracy >= 0.95` hard floors. |
-| **3. Naive Set-and-Forget Bot** | Disabling the $+1.0R$ `SL_TO_ENTRY` / `TP1` 2-hour FSM causes a `68.0%` loss rate and `15.14R` drawdown. | `breakeven_trigger_r` locked to $[0.80R, 1.35R]$; FSM transitions mandatory. |
-| **4. Blind Copy-Trading Relay** | `fatty-multi-exchange-trader` already copy-trades Telegram messages. Proteus is an **independent cognitive decision engine** that detects setups from raw market structure *before* Telegram posts ($\Delta t \le 0\text{s}$). | Evaluated by `ShadowLeadTimeComparator` ($\Delta t \le 0\text{s}$) and `BehavioralParityBenchmark` ($BPS \ge 0.85$). |
+| **2. High-Frequency Scalper / Over-Trader** | Lowering abstention thresholds to force trades in "no-man's land" degrades the risk-adjusted result. | `abstain_prob_no_mans_land >= 0.85` and `abstention_accuracy >= 0.95` hard floors. |
+| **3. Naive Set-and-Forget Bot** | Disabling the $+1.0R$ `SL_TO_ENTRY` / `TP1` 2-hour FSM increases loss rate and drawdown. | `breakeven_trigger_r` locked to $[0.80R, 1.35R]$; FSM transitions mandatory. |
+| **4. Blind Copy-Trading Relay** | `fatty-multi-exchange-trader` already copy-trades Telegram messages. Proteus is an **independent cognitive decision engine** that detects setups from raw market structure. | Evaluated by `ShadowLeadTimeComparator` only when paired detection timestamps exist; unmeasured otherwise. |
 | **5. Coupled Live Production Bot** | Proteus must never hold live Bitget API keys, HMAC secrets, or `fatty_trader` write sockets. | `ProteusDistillationEngine.verify_air_gap()` raises `AirGapSecurityError`. |
 
 ---

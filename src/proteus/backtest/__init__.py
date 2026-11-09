@@ -1,24 +1,31 @@
-"""Phase 4: 97-Signal Autonomous Trade Backtest & Real-Candle Forensic Simulator (`proteus.backtest`).
+"""Phase 4: Candle-driven autonomous trade backtest (`proteus.backtest`).
 
-Integrates:
-1. Real Bitget 1H historical candle trajectories (`benchmarks/corpus/signal_candle_trajectories.json`)
-   across 87 resolved setups (pre-entry 72h range + post-entry 48h MFE/MAE excursion).
-2. Survivorship Silence Audit (cross-tabulating Telegram follow-up announcements against
-   real Bitget candle outcomes).
-3. Comparative backtest: Naive Set-and-Forget vs. Distilled Project Proteus FSM.
+Every P&L number is now derived from the real Bitget 1H candles in
+`benchmarks/corpus/real_1h_candles_by_signal.json`. There are no hash draws,
+no loop-index coin flips, and no Telegram-keyword-to-fixed-R mappings.
+
+Intrabar policy (1H OHLC cannot resolve order):
+- ``conservative`` (default): if stop and target are both touched inside one
+  bar, the stop is assumed first. This understates the FSM benefit.
+- ``favorable``: target first. Reported only as a sensitivity bound.
+
+The FSM is the same contract as ``proteus.fsm``: move the stop to entry at
++1.0R and book 50% at +1.5R. Fees are charged once per round trip as a fraction
+of R (Bitget maker 2 bps entry + taker 6 bps exit by default).
 """
 
 from __future__ import annotations
 
-import hashlib
 import json
 import re
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 DEFAULT_CORPUS_DIR = Path(__file__).resolve().parents[3] / "benchmarks" / "corpus"
+
+DEFAULT_ROUND_TRIP_FEE_PCT = 0.0008  # 2 bps maker + 6 bps taker
 
 
 @dataclass(frozen=True)
@@ -35,6 +42,7 @@ class RegimePerformance:
     expectancy_r: float
     profit_factor: float
     max_drawdown_r: float
+    total_fees_r: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -58,16 +66,30 @@ class ComparativeBacktestReport:
     proteus_alpha_edge_r: float
     drawdown_reduction_r: float
     real_candle_audit: RealCandleForensicAudit
+    resolution: str = "1H"
+    intrabar_policy: str = "conservative"
+    fee_model: str = "bitget_maker_2bps+taker_6bps"
+    unresolved_signals: int = 0
+    notes: str = ""
 
 
 class LifecycleBacktestSimulator:
-    """Simulates all 97 canonical setups under Naive vs Distilled Proteus FSM."""
+    """Simulates every resolvable setup on its real Bitget 1H post-entry candles."""
 
-    def __init__(self, corpus_dir: Path | None = None) -> None:
+    def __init__(
+        self,
+        corpus_dir: Path | None = None,
+        round_trip_fee_pct: float = DEFAULT_ROUND_TRIP_FEE_PCT,
+        intrabar_policy: Literal["conservative", "favorable"] = "conservative",
+    ) -> None:
         self.corpus_dir = corpus_dir or DEFAULT_CORPUS_DIR
+        self.round_trip_fee_pct = max(0.0, float(round_trip_fee_pct))
+        self.intrabar_policy = intrabar_policy
+
+    # -- statistics ---------------------------------------------------------
 
     @staticmethod
-    def _compute_stats(name: str, r_series: list[float]) -> RegimePerformance:
+    def _compute_stats(name: str, r_series: list[float], fees_r: float = 0.0) -> RegimePerformance:
         wins = sum(1 for r in r_series if r > 0.05)
         scratches = sum(1 for r in r_series if -0.05 <= r <= 0.05)
         losses = sum(1 for r in r_series if r < -0.05)
@@ -102,53 +124,117 @@ class LifecycleBacktestSimulator:
             expectancy_r=round(total_r / n, 2),
             profit_factor=profit_factor,
             max_drawdown_r=round(max_dd, 2),
+            total_fees_r=round(fees_r, 2),
         )
 
-    def run_comparative_backtest(self) -> ComparativeBacktestReport:
-        signals: list[dict[str, Any]] = json.loads(
+    # -- simulation ---------------------------------------------------------
+
+    def _simulate(
+        self,
+        direction: str,
+        entry: float,
+        stop_loss: float,
+        take_profit: float,
+        bars: list[list[float]],
+        use_fsm: bool,
+    ) -> float:
+        """Return realized R from the post-entry 1H bars.
+
+        Conservative intrabar rule: when a bar touches both the stop and any
+        favorable level, the stop is assumed to have been hit first.
+        """
+        risk = abs(entry - stop_loss)
+        if risk <= 0.0 or not bars:
+            return 0.0
+
+        is_long = direction == "LONG"
+        cur_sl = stop_loss
+        remaining = 1.0
+        realized = 0.0
+        be_done = False
+        tp1_done = False
+
+        def r_of(price: float) -> float:
+            return ((price - entry) / risk) if is_long else ((entry - price) / risk)
+
+        for row in bars:
+            high = float(row[2])
+            low = float(row[3])
+            close = float(row[4])
+
+            if is_long:
+                sl_hit = low <= cur_sl
+                tp_hit = high >= take_profit
+                hit_1r = high >= entry + risk
+                hit_15r = high >= entry + 1.5 * risk
+            else:
+                sl_hit = high >= cur_sl
+                tp_hit = low <= take_profit
+                hit_1r = low <= entry - risk
+                hit_15r = low <= entry - 1.5 * risk
+
+            if self.intrabar_policy == "conservative":
+                if sl_hit:
+                    realized += remaining * r_of(cur_sl)
+                    return realized
+
+            if use_fsm:
+                if hit_15r and not tp1_done:
+                    realized += 0.5 * 1.5
+                    remaining = 0.5
+                    cur_sl = entry
+                    be_done = True
+                    tp1_done = True
+                elif hit_1r and not be_done:
+                    cur_sl = entry
+                    be_done = True
+
+            if tp_hit:
+                realized += remaining * r_of(take_profit)
+                return realized
+
+            if self.intrabar_policy == "favorable":
+                # Re-check the stop against the possibly-moved breakeven level.
+                if is_long:
+                    sl_now = low <= cur_sl
+                else:
+                    sl_now = high >= cur_sl
+                if sl_now:
+                    realized += remaining * r_of(cur_sl)
+                    return realized
+
+        # No exit: mark the remaining position at the last close.
+        realized += remaining * r_of(float(bars[-1][4]))
+        return realized
+
+    def _fee_r(self, entry: float, risk: float) -> float:
+        if risk <= 0.0:
+            return 0.0
+        return (entry / risk) * self.round_trip_fee_pct
+
+    # -- corpus -------------------------------------------------------------
+
+    def _load(self) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, dict[str, Any]]]:
+        signals = json.loads(
             (self.corpus_dir / "canonical_signals.json").read_text(encoding="utf-8")
         )
-        messages: list[dict[str, Any]] = json.loads(
-            (self.corpus_dir / "telegram_messages.json").read_text(encoding="utf-8")
+        trajectories = json.loads(
+            (self.corpus_dir / "signal_candle_trajectories.json").read_text(encoding="utf-8")
         )
-        traj_path = self.corpus_dir / "signal_candle_trajectories.json"
-        trajectories: list[dict[str, Any]] = (
-            json.loads(traj_path.read_text(encoding="utf-8")) if traj_path.exists() else []
+        candles = json.loads(
+            (self.corpus_dir / "real_1h_candles_by_signal.json").read_text(encoding="utf-8")
         )
-        traj_by_id = {t["signal_id"]: t for t in trajectories}
+        return signals, trajectories, {row["signal_id"]: row for row in candles}
 
+    @staticmethod
+    def _telegram_mentions(signals: list[dict[str, Any]], messages: list[dict[str, Any]]) -> dict[str, bool]:
+        """Did the human post any follow-up about this signal within 7 days?"""
         msgs_sorted = sorted(messages, key=lambda m: m["received_at"])
-
-        naive_r: list[float] = []
-        proteus_r: list[float] = []
-
-        resolved_count = 0
-        reached_1r_count = 0
-        whipsaw_count = 0
-        sl_first_count = 0
-        silent_sl_first = 0
-        silent_1r = 0
-
-        for idx, sig in enumerate(signals):
+        mentioned: dict[str, bool] = {}
+        for sig in signals:
             tok = sig["pair_token"].replace("USDT", "").upper()
             s_dt = datetime.fromisoformat(sig["received_at"] or sig["created_at"])
-
-            entry = float(sig["entry_price"])
-            sl = float(sig["stop_loss"])
-            risk = abs(entry - sl)
-            tps = sig.get("take_profits") or []
-            planned_rr = 4.80
-            if tps and risk > 0:
-                cand_rr = abs(float(tps[0]) - entry) / risk
-                if 0.5 <= cand_rr <= 15.0:
-                    planned_rr = round(cand_rr, 2)
-
-            hit_full_tp = False
-            hit_tp1 = False
-            hit_be = False
-            hit_sl = False
-            early_close = False
-
+            found = False
             for m in msgs_sorted:
                 m_dt = datetime.fromisoformat(m["received_at"])
                 delta_s = (m_dt - s_dt).total_seconds()
@@ -160,73 +246,110 @@ class LifecycleBacktestSimulator:
                     or f"#{tok.lower()}" in txt
                     or re.search(rf"\b{re.escape(tok.lower())}\b", txt)
                 ):
-                    if any(k in txt for k in ("full tp", "3r", "4r", "5r", "all tp", "hit tp")):
-                        hit_full_tp = True
-                    if any(k in txt for k in ("tp1", "booked", "took profit")):
-                        hit_tp1 = True
-                    if any(k in txt for k in ("sl to entry", "stoploss to entry", "be ")):
-                        hit_be = True
-                    if any(k in txt for k in ("hit sl", "invalidation", "stopped", "took a loss")):
-                        hit_sl = True
-                    if any(k in txt for k in ("closed", "sleep")):
-                        early_close = True
+                    if any(
+                        k in txt
+                        for k in (
+                            "full tp",
+                            "tp1",
+                            "booked",
+                            "took profit",
+                            "sl to entry",
+                            "stoploss to entry",
+                            "hit sl",
+                            "invalidation",
+                            "stopped",
+                            "took a loss",
+                            "closed",
+                            "sleep",
+                        )
+                    ):
+                        found = True
+                        break
+            mentioned[sig["id"]] = found
+        return mentioned
 
-            is_silent_in_telegram = not (
-                hit_full_tp or hit_tp1 or hit_be or hit_sl or early_close
+    def run_comparative_backtest(self) -> ComparativeBacktestReport:
+        signals, trajectories, candles_by_id = self._load()
+        messages = json.loads(
+            (self.corpus_dir / "telegram_messages.json").read_text(encoding="utf-8")
+        )
+        traj_by_id = {t["signal_id"]: t for t in trajectories}
+        mentioned = self._telegram_mentions(signals, messages)
+
+        naive_r: list[float] = []
+        proteus_r: list[float] = []
+        fees_r = 0.0
+        unresolved = 0
+
+        for sig in sorted(signals, key=lambda s: s["received_at"] or s["created_at"]):
+            row = candles_by_id.get(sig["id"])
+            bars = (row or {}).get("post_48h_candles") or []
+            if not bars or not (row or {}).get("stop_loss_scaled"):
+                unresolved += 1
+                continue
+
+            direction = sig["direction"]
+            entry = float(row["entry_price_scaled"])
+            stop_loss = float(row["stop_loss_scaled"])
+            risk = abs(entry - stop_loss)
+            if risk <= 0.0:
+                unresolved += 1
+                continue
+
+            scale = float(row.get("scale_applied") or 1.0)
+            tps = sig.get("take_profits") or []
+            if tps:
+                take_profit = float(tps[0]) * scale
+            else:
+                take_profit = entry + 4.56 * risk if direction == "LONG" else entry - 4.56 * risk
+
+            if (direction == "LONG" and take_profit <= entry) or (
+                direction == "SHORT" and take_profit >= entry
+            ):
+                take_profit = entry + 4.56 * risk if direction == "LONG" else entry - 4.56 * risk
+
+            fee_r = self._fee_r(entry, risk)
+            fees_r += fee_r
+
+            naive_r.append(
+                round(self._simulate(direction, entry, stop_loss, take_profit, bars, False) - fee_r, 4)
+            )
+            proteus_r.append(
+                round(self._simulate(direction, entry, stop_loss, take_profit, bars, True) - fee_r, 4)
             )
 
-            # Audit against real Bitget 1H candles when available
+        naive_perf = self._compute_stats(
+            "Naive Set-and-Forget (no in-flight FSM)", naive_r, fees_r
+        )
+        proteus_perf = self._compute_stats(
+            "Project Proteus FSM (+1R BE, 50% at +1.5R)", proteus_r, fees_r
+        )
+
+        # Forensic audit (no P&L): real candle first-hit ordering + Telegram silence.
+        resolved_count = 0
+        reached_1r_count = 0
+        whipsaw_count = 0
+        sl_first_count = 0
+        silent_sl_first = 0
+        silent_1r = 0
+
+        for sig in signals:
             tr = traj_by_id.get(sig["id"])
-            if tr and tr.get("post_48h_bars", 0) > 0:
-                resolved_count += 1
-                t_1r = tr.get("first_hit_1r_min")
-                t_sl = tr.get("first_hit_sl_min")
-                if t_1r is not None and (t_sl is None or t_1r <= t_sl):
-                    reached_1r_count += 1
-                    if t_sl is not None and t_1r < t_sl:
-                        whipsaw_count += 1
-                    if is_silent_in_telegram:
-                        silent_1r += 1
-                elif t_sl is not None and (t_1r is None or t_sl < t_1r):
-                    sl_first_count += 1
-                    if is_silent_in_telegram:
-                        silent_sl_first += 1
-
-            if hit_full_tp:
-                naive_r.append(planned_rr)
-                proteus_r.append(round(0.5 * 1.50 + 0.5 * planned_rr, 2))
-            elif hit_tp1 and hit_be:
-                naive_r.append(-1.00)
-                proteus_r.append(0.75)
-            elif hit_tp1:
-                naive_r.append(-1.00 if (idx % 2 == 0) else planned_rr)
-                proteus_r.append(1.15)
-            elif hit_be:
-                naive_r.append(-1.00)
-                proteus_r.append(0.00)
-            elif early_close:
-                naive_r.append(-1.00)
-                proteus_r.append(0.60)
-            elif hit_sl:
-                naive_r.append(-1.00)
-                proteus_r.append(-1.00)
-            else:
-                h_val = hashlib.sha256(sig["id"].encode("utf-8")).digest()[0] % 100
-                if h_val < 22:
-                    naive_r.append(planned_rr)
-                    proteus_r.append(round(0.5 * 1.50 + 0.5 * planned_rr, 2))
-                elif h_val < 58:
-                    naive_r.append(-1.00)
-                    proteus_r.append(0.50)
-                elif h_val < 74:
-                    naive_r.append(-1.00)
-                    proteus_r.append(0.00)
-                else:
-                    naive_r.append(-1.00)
-                    proteus_r.append(-1.00)
-
-        naive_perf = self._compute_stats("Naive Set-and-Forget (No In-Flight FSM)", naive_r)
-        proteus_perf = self._compute_stats("Project Proteus Distilled FSM", proteus_r)
+            if not tr or not tr.get("post_48h_bars"):
+                continue
+            resolved_count += 1
+            t_1r = tr.get("first_hit_1r_min")
+            t_sl = tr.get("first_hit_sl_min")
+            if t_1r is not None and (t_sl is None or t_1r <= t_sl):
+                reached_1r_count += 1
+                if t_sl is not None and t_1r < t_sl:
+                    whipsaw_count += 1
+                if not mentioned.get(sig["id"], False):
+                    silent_1r += 1
+            elif t_sl is not None and (t_1r is None or t_sl < t_1r):
+                sl_first_count += 1
+                if not mentioned.get(sig["id"], False):
+                    silent_sl_first += 1
 
         total_silent_resolved = max(1, silent_sl_first + silent_1r)
         audit = RealCandleForensicAudit(
@@ -256,4 +379,10 @@ class LifecycleBacktestSimulator:
                 naive_perf.max_drawdown_r - proteus_perf.max_drawdown_r, 2
             ),
             real_candle_audit=audit,
+            intrabar_policy=self.intrabar_policy,
+            unresolved_signals=unresolved,
+            notes=(
+                "P&L is simulated from real Bitget 1H post-entry candles only. "
+                "1H OHLC cannot resolve intrabar order; conservative policy is used."
+            ),
         )

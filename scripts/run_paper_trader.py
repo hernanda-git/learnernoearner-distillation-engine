@@ -3,7 +3,7 @@
 
 Supports three operational modes:
   1. `--mode live-step`   : Scan live Bitget public candles (or cached snapshot) and step the virtual ledger once.
-  2. `--mode historical`  : Simulate a $1,000 USDT paper account across all 97 historical signals.
+  2. `--mode historical`  : Simulate a $1,000 USDT paper account across all resolvable historical signals.
   3. `--mode daemon`      : Run continuous 24/7 live paper trading with Self-Monitoring Watchdog & AI Self-Improvement.
 """
 

@@ -272,7 +272,7 @@ def test_visual_saliency_and_behavioral_parity_scorecard(tmp_path: Path) -> None
     assert (out_dir / "canonical_signals.jsonl").exists()
 
 
-def test_empirical_corpus_replay_all_97_signals_and_784_messages() -> None:
+def test_empirical_corpus_replay_95_signals_and_784_messages() -> None:
     from proteus.replay import EmpiricalCorpusReplay
 
     replay = EmpiricalCorpusReplay()
@@ -280,37 +280,63 @@ def test_empirical_corpus_replay_all_97_signals_and_784_messages() -> None:
 
     report = replay.run()
     assert report.total_messages == 784
-    assert report.total_signals == 97
+    assert report.total_signals == 95
     assert report.total_management_updates == 47
-    assert report.long_count == 78
+    assert report.long_count == 76
     assert report.short_count == 19
-    assert report.median_sl_pct_all == 2.60
-    assert report.median_sl_pct_long == 2.67
+    assert report.median_sl_pct_all == 2.61
+    assert report.median_sl_pct_long == 2.68
     assert report.median_sl_pct_short == 2.17
-    assert report.median_rr_long == 4.87
+    assert report.median_rr_long == 4.89
     assert report.median_rr_short == 4.46
     assert report.median_mins_to_be == 119.1
     assert report.median_mins_to_tp1 == 123.6
-    assert report.parity_metrics.bps >= 0.85
-    assert report.parity_metrics.passed is True
+    # BPS is not computed when a component has no independent measurement.
+    assert report.parity_metrics.bps is None
+    assert report.parity_metrics.passed is False
+    assert "spatial_iou" in report.parity_metrics.unmeasured
+    assert "median_timing_delta_seconds" in report.parity_metrics.unmeasured
 
 
-def test_phase1_and_3_5097_bar_bayesian_cognitive_policy() -> None:
+def test_phase1_and_3_leak_free_bayesian_cognitive_policy() -> None:
     from proteus.market.lakehouse import NegativeSpaceDatasetBuilder
     from proteus.policy.bayesian import BayesianCognitivePolicy
 
     builder = NegativeSpaceDatasetBuilder()
     dataset = builder.build_dataset(negative_count=5000)
-    assert len(dataset) == 5097
+    assert len(dataset) == 5091
 
     model = BayesianCognitivePolicy().fit(dataset)
     metrics = model.evaluate_dataset(dataset)
-    assert metrics.total_bars == 5097
-    assert metrics.positive_signals == 97
+    assert metrics.total_bars == 5091
+    assert metrics.positive_signals == 91
     assert metrics.negative_bars == 5000
-    assert metrics.abstention_accuracy >= 0.99
-    assert metrics.setup_recall >= 0.95
-    assert metrics.directional_concordance == 1.0
+    # The model is no longer a tautology: it cannot achieve perfect separation.
+    assert metrics.abstention_accuracy < 1.0
+    assert metrics.setup_recall < 0.99
+
+
+def test_lakehouse_features_are_not_label_encoded() -> None:
+    import statistics
+    from collections import defaultdict
+
+    from proteus.market.lakehouse import NegativeSpaceDatasetBuilder
+
+    dataset = NegativeSpaceDatasetBuilder().build_dataset(negative_count=2000)
+    by_class: dict[str, list] = defaultdict(list)
+    for row in dataset:
+        by_class[row.label].append(row)
+
+    # A label-encoded dataset has in_no_mans_land == 0 for every positive and
+    # ~0.875 for abstain. A real feature is mixed in both classes.
+    for label in ("ENTER_LONG", "ENTER_SHORT"):
+        values = {getattr(r, "in_no_mans_land") for r in by_class[label]}
+        assert values == {0.0, 1.0}, (label, values)
+
+    long_reclaims = [r.reclaimed_midrange for r in by_class["ENTER_LONG"]]
+    short_rejections = [r.rejected_midrange for r in by_class["ENTER_SHORT"]]
+    assert 0.0 < statistics.mean(long_reclaims) < 1.0
+    assert 0.0 < statistics.mean(short_rejections) < 1.0
 
 
 def test_phase2_tradingview_rgb_box_extractor() -> None:
@@ -336,21 +362,32 @@ def test_phase2_tradingview_rgb_box_extractor() -> None:
     assert res.spatial_iou_vs_human >= 0.90
 
 
-def test_phase4_comparative_97_signal_backtest_simulator() -> None:
+def test_phase4_candle_driven_91_signal_backtest_simulator() -> None:
+    import inspect
+
+    import proteus.backtest as backtest_module
     from proteus.backtest import LifecycleBacktestSimulator
+
+    # Guard: no fabricated outcome path may return.
+    source = inspect.getsource(backtest_module)
+    assert "hashlib" not in source
+    assert "idx % 2" not in source
 
     sim = LifecycleBacktestSimulator()
     report = sim.run_comparative_backtest()
-    assert report.naive_set_and_forget.total_trades == 97
-    assert report.proteus_distilled_fsm.total_trades == 97
-    assert report.proteus_distilled_fsm.total_realized_r > report.naive_set_and_forget.total_realized_r
-    assert report.proteus_distilled_fsm.profit_factor > report.naive_set_and_forget.profit_factor * 3.5
-    assert report.drawdown_reduction_r > 12.0
-    assert report.real_candle_audit.resolved_signals == 87
+    assert report.naive_set_and_forget.total_trades == 91
+    assert report.proteus_distilled_fsm.total_trades == 91
+    assert report.unresolved_signals == 4
+    assert report.intrabar_policy == "conservative"
+    # The FSM reduces drawdown but does not manufacture a profit factor of 10.
+    assert report.proteus_distilled_fsm.max_drawdown_r < report.naive_set_and_forget.max_drawdown_r
+    assert report.drawdown_reduction_r > 5.0
+    assert report.proteus_distilled_fsm.profit_factor < 1.2
+    assert report.real_candle_audit.resolved_signals == 86
     assert report.real_candle_audit.reached_1r_before_sl == 47
     assert report.real_candle_audit.whipsaw_reversed_to_sl_after_1r == 29
     assert report.real_candle_audit.whipsaw_rate_of_1r_winners_pct == 61.7
-    assert report.real_candle_audit.silent_stop_out_share_pct == 56.5
+    assert report.real_candle_audit.silent_stop_out_share_pct == 53.8
 
 
 def test_real_284_screenshot_vision_corpus_annotations() -> None:
@@ -389,9 +426,10 @@ def test_virtual_paper_exchange_admits_and_steps_shadow_positions(tmp_path: Path
     assert ledger.open_positions_count == snapshot.active_entries
     assert ledger.current_equity_usdt <= 1000.0
     hist = exchange.run_historical_paper_simulation()
-    assert hist["proteus_distilled_clone"]["ending_equity_usdt"] == 2998.2
-    assert hist["proteus_distilled_clone"]["max_drawdown_pct"] == 4.0
-    assert hist["naive_set_and_forget"]["max_drawdown_pct"] == 30.28
+    assert hist["fees_included_in_r"] is True
+    assert hist["proteus_distilled_clone"]["ending_equity_usdt"] == 844.8
+    assert hist["proteus_distilled_clone"]["max_drawdown_pct"] == 21.0
+    assert hist["naive_set_and_forget"]["max_drawdown_pct"] == 37.24
 
 
 def test_phase6_synthetic_tradingview_rgb_renderer() -> None:
@@ -430,9 +468,10 @@ def test_phase6_shadow_lead_time_comparator(tmp_path: Path) -> None:
 
     comp = ShadowLeadTimeComparator(log_path=tmp_path / "lead_log.json")
     summary = comp.evaluate_shadow_lead_time()
-    assert summary.evaluated_pairs == 25
-    assert summary.median_delta_t_seconds < 0.0
-    assert summary.front_run_or_simultaneous_rate_pct == 100.0
+    assert summary.evaluated_pairs == 0
+    assert summary.median_delta_t_seconds is None
+    assert summary.front_run_or_simultaneous_rate_pct == 0.0
+    assert summary.status == "UNMEASURED"
 
 
 def test_phase6_fee_model_and_margin_velocity_slot_eviction(tmp_path: Path) -> None:
@@ -572,9 +611,9 @@ def test_web_ui_dashboard_payload_and_template() -> None:
 
     payload = build_dashboard_payload()
     assert payload["constitution"]["pure_codebase"] is True
-    assert payload["turing_replay"]["total_signals"] == 97
+    assert payload["turing_replay"]["total_signals"] == 95
     assert payload["vision_summary"]["total_screenshots"] == 284
-    assert len(payload["signals_ledger"]) == 97
+    assert len(payload["signals_ledger"]) == 95
     assert len(payload["management_updates"]) == 47
     assert "PROJECT PROTEUS" in INDEX_HTML
 
@@ -622,7 +661,9 @@ def test_agentic_self_improver_and_faj1_hash_chain_journal(tmp_path: Path) -> No
 
     entry1 = improver.run_improvement_cycle(trigger_source="unit_test_1")
     assert entry1.sequence_id == 1
-    assert entry1.accepted is True
+    # BPS is unmeasured, so the Turing gate must reject the update.
+    assert entry1.accepted is False
+    assert "Turing rollback" in entry1.decision_reason
     assert len(entry1.agent_traces) == 4
 
     entry2 = improver.run_improvement_cycle(
@@ -638,13 +679,12 @@ def test_agentic_self_improver_and_faj1_hash_chain_journal(tmp_path: Path) -> No
     assert length == 2
 
 
-def test_fractal_structure_engine_beats_naive_72h_on_92_real_bitget_series() -> None:
+def test_fractal_structure_engine_beats_naive_72h_on_91_real_bitget_series() -> None:
     from proteus.geometry.fractal import FractalHorizontalStructureEngine
 
     engine = FractalHorizontalStructureEngine()
     report = engine.evaluate_real_corpus_blind_recall()
-    assert report.evaluated_real_series == 92
-    # Naive 72h rolling box recalls only ~25%, while Multi-Scale Fractal recalls >95% with zero lookahead
+    assert report.evaluated_real_series == 91
     assert report.naive_72h_recall_pct < 35.0
     assert report.fractal_recall_pct >= 95.0
     assert report.short_mean_24h_ret_pct > report.long_mean_24h_ret_pct * 2.0
@@ -686,3 +726,110 @@ def test_cross_sectional_attention_and_thesis_memory_reentry() -> None:
     assert should_reenter is True
     assert boost == 0.10
     assert "0.387" in reason
+
+
+def test_paper_fsm_persists_breakeven_and_books_tp1(tmp_path: Path) -> None:
+    from proteus.paper import VirtualPaperExchange
+    from proteus.shadow import AssetShadowState, LiveShadowSnapshot
+
+    def _state(symbol: str, close: float, tp: str) -> AssetShadowState:
+        return AssetShadowState(
+            symbol=symbol,
+            last_close=str(close),
+            range_low_72h="97",
+            mid_range_72h="100",
+            range_high_72h="103",
+            equilibrium_width_pct="6%",
+            swept_low=False,
+            swept_high=False,
+            reclaimed_midrange=False,
+            in_no_mans_land=False,
+            action="ENTER_LONG",
+            confidence=0.9,
+            abstain_prob=0.1,
+            archetype="MIDRANGE_RETEST",
+            order_mode="LIMIT",
+            synthesized_sl="97",
+            synthesized_tp=tp,
+            rationale="regression",
+        )
+
+    def _snap(close: float, tp: str = "120") -> LiveShadowSnapshot:
+        return LiveShadowSnapshot(
+            scanned_at_utc="2026-11-10T00:00:00+00:00",
+            btc_1d_close="70000",
+            eth_1d_close="2000",
+            macro_regime="RANGE_BOUND",
+            universe_evaluated=1,
+            active_entries=1,
+            abstentions=0,
+            states=[_state("TEST", close, tp)],
+        )
+
+    exchange = VirtualPaperExchange(ledger_path=tmp_path / "ledger.json")
+    exchange.process_shadow_snapshot(_snap(100.0))
+    be = exchange.process_shadow_snapshot(_snap(104.0)).positions["TEST"]
+    assert be.state == "BREAKEVEN_PROTECTED"
+    assert be.current_sl == "100.0"
+
+    # Regression: a pullback must not reset the stop to the original 97.
+    pulled = exchange.process_shadow_snapshot(_snap(101.0)).positions["TEST"]
+    assert pulled.state == "BREAKEVEN_PROTECTED"
+    assert pulled.current_sl == "100.0"
+
+    closed = exchange.process_shadow_snapshot(_snap(99.0)).positions["TEST"]
+    assert closed.state == "CLOSED_SL"
+    assert float(closed.realized_r) == 0.0
+
+    # TP1: +1.5R books 50% and leaves a breakeven-protected runner.
+    tp_exchange = VirtualPaperExchange(ledger_path=tmp_path / "tp_ledger.json")
+    tp_exchange.process_shadow_snapshot(_snap(100.0, tp="120"))
+    tp1 = tp_exchange.process_shadow_snapshot(_snap(104.5, tp="120")).positions["TEST"]
+    assert tp1.state == "PARTIAL_TP_BOOKED"
+    assert float(tp1.remaining_size_fraction) == 0.5
+    assert float(tp1.realized_r) == 0.75
+    assert tp1.current_sl == "100.0"
+
+
+def test_vision_rejects_candle_only_canvas() -> None:
+    from proteus.vision.chart_extractor import TradingViewBoxExtractor
+
+    grid = [[(255, 255, 255) for _ in range(100)] for _ in range(50)]
+    for y in range(5, 45):
+        for x in range(5, 95, 3):
+            grid[y][x] = (8, 153, 129) if (x // 3) % 2 else (242, 54, 69)
+
+    with pytest.raises(ValueError, match="No filled TradingView projection box"):
+        TradingViewBoxExtractor().extract_from_rgb_grid(grid)
+
+
+def test_corpus_manifest_excludes_fabricated_rows() -> None:
+    import json
+
+    root = Path(__file__).resolve().parents[1]
+    manifest = json.loads(
+        (root / "benchmarks" / "corpus" / "MANIFEST.json").read_text(encoding="utf-8")
+    )
+    assert manifest["counts"]["signals"] == 95
+    assert "b0000000-0000-0000-0000-000000000001" in manifest["excluded"]["fabricated_signal_ids"]
+
+    signals = json.loads(
+        (root / "benchmarks" / "corpus" / "canonical_signals.json").read_text(encoding="utf-8")
+    )
+    assert all(s.get("telegram_msg_num") != 999999999 for s in signals)
+
+
+def test_bps_refuses_unmeasured_components() -> None:
+    scorecard = BehavioralParityBenchmark.evaluate(
+        directional_concordance=None,
+        setup_recall=0.90,
+        spatial_iou=None,
+        abstention_accuracy=None,
+        sl_proximity_delta_pct=0.20,
+        tp_proximity_delta_pct=0.40,
+        median_timing_delta_seconds=None,
+    )
+    assert scorecard.bps is None
+    assert scorecard.passed is False
+    assert "spatial_iou" in scorecard.unmeasured
+    assert "median_timing_delta_seconds" in scorecard.unmeasured

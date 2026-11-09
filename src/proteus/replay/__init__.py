@@ -87,8 +87,6 @@ class EmpiricalCorpusReplay:
 
         long_count = 0
         short_count = 0
-        recalled_setups = 0
-        concordant_directions = 0
 
         sig_by_token: dict[str, list[datetime]] = {}
 
@@ -130,10 +128,6 @@ class EmpiricalCorpusReplay:
                         rr_short.append(rr)
                     tp_deltas.append(min(abs(rr - target_rr) * (risk_pct / 100.0), 0.42))
 
-            if Decimal("0.10") <= Decimal(str(risk_pct)) <= Decimal("7.50"):
-                recalled_setups += 1
-                concordant_directions += 1
-
         for tok in sig_by_token:
             sig_by_token[tok].sort()
 
@@ -158,83 +152,68 @@ class EmpiricalCorpusReplay:
         sig_msg_ids = {s["message_id"] for s in signals}
         upd_msg_ids = {u["source_message_id"] for u in updates}
         taxonomy: Counter[str] = Counter()
-        non_entry_messages = 0
-        correct_abstentions = 0
 
         for msg in messages:
             mid = msg["id"]
             txt = (msg.get("raw_text") or "").lower()
             if mid in sig_msg_ids:
                 taxonomy["CANONICAL_ENTRY_SIGNAL"] += 1
+            elif mid in upd_msg_ids or any(
+                k in txt
+                for k in ("sl to entry", "tp1 booked", "full tp", "tp booked", "closed $")
+            ):
+                taxonomy["IN_FLIGHT_MANAGEMENT"] += 1
+            elif any(
+                k in txt
+                for k in (
+                    "no area to take",
+                    "wait and see",
+                    "no more looking",
+                    "waiting for",
+                    "if we reclaim",
+                    "until we reclaim",
+                    "invalidated",
+                    "hit sl",
+                    "hit our invalidation",
+                )
+            ):
+                taxonomy["EXPLICIT_ABSTENTION_OR_INVALIDATION"] += 1
+            elif any(
+                k in txt
+                for k in (
+                    "btc",
+                    "bitcoin",
+                    "eth",
+                    "ethereum",
+                    "market update",
+                    "range high",
+                    "mid range",
+                    "range low",
+                    "daily support",
+                )
+            ):
+                taxonomy["MACRO_COMPASS_AND_RANGE_MAPPING"] += 1
+            elif msg.get("has_media") and not txt.strip():
+                taxonomy["SILENT_CHART_SNAPSHOT"] += 1
             else:
-                non_entry_messages += 1
-                if mid in upd_msg_ids or any(
-                    k in txt
-                    for k in ("sl to entry", "tp1 booked", "full tp", "tp booked", "closed $")
-                ):
-                    taxonomy["IN_FLIGHT_MANAGEMENT"] += 1
-                    correct_abstentions += 1
-                elif any(
-                    k in txt
-                    for k in (
-                        "no area to take",
-                        "wait and see",
-                        "no more looking",
-                        "waiting for",
-                        "if we reclaim",
-                        "until we reclaim",
-                        "invalidated",
-                        "hit sl",
-                        "hit our invalidation",
-                    )
-                ):
-                    taxonomy["EXPLICIT_ABSTENTION_OR_INVALIDATION"] += 1
-                    correct_abstentions += 1
-                elif any(
-                    k in txt
-                    for k in (
-                        "btc",
-                        "bitcoin",
-                        "eth",
-                        "ethereum",
-                        "market update",
-                        "range high",
-                        "mid range",
-                        "range low",
-                        "daily support",
-                    )
-                ):
-                    taxonomy["MACRO_COMPASS_AND_RANGE_MAPPING"] += 1
-                    correct_abstentions += 1
-                elif msg.get("has_media") and not txt.strip():
-                    taxonomy["SILENT_CHART_SNAPSHOT"] += 1
-                    correct_abstentions += 1
-                else:
-                    taxonomy["COMMENTARY_AND_JOURNAL"] += 1
-                    correct_abstentions += 1
+                taxonomy["COMMENTARY_AND_JOURNAL"] += 1
 
-        # Evaluate TRUE zero-lookahead pre-entry candle recall on the 92 real Bitget 1H series
+        # Evaluate zero-lookahead pre-entry candle recall on the 91 real Bitget 1H series
         fractal_engine = FractalHorizontalStructureEngine()
         blind_report = fractal_engine.evaluate_real_corpus_blind_recall(
             self.corpus_dir / "real_1h_candles_by_signal.json"
         )
 
-        abstention_acc = (
-            round(correct_abstentions / non_entry_messages, 4) if non_entry_messages else 1.0
-        )
         setup_recall = round(blind_report.fractal_recall_pct / 100.0, 4)
-        dir_concordance = (
-            round(concordant_directions / max(1, recalled_setups), 4) if recalled_setups else 1.0
-        )
 
         parity = BehavioralParityBenchmark.evaluate(
-            directional_concordance=dir_concordance,
+            directional_concordance=None,
             setup_recall=setup_recall,
-            spatial_iou=0.88,
-            abstention_accuracy=abstention_acc,
+            spatial_iou=None,
+            abstention_accuracy=None,
             sl_proximity_delta_pct=round(statistics.median(sl_deltas), 4),
             tp_proximity_delta_pct=round(statistics.median(tp_deltas), 4),
-            median_timing_delta_seconds=0.0,
+            median_timing_delta_seconds=None,
         )
 
         return EmpiricalReplayReport(

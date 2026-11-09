@@ -1,9 +1,13 @@
-"""Phase 2: TradingView RGB/HSV Visual Position-Box & S/R Detector (`proteus.vision.chart_extractor`).
+"""TradingView visual extractor for filled R:R projection boxes.
 
-Extracts green (Take-Profit) and red (Stop-Loss) Risk/Reward projection boxes
-and horizontal support/resistance consolidation bands directly from RGB pixel
-grids, computing normalized BoundingBox coordinates, implied chart R:R, and
-spatial IoU parity.
+The previous implementation took the min/max of every teal/red pixel, which
+matched candlestick bodies and S/R bands. This version requires a large,
+filled, axis-aligned rectangle: a projection box has substantial width and
+height, while a candle is a thin stripe and an S/R band is a thin strip.
+
+The corpus contains no human bounding-box labels, so IoU is *not* measured on
+the 284 screenshots. `VisionCorpusAnalyzer` reports the legacy annotation
+source explicitly.
 """
 
 from __future__ import annotations
@@ -22,75 +26,104 @@ class ChartVisualExtraction:
     implied_direction: str  # "LONG" or "SHORT"
     implied_rr: float
     spatial_iou_vs_human: float
+    detector: str = "filled_rectangle_v2"
 
 
 class TradingViewBoxExtractor:
-    """Segments TradingView teal/green TP zones and crimson/red SL zones from RGB grids."""
+    """Segments filled TradingView teal/green TP and crimson/red SL projection boxes."""
+
+    MIN_AREA_FRACTION = 0.010  # 1% of canvas
+    MIN_WIDTH_FRACTION = 0.05
+    MIN_HEIGHT_FRACTION = 0.040
 
     @staticmethod
     def is_tv_profit_pixel(r: int, g: int, b: int) -> bool:
-        """Detect TradingView teal/emerald profit projection fill (#089981 / #00bfa5 blend)."""
+        """Detect TradingView teal/emerald projection fill (#089981)."""
         return g >= 110 and g > r + 25 and b >= 70
 
     @staticmethod
     def is_tv_stop_pixel(r: int, g: int, b: int) -> bool:
-        """Detect TradingView crimson/coral stop-loss projection fill (#f23645 / #ef5350 blend)."""
+        """Detect TradingView crimson/coral projection fill (#f23645)."""
         return r >= 130 and r > g + 35 and r > b + 25
+
+    @staticmethod
+    def _largest_rectangle(mask: Sequence[Sequence[bool]]) -> tuple[int, int, int, int, int]:
+        """Return (area, x0, y0, x1, y1) of the largest all-True rectangle."""
+        height = len(mask)
+        width = len(mask[0]) if height else 0
+        heights = [0] * width
+        best = (0, 0, 0, 0, 0)
+
+        for y in range(height):
+            for x in range(width):
+                heights[x] = heights[x] + 1 if mask[y][x] else 0
+
+            stack: list[tuple[int, int]] = []  # (start_x, height)
+            for x in range(width + 1):
+                cur = heights[x] if x < width else 0
+                start = x
+                while stack and stack[-1][1] > cur:
+                    sx, sh = stack.pop()
+                    area = sh * (x - sx)
+                    if area > best[0]:
+                        best = (area, sx, y - sh + 1, x - 1, y)
+                    start = sx
+                if not stack or stack[-1][1] < cur:
+                    stack.append((start, cur))
+
+        return best
+
+    def _extract_box(
+        self,
+        mask: Sequence[Sequence[bool]],
+        label: str,
+    ) -> BoundingBox:
+        height = len(mask)
+        width = len(mask[0]) if height else 0
+        area, x0, y0, x1, y1 = self._largest_rectangle(mask)
+        rect_w = x1 - x0 + 1
+        rect_h = y1 - y0 + 1
+
+        if (
+            area < self.MIN_AREA_FRACTION * height * width
+            or rect_w < self.MIN_WIDTH_FRACTION * width
+            or rect_h < self.MIN_HEIGHT_FRACTION * height
+        ):
+            raise ValueError(f"No filled TradingView projection box found for {label}")
+
+        w_denom = float(max(1, width - 1))
+        h_denom = float(max(1, height - 1))
+        # Convert grid rows (0 at top) to price-axis y (0 at bottom).
+        y_min = round((height - 1 - y1) / h_denom, 4)
+        y_max = round((height - 1 - y0) / h_denom, 4)
+        return BoundingBox(
+            x_min=round(x0 / w_denom, 4),
+            y_min=y_min,
+            x_max=round(x1 / w_denom, 4),
+            y_max=y_max,
+            label=label,
+            confidence=0.90,
+        )
 
     def extract_from_rgb_grid(
         self,
         rgb_grid: Sequence[Sequence[tuple[int, int, int]]],
         human_profit_box: BoundingBox | None = None,
     ) -> ChartVisualExtraction:
-        """Extract normalized TP/SL bounding boxes and implied R:R from a HxW RGB matrix.
-
-        Note: In image coordinates, y=0 is top (high price), y=1 is bottom (low price).
-        Here we normalize y into price-axis orientation where y=0.0 is chart low and y=1.0 is chart high.
-        """
+        """Extract filled TP/SL projection rectangles from an RGB matrix."""
         height = len(rgb_grid)
         width = len(rgb_grid[0]) if height > 0 else 0
         if height == 0 or width == 0:
             raise ValueError("rgb_grid must be non-empty")
 
-        tp_xs: list[int] = []
-        tp_ys: list[int] = []
-        sl_xs: list[int] = []
-        sl_ys: list[int] = []
+        profit_mask: list[list[bool]] = []
+        stop_mask: list[list[bool]] = []
+        for row in rgb_grid:
+            profit_mask.append([self.is_tv_profit_pixel(r, g, b) for (r, g, b) in row])
+            stop_mask.append([self.is_tv_stop_pixel(r, g, b) for (r, g, b) in row])
 
-        for row_idx, row in enumerate(rgb_grid):
-            # Convert row_idx (0 at top) to price-axis y_idx (0 at bottom)
-            price_y = height - 1 - row_idx
-            for col_idx, (r, g, b) in enumerate(row):
-                if self.is_tv_profit_pixel(r, g, b):
-                    tp_xs.append(col_idx)
-                    tp_ys.append(price_y)
-                elif self.is_tv_stop_pixel(r, g, b):
-                    sl_xs.append(col_idx)
-                    sl_ys.append(price_y)
-
-        if not tp_xs or not sl_xs:
-            raise ValueError("Could not locate both TradingView profit and stop projection zones")
-
-        w_denom = float(max(1, width - 1))
-        h_denom = float(max(1, height - 1))
-
-        profit_box = BoundingBox(
-            x_min=round(min(tp_xs) / w_denom, 4),
-            y_min=round(min(tp_ys) / h_denom, 4),
-            x_max=round(max(tp_xs) / w_denom, 4),
-            y_max=round(max(tp_ys) / h_denom, 4),
-            label="tv_profit_zone",
-            confidence=0.94,
-        )
-
-        stop_box = BoundingBox(
-            x_min=round(min(sl_xs) / w_denom, 4),
-            y_min=round(min(sl_ys) / h_denom, 4),
-            x_max=round(max(sl_xs) / w_denom, 4),
-            y_max=round(max(sl_ys) / h_denom, 4),
-            label="tv_stop_zone",
-            confidence=0.94,
-        )
+        profit_box = self._extract_box(profit_mask, "tv_profit_zone")
+        stop_box = self._extract_box(stop_mask, "tv_stop_zone")
 
         profit_mid_y = 0.5 * (profit_box.y_min + profit_box.y_max)
         stop_mid_y = 0.5 * (stop_box.y_min + stop_box.y_max)
@@ -128,10 +161,13 @@ class VisionCorpusSummary:
     rr_projection_box_pct: float
     sr_zone_box_count: int
     sr_zone_box_pct: float
+    human_labels: bool = False
+    annotation_source: str = "legacy_color_mask"
+    iou_measured: bool = False
 
 
 class VisionCorpusAnalyzer:
-    """Summarizes pixel-level CV annotations across the 284 real TradingView screenshots."""
+    """Summarizes the legacy 284-screenshot annotations with explicit provenance."""
 
     @staticmethod
     def summarize_corpus(annotations_path: str | None = None) -> VisionCorpusSummary:

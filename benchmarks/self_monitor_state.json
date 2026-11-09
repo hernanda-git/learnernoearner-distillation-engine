@@ -1,9 +1,9 @@
 {
-  "evaluated_at_utc": "2026-11-09T09:37:51.341403+00:00",
+  "evaluated_at_utc": "2026-11-09T22:36:00.247219+00:00",
   "overall_status": "DEGRADED_WARN",
   "latch_active": false,
   "latch_reason": null,
-  "consecutive_healthy_cycles": 11,
+  "consecutive_healthy_cycles": 19,
   "cycles_required_to_heal": 6,
   "total_healed_events": 0,
   "probes": [
@@ -17,14 +17,14 @@
     {
       "probe_name": "constitutional_identity_purity",
       "status": "PASS",
-      "measured_value": "29/29 files pure",
+      "measured_value": "31/31 files pure",
       "threshold": "Zero lagging retail oscillators",
       "detail": "All source files and active parameters obey IDENTITY.md corridors."
     },
     {
       "probe_name": "shadow_feed_freshness",
       "status": "WARN",
-      "measured_value": "7662.2s age",
+      "measured_value": "54351.1s age",
       "threshold": "<= 1800s",
       "detail": "Last Bitget public scan at 2026-11-09T07:30:09.189361+00:00 (RANGE_BOUND)."
     },

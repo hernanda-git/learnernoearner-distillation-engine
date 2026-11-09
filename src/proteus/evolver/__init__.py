@@ -307,7 +307,7 @@ class AgenticSelfImprover:
             sc_outcome = self.corrector.propose_fine_tune(
                 observed_estimates=proposals,
                 learning_rate=learning_rate,
-                candidate_bps=bps,
+                candidate_bps=bps if bps is not None else 0.0,
                 strict_mode=False,
             )
             outcome_accepted = sc_outcome.accepted
@@ -319,11 +319,13 @@ class AgenticSelfImprover:
                 agent_role="TuringVerifierAgent",
                 verdict="APPROVED" if outcome_accepted else "ROLLED_BACK",
                 summary=(
-                    f"Turing gates verified: BPS={bps:.4f} (>=0.85), "
-                    f"ProfitFactor={pf:.2f} (>=4.0), MaxDD={max_dd:.2f}R (<=3.5R)."
+                    f"Turing gates: BPS={'UNMEASURED' if bps is None else f'{bps:.4f}'}, "
+                    f"ProfitFactor={pf:.2f}, MaxDD={max_dd:.2f}R. "
+                    f"{'Parameter update accepted.' if outcome_accepted else 'Parameter update rejected.'}"
                 ),
                 evidence={
                     "bps": bps,
+                    "bps_measured": bps is not None,
                     "profit_factor": pf,
                     "max_drawdown_r": max_dd,
                     "accepted": outcome_accepted,
@@ -356,7 +358,7 @@ class AgenticSelfImprover:
             "accepted": outcome_accepted,
             "generation_before": current_params.generation,
             "generation_after": gen_after,
-            "verified_bps": bps,
+            "verified_bps": bps if bps is not None else 0.0,
             "verified_profit_factor": pf,
             "verified_max_drawdown_r": max_dd,
             "agent_traces": [asdict(t) for t in traces],
@@ -376,7 +378,7 @@ class AgenticSelfImprover:
             accepted=outcome_accepted,
             generation_before=current_params.generation,
             generation_after=gen_after,
-            verified_bps=bps,
+            verified_bps=bps if bps is not None else 0.0,
             verified_profit_factor=pf,
             verified_max_drawdown_r=max_dd,
             agent_traces=traces,

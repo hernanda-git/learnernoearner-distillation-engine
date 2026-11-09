@@ -173,7 +173,10 @@ class SelfMonitoringWatchdog:
             ledger = json.loads(self.ledger_path.read_text(encoding="utf-8"))
             start_eq = float(ledger.get("starting_equity_usdt", 1000.0))
             cur_eq = float(ledger.get("current_equity_usdt", 1000.0))
-            dd_pct = max(0.0, ((start_eq - cur_eq) / max(1.0, start_eq)) * 100.0)
+            if "max_drawdown_pct" in ledger:
+                dd_pct = float(ledger.get("max_drawdown_pct") or 0.0)
+            else:
+                dd_pct = max(0.0, ((start_eq - cur_eq) / max(1.0, start_eq)) * 100.0)
             dd_status = "PASS" if dd_pct <= self.MAX_ALLOWED_DRAWDOWN_PCT else "FAIL"
             probes.append(
                 HealthProbeResult(

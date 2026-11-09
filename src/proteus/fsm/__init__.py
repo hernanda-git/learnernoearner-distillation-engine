@@ -19,6 +19,8 @@ class TradeLifecycleFSM:
     """Deterministic finite-state machine for active trade lifecycle management."""
 
     BREAKEVEN_TRIGGER_R: Decimal = Decimal("1.00")
+    TP1_TRIGGER_R: Decimal = Decimal("1.50")
+    TP1_FRACTION: Decimal = Decimal("0.50")
     BEDTIME_START_HOUR_UTC: int = 21
     BEDTIME_END_HOUR_UTC: int = 23
 
@@ -112,12 +114,36 @@ class TradeLifecycleFSM:
             next_state = TradeState.BREAKEVEN_PROTECTED
             next_sl = setup.entry_price
 
+        # 3b. Rule 1b: +1.5R Partial TP (book 50%, stop to entry)
+        if (
+            r_mult >= self.TP1_TRIGGER_R
+            and next_remaining == Decimal("1.00")
+            and next_state in (TradeState.ACTIVE, TradeState.BREAKEVEN_PROTECTED)
+        ):
+            closed_fraction = (next_remaining * self.TP1_FRACTION).quantize(Decimal("0.01"))
+            next_realized = (
+                next_realized + self.TP1_TRIGGER_R * closed_fraction
+            ).quantize(Decimal("0.01"))
+            next_remaining = (next_remaining - closed_fraction).quantize(Decimal("0.01"))
+            next_sl = setup.entry_price
+            next_state = TradeState.PARTIAL_TP_BOOKED
+
         # 4. Rule 2: Circadian Bedtime Derisking (UTC 21:00-23:59)
         if (
             self.BEDTIME_START_HOUR_UTC <= timestamp_utc.hour <= self.BEDTIME_END_HOUR_UTC
             and r_mult > Decimal("0.00")
             and next_state not in (TradeState.BEDTIME_DERISKED, TradeState.CLOSED_EARLY)
         ):
+            if next_state == TradeState.PARTIAL_TP_BOOKED:
+                total_realized = (next_realized + r_mult * next_remaining).quantize(Decimal("0.01"))
+                return replace(
+                    position,
+                    state=TradeState.CLOSED_EARLY,
+                    remaining_size_fraction=Decimal("0.00"),
+                    realized_r=total_realized,
+                    unrealized_r=Decimal("0.00"),
+                    updated_at_utc=timestamp_utc,
+                )
             if r_mult >= self.BREAKEVEN_TRIGGER_R:
                 closed_fraction = (next_remaining * Decimal("0.50")).quantize(Decimal("0.01"))
                 next_realized = (next_realized + r_mult * closed_fraction).quantize(Decimal("0.01"))

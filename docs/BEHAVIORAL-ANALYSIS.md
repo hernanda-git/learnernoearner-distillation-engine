@@ -1,7 +1,7 @@
 # Empirical Behavioral Analysis & Cognitive Profile: @learnernoearner
 
 **Subject**: Signal Provider `@learnernoearner` (Telegram Channel ID: `-1001252615519`, Twitter/X updates, YouTube market updates)  
-**Corpus Analyzed**: 784 Telegram messages, 97 canonical trade setups, 230 TradingView chart screenshots  
+**Corpus Analyzed**: 784 Telegram messages, 95 canonical trade setups, 284 TradingView chart screenshots  
 **Dataset Date Range**: 2026-08-25 to 2026-11-09  
 **Source of Truth**: PostgreSQL production database (`fatty_trader`) and local media archive
 
@@ -15,10 +15,10 @@ The trader is an **asymmetric, range-based swing/momentum trader** operating on 
 ┌─────────────────────────────────────────────────────────────────────────────────┐
 │                          CORE TRADER PROFILE ATTRIBUTES                         │
 ├───────────────────────────────┬─────────────────────────────────────────────────┤
-│ Directional Bias              │ 80.4% LONG (78) · 19.6% SHORT (19)              │
+│ Directional Bias              │ 80.0% LONG (76) · 20.0% SHORT (19)              │
 │ Primary Tradable Assets       │ WLD, PUMP, ENA, ZEC, PENGU, INJ, MAGIC, NEAR    │
 │ Macro Anchor Assets (No Trade)│ BTC, ETH (Used purely as market regime compass) │
-│ Median Stop-Loss Distance     │ 2.60% (Mean: 2.67%, Range: 0.13% - 7.21%)       │
+│ Median Stop-Loss Distance     │ 2.61% (Mean: 2.68%, Range: 0.13% - 7.21%)       │
 │ Planned Risk-to-Reward (R:R)  │ Median: 4.56R (Mean: 4.72R)                     │
 │ Target Distribution           │ 92.8% of signals have exactly 1 target level    │
 │ Primary Trading Windows (UTC) │ 07:00–09:00 (London) & 13:00–17:00 (NY)         │
@@ -32,9 +32,9 @@ The trader is an **asymmetric, range-based swing/momentum trader** operating on 
 ## 2. Quantitative Empirical Evidence
 
 ### 2.1 Directional Asymmetry
-Querying the 97 canonical signals recorded in `canonical_signals`:
-- **LONG**: 78 setups (**80.4%**)
-- **SHORT**: 19 setups (**19.6%**)
+Querying the 95 canonical signals recorded in `canonical_signals`:
+- **LONG**: 76 setups (**80.0%**)
+- **SHORT**: 19 setups (**20.0%**)
 
 **Behavioral Insight**:  
 The trader has a pronounced structural **bullish bias**. He views the crypto market primarily as an asset class to buy on dips. Shorting is treated as an exceptional measure, reserved strictly for:
@@ -43,7 +43,7 @@ The trader has a pronounced structural **bullish bias**. He views the crypto mar
 3. Severe trend breakdowns after losing multi-day support (e.g. `WLD`, `SNDK`).
 
 ### 2.2 Tradable Asset Universe vs. Macro Compass
-Querying token frequencies across all 97 signals:
+Querying token frequencies across all 95 signals:
 
 | Token | Setups | Direction Breakdown | Category |
 | :--- | :--- | :--- | :--- |
@@ -94,7 +94,7 @@ Analyzing target distribution and planned R:R:
 He does not micro-manage trades with 4 or 5 tiny laddered targets. He enters with a clear, ambitious structural destination in mind—usually the opposing boundary of the multi-day range (e.g. risking 2.6% to capture ~12%).
 
 ### 2.5 Temporal Pacing & Circadian Rhythm
-Signal issuance grouped by UTC hour ($N=97$):
+Signal issuance grouped by UTC hour ($N=95$):
 
 ```
 Hour (UTC)  Signals  Session Alignment
@@ -196,11 +196,11 @@ If a stop loss is hit due to a momentary wick sweep, but the higher-timeframe st
 ### 6.1 Directional Stop-Loss & Target Asymmetry
 | Cohort | Count ($N$) | $P_{10}$ | $P_{25}$ | Median ($P_{50}$) | Mean | $P_{75}$ | $P_{90}$ |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| **Stop-Loss % (All Setups)** | 97 | 1.61% | 2.17% | **2.60%** | 2.67% | 3.07% | 3.51% |
-| **Stop-Loss % (LONG Only)** | 78 | 1.74% | 2.39% | **2.67%** | 2.78% | 3.09% | 3.51% |
+| **Stop-Loss % (All Setups)** | 95 | 1.61% | 2.17% | **2.61%** | 2.68% | 3.07% | 3.51% |
+| **Stop-Loss % (LONG Only)** | 76 | 1.74% | 2.39% | **2.68%** | 2.78% | 3.09% | 3.51% |
 | **Stop-Loss % (SHORT Only)** | 19 | 0.63% | 1.61% | **2.17%** | 2.23% | 2.43% | 3.08% |
-| **Planned R:R (All Setups)** | 93 | 2.19R | 3.10R | **4.80R** | 5.29R | 6.41R | 8.63R |
-| **Planned R:R (LONG Only)** | 75 | 2.54R | 3.11R | **4.87R** | 5.52R | 6.77R | 9.40R |
+| **Planned R:R (All Setups)** | 91 | 2.19R | 3.10R | **4.81R** | 5.29R | 6.41R | 8.63R |
+| **Planned R:R (LONG Only)** | 73 | 2.54R | 3.11R | **4.89R** | 5.52R | 6.77R | 9.40R |
 | **Planned R:R (SHORT Only)** | 18 | 2.08R | 2.73R | **4.46R** | 4.31R | 5.18R | 6.01R |
 
 ### 6.2 The 2-Hour Coupled Impulse Latencies ($N = 47\text{ In-Flight Actions}$)
@@ -209,13 +209,23 @@ If a stop loss is hit due to a momentary wick sweep, but the higher-timeframe st
 - **`CLOSE` (`3` actions)**: Median **$540.3\text{ min}$** ($9.01\text{h}$) — circadian bedtime exit before sleep (`UTC 21:00+`).
 - **`TP_BOOKED` (`3` actions)**: Median **$2,235.5\text{ min}$** ($37.26\text{h} \approx 1.55\text{d}$) — full multi-session swing runner across the 72h range boundary.
 
-### 6.3 Real Bitget 1H Candle Whipsaw & Survivorship Silence Audit ($N = 87\text{ Resolved Setups}$)
+### 6.3 Real Bitget 1H Candle Whipsaw & Survivorship Silence Audit ($N = 86\text{ Resolved Setups}$)
 Auditing `[T₀ − 72h, T₀ + 48h]` Bitget 1H candles (`benchmarks/corpus/signal_candle_trajectories.json`) against Telegram follow-ups proved:
-1. **54.0% ($47 / 87$)** of setups expand to $+1.0R$ in profit before touching initial Stop-Loss.
-2. **61.7% ($29 / 47$)** of those $+1.0R$ winners (**33.3% of all trades**) subsequently reverse and breach the original Stop-Loss within 48 hours. Migrating `SL → Entry` at $+1.0R$ rescues all 29 whipsaws, collapsing the strategy's loss rate from **68.0% down to 11.3%**, collapsing Max Drawdown from **15.14R (`30.28%`) to 2.00R (`4.00%`)**, and elevating Profit Factor from **2.48 to 10.08** (`$1,000 → $2,938.51` net after Bitget fees).
-3. **Survivorship Silence Bias**: **56.5%** of setups that received zero follow-up mention in Telegram had actually hit their initial $-1.0R$ stop-loss first on the exchange chart.
+1. **54.7% ($47 / 86$)** of setups expand to $+1.0R$ in profit before touching initial Stop-Loss.
+2. **61.7% ($29 / 47$)** of those $+1.0R$ winners (**33.7% of all trades**) subsequently reverse and breach the original Stop-Loss within 48 hours. The FSM hypothesis is **not yet validated**: a conservative 1H re-simulation with fees reduces Max Drawdown from **18.62R to 10.50R**, but the strategy remains unprofitable (`PF 0.82` vs naive `0.96`). The previous `15.14R → 2.00R` and `PF 2.48 → 10.08` figures came from keyword→fixed-R and SHA-256 mappings and are retired.
+3. **Survivorship Silence Bias**: **53.8%** of setups that received zero follow-up mention in Telegram had actually hit their initial $-1.0R$ stop-loss first on the exchange chart.
 
 ### 6.4 284-Screenshot Computer Vision Profile (`benchmarks/corpus/vision_annotations.json`)
 - **Canvas Theme**: **76.1% Light Theme (`216`)** vs. **23.9% Dark Theme (`68`)**.
 - **TradingView R:R Projection Tool**: Present in **83.8% (`238 / 284`)** of screenshots (`#089981` teal profit box & `#f23645` crimson stop box).
 - **Horizontal S/R Consolidation Zones**: Present in **45.4% (`129 / 284`)** of screenshots (`#2962ff` blue/purple supply/demand rectangles).
+
+
+---
+
+## 7. Corpus & Vision Caveats (2026-11-10)
+
+- **Fabricated rows removed:** two canonical signals with placeholder UUIDs and `telegram_msg_num=999999999` were removed. The real corpus is 95 setups (76 LONG / 19 SHORT).
+- **Unresolved signals:** four real signals (WLD 16103, SAGA 16155, BONK 16164, FLOW 16292) have no Bitget 1H series and are excluded from labels and backtest. The resolved audit is 86 setups, not 87.
+- **Vision:** the 284 annotations are legacy color-mask detector outputs, not human bounding-box labels. IoU is unmeasured. The new extractor requires a filled rectangle and rejects candle-only canvases.
+- **Lead time:** no Proteus detection timestamps exist in the corpus; the metric is `UNMEASURED` until a scan log is paired with human posts.

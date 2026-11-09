@@ -1015,7 +1015,7 @@ INDEX_HTML = r"""<!DOCTYPE html>
       btn.disabled = true;
       btn.textContent = 'Scanning Bitget Public Candles...';
       try {
-        await fetch('/api/v1/scan', { method: 'POST' });
+        await fetch('/api/v1/scan', { method: 'POST', headers: { 'X-Proteus-Action': '1' } });
         await loadDashboard();
       } finally {
         btn.disabled = false;
@@ -1031,7 +1031,7 @@ INDEX_HTML = r"""<!DOCTYPE html>
 
       const resp = await fetch('/api/v1/self-correct', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Proteus-Action': '1' },
         body: JSON.stringify({ parameter: param, observed_value: val, learning_rate: alpha, candidate_bps: bps })
       });
       const out = await resp.json();
@@ -1046,7 +1046,7 @@ INDEX_HTML = r"""<!DOCTYPE html>
       try {
         await fetch('/api/v1/evolve', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'X-Proteus-Action': '1' },
           body: JSON.stringify({ learning_rate: 0.12 })
         });
         await loadDashboard();

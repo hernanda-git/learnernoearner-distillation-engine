@@ -120,42 +120,6 @@
     "media_path": null
   },
   {
-    "id": "b0000000-0000-0000-0000-000000000001",
-    "message_id": "a0000000-0000-0000-0000-000000000001",
-    "telegram_msg_num": 999999999,
-    "pair_token": "GRASS",
-    "direction": "LONG",
-    "entry_price": "0.34690",
-    "stop_loss": "0.34400",
-    "take_profits": [
-      0.3496,
-      0.3529
-    ],
-    "created_at": "2026-09-11T09:03:08.342879+00:00",
-    "received_at": "2026-09-11T09:03:08.342879+00:00",
-    "raw_text": "MANUAL SIGNAL: GRASSUSDT LONG @ 0.34690 SL 0.34400 TP1 0.34960 TP2 0.35290",
-    "has_media": false,
-    "media_path": null
-  },
-  {
-    "id": "d0000000-0000-0000-0000-000000000001",
-    "message_id": "a0000000-0000-0000-0000-000000000001",
-    "telegram_msg_num": 999999999,
-    "pair_token": "GRASS",
-    "direction": "LONG",
-    "entry_price": "0.34690",
-    "stop_loss": "0.34400",
-    "take_profits": [
-      0.3496,
-      0.3529
-    ],
-    "created_at": "2026-09-11T09:31:24.220813+00:00",
-    "received_at": "2026-09-11T09:03:08.342879+00:00",
-    "raw_text": "MANUAL SIGNAL: GRASSUSDT LONG @ 0.34690 SL 0.34400 TP1 0.34960 TP2 0.35290",
-    "has_media": false,
-    "media_path": null
-  },
-  {
     "id": "5e604d01-cecd-4235-9492-2c383a8d2955",
     "message_id": "966d30d5-26fd-48c7-adb9-ba8dabffdbe3",
     "telegram_msg_num": 16120,

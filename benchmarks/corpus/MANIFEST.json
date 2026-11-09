@@ -1,0 +1,69 @@
+{
+  "generated_at_utc": "2026-11-10T00:00:00+00:00",
+  "source": "standing corpus snapshot",
+  "counts": {
+    "signals": 95,
+    "long": 76,
+    "short": 19,
+    "messages": 784,
+    "management_updates": 47,
+    "resolved_trajectories": 86,
+    "valid_pre_series": 91,
+    "vision_images": 284
+  },
+  "excluded": {
+    "fabricated_signal_ids": [
+      "b0000000-0000-0000-0000-000000000001",
+      "d0000000-0000-0000-0000-000000000001"
+    ],
+    "no_market_data": [
+      [
+        "WLD",
+        16103
+      ],
+      [
+        "SAGA",
+        16155
+      ],
+      [
+        "BONK",
+        16164
+      ],
+      [
+        "FLOW",
+        16292
+      ]
+    ]
+  },
+  "files": {
+    "canonical_signals.json": {
+      "sha256": "cecc1fedf736ea3eca6fb20ff862e5e0e15117affc1e6a3beb54226c3584a6f7",
+      "bytes": 57879
+    },
+    "telegram_messages.json": {
+      "sha256": "9fd45f828089ec47213644c54d5b62713f36798292beb90659c226fccf9a2159",
+      "bytes": 324110
+    },
+    "management_updates.json": {
+      "sha256": "cc0fa041af1adc84de17d6bc3fa15b7a8d6373837782e3ade4d8fac2a70a8748",
+      "bytes": 16782
+    },
+    "real_1h_candles_by_signal.json": {
+      "sha256": "0d77382675e1ce5fe7b4ecb07ef836deded11b5cca7f4cc31847ed647219fd2d",
+      "bytes": 699413
+    },
+    "signal_candle_trajectories.json": {
+      "sha256": "7cfc7f337b261ba6f05226e780424a46e9ec4325f8f9c0db70526ef721204874",
+      "bytes": 45620
+    },
+    "vision_annotations.json": {
+      "sha256": "ed0997fcf00d56391fce9b87cfb88bde149a6a84c42dc3da2a38eb66a0adb8bf",
+      "bytes": 150669
+    }
+  },
+  "notes": [
+    "2 fabricated canonical rows removed (placeholder UUIDs, telegram_msg_num=999999999).",
+    "4 real signals have no Bitget 1H series (delisted or missing) and are excluded from positive labels and backtest.",
+    "284 images have no human bounding-box labels; vision IoU is not measured."
+  ]
+}

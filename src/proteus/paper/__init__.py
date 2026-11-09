@@ -17,7 +17,14 @@ from datetime import datetime
 from decimal import Decimal
 from pathlib import Path
 
-from proteus.domain.models import Direction, OrderMode, SetupArchetype, TradeSetup, TradeState
+from proteus.domain.models import (
+    Direction,
+    OrderMode,
+    PositionState,
+    SetupArchetype,
+    TradeSetup,
+    TradeState,
+)
 from proteus.fsm import TradeLifecycleFSM
 from proteus.shadow import LiveShadowSnapshot
 
@@ -62,6 +69,8 @@ class VirtualPaperLedger:
     open_positions_count: int
     closed_positions_count: int
     positions: dict[str, VirtualPaperPosition]
+    peak_equity_usdt: float = 0.0
+    max_drawdown_pct: float = 0.0
 
     def to_dict(self) -> dict[str, object]:
         return asdict(self)
@@ -114,14 +123,19 @@ class VirtualPaperExchange:
 
     def process_shadow_snapshot(self, snapshot: LiveShadowSnapshot) -> VirtualPaperLedger:
         existing: dict[str, VirtualPaperPosition] = {}
+        prev_peak = self.starting_equity_usdt
+        prev_dd = 0.0
         if self.ledger_path.exists():
             raw = json.loads(self.ledger_path.read_text(encoding="utf-8"))
             for sym, pos_dict in raw.get("positions", {}).items():
                 existing[sym] = VirtualPaperPosition(**pos_dict)
+            prev_peak = float(raw.get("peak_equity_usdt", self.starting_equity_usdt))
+            prev_dd = float(raw.get("max_drawdown_pct", 0.0))
 
         scan_dt = datetime.fromisoformat(snapshot.scanned_at_utc)
 
         # Pass 1: Step all currently open positions through TradeLifecycleFSM
+        just_closed: set[str] = set()
         for asset in snapshot.states:
             sym = asset.symbol
             mark = Decimal(asset.last_close)
@@ -140,19 +154,37 @@ class VirtualPaperExchange:
                     confidence=cur.confidence,
                     archetype=SetupArchetype(cur.archetype),
                 )
-                pos_state = self.fsm.open_position(
-                    setup, datetime.fromisoformat(cur.opened_at_utc)
+                # Restore the live state, not a fresh position. The previous
+                # implementation called open_position(), which reset the
+                # breakeven stop and the partial-TP ledger on every scan.
+                pos_state = PositionState(
+                    setup=setup,
+                    state=TradeState(cur.state),
+                    current_sl=Decimal(cur.current_sl),
+                    current_tp=Decimal(cur.take_profit),
+                    remaining_size_fraction=Decimal(cur.remaining_size_fraction),
+                    realized_r=Decimal(cur.realized_r),
+                    unrealized_r=Decimal(cur.unrealized_r),
+                    opened_at_utc=datetime.fromisoformat(cur.opened_at_utc),
+                    updated_at_utc=datetime.fromisoformat(cur.updated_at_utc),
                 )
                 pos_state = self.fsm.on_tick(pos_state, mark, scan_dt)
 
+                notional = self.compute_position_notional_usdt(
+                    float(cur.entry_price),
+                    float(cur.stop_loss),
+                    self.risk_per_trade_usdt,
+                )
                 fees = cur.fees_paid_usdt
+                if (
+                    pos_state.state == TradeState.PARTIAL_TP_BOOKED
+                    and cur.state != TradeState.PARTIAL_TP_BOOKED.value
+                ):
+                    fees = round(fees + notional * 0.5 * BITGET_TAKER_FEE_PCT, 4)
                 if self._is_terminal(pos_state.state.value):
-                    notional = self.compute_position_notional_usdt(
-                        float(cur.entry_price),
-                        float(cur.stop_loss),
-                        self.risk_per_trade_usdt,
-                    )
-                    fees = round(fees + notional * BITGET_TAKER_FEE_PCT, 4)
+                    closed_fraction = float(cur.remaining_size_fraction)
+                    fees = round(fees + notional * closed_fraction * BITGET_TAKER_FEE_PCT, 4)
+                    just_closed.add(sym)
 
                 existing[sym] = VirtualPaperPosition(
                     symbol=sym,
@@ -178,6 +210,8 @@ class VirtualPaperExchange:
         # Pass 2: Admit new signals with Phase 6.4 Margin Velocity Slot Eviction
         for asset in snapshot.states:
             sym = asset.symbol
+            if sym in just_closed:
+                continue
             if sym in existing and not self._is_terminal(existing[sym].state):
                 continue
             if asset.action not in ("ENTER_LONG", "ENTER_SHORT") or not (
@@ -272,6 +306,10 @@ class VirtualPaperExchange:
         realized_usdt = round(realized_r_sum * self.risk_per_trade_usdt - total_fees, 2)
         unrealized_usdt = round(unrealized_r_sum * self.risk_per_trade_usdt, 2)
         current_eq = round(self.starting_equity_usdt + realized_usdt + unrealized_usdt, 2)
+        peak_eq = round(max(prev_peak, current_eq, self.starting_equity_usdt), 2)
+        dd_pct = round(
+            max(prev_dd, (peak_eq - current_eq) / max(1.0, peak_eq) * 100.0), 2
+        )
 
         open_cnt = sum(1 for p in existing.values() if not self._is_terminal(p.state))
         closed_cnt = len(existing) - open_cnt
@@ -289,24 +327,27 @@ class VirtualPaperExchange:
             open_positions_count=open_cnt,
             closed_positions_count=closed_cnt,
             positions=existing,
+            peak_equity_usdt=peak_eq,
+            max_drawdown_pct=dd_pct,
         )
         self.ledger_path.write_text(json.dumps(ledger.to_dict(), indent=2) + "\n", encoding="utf-8")
         return ledger
 
     def run_historical_paper_simulation(self) -> dict[str, object]:
-        """Simulate a $1,000 USDT paper account across all 97 historical signals."""
+        """Simulate a $1,000 USDT paper account across every resolvable historical signal."""
         from proteus.backtest import LifecycleBacktestSimulator
 
         sim = LifecycleBacktestSimulator()
         bt = sim.run_comparative_backtest()
 
-        # Avg notional at 2.60% SL and $20 risk is ~$769.23 -> round-trip maker+taker fee ~ $0.62/trade
-        est_fees_97_trades_usdt = round(97 * 769.23 * (BITGET_MAKER_FEE_PCT + BITGET_TAKER_FEE_PCT), 2)
+        # The backtest already deducts round-trip fees from every R.
+        estimated_fees_usdt = round(
+            bt.proteus_distilled_fsm.total_fees_r * self.risk_per_trade_usdt, 2
+        )
 
         proteus_pnl_usdt = round(
             bt.proteus_distilled_fsm.total_realized_r * self.risk_per_trade_usdt, 2
         )
-        proteus_net_after_fees = round(proteus_pnl_usdt - est_fees_97_trades_usdt, 2)
         naive_pnl_usdt = round(
             bt.naive_set_and_forget.total_realized_r * self.risk_per_trade_usdt, 2
         )
@@ -323,16 +364,17 @@ class VirtualPaperExchange:
             "risk_per_trade_pct": round(
                 (self.risk_per_trade_usdt / self.starting_equity_usdt) * 100.0, 2
             ),
-            "estimated_97_trade_fees_usdt": est_fees_97_trades_usdt,
+            "estimated_fees_usdt": estimated_fees_usdt,
+            "fees_included_in_r": True,
             "proteus_distilled_clone": {
                 "ending_equity_usdt": round(
                     self.starting_equity_usdt + proteus_pnl_usdt, 2
                 ),
                 "ending_equity_after_fees_usdt": round(
-                    self.starting_equity_usdt + proteus_net_after_fees, 2
+                    self.starting_equity_usdt + proteus_pnl_usdt, 2
                 ),
                 "net_profit_usdt": proteus_pnl_usdt,
-                "net_profit_after_fees_usdt": proteus_net_after_fees,
+                "net_profit_after_fees_usdt": proteus_pnl_usdt,
                 "return_pct": round(
                     (proteus_pnl_usdt / self.starting_equity_usdt) * 100.0, 2
                 ),

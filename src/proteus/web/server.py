@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import json
+import os
+import time
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
@@ -11,9 +13,14 @@ from proteus.constitution import BoundedSelfCorrector, ConstitutionalIdentityGua
 from proteus.evolver import AgenticSelfImprover
 from proteus.monitor import SelfMonitoringWatchdog
 from proteus.paper import VirtualPaperExchange
+from proteus.replay import EmpiricalCorpusReplay
 from proteus.shadow import ForwardShadowScanner
 from proteus.web import BENCH_DIR, build_dashboard_payload
 from proteus.web.ui_template import INDEX_HTML
+
+_HEALTH_CACHE: dict[str, Any] = {"at": 0.0, "payload": None}
+_DASHBOARD_CACHE: dict[str, Any] = {"at": 0.0, "payload": None}
+_CACHE_TTL_SECONDS = 30.0
 
 
 class ProteusWebHandler(BaseHTTPRequestHandler):
@@ -21,6 +28,38 @@ class ProteusWebHandler(BaseHTTPRequestHandler):
 
     def log_message(self, format: str, *args: object) -> None:  # noqa: A002
         return
+
+    def _post_authorized(self) -> bool:
+        """Require a token when configured, otherwise require the same-origin CSRF header."""
+        token = os.getenv("PROTEUS_API_TOKEN", "")
+        if token:
+            return self.headers.get("X-Proteus-Token") == token
+        return self.headers.get("X-Proteus-Action") == "1"
+
+    @staticmethod
+    def _health_payload() -> dict[str, Any]:
+        now = time.monotonic()
+        cached = _HEALTH_CACHE["payload"]
+        if cached is not None and now - _HEALTH_CACHE["at"] < _CACHE_TTL_SECONDS:
+            return cached
+
+        pure, files = ConstitutionalIdentityGuard.verify_codebase_purity()
+        mon = SelfMonitoringWatchdog().evaluate_and_heal()
+        parity = EmpiricalCorpusReplay().run().parity_metrics
+        payload = {
+            "status": "ok",
+            "engine": "Project Proteus (@learnernoearner Distillation Clone)",
+            "air_gapped": True,
+            "constitutional_purity": pure,
+            "scanned_files": files,
+            "self_monitor_status": mon.overall_status,
+            "bps": parity.bps,
+            "validated": parity.passed,
+            "unmeasured": list(parity.unmeasured),
+        }
+        _HEALTH_CACHE["at"] = now
+        _HEALTH_CACHE["payload"] = payload
+        return payload
 
     def _send_json(self, payload: dict[str, Any], status: int = HTTPStatus.OK) -> None:
         raw = json.dumps(payload).encode("utf-8")
@@ -48,26 +87,30 @@ class ProteusWebHandler(BaseHTTPRequestHandler):
             self._send_html(INDEX_HTML)
             return
         if self.path in ("/health", "/health/telemetry"):
-            pure, files = ConstitutionalIdentityGuard.verify_codebase_purity()
-            mon = SelfMonitoringWatchdog().evaluate_and_heal()
-            self._send_json(
-                {
-                    "status": "ok",
-                    "engine": "Project Proteus (@learnernoearner Distillation Clone)",
-                    "air_gapped": True,
-                    "constitutional_purity": pure,
-                    "scanned_files": files,
-                    "self_monitor_status": mon.overall_status,
-                    "bps": 0.97,
-                }
-            )
+            self._send_json(self._health_payload())
             return
         if self.path.startswith("/api/v1/dashboard"):
-            self._send_json(build_dashboard_payload())
+            refresh = "refresh=1" in self.path
+            now = time.monotonic()
+            cached = _DASHBOARD_CACHE["payload"]
+            if not refresh and cached is not None and now - _DASHBOARD_CACHE["at"] < _CACHE_TTL_SECONDS:
+                self._send_json(cached)
+                return
+            payload = build_dashboard_payload()
+            _DASHBOARD_CACHE["at"] = now
+            _DASHBOARD_CACHE["payload"] = payload
+            self._send_json(payload)
             return
         self._send_json({"error": "not_found", "path": self.path}, status=HTTPStatus.NOT_FOUND)
 
     def do_POST(self) -> None:  # noqa: N802
+        if not self._post_authorized():
+            self._send_json(
+                {"error": "forbidden", "detail": "Missing X-Proteus-Token or X-Proteus-Action header."},
+                status=HTTPStatus.FORBIDDEN,
+            )
+            return
+
         if self.path == "/api/v1/scan":
             scanner = ForwardShadowScanner()
             snapshot = scanner.scan_live_universe()
