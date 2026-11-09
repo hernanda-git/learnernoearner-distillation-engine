@@ -61,7 +61,7 @@ A full 45-symbol cycle issues 92 candle requests (18×4H + 12×15m per symbol, p
 | Connections | 2 sharded, 46 channels each (Bitget recommends <50/connection) |
 | Channels | 92: `candle4H` + `candle15m` per 45 symbols, `candle1Dutc` for BTC/ETH |
 | Bootstrap | one REST batch at service start, then deltas only |
-| Scan trigger | **15m bar close event** (≈1–2 s latency) or 300 s heartbeat, whichever first |
+| Scan trigger | **15m bar close event** (2 s burst debounce, ≤1 cycle/10 s, ≈2–4 s latency) or 300 s heartbeat |
 | Heartbeat | text `ping` every 25 s; reconnect 1→30 s jittered backoff |
 | Fallback | missing/stale series (15m > 45 min, 4H > 12 h, 1D > 3 d) → REST per series |
 | Without the extra | daemon logs `{"stream": "rest"}` and polls REST exactly as before |

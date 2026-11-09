@@ -133,11 +133,29 @@ def main(argv: list[str] | None = None) -> int:
     signal.signal(signal.SIGTERM, _terminate)
 
     heartbeat = max(10, args.interval)
-    seen = stream.close_seq if stream is not None else 0
     last_improve = time.monotonic()
+    last_close_cycle = 0.0
+    first = True
     trigger = "startup"
     try:
         while True:
+            if not first:
+                if stream is None:
+                    time.sleep(heartbeat)
+                    trigger = "interval"
+                else:
+                    seen = stream.close_seq
+                    woke, seen = stream.wait_for_close(seen, heartbeat)
+                    if not woke:
+                        trigger = "interval"
+                    else:
+                        time.sleep(2.0)  # coalesce the 45-symbol close burst
+                        now = time.monotonic()
+                        if now - last_close_cycle < 10.0:
+                            continue  # one cycle per boundary, not per symbol
+                        last_close_cycle = now
+                        trigger = "candle_close"
+            first = False
             snapshot = _load_or_scan_snapshot(refresh_live=True, scanner=scanner)
             ledger = exchange.process_shadow_snapshot(snapshot)
             mon = watchdog.evaluate_and_heal()
@@ -160,13 +178,6 @@ def main(argv: list[str] | None = None) -> int:
                 ),
                 flush=True,
             )
-            if stream is not None:
-                seen = stream.close_seq  # drain closes that landed during this cycle
-                woke, seen = stream.wait_for_close(seen, heartbeat)
-                trigger = "candle_close" if woke else "interval"
-            else:
-                time.sleep(heartbeat)
-                trigger = "interval"
     except KeyboardInterrupt:
         return 0
     finally:
