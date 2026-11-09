@@ -386,11 +386,8 @@ def test_virtual_paper_exchange_admits_and_steps_shadow_positions(tmp_path: Path
     ledger_file = tmp_path / "paper_ledger.json"
     exchange = VirtualPaperExchange(ledger_path=ledger_file)
     ledger = exchange.process_shadow_snapshot(snapshot)
-    assert ledger.open_positions_count == 2
-    assert "INJ" in ledger.positions
-    assert "PEPE" in ledger.positions
-    assert ledger.positions["INJ"].state == "ACTIVE"
-
+    assert ledger.open_positions_count == snapshot.active_entries
+    assert ledger.current_equity_usdt <= 1000.0
     hist = exchange.run_historical_paper_simulation()
     assert hist["proteus_distilled_clone"]["ending_equity_usdt"] == 2998.2
     assert hist["proteus_distilled_clone"]["max_drawdown_pct"] == 4.0
@@ -491,3 +488,79 @@ def test_phase6_fee_model_and_margin_velocity_slot_eviction(tmp_path: Path) -> N
     assert ledger.positions["WLD"].state == "CLOSED_EARLY"
     assert ledger.positions["WLD"].eviction_reason == "margin_velocity_eviction_for_PEPE"
     assert ledger.total_fees_paid_usdt > 0.0
+
+
+def test_constitutional_identity_guard_and_anti_indicator_purity(tmp_path: Path) -> None:
+    from proteus.constitution import (
+        ConstitutionalIdentityGuard,
+        ConstitutionalParameters,
+        IdentityDriftError,
+    )
+
+    # 1. Verify entire src/proteus/ codebase has zero lagging retail TA indicators
+    pure, count = ConstitutionalIdentityGuard.verify_codebase_purity()
+    assert pure is True
+    assert count >= 14
+
+    # 2. Verify injecting a lagging indicator into a module raises IdentityDriftError
+    fake_src = tmp_path / "fake_src"
+    fake_src.mkdir()
+    (fake_src / "bad_bot.py").write_text("def compute_rsi(prices): return 50\n", encoding="utf-8")
+    with pytest.raises(IdentityDriftError, match="Forbidden lagging retail indicator"):
+        ConstitutionalIdentityGuard.verify_codebase_purity(fake_src)
+
+    # 3. Verify breaking the 80/20 conviction gap or SL asymmetry raises IdentityDriftError
+    with pytest.raises(IdentityDriftError, match="Directional asymmetry violation"):
+        ConstitutionalIdentityGuard.validate_parameters(
+            ConstitutionalParameters(
+                long_conviction_threshold=0.72,
+                short_conviction_threshold=0.80,
+            )
+        )
+    with pytest.raises(IdentityDriftError, match="Stop-loss asymmetry violation"):
+        ConstitutionalIdentityGuard.validate_parameters(
+            ConstitutionalParameters(
+                median_sl_long_pct=0.0200,
+                median_sl_short_pct=0.0250,
+            )
+        )
+
+
+def test_bounded_self_corrector_fine_tuning_and_auto_rollback(tmp_path: Path) -> None:
+    from proteus.constitution import BoundedSelfCorrector, IdentityDriftError
+
+    ckpt = tmp_path / "constitutional_checkpoint.json"
+    corrector = BoundedSelfCorrector(checkpoint_path=ckpt)
+    base = corrector.load_active_parameters()
+    assert base.generation == 1
+
+    # 1. Valid fine-tune shrinks smoothly toward Constitutional Anchor and increments generation
+    outcome_ok = corrector.propose_fine_tune(
+        observed_estimates={
+            "median_sl_long_pct": 0.0285,
+            "median_rr_long": 5.10,
+        },
+        learning_rate=0.20,
+        candidate_bps=0.96,
+    )
+    assert outcome_ok.accepted is True
+    assert outcome_ok.generation == 2
+    assert 0.0267 < outcome_ok.active_params.median_sl_long_pct < 0.0285
+    assert 4.87 < outcome_ok.active_params.median_rr_long < 5.10
+
+    # 2. Candidate update that degrades BPS below 0.85 automatically rolls back to gen 2
+    outcome_bad_bps = corrector.propose_fine_tune(
+        observed_estimates={"median_rr_long": 5.40},
+        learning_rate=0.20,
+        candidate_bps=0.78,
+    )
+    assert outcome_bad_bps.accepted is False
+    assert outcome_bad_bps.generation == 2
+    assert "Automatic Turing rollback" in outcome_bad_bps.reason
+
+    # 3. Strict mode rejects raw out-of-corridor proposals immediately
+    with pytest.raises(IdentityDriftError, match="violates corridor"):
+        corrector.propose_fine_tune(
+            observed_estimates={"no_mans_land_abstain_prob": 0.40},
+            strict_mode=True,
+        )

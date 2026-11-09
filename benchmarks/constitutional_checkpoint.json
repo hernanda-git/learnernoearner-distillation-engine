@@ -1,0 +1,16 @@
+{
+  "long_conviction_threshold": 0.65,
+  "short_conviction_threshold": 0.85,
+  "no_mans_land_abstain_prob": 0.92,
+  "median_sl_long_pct": 0.0267,
+  "median_sl_short_pct": 0.0217,
+  "median_rr_long": 4.87,
+  "median_rr_short": 4.46,
+  "breakeven_trigger_r": 1.0,
+  "level_proximity_pct": 0.012,
+  "wick_rejection_threshold": 0.35,
+  "max_open_positions": 3,
+  "bedtime_start_hour_utc": 21,
+  "generation": 1,
+  "updated_at_utc": "2026-11-09T06:35:00+00:00"
+}

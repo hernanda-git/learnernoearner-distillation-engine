@@ -24,10 +24,10 @@ This repository is **completely decoupled and isolated** from the live Bitget pr
 
 ## 📚 Core Architecture & Documentation
 
-- **[Empirical Behavioral Profile](docs/BEHAVIORAL-ANALYSIS.md)**: Quantitative and qualitative breakdown extracted from 784 messages, 97 canonical setups, and 230 chart screenshots.
+- **[Constitutional Identity Charter](IDENTITY.md)**: Immutable anti-drift rules, 7 cognitive pillars, and bounded self-correction corridors.
+- **[Empirical Behavioral Profile](docs/BEHAVIORAL-ANALYSIS.md)**: Quantitative and qualitative breakdown extracted from 784 messages, 97 canonical setups, and 284 chart screenshots.
 - **[Distillation Master Plan](docs/MASTER-PLAN.md)**: 7-module decoupled architecture, inverse decision modeling, negative space mining, and phased implementation roadmap.
 - **[Architecture & Engine Topology](ARCHITECTURE.md)**: End-to-end event flow, state spaces, action spaces, and FSM lifecycle.
-
 ---
 
 ## 📊 Key Trader Archetype (Empirical Baseline)
@@ -79,10 +79,13 @@ learnernoearner-distillation-engine/
 │       ├── backtest/                        # 97-setup backtester + real-candle whipsaw audit
 │       ├── shadow/                          # Live zero-key Bitget USDT-FUTURES shadow scanner
 │       ├── paper/                           # Stateful Virtual Paper Exchange ($1,000 ledger)
+│       ├── constitution/                    # ConstitutionalIdentityGuard & BoundedSelfCorrector
 │       └── engine.py                        # End-to-end 7-module pipeline orchestrator
 ├── tests/
-│   └── test_proteus_engine.py               # 13-test invariant, CV, Bayes, audit & paper suite
+│   └── test_proteus_engine.py               # 18-test invariant, CV, Bayes, audit, paper & identity suite
+├── AGENTS.md                                # Mandatory anti-drift rules for AI coding agents
 ├── ARCHITECTURE.md
+├── IDENTITY.md                              # Immutable project identity & bounded self-correction charter
 ├── pyproject.toml
 ├── README.md
 └── .gitignore

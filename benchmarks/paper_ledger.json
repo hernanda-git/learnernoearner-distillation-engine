@@ -2,9 +2,9 @@
   "starting_equity_usdt": 1000.0,
   "risk_per_trade_usdt": 20.0,
   "max_open_positions": 3,
-  "current_equity_usdt": 1000.0,
+  "current_equity_usdt": 999.4,
   "realized_pnl_usdt": 0.0,
-  "unrealized_pnl_usdt": 0.0,
+  "unrealized_pnl_usdt": -0.6,
   "total_fees_paid_usdt": 0.0,
   "margin_evictions_count": 0,
   "open_positions_count": 2,
@@ -23,12 +23,12 @@
       "state": "ACTIVE",
       "remaining_size_fraction": "1.00",
       "realized_r": "0.00",
-      "unrealized_r": "0.00",
+      "unrealized_r": "-0.09",
       "fees_paid_usdt": 0.0,
       "confidence": 0.86,
       "eviction_reason": null,
       "opened_at_utc": "2026-11-09T06:06:12.308986+00:00",
-      "updated_at_utc": "2026-11-09T06:06:12.308986+00:00"
+      "updated_at_utc": "2026-11-09T06:38:36.829846+00:00"
     },
     "PEPE": {
       "symbol": "PEPE",
@@ -43,12 +43,12 @@
       "state": "ACTIVE",
       "remaining_size_fraction": "1.00",
       "realized_r": "0.00",
-      "unrealized_r": "0.00",
+      "unrealized_r": "0.06",
       "fees_paid_usdt": 0.0,
       "confidence": 0.86,
       "eviction_reason": null,
       "opened_at_utc": "2026-11-09T06:06:12.308986+00:00",
-      "updated_at_utc": "2026-11-09T06:06:12.308986+00:00"
+      "updated_at_utc": "2026-11-09T06:38:36.829846+00:00"
     }
   }
 }

@@ -7,6 +7,7 @@ from decimal import Decimal
 from typing import Mapping, Optional, Sequence
 
 from proteus.compass import MacroCompassGate
+from proteus.constitution import ConstitutionalIdentityGuard, ConstitutionalParameters
 from proteus.domain.models import (
     Action,
     Candle,
@@ -35,7 +36,7 @@ class AirGapSecurityError(RuntimeError):
 
 
 class ProteusDistillationEngine:
-    """Coordinated 7-module cognitive distillation pipeline."""
+    """Coordinated 7-module cognitive distillation pipeline with Constitutional Identity Guard."""
 
     def __init__(
         self,
@@ -47,9 +48,12 @@ class ProteusDistillationEngine:
         policy: CognitivePolicyGate | None = None,
         params: OrderParameterSynthesizer | None = None,
         fsm: TradeLifecycleFSM | None = None,
+        constitution: ConstitutionalParameters | None = None,
         env: Mapping[str, str] | None = None,
     ) -> None:
         self.verify_air_gap(env if env is not None else os.environ)
+        self.constitution = constitution or ConstitutionalParameters()
+        ConstitutionalIdentityGuard.validate_parameters(self.constitution)
         self.market = market or MultiTimeframeStore()
         self.compass = compass or MacroCompassGate()
         self.geometry = geometry or StructuralGeometryEngine()
