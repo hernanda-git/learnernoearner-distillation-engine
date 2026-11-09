@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import signal
 import sys
 import time
 from pathlib import Path
@@ -21,12 +22,15 @@ if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
 from proteus.evolver import AgenticSelfImprover  # noqa: E402
+from proteus.market.bitget_ws import BitgetCandleStream  # noqa: E402
 from proteus.monitor import SelfMonitoringWatchdog  # noqa: E402
 from proteus.paper import VirtualPaperExchange  # noqa: E402
 from proteus.shadow import AssetShadowState, ForwardShadowScanner, LiveShadowSnapshot  # noqa: E402
 
 
-def _load_or_scan_snapshot(refresh_live: bool) -> LiveShadowSnapshot:
+def _load_or_scan_snapshot(
+    refresh_live: bool, scanner: ForwardShadowScanner | None = None
+) -> LiveShadowSnapshot:
     snapshot_path = REPO_ROOT / "benchmarks" / "live_shadow_snapshot.json"
     if not refresh_live and snapshot_path.exists():
         raw = json.loads(snapshot_path.read_text(encoding="utf-8"))
@@ -41,7 +45,7 @@ def _load_or_scan_snapshot(refresh_live: bool) -> LiveShadowSnapshot:
             abstentions=raw["abstentions"],
             states=states,
         )
-    scanner = ForwardShadowScanner()
+    scanner = scanner or ForwardShadowScanner()
     snapshot = scanner.scan_live_universe()
     snapshot_path.write_text(json.dumps(snapshot.to_dict(), indent=2) + "\n", encoding="utf-8")
     return snapshot
@@ -101,28 +105,63 @@ def main(argv: list[str] | None = None) -> int:
 
     watchdog = SelfMonitoringWatchdog()
     improver = AgenticSelfImprover(watchdog=watchdog)
-    cycle_idx = 0
-    while True:
-        snapshot = _load_or_scan_snapshot(refresh_live=True)
-        ledger = exchange.process_shadow_snapshot(snapshot)
-        mon = watchdog.evaluate_and_heal()
-        if cycle_idx % 12 == 0:
-            improver.run_improvement_cycle(trigger_source="daemon_hourly_auto_evolve")
-        cycle_idx += 1
+    scanner = ForwardShadowScanner()
+    stream: BitgetCandleStream | None = None
+    stream = BitgetCandleStream(
+        ForwardShadowScanner.build_requests_spec(scanner.symbols),
+        rest_client=scanner.client,
+    )
+    if stream.start():
+        scanner.stream = stream
         print(
             json.dumps(
                 {
-                    "scanned_at_utc": snapshot.scanned_at_utc,
-                    "macro_regime": snapshot.macro_regime,
-                    "current_equity_usdt": ledger.current_equity_usdt,
-                    "open_positions": ledger.open_positions_count,
-                    "monitor_status": mon.overall_status,
-                    "healthy_streak": mon.consecutive_healthy_cycles,
+                    "stream": "websocket",
+                    "channels": len(scanner.build_requests_spec(scanner.symbols)),
+                    "connections": stream.connections,
                 }
             ),
             flush=True,
         )
-        time.sleep(max(10, args.interval))
+    else:
+        print(json.dumps({"stream": "rest", "reason": "websockets unavailable"}), flush=True)
+        stream = None
+
+    def _terminate(_signum: int, _frame: object) -> None:
+        raise KeyboardInterrupt
+
+    signal.signal(signal.SIGTERM, _terminate)
+
+    cycle_idx = 0
+    try:
+        while True:
+            snapshot = _load_or_scan_snapshot(refresh_live=True, scanner=scanner)
+            ledger = exchange.process_shadow_snapshot(snapshot)
+            mon = watchdog.evaluate_and_heal()
+            if cycle_idx % 12 == 0:
+                improver.run_improvement_cycle(trigger_source="daemon_hourly_auto_evolve")
+            cycle_idx += 1
+            print(
+                json.dumps(
+                    {
+                        "scanned_at_utc": snapshot.scanned_at_utc,
+                        "macro_regime": snapshot.macro_regime,
+                        "current_equity_usdt": ledger.current_equity_usdt,
+                        "open_positions": ledger.open_positions_count,
+                        "monitor_status": mon.overall_status,
+                        "healthy_streak": mon.consecutive_healthy_cycles,
+                        "ws_legs": stream.connected_legs if stream is not None else 0,
+                        "ws_error": stream.last_error if stream is not None else None,
+                    }
+                ),
+                flush=True,
+            )
+            time.sleep(max(10, args.interval))
+    except KeyboardInterrupt:
+        return 0
+    finally:
+        if stream is not None:
+            stream.stop()
 
 
 if __name__ == "__main__":

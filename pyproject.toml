@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Proprietary" }
 authors = [{ name = "Hernanda" }]
-dependencies = []
+dependencies = ["websockets>=13,<16"]
 
 [project.optional-dependencies]
 lakehouse = ["duckdb>=1.0.0", "pyarrow>=16.0.0"]

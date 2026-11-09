@@ -65,7 +65,7 @@
 | Subpackage | Module Path | Responsibility & Key Classes |
 | :--- | :--- | :--- |
 | **Domain** | `proteus.domain.models` | Immutable `Candle`, `RangeGeometry`, `BoundingBox`, `PolicyDecision`, `TradeSetup`, `PositionState` |
-| **Market** | `proteus.market` & `lakehouse` | `MultiTimeframeStore`, `NegativeSpaceDatasetBuilder` (5,097 bars), `fetch_public_bitget_candles_batch` |
+| **Market** | `proteus.market`, `lakehouse`, `bitget`, `bitget_ws` | `MultiTimeframeStore`, `NegativeSpaceDatasetBuilder` (5,097 bars), `BitgetPublicMarketClient` (8 req/s, retry/429/cache), `BitgetCandleStream` (2 WS legs, 92 candle channels) |
 | **Compass** | `proteus.compass` | `MacroCompassGate`: `BTC`/`ETH` 1D regime evaluation and directional admissibility |
 | **Geometry** | `proteus.geometry` | `StructuralGeometryEngine`: 72h 3-tier levels, wick rejection ratios, midrange retests, no-man's land |
 | **Vision** | `proteus.vision` | `VisualSaliencyAgent`, `TradingViewBoxExtractor`, `VisionCorpusAnalyzer` (284 charts), `SyntheticTradingViewRenderer` |

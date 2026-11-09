@@ -43,7 +43,7 @@ Unlike reactive copy-trading (which suffers $6\text{–}28\text{s}$ human screen
 | **284-Chart Computer Vision Pass** | 216 Light (76.1%) · 68 Dark (23.9%) | **83.8% R:R boxes · 45.4% S/R** | $\text{IoU} \ge 0.80$ (**PASSED**) |
 | **$1,000 Paper Sim (97 Setups, Net of Fees)** | `$20/1R` risk · `$59.69` Bitget fees | **$2,938.51 (+193.9% net)** | `PF = 10.08 · Max DD = 4.0%` |
 | **Constitutional Codebase Purity** | All `src/proteus/` Python modules | **30/30 files pure** | Zero retail oscillators (**PASSED**) |
-| **Automated Test Suite (`pytest`)** | 23 invariant/CV/replay + 4 rate-limit tests | **27/27 passed (3.08s)** | `100% pass` (**PASSED**) |
+| **Automated Test Suite (`pytest`)** | 23 invariant/CV/replay + 4 rate-limit + 7 stream tests | **34/34 passed (3.21s)** | `100% pass` (**PASSED**) |
 
 ---
 
@@ -90,7 +90,7 @@ learnernoearner-distillation-engine/
 ├── src/
 │   └── proteus/                             # Autonomous clone engine package
 │       ├── domain/                          # Immutable domain models & value objects
-│       ├── market/                          # Multi-TF lakehouse, 5000-bar miner & rate-limited Bitget client
+│       ├── market/                          # Multi-TF lakehouse, rate-limited REST + websocket candle stream
 │       ├── compass/                         # BTC/ETH 1D macro regime gate
 │       ├── geometry/                        # 3-tier 72h range & liquidity sweep detector
 │       ├── vision/                          # RGB TradingView box extractor, 284-chart analyzer & renderer
@@ -109,7 +109,8 @@ learnernoearner-distillation-engine/
 │       └── engine.py                        # End-to-end pipeline orchestrator
 ├── tests/
 │   ├── test_proteus_engine.py               # 23-test invariant, CV, Bayes, audit, paper & evolver suite
-│   └── test_bitget_client.py                # 4-test rate-limit, retry, cache & relay-fallback suite
+│   ├── test_bitget_client.py                # 4-test rate-limit, retry, cache & relay-fallback suite
+│   └── test_bitget_ws.py                    # 7-test candle-shard, push-upsert, staleness & fallback suite
 ├── AGENTS.md                                # Mandatory anti-drift rules for AI coding agents
 ├── ARCHITECTURE.md                          # Complete system topology & module contracts
 ├── IDENTITY.md                              # Immutable project identity & self-correction charter

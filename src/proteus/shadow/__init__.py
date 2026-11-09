@@ -15,6 +15,7 @@ from typing import Sequence
 from proteus.engine import ProteusDistillationEngine
 from proteus.market import TRADABLE_UNIVERSE
 from proteus.market.bitget import BitgetPublicMarketClient
+from proteus.market.bitget_ws import BitgetCandleStream
 
 
 @dataclass(frozen=True)
@@ -67,6 +68,7 @@ class ForwardShadowScanner:
         ssh_relay_host: str | None = "valarion@46.202.155.192",
         client: BitgetPublicMarketClient | None = None,
         symbols: Sequence[str] | None = None,
+        stream: BitgetCandleStream | None = None,
     ) -> None:
         self.engine = engine or ProteusDistillationEngine(env={})
         self.ssh_relay_host = ssh_relay_host
@@ -76,6 +78,31 @@ class ForwardShadowScanner:
             symbols or env_symbols or self.DEFAULT_SCAN_SYMBOLS
         )
         self.client = client or BitgetPublicMarketClient(ssh_relay_host=self.ssh_relay_host)
+        self.stream = stream
+
+    @staticmethod
+    def build_requests_spec(symbols: Sequence[str]) -> list[tuple[str, str, int]]:
+        """Shared (symbol, granularity, limit) contract for REST and the websocket stream."""
+        spec: list[tuple[str, str, int]] = [
+            ("BTCUSDT", "1Dutc", 5),
+            ("ETHUSDT", "1Dutc", 5),
+        ]
+        for sym in symbols:
+            spec.append((sym, "4H", 18))
+            spec.append((sym, "15m", 12))
+        return spec
+
+    def _resolve_series(
+        self, batch_spec: Sequence[tuple[str, str, int]]
+    ) -> dict[tuple[str, str], list]:
+        """Prefer fresh websocket series; REST-fetch only what the stream cannot serve."""
+        fetched: dict[tuple[str, str], list] = {}
+        if self.stream is not None:
+            fetched = dict(self.stream.series_for(batch_spec))
+        missing = [spec for spec in batch_spec if not fetched.get((spec[0], spec[1]))]
+        if missing:
+            fetched.update(self.client.fetch_candles_batch(missing))
+        return fetched
 
     def scan_live_universe(
         self,
@@ -83,15 +110,9 @@ class ForwardShadowScanner:
     ) -> LiveShadowSnapshot:
         target_symbols = tuple(symbols) if symbols else self.symbols
 
-        batch_spec: list[tuple[str, str, int]] = [
-            ("BTCUSDT", "1Dutc", 5),
-            ("ETHUSDT", "1Dutc", 5),
-        ]
-        for sym in target_symbols:
-            batch_spec.append((sym, "4H", 18))
-            batch_spec.append((sym, "15m", 12))
+        batch_spec = self.build_requests_spec(target_symbols)
 
-        fetched = self.client.fetch_candles_batch(batch_spec)
+        fetched = self._resolve_series(batch_spec)
         btc_1d = fetched.get(("BTCUSDT", "1Dutc"), [])
         eth_1d = fetched.get(("ETHUSDT", "1Dutc"), [])
 

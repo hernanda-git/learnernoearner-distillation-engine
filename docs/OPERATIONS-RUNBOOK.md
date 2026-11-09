@@ -51,13 +51,29 @@
 
 A full 45-symbol cycle issues 92 candle requests (18×4H + 12×15m per symbol, plus 5×1D each for BTC/ETH). At 8 req/s that is ≈12 s and uses ~4.6% of the exchange ceiling. If direct HTTPS to `api.bitget.com` fails (egress IP blocked), the client marks direct unavailable for 10 minutes and runs the whole batch as **one** SSH relay command to the VPS.
 
+### 2.4 Persistent Candlestick Stream
+
+`scripts/run_paper_trader.py --mode daemon` opens `proteus.market.bitget_ws.BitgetCandleStream` at startup, so steady-state screening costs **zero REST requests**.
+
+| Property | Value |
+| :--- | :--- |
+| Endpoint | `wss://ws.bitget.com/v2/ws/public` (public, no login) |
+| Connections | 2 sharded, 46 channels each (Bitget recommends <50/connection) |
+| Channels | 92: `candle4H` + `candle15m` per 45 symbols, `candle1Dutc` for BTC/ETH |
+| Bootstrap | one REST batch at service start, then deltas only |
+| Heartbeat | text `ping` every 25 s; reconnect 1→30 s jittered backoff |
+| Fallback | missing/stale series (15m > 45 min, 4H > 12 h, 1D > 3 d) → REST per series |
+| Without the extra | daemon logs `{"stream": "rest"}` and polls REST exactly as before |
+
+The only new dependency is `websockets>=13,<16`. Bitget limits: 100 connections/IP, 1000 channels/connection, 240 subscription requests/hour/connection, 10 messages/s — all comfortably inside the two-connection design.
+
 ---
 
 ## 3. CLI & Service Management Commands
 
 ### 3.1 Local / Development CLI Commands
 ```bash
-# 1. Run full 27-test verification suite
+# 1. Run full 34-test verification suite
 C:/Workspace/bots/fatty-live-fix/.venv/Scripts/pytest.exe -v
 
 # 2. Run complete Phases 1–6 Cognitive Turing & Constitutional Scorecard
