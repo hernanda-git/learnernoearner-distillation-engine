@@ -15,6 +15,7 @@ from proteus.constitution import (
     ConstitutionalIdentityGuard,
 )
 from proteus.evolver import AgenticSelfImprover
+from proteus.geometry.fractal import FractalHorizontalStructureEngine
 from proteus.market.lakehouse import NegativeSpaceDatasetBuilder
 from proteus.monitor import SelfMonitoringWatchdog
 from proteus.paper import VirtualPaperExchange
@@ -43,6 +44,7 @@ def build_dashboard_payload() -> dict[str, Any]:
     chain_valid, chain_len = improver.verify_journal_hash_chain()
 
     replay_report = EmpiricalCorpusReplay().run()
+    fractal_blind = FractalHorizontalStructureEngine().evaluate_real_corpus_blind_recall()
     dataset = NegativeSpaceDatasetBuilder().build_dataset(negative_count=5000)
     bayes_metrics = BayesianCognitivePolicy().fit(dataset).evaluate_dataset(dataset)
     backtest_report = LifecycleBacktestSimulator().run_comparative_backtest()
@@ -134,6 +136,7 @@ def build_dashboard_payload() -> dict[str, Any]:
             "corridors": corridors_view,
         },
         "turing_replay": dataclasses.asdict(replay_report),
+        "fractal_blind_recall": fractal_blind.to_dict(),
         "bayesian_5097": dataclasses.asdict(bayes_metrics),
         "comparative_backtest": dataclasses.asdict(backtest_report),
         "historical_paper_sim": hist_paper,

@@ -636,3 +636,53 @@ def test_agentic_self_improver_and_faj1_hash_chain_journal(tmp_path: Path) -> No
     valid, length = improver.verify_journal_hash_chain()
     assert valid is True
     assert length == 2
+
+
+def test_fractal_structure_engine_beats_naive_72h_on_92_real_bitget_series() -> None:
+    from proteus.geometry.fractal import FractalHorizontalStructureEngine
+
+    engine = FractalHorizontalStructureEngine()
+    report = engine.evaluate_real_corpus_blind_recall()
+    assert report.evaluated_real_series == 92
+    # Naive 72h rolling box recalls only ~25%, while Multi-Scale Fractal recalls >95% with zero lookahead
+    assert report.naive_72h_recall_pct < 35.0
+    assert report.fractal_recall_pct >= 95.0
+    assert report.short_mean_24h_ret_pct > report.long_mean_24h_ret_pct * 2.0
+
+
+def test_cross_sectional_attention_and_thesis_memory_reentry() -> None:
+    import json
+    from proteus.fsm.thesis_memory import ThesisMemoryTracker
+    from proteus.market.attention import CrossSectionalAttentionScorer
+
+    raw_path = (
+        Path(__file__).resolve().parents[1]
+        / "benchmarks"
+        / "corpus"
+        / "real_1h_candles_by_signal.json"
+    )
+    series = json.loads(raw_path.read_text(encoding="utf-8"))
+    first_valid = next(r for r in series if len(r["pre_72h_candles"]) >= 36)
+
+    scorer = CrossSectionalAttentionScorer()
+    att = scorer.score_candles(first_valid["symbol"], first_valid["pre_72h_candles"], hour_utc=14)
+    assert 0.0 <= att.score <= 1.0
+
+    tracker = ThesisMemoryTracker()
+    t0 = datetime(2026, 11, 9, 10, 0, tzinfo=timezone.utc)
+    mem = tracker.record_stop_out(
+        symbol="WLD",
+        direction="LONG",
+        stopped_entry=0.417,
+        stopped_sl=0.408,
+        lower_demand_level=0.387,
+        timestamp_utc=t0,
+    )
+    assert mem.state == "WATCHING_LOWER_DEMAND_REENTRY"
+
+    should_reenter, boost, reason = tracker.evaluate_reentry_opportunity(
+        "WLD", current_price=0.388, now_utc=t0 + timedelta(hours=4)
+    )
+    assert should_reenter is True
+    assert boost == 0.10
+    assert "0.387" in reason
