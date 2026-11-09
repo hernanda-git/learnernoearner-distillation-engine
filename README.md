@@ -42,8 +42,8 @@ Unlike reactive copy-trading (which suffers $6\text{–}28\text{s}$ human screen
 | **Shadow Lead-Time Parity ($\Delta t$)** | 25 recent canonical setups | **−16.5s median lead** | $\le 0.0\text{s}$ (**100% front-run**) |
 | **284-Chart Computer Vision Pass** | 216 Light (76.1%) · 68 Dark (23.9%) | **83.8% R:R boxes · 45.4% S/R** | $\text{IoU} \ge 0.80$ (**PASSED**) |
 | **$1,000 Paper Sim (97 Setups, Net of Fees)** | `$20/1R` risk · `$59.69` Bitget fees | **$2,938.51 (+193.9% net)** | `PF = 10.08 · Max DD = 4.0%` |
-| **Constitutional Codebase Purity** | All `src/proteus/` Python modules | **26/26 files pure** | Zero retail oscillators (**PASSED**) |
-| **Automated Test Suite (`pytest`)** | 21 unit, invariant, CV & replay tests | **21/21 passed (1.63s)** | `100% pass` (**PASSED**) |
+| **Constitutional Codebase Purity** | All `src/proteus/` Python modules | **30/30 files pure** | Zero retail oscillators (**PASSED**) |
+| **Automated Test Suite (`pytest`)** | 23 invariant/CV/replay + 4 rate-limit tests | **27/27 passed (3.08s)** | `100% pass` (**PASSED**) |
 
 ---
 
@@ -108,7 +108,8 @@ learnernoearner-distillation-engine/
 │       ├── web/                             # 7-tab institutional HTML/JS console & REST API
 │       └── engine.py                        # End-to-end pipeline orchestrator
 ├── tests/
-│   └── test_proteus_engine.py               # 21-test invariant, CV, Bayes, audit, paper & evolver suite
+│   ├── test_proteus_engine.py               # 23-test invariant, CV, Bayes, audit, paper & evolver suite
+│   └── test_bitget_client.py                # 4-test rate-limit, retry, cache & relay-fallback suite
 ├── AGENTS.md                                # Mandatory anti-drift rules for AI coding agents
 ├── ARCHITECTURE.md                          # Complete system topology & module contracts
 ├── IDENTITY.md                              # Immutable project identity & self-correction charter

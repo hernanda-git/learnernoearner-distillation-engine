@@ -57,7 +57,7 @@ A full 45-symbol cycle issues 92 candle requests (18×4H + 12×15m per symbol, p
 
 ### 3.1 Local / Development CLI Commands
 ```bash
-# 1. Run full 21-test verification suite
+# 1. Run full 27-test verification suite
 C:/Workspace/bots/fatty-live-fix/.venv/Scripts/pytest.exe -v
 
 # 2. Run complete Phases 1–6 Cognitive Turing & Constitutional Scorecard
