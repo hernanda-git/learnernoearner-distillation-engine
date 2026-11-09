@@ -1,0 +1,53 @@
+{
+  "evaluated_at_utc": "2026-11-09T08:00:05.572514+00:00",
+  "overall_status": "HEALTHY",
+  "latch_active": false,
+  "latch_reason": null,
+  "consecutive_healthy_cycles": 7,
+  "cycles_required_to_heal": 6,
+  "total_healed_events": 0,
+  "probes": [
+    {
+      "probe_name": "air_gap_secret_hygiene",
+      "status": "PASS",
+      "measured_value": "0 leaked keys",
+      "threshold": "0 forbidden env keys",
+      "detail": "Zero live Bitget API/HMAC/3DES keys in environment."
+    },
+    {
+      "probe_name": "constitutional_identity_purity",
+      "status": "PASS",
+      "measured_value": "26/26 files pure",
+      "threshold": "Zero lagging retail oscillators",
+      "detail": "All source files and active parameters obey IDENTITY.md corridors."
+    },
+    {
+      "probe_name": "shadow_feed_freshness",
+      "status": "PASS",
+      "measured_value": "1796.4s age",
+      "threshold": "<= 1800s",
+      "detail": "Last Bitget public scan at 2026-11-09T07:30:09.189361+00:00 (RANGE_BOUND)."
+    },
+    {
+      "probe_name": "abstention_regime_discipline",
+      "status": "PASS",
+      "measured_value": "9/9 (100.0%)",
+      "threshold": ">= 55%",
+      "detail": "Selective abstention active across interior no-man's land bars."
+    },
+    {
+      "probe_name": "paper_drawdown_circuit_breaker",
+      "status": "PASS",
+      "measured_value": "2.48% DD ($975.18)",
+      "threshold": "<= 7.0% (3.5R)",
+      "detail": "Virtual paper equity within constitutional drawdown ceiling."
+    },
+    {
+      "probe_name": "position_protection_integrity",
+      "status": "PASS",
+      "measured_value": "3/3 protected",
+      "threshold": "100% SL & TP attached",
+      "detail": "Every open virtual position has verified structural SL and 4.56R TP."
+    }
+  ]
+}

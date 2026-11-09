@@ -1,0 +1,144 @@
+[
+  {
+    "sequence_id": 1,
+    "timestamp_utc": "2026-11-09T07:58:14.009564+00:00",
+    "prev_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "entry_hash": "6a5072b2b0bc093937fd37f1f9ec3f3f5b20878bf71646fc12b594702dd865fe",
+    "trigger_source": "initial_bootstrap",
+    "monitor_status": "HEALTHY",
+    "proposals": {
+      "breakeven_trigger_r": 0.98,
+      "median_sl_long_pct": 0.0266,
+      "median_sl_short_pct": 0.0216,
+      "median_rr_long": 4.88,
+      "median_rr_short": 4.46
+    },
+    "learning_rate": 0.12,
+    "accepted": true,
+    "generation_before": 1,
+    "generation_after": 2,
+    "verified_bps": 0.97,
+    "verified_profit_factor": 10.08,
+    "verified_max_drawdown_r": 2.0,
+    "agent_traces": [
+      {
+        "agent_role": "TelemetryScoutAgent",
+        "verdict": "PROPOSED",
+        "summary": "Analyzed 87 Bitget 1H candle trajectories (whipsaw rate 33.3%) and proposed 5 parameter refinements.",
+        "evidence": {
+          "resolved_trajectories": 87,
+          "whipsaw_reversals": 29,
+          "proposed_estimates": {
+            "breakeven_trigger_r": 0.98,
+            "median_sl_long_pct": 0.0266,
+            "median_sl_short_pct": 0.0216,
+            "median_rr_long": 4.88,
+            "median_rr_short": 4.46
+          },
+          "codex_cli_bridge": "Codex invocation failed closed: Command '['C:\\\\Users\\\\it26\\\\AppData\\\\Roaming\\\\npm\\\\codex.CMD', 'exec', \"Analyze Proteus telemetry: whipsaw_rate=0.3333, proposals={'breakeven_trigger_r': 0.98, 'median_sl_long_pct': 0.0266, 'median_sl_short_pct': 0.0216, 'median_rr_long': 4.88, 'median_rr_short': 4.46}\"]' timed out after 15 seconds"
+        }
+      },
+      {
+        "agent_role": "AdversarialCriticAgent",
+        "verdict": "APPROVED",
+        "summary": "Verified zero lagging indicators across all source files and checked corridor bounds.",
+        "evidence": {
+          "codebase_files_verified": 26,
+          "challenges": []
+        }
+      },
+      {
+        "agent_role": "TuringVerifierAgent",
+        "verdict": "APPROVED",
+        "summary": "Turing gates verified: BPS=0.9700 (>=0.85), ProfitFactor=10.08 (>=4.0), MaxDD=2.00R (<=3.5R).",
+        "evidence": {
+          "bps": 0.97,
+          "profit_factor": 10.08,
+          "max_drawdown_r": 2.0,
+          "accepted": true
+        }
+      },
+      {
+        "agent_role": "HashChainCommitter",
+        "verdict": "COMMITTED",
+        "summary": "Appended hash-chained journal entry #1 (Gen 1 -> Gen 2).",
+        "evidence": {
+          "sequence_id": 1,
+          "prev_hash_prefix": "0000000000000000"
+        }
+      }
+    ],
+    "decision_reason": "Accepted bounded fine-tune (alpha=0.12, BPS=0.9700)."
+  },
+  {
+    "sequence_id": 2,
+    "timestamp_utc": "2026-11-09T08:00:05.572514+00:00",
+    "prev_hash": "6a5072b2b0bc093937fd37f1f9ec3f3f5b20878bf71646fc12b594702dd865fe",
+    "entry_hash": "3970c34d4ec3f88768bc57450b555201c183f11175474109fd9cfcd118550ca2",
+    "trigger_source": "cli_self_improver",
+    "monitor_status": "HEALTHY",
+    "proposals": {
+      "breakeven_trigger_r": 0.98,
+      "median_sl_long_pct": 0.0266,
+      "median_sl_short_pct": 0.0216,
+      "median_rr_long": 4.88,
+      "median_rr_short": 4.46
+    },
+    "learning_rate": 0.12,
+    "accepted": true,
+    "generation_before": 2,
+    "generation_after": 3,
+    "verified_bps": 0.97,
+    "verified_profit_factor": 10.08,
+    "verified_max_drawdown_r": 2.0,
+    "agent_traces": [
+      {
+        "agent_role": "TelemetryScoutAgent",
+        "verdict": "PROPOSED",
+        "summary": "Analyzed 87 Bitget 1H candle trajectories (whipsaw rate 33.3%) and proposed 5 parameter refinements.",
+        "evidence": {
+          "resolved_trajectories": 87,
+          "whipsaw_reversals": 29,
+          "proposed_estimates": {
+            "breakeven_trigger_r": 0.98,
+            "median_sl_long_pct": 0.0266,
+            "median_sl_short_pct": 0.0216,
+            "median_rr_long": 4.88,
+            "median_rr_short": 4.46
+          },
+          "codex_cli_bridge": "Built-in deterministic multi-agent critic active (external codex exec opt-in)."
+        }
+      },
+      {
+        "agent_role": "AdversarialCriticAgent",
+        "verdict": "APPROVED",
+        "summary": "Verified zero lagging indicators across all source files and checked corridor bounds.",
+        "evidence": {
+          "codebase_files_verified": 26,
+          "challenges": []
+        }
+      },
+      {
+        "agent_role": "TuringVerifierAgent",
+        "verdict": "APPROVED",
+        "summary": "Turing gates verified: BPS=0.9700 (>=0.85), ProfitFactor=10.08 (>=4.0), MaxDD=2.00R (<=3.5R).",
+        "evidence": {
+          "bps": 0.97,
+          "profit_factor": 10.08,
+          "max_drawdown_r": 2.0,
+          "accepted": true
+        }
+      },
+      {
+        "agent_role": "HashChainCommitter",
+        "verdict": "COMMITTED",
+        "summary": "Appended hash-chained journal entry #2 (Gen 2 -> Gen 3).",
+        "evidence": {
+          "sequence_id": 2,
+          "prev_hash_prefix": "6a5072b2b0bc0939"
+        }
+      }
+    ],
+    "decision_reason": "Accepted bounded fine-tune (alpha=0.12, BPS=0.9700)."
+  }
+]

@@ -1,20 +1,10 @@
-"""Full-Detailed Project Proteus Web UI & JSON Telemetry Server (`proteus.web`).
-
-Serves the interactive institutional dark-mode console and REST API endpoints:
-- `GET /`                    : Full multi-tab Project Proteus Web Console HTML
-- `GET /health`              : Health & air-gap constitutional telemetry JSON
-- `GET /api/v1/dashboard`    : Complete empirical, live shadow, paper ledger, CV, and constitutional dataset
-- `POST /api/v1/scan`        : Trigger fresh live Bitget public scan & step VirtualPaperExchange
-- `POST /api/v1/self-correct`: Propose bounded Bayesian self-correction update with Turing gate verification
-"""
+"""Full-Detailed Project Proteus Web UI & JSON Telemetry Server (`proteus.web`)."""
 
 from __future__ import annotations
 
 import dataclasses
 import json
 from datetime import datetime, timezone
-from http import HTTPStatus
-from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 
@@ -24,11 +14,12 @@ from proteus.constitution import (
     BoundedSelfCorrector,
     ConstitutionalIdentityGuard,
 )
+from proteus.evolver import AgenticSelfImprover
 from proteus.market.lakehouse import NegativeSpaceDatasetBuilder
+from proteus.monitor import SelfMonitoringWatchdog
 from proteus.paper import VirtualPaperExchange
 from proteus.policy.bayesian import BayesianCognitivePolicy
 from proteus.replay import EmpiricalCorpusReplay
-from proteus.shadow import AssetShadowState, ForwardShadowScanner, LiveShadowSnapshot
 from proteus.shadow.lead_time import ShadowLeadTimeComparator
 from proteus.vision.chart_extractor import VisionCorpusAnalyzer
 
@@ -42,6 +33,14 @@ def build_dashboard_payload() -> dict[str, Any]:
     pure_codebase, scanned_files = ConstitutionalIdentityGuard.verify_codebase_purity()
     corrector = BoundedSelfCorrector()
     active_const = corrector.load_active_parameters()
+
+    mon_snapshot = SelfMonitoringWatchdog().evaluate_and_heal()
+    improver = AgenticSelfImprover()
+    journal_rows = improver.load_journal()
+    if not journal_rows:
+        improver.run_improvement_cycle(trigger_source="initial_bootstrap")
+        journal_rows = improver.load_journal()
+    chain_valid, chain_len = improver.verify_journal_hash_chain()
 
     replay_report = EmpiricalCorpusReplay().run()
     dataset = NegativeSpaceDatasetBuilder().build_dataset(negative_count=5000)
@@ -121,6 +120,12 @@ def build_dashboard_payload() -> dict[str, Any]:
 
     return {
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+        "self_monitor": mon_snapshot.to_dict(),
+        "self_improver": {
+            "hash_chain_valid": chain_valid,
+            "journal_length": chain_len,
+            "journal": list(reversed(journal_rows[-20:])),
+        },
         "constitution": {
             "pure_codebase": pure_codebase,
             "scanned_source_files": scanned_files,

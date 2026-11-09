@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-import dataclasses
 import json
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from pathlib import Path
 from typing import Any
 
 from proteus.constitution import BoundedSelfCorrector, ConstitutionalIdentityGuard
+from proteus.evolver import AgenticSelfImprover
+from proteus.monitor import SelfMonitoringWatchdog
 from proteus.paper import VirtualPaperExchange
 from proteus.shadow import ForwardShadowScanner
 from proteus.web import BENCH_DIR, build_dashboard_payload
@@ -39,9 +39,9 @@ class ProteusWebHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(raw)))
         self.end_headers()
         self.wfile.write(raw)
+
     def do_HEAD(self) -> None:  # noqa: N802
         self.do_GET()
-
 
     def do_GET(self) -> None:  # noqa: N802
         if self.path in ("/", "/index.html"):
@@ -49,6 +49,7 @@ class ProteusWebHandler(BaseHTTPRequestHandler):
             return
         if self.path in ("/health", "/health/telemetry"):
             pure, files = ConstitutionalIdentityGuard.verify_codebase_purity()
+            mon = SelfMonitoringWatchdog().evaluate_and_heal()
             self._send_json(
                 {
                     "status": "ok",
@@ -56,6 +57,7 @@ class ProteusWebHandler(BaseHTTPRequestHandler):
                     "air_gapped": True,
                     "constitutional_purity": pure,
                     "scanned_files": files,
+                    "self_monitor_status": mon.overall_status,
                     "bps": 0.97,
                 }
             )
@@ -73,6 +75,7 @@ class ProteusWebHandler(BaseHTTPRequestHandler):
                 json.dumps(snapshot.to_dict(), indent=2) + "\n", encoding="utf-8"
             )
             ledger = VirtualPaperExchange().process_shadow_snapshot(snapshot)
+            mon = SelfMonitoringWatchdog().evaluate_and_heal()
             self._send_json(
                 {
                     "status": "scanned",
@@ -80,6 +83,7 @@ class ProteusWebHandler(BaseHTTPRequestHandler):
                     "macro_regime": snapshot.macro_regime,
                     "current_equity_usdt": ledger.current_equity_usdt,
                     "open_positions_count": ledger.open_positions_count,
+                    "self_monitor_status": mon.overall_status,
                 }
             )
             return
@@ -105,6 +109,25 @@ class ProteusWebHandler(BaseHTTPRequestHandler):
                     "verified_bps": outcome.verified_bps,
                     "reason": outcome.reason,
                     "active_value": getattr(outcome.active_params, param),
+                }
+            )
+            return
+
+        if self.path == "/api/v1/evolve":
+            length = int(self.headers.get("Content-Length", "0"))
+            body = json.loads(self.rfile.read(length).decode("utf-8")) if length > 0 else {}
+            alpha = float(body.get("learning_rate", 0.12))
+            improver = AgenticSelfImprover()
+            entry = improver.run_improvement_cycle(
+                trigger_source="web_ui_manual_trigger",
+                learning_rate=alpha,
+            )
+            valid, chain_len = improver.verify_journal_hash_chain()
+            self._send_json(
+                {
+                    "entry": entry.to_dict(),
+                    "hash_chain_valid": valid,
+                    "journal_length": chain_len,
                 }
             )
             return

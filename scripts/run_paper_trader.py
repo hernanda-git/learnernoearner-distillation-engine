@@ -4,7 +4,7 @@
 Supports three operational modes:
   1. `--mode live-step`   : Scan live Bitget public candles (or cached snapshot) and step the virtual ledger once.
   2. `--mode historical`  : Simulate a $1,000 USDT paper account across all 97 historical signals.
-  3. `--mode daemon`      : Run continuous 24/7 live paper trading every `--interval` seconds (default 300s).
+  3. `--mode daemon`      : Run continuous 24/7 live paper trading with Self-Monitoring Watchdog & AI Self-Improvement.
 """
 
 from __future__ import annotations
@@ -20,6 +20,8 @@ SRC_DIR = REPO_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
+from proteus.evolver import AgenticSelfImprover  # noqa: E402
+from proteus.monitor import SelfMonitoringWatchdog  # noqa: E402
 from proteus.paper import VirtualPaperExchange  # noqa: E402
 from proteus.shadow import AssetShadowState, ForwardShadowScanner, LiveShadowSnapshot  # noqa: E402
 
@@ -93,13 +95,20 @@ def main(argv: list[str] | None = None) -> int:
     if args.mode == "live-step":
         snapshot = _load_or_scan_snapshot(refresh_live=args.refresh_live)
         ledger = exchange.process_shadow_snapshot(snapshot)
+        SelfMonitoringWatchdog().evaluate_and_heal()
         print(json.dumps(ledger.to_dict(), indent=2))
         return 0
 
-    # Continuous daemon mode
+    watchdog = SelfMonitoringWatchdog()
+    improver = AgenticSelfImprover(watchdog=watchdog)
+    cycle_idx = 0
     while True:
         snapshot = _load_or_scan_snapshot(refresh_live=True)
         ledger = exchange.process_shadow_snapshot(snapshot)
+        mon = watchdog.evaluate_and_heal()
+        if cycle_idx % 12 == 0:
+            improver.run_improvement_cycle(trigger_source="daemon_hourly_auto_evolve")
+        cycle_idx += 1
         print(
             json.dumps(
                 {
@@ -107,6 +116,8 @@ def main(argv: list[str] | None = None) -> int:
                     "macro_regime": snapshot.macro_regime,
                     "current_equity_usdt": ledger.current_equity_usdt,
                     "open_positions": ledger.open_positions_count,
+                    "monitor_status": mon.overall_status,
+                    "healthy_streak": mon.consecutive_healthy_cycles,
                 }
             ),
             flush=True,

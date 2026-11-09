@@ -577,3 +577,62 @@ def test_web_ui_dashboard_payload_and_template() -> None:
     assert len(payload["signals_ledger"]) == 97
     assert len(payload["management_updates"]) == 47
     assert "PROJECT PROTEUS" in INDEX_HTML
+
+
+def test_self_monitoring_watchdog_and_latch_healer(tmp_path: Path) -> None:
+    from proteus.monitor import SelfMonitoringWatchdog
+
+    state_file = tmp_path / "monitor.json"
+    watchdog = SelfMonitoringWatchdog(state_path=state_file)
+
+    # 1. Leak in env triggers LATCHED_HALT
+    snap_bad = watchdog.evaluate_and_heal(env={"BITGET_API_KEY": "leaked"})
+    assert snap_bad.overall_status == "LATCHED_HALT"
+    assert snap_bad.latch_active is True
+    assert snap_bad.consecutive_healthy_cycles == 0
+
+    # 2. 6 consecutive healthy cycles automatically heal the latch (LatchHealer)
+    for i in range(1, 6):
+        snap_mid = watchdog.evaluate_and_heal(env={})
+        assert snap_mid.latch_active is True
+        assert snap_mid.consecutive_healthy_cycles == i
+
+    snap_healed = watchdog.evaluate_and_heal(env={})
+    assert snap_healed.latch_active is False
+    assert snap_healed.total_healed_events == 1
+    assert snap_healed.overall_status in ("HEALTHY", "DEGRADED_WARN")
+
+
+def test_agentic_self_improver_and_faj1_hash_chain_journal(tmp_path: Path) -> None:
+    from proteus.constitution import BoundedSelfCorrector
+    from proteus.evolver import AgenticSelfImprover
+    from proteus.monitor import SelfMonitoringWatchdog
+
+    ckpt = tmp_path / "const.json"
+    mon_state = tmp_path / "mon.json"
+    journal_file = tmp_path / "journal.json"
+
+    watchdog = SelfMonitoringWatchdog(state_path=mon_state)
+    corrector = BoundedSelfCorrector(checkpoint_path=ckpt)
+    improver = AgenticSelfImprover(
+        journal_path=journal_file,
+        corrector=corrector,
+        watchdog=watchdog,
+    )
+
+    entry1 = improver.run_improvement_cycle(trigger_source="unit_test_1")
+    assert entry1.sequence_id == 1
+    assert entry1.accepted is True
+    assert len(entry1.agent_traces) == 4
+
+    entry2 = improver.run_improvement_cycle(
+        trigger_source="unit_test_2_bad_proposal",
+        custom_proposals={"no_mans_land_abstain_prob": 0.30},
+    )
+    assert entry2.sequence_id == 2
+    assert entry2.accepted is False
+    assert entry2.prev_hash == entry1.entry_hash
+
+    valid, length = improver.verify_journal_hash_chain()
+    assert valid is True
+    assert length == 2

@@ -322,6 +322,7 @@ INDEX_HTML = r"""<!DOCTYPE html>
       <button class="tab-btn" onclick="switchTab('tab-profile', this)">4. Behavioral Profile &amp; 47 In-Flight Actions</button>
       <button class="tab-btn" onclick="switchTab('tab-vision', this)">5. Computer Vision Lab (284 TradingView Charts)</button>
       <button class="tab-btn" onclick="switchTab('tab-constitution', this)">6. Constitutional Guard &amp; Self-Corrector</button>
+      <button class="tab-btn" onclick="switchTab('tab-evolver', this)">7. Self-Monitor Watchdog &amp; AI Agent Evolver</button>
     </nav>
 
     <!-- TAB 1: LIVE SHADOW RADAR & PAPER EXCHANGE -->
@@ -671,6 +672,78 @@ INDEX_HTML = r"""<!DOCTYPE html>
         </div>
       </div>
     </div>
+
+    <!-- TAB 7: SELF-MONITOR WATCHDOG & AI AGENT EVOLVER -->
+    <div id="tab-evolver" class="tab-pane">
+      <div class="grid-2">
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">SELF-MONITORING WATCHDOG &amp; LATCH HEALER (6 RUNTIME PROBES)</span>
+            <span class="badge badge-success" id="mon-status-badge">HEALTHY · STREAK: 0</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Probe Name</th>
+                <th>Status</th>
+                <th class="num">Measured Value</th>
+                <th class="num">Constitutional Gate</th>
+                <th>Telemetry Detail</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-monitor-probes"></tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">4-STAGE AI-AGENT SELF-IMPROVING PIPELINE (SCOUT → CRITIC → VERIFIER → JOURNAL)</span>
+            <button class="btn" id="btn-evolve" onclick="triggerAgenticEvolve()">🧠 Run AI Self-Improvement Cycle</button>
+          </div>
+          <p style="color:var(--muted);margin-bottom:10px;">
+            Executes <code>TelemetryScoutAgent</code> (MFE/MAE whipsaw mining) → <code>AdversarialCriticAgent</code> (anti-indicator &amp; corridor challenge) →
+            <code>TuringVerifierAgent</code> (BPS ≥ 0.85 &amp; PF ≥ 4.0 gate) → <code>HashChainCommitter</code> (FAJ1 SHA-256 append-only journal).
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Agent Role</th>
+                <th>Verdict</th>
+                <th>Stage Reasoning &amp; Evidence Summary</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-agent-traces"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">FAJ1 IMMUTABLE SHA-256 HASH-CHAINED SELF-IMPROVEMENT JOURNAL</span>
+          <span class="badge badge-accent" id="journal-chain-badge">SHA-256 Chain Verified</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Seq #</th>
+                <th>Timestamp (UTC)</th>
+                <th>Trigger</th>
+                <th>Verdict</th>
+                <th class="num">Gen</th>
+                <th class="num">Verified BPS</th>
+                <th class="num">Profit Factor</th>
+                <th class="num">Max DD</th>
+                <th>Prev SHA-256</th>
+                <th>Entry SHA-256</th>
+                <th>Decision Reason</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-journal"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </main>
 
   <script>
@@ -864,6 +937,41 @@ INDEX_HTML = r"""<!DOCTYPE html>
         <td class="num">${c.max_allowed}</td>
       </tr>`).join('');
 
+
+      // Tab 7: Self-Monitor Watchdog & AI Agent Evolver
+      const sm = d.self_monitor || {};
+      document.getElementById('mon-status-badge').textContent = `${sm.overall_status || 'HEALTHY'} · Streak: ${sm.consecutive_healthy_cycles || 0} (Healed: ${sm.total_healed_events || 0})`;
+      document.getElementById('tbody-monitor-probes').innerHTML = (sm.probes || []).map(p => `<tr>
+        <td><strong>${p.probe_name}</strong></td>
+        <td><span class="badge ${p.status === 'PASS' ? 'badge-success' : (p.status === 'WARN' ? 'badge-warning' : 'badge-error')}">${p.status}</span></td>
+        <td class="num">${p.measured_value}</td>
+        <td class="num">${p.threshold}</td>
+        <td class="wrap-cell">${p.detail}</td>
+      </tr>`).join('');
+
+      const si = d.self_improver || {};
+      const jRows = si.journal || [];
+      document.getElementById('journal-chain-badge').textContent = `SHA-256 Chain: ${si.hash_chain_valid ? 'VERIFIED' : 'BROKEN'} (${si.journal_length || 0} entries)`;
+      const latestEntry = jRows[0] || {};
+      document.getElementById('tbody-agent-traces').innerHTML = (latestEntry.agent_traces || []).map(t => `<tr>
+        <td><strong>${t.agent_role}</strong></td>
+        <td><span class="badge ${t.verdict === 'ROLLED_BACK' || t.verdict === 'CHALLENGED' ? 'badge-warning' : 'badge-success'}">${t.verdict}</span></td>
+        <td class="wrap-cell">${t.summary}</td>
+      </tr>`).join('');
+
+      document.getElementById('tbody-journal').innerHTML = jRows.map(j => `<tr>
+        <td>#${j.sequence_id}</td>
+        <td>${(j.timestamp_utc || '').replace('T', ' ').slice(0, 19)}</td>
+        <td>${j.trigger_source}</td>
+        <td><span class="badge ${j.accepted ? 'badge-success' : 'badge-warning'}">${j.accepted ? 'ACCEPTED' : 'ROLLED BACK'}</span></td>
+        <td class="num">${j.generation_before} → <strong>${j.generation_after}</strong></td>
+        <td class="num" style="color:var(--success);font-weight:700;">${fmtNum(j.verified_bps, 4)}</td>
+        <td class="num">${fmtNum(j.verified_profit_factor, 2)}</td>
+        <td class="num">${fmtNum(j.verified_max_drawdown_r, 2)}R</td>
+        <td><code>${(j.prev_hash || '').slice(0, 12)}…</code></td>
+        <td><code>${(j.entry_hash || '').slice(0, 12)}…</code></td>
+        <td class="wrap-cell">${j.decision_reason}</td>
+      </tr>`).join('');
       renderSignalsTable();
     }
 
@@ -927,6 +1035,23 @@ INDEX_HTML = r"""<!DOCTYPE html>
       const out = await resp.json();
       document.getElementById('sc-output').textContent = JSON.stringify(out, null, 2);
       await loadDashboard();
+    }
+
+    async function triggerAgenticEvolve() {
+      const btn = document.getElementById('btn-evolve');
+      btn.disabled = true;
+      btn.textContent = 'Running 4-Stage AI Cycle...';
+      try {
+        await fetch('/api/v1/evolve', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ learning_rate: 0.12 })
+        });
+        await loadDashboard();
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🧠 Run AI Self-Improvement Cycle';
+      }
     }
 
     loadDashboard();
