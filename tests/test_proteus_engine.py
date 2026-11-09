@@ -390,3 +390,8 @@ def test_virtual_paper_exchange_admits_and_steps_shadow_positions(tmp_path: Path
     assert "INJ" in ledger.positions
     assert "PEPE" in ledger.positions
     assert ledger.positions["INJ"].state == "ACTIVE"
+
+    hist = exchange.run_historical_paper_simulation()
+    assert hist["proteus_distilled_clone"]["ending_equity_usdt"] == 2998.2
+    assert hist["proteus_distilled_clone"]["max_drawdown_pct"] == 4.0
+    assert hist["naive_set_and_forget"]["max_drawdown_pct"] == 30.28

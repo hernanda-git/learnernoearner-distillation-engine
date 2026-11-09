@@ -182,3 +182,65 @@ class VirtualPaperExchange:
         )
         self.ledger_path.write_text(json.dumps(ledger.to_dict(), indent=2) + "\n", encoding="utf-8")
         return ledger
+
+    def run_historical_paper_simulation(self) -> dict[str, object]:
+        """Simulate a $1,000 USDT paper account across all 97 historical signals."""
+        from proteus.backtest import LifecycleBacktestSimulator
+
+        sim = LifecycleBacktestSimulator()
+        bt = sim.run_comparative_backtest()
+
+        proteus_pnl_usdt = round(
+            bt.proteus_distilled_fsm.total_realized_r * self.risk_per_trade_usdt, 2
+        )
+        naive_pnl_usdt = round(
+            bt.naive_set_and_forget.total_realized_r * self.risk_per_trade_usdt, 2
+        )
+        proteus_max_dd_usdt = round(
+            bt.proteus_distilled_fsm.max_drawdown_r * self.risk_per_trade_usdt, 2
+        )
+        naive_max_dd_usdt = round(
+            bt.naive_set_and_forget.max_drawdown_r * self.risk_per_trade_usdt, 2
+        )
+
+        return {
+            "starting_equity_usdt": self.starting_equity_usdt,
+            "risk_per_trade_usdt": self.risk_per_trade_usdt,
+            "risk_per_trade_pct": round(
+                (self.risk_per_trade_usdt / self.starting_equity_usdt) * 100.0, 2
+            ),
+            "proteus_distilled_clone": {
+                "ending_equity_usdt": round(
+                    self.starting_equity_usdt + proteus_pnl_usdt, 2
+                ),
+                "net_profit_usdt": proteus_pnl_usdt,
+                "return_pct": round(
+                    (proteus_pnl_usdt / self.starting_equity_usdt) * 100.0, 2
+                ),
+                "max_drawdown_usdt": proteus_max_dd_usdt,
+                "max_drawdown_pct": round(
+                    (proteus_max_dd_usdt / self.starting_equity_usdt) * 100.0, 2
+                ),
+                "win_rate_pct": bt.proteus_distilled_fsm.win_rate_pct,
+                "scratch_rate_pct": bt.proteus_distilled_fsm.scratch_rate_pct,
+                "loss_rate_pct": bt.proteus_distilled_fsm.loss_rate_pct,
+                "profit_factor": bt.proteus_distilled_fsm.profit_factor,
+            },
+            "naive_set_and_forget": {
+                "ending_equity_usdt": round(
+                    self.starting_equity_usdt + naive_pnl_usdt, 2
+                ),
+                "net_profit_usdt": naive_pnl_usdt,
+                "return_pct": round(
+                    (naive_pnl_usdt / self.starting_equity_usdt) * 100.0, 2
+                ),
+                "max_drawdown_usdt": naive_max_dd_usdt,
+                "max_drawdown_pct": round(
+                    (naive_max_dd_usdt / self.starting_equity_usdt) * 100.0, 2
+                ),
+                "win_rate_pct": bt.naive_set_and_forget.win_rate_pct,
+                "scratch_rate_pct": bt.naive_set_and_forget.scratch_rate_pct,
+                "loss_rate_pct": bt.naive_set_and_forget.loss_rate_pct,
+                "profit_factor": bt.naive_set_and_forget.profit_factor,
+            },
+        }
