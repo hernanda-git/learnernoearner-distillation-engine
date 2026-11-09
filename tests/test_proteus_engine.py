@@ -270,3 +270,26 @@ def test_visual_saliency_and_behavioral_parity_scorecard(tmp_path: Path) -> None
     manifest = extract_sqlite_readonly(db_file, out_dir)
     assert manifest["tables"]["canonical_signals"]["rows"] == 1
     assert (out_dir / "canonical_signals.jsonl").exists()
+
+
+def test_empirical_corpus_replay_all_97_signals_and_784_messages() -> None:
+    from proteus.replay import EmpiricalCorpusReplay
+
+    replay = EmpiricalCorpusReplay()
+    assert replay.resolve_update_token("sl to entry $ETHFI", "SLUSDT") == "ETHFI"
+
+    report = replay.run()
+    assert report.total_messages == 784
+    assert report.total_signals == 97
+    assert report.total_management_updates == 47
+    assert report.long_count == 78
+    assert report.short_count == 19
+    assert report.median_sl_pct_all == 2.60
+    assert report.median_sl_pct_long == 2.67
+    assert report.median_sl_pct_short == 2.17
+    assert report.median_rr_long == 4.87
+    assert report.median_rr_short == 4.46
+    assert report.median_mins_to_be == 119.1
+    assert report.median_mins_to_tp1 == 123.6
+    assert report.parity_metrics.bps >= 0.85
+    assert report.parity_metrics.passed is True

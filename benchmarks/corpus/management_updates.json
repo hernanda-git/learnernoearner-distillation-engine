@@ -1,0 +1,472 @@
+[
+  {
+    "id": "84c95645-92b9-426b-91d2-dbd38682a8f3",
+    "source_message_id": "66ecc6fc-8612-45f2-adb4-c8f575d87681",
+    "telegram_msg_num": 16109,
+    "symbol": "XPLUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "reconciled",
+    "created_at": "2026-09-08T22:57:30.550085+00:00",
+    "raw_text": "$XPL sl to entry"
+  },
+  {
+    "id": "51ad0641-9e02-41b3-b171-b7c5974a7032",
+    "source_message_id": "b2d7e19b-590d-4c69-b16f-b75c6e1d8568",
+    "telegram_msg_num": 16121,
+    "symbol": "INJUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "reconciled",
+    "created_at": "2026-09-11T20:07:49.758675+00:00",
+    "raw_text": "$INJ sl to entry"
+  },
+  {
+    "id": "72984bda-8fb4-4882-9ec5-d05e46e42991",
+    "source_message_id": "b0444f30-8d9d-4f80-b10b-61d1652c1bb6",
+    "telegram_msg_num": 16123,
+    "symbol": "SLUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "reconciled",
+    "created_at": "2026-09-12T11:58:23.929006+00:00",
+    "raw_text": "sl to entry $ETHFI"
+  },
+  {
+    "id": "77545328-e39f-4d2b-98ae-53a7ab7e129c",
+    "source_message_id": "0656c4cf-fa1c-4510-862e-a41c636adfa8",
+    "telegram_msg_num": 16153,
+    "symbol": "PENDLEUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-09-18T01:52:31.740788+00:00",
+    "raw_text": "$PENDLE sl to entry"
+  },
+  {
+    "id": "3ddb33cf-6cf5-48dd-ae35-6258ca127d0e",
+    "source_message_id": "f7ef5ae5-7f8f-4a2c-866e-17622a627a54",
+    "telegram_msg_num": 16165,
+    "symbol": "BONKUSDT",
+    "action": "TP1_BOOKED",
+    "state": "failed",
+    "created_at": "2026-09-21T00:26:53.132223+00:00",
+    "raw_text": "$BONK tp1 booked"
+  },
+  {
+    "id": "af7b0811-c2ae-4edd-a162-52b0bc84e3ac",
+    "source_message_id": "00182f55-ff54-4a47-a8b9-ac912d34d5cb",
+    "telegram_msg_num": 16175,
+    "symbol": "ZECUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-09-22T15:08:14.574648+00:00",
+    "raw_text": "$ZEC sl to entry"
+  },
+  {
+    "id": "5c8d0a05-70da-4a54-be56-baea0348063b",
+    "source_message_id": "c152ca86-115b-4cfb-bb88-aaa275aaaf54",
+    "telegram_msg_num": 16177,
+    "symbol": "GIGGLEUSDT",
+    "action": "TP1_BOOKED",
+    "state": "failed",
+    "created_at": "2026-09-22T16:22:20.442796+00:00",
+    "raw_text": "$GIGGLE booked first tp here so we don\u2019t miss out on profit and moved my sl"
+  },
+  {
+    "id": "4649d1f7-d6b4-4787-86b0-9286f95444c3",
+    "source_message_id": "65f3c089-2aee-464b-a4e9-1a57a4c151de",
+    "telegram_msg_num": 16182,
+    "symbol": "IOSTUSDT",
+    "action": "TP1_BOOKED",
+    "state": "failed",
+    "created_at": "2026-09-23T00:35:04.749329+00:00",
+    "raw_text": "$IOST tp1 booked"
+  },
+  {
+    "id": "ae77bf2b-5f08-4def-884b-348bf99432c7",
+    "source_message_id": "5f51dbfc-5880-4cd0-b2a1-e4015145d421",
+    "telegram_msg_num": 16186,
+    "symbol": "BTCUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-09-23T14:03:36.327875+00:00",
+    "raw_text": "$BTC sl to entry"
+  },
+  {
+    "id": "396e527b-369d-4120-a735-24e0f187f1c0",
+    "source_message_id": "7e448bc5-d207-4856-9924-fcb13fff2031",
+    "telegram_msg_num": 16190,
+    "symbol": "STONKUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-09-25T07:22:43.676709+00:00",
+    "raw_text": "sl to entry $STONK"
+  },
+  {
+    "id": "271139de-ec6c-4f1d-ae43-463ea7c3795c",
+    "source_message_id": "d26c3c51-e4f9-4ee0-ae19-3c0daed957bf",
+    "telegram_msg_num": 16194,
+    "symbol": "PENGUUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-09-25T07:22:43.676709+00:00",
+    "raw_text": "$PENGU sl to entry"
+  },
+  {
+    "id": "74f58467-c300-4faa-8fd3-bcfb6baacad4",
+    "source_message_id": "40d3b16e-0a07-4c3d-b080-0d1bda665d87",
+    "telegram_msg_num": 16200,
+    "symbol": "NEARUSDT",
+    "action": "TP1_BOOKED",
+    "state": "failed",
+    "created_at": "2026-09-25T07:23:48.333732+00:00",
+    "raw_text": "$NEAR tp1 booked 4% down"
+  },
+  {
+    "id": "e77adb32-8802-4442-83fe-0799339fb7bb",
+    "source_message_id": "24bf0c6f-960f-4c8a-9b81-9c5c8f7c9e04",
+    "telegram_msg_num": 16203,
+    "symbol": "PENGUUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-09-25T08:30:31.56181+00:00",
+    "raw_text": "$PENGU sl to entry"
+  },
+  {
+    "id": "b6c8bb27-a0ca-42b7-95a9-bbda49f9e077",
+    "source_message_id": "773dcb98-e230-4c46-949e-d052b8274827",
+    "telegram_msg_num": 16204,
+    "symbol": "VVVUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-09-25T09:06:44.123801+00:00",
+    "raw_text": "$VVV sl to entry aswell"
+  },
+  {
+    "id": "07d2076e-7369-4362-a26e-07d7e4ba289b",
+    "source_message_id": "f9ea0144-e93a-4793-837f-5e7295f2a660",
+    "telegram_msg_num": 16209,
+    "symbol": "ENAUSDT",
+    "action": "TP1_BOOKED",
+    "state": "failed",
+    "created_at": "2026-09-25T23:05:13.508679+00:00",
+    "raw_text": "$ENA 1R up, tp1 booked\u2764\ufe0f"
+  },
+  {
+    "id": "0c4f972e-fb9e-4081-8090-a1fbbf712c35",
+    "source_message_id": "98a5bd02-1c5f-4780-993b-6de579f777f6",
+    "telegram_msg_num": 16216,
+    "symbol": "RAREUSDT",
+    "action": "TP1_BOOKED",
+    "state": "failed",
+    "created_at": "2026-09-26T21:14:46.242127+00:00",
+    "raw_text": "$RARE more than 1R down, tp1 booked"
+  },
+  {
+    "id": "3c29e644-3c3e-4a0b-b21e-1fcb83fbe7a4",
+    "source_message_id": "40e9c63c-bf04-4bb3-8edf-3303297ce050",
+    "telegram_msg_num": 16224,
+    "symbol": "PUMPUSDT",
+    "action": "TP1_BOOKED",
+    "state": "reconciled",
+    "created_at": "2026-09-29T10:14:04.409402+00:00",
+    "raw_text": "$Pump did 1R so far, if you havnt booked tp1 there as i usually advice then you can close it here at entry"
+  },
+  {
+    "id": "bb4db351-0c9f-4aae-bd3e-1171e26b8afb",
+    "source_message_id": "1777c49a-dc16-4d47-82ed-30f970daa02e",
+    "telegram_msg_num": 16228,
+    "symbol": "PENGUUSDT",
+    "action": "TP1_BOOKED",
+    "state": "reconciled",
+    "created_at": "2026-09-30T07:12:04.370641+00:00",
+    "raw_text": "booked my first tp on $PENGU"
+  },
+  {
+    "id": "d3456933-7cbd-4fb7-8783-2f5e23287d0b",
+    "source_message_id": "0ba20d89-5fc1-4ddd-af08-8a4d01ffebbd",
+    "telegram_msg_num": 16245,
+    "symbol": "PUMPUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-10-05T05:04:54.086586+00:00",
+    "raw_text": "$PUMP sl to entry"
+  },
+  {
+    "id": "fbc30349-c5c2-41cb-8738-56ba121399f0",
+    "source_message_id": "defb7371-bdda-4a02-92f4-965b670c6209",
+    "telegram_msg_num": 16251,
+    "symbol": "FILUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-10-06T06:24:12.852287+00:00",
+    "raw_text": "$FIL 1R up, move sl to entry"
+  },
+  {
+    "id": "5ce827ed-3e43-49e1-856b-3ce1395591f5",
+    "source_message_id": "ffccb25d-da35-4496-9496-14f24e211fbe",
+    "telegram_msg_num": 16257,
+    "symbol": "TRUMPUSDT",
+    "action": "TP1_BOOKED",
+    "state": "failed",
+    "created_at": "2026-10-07T01:39:50.213519+00:00",
+    "raw_text": "$TRUMP first tp booked 1R down so far"
+  },
+  {
+    "id": "71a35732-1971-442e-8bec-ef19b66db508",
+    "source_message_id": "59472264-05a8-4fdb-864c-f7ce0c9a034a",
+    "telegram_msg_num": 16271,
+    "symbol": "WLDUSDT",
+    "action": "TP1_BOOKED",
+    "state": "failed",
+    "created_at": "2026-10-08T10:48:48.482123+00:00",
+    "raw_text": "$WLD TP1 booked"
+  },
+  {
+    "id": "f6b948af-244f-46a5-8d44-28d5336b940c",
+    "source_message_id": "991c5a1e-d622-4d3d-b485-63dceceab5dc",
+    "telegram_msg_num": 16284,
+    "symbol": "MAGICUSDT",
+    "action": "TP1_BOOKED",
+    "state": "failed",
+    "created_at": "2026-10-10T07:26:50.56844+00:00",
+    "raw_text": "$MAGIC TP1 booked, 3R down from entry\n\nLike&RT https://x.com/learnernoearner/status/2108821376241189202?s=46"
+  },
+  {
+    "id": "0986b59f-3958-458f-b4b1-37d9baa69a9b",
+    "source_message_id": "9ba03faa-9b39-4c10-8b89-874c43d88068",
+    "telegram_msg_num": 16289,
+    "symbol": "STRKUSDT",
+    "action": "TP1_BOOKED",
+    "state": "failed",
+    "created_at": "2026-10-11T03:54:29.817143+00:00",
+    "raw_text": "$STRK 2R down and tp1 booked here\u2764\ufe0f\n\nLike&RT https://x.com/learnernoearner/status/2109130392254980594?s=46"
+  },
+  {
+    "id": "d4bbe4e7-77d8-4bb6-b629-f1ffccf5ab42",
+    "source_message_id": "178a2551-7217-4800-b142-8aca3c706221",
+    "telegram_msg_num": 16322,
+    "symbol": "ENAUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-10-17T13:52:20.008378+00:00",
+    "raw_text": "move sl to entry on $ENA 1R up already"
+  },
+  {
+    "id": "9aa0893b-9e55-4332-9329-fbb7c6da9f29",
+    "source_message_id": "441d334a-0494-4144-b217-c39db44b1d04",
+    "telegram_msg_num": 16325,
+    "symbol": "WLDUSDT",
+    "action": "TP1_BOOKED",
+    "state": "cancelled-flat",
+    "created_at": "2026-10-18T09:51:04.718987+00:00",
+    "raw_text": "1.5R up on $WLD and tp1 booked here"
+  },
+  {
+    "id": "3d48b713-29d8-4f9d-8c79-fe3a477b323e",
+    "source_message_id": "04e6b378-ae6a-44ad-8cef-51ca581cb6f4",
+    "telegram_msg_num": 16365,
+    "symbol": "WLDUSDT",
+    "action": "TP1_BOOKED",
+    "state": "failed",
+    "created_at": "2026-10-26T09:11:36.561996+00:00",
+    "raw_text": "$WLD more than 1R down after the Dca \n\nBooking tp1 here\n\nhttps://x.com/learnernoearner/status/2114646017601638893?s=46"
+  },
+  {
+    "id": "895be5e5-0b4a-483f-a2de-c49eb7bc345e",
+    "source_message_id": "671b3365-7eca-445c-85b7-ed9203330d9a",
+    "telegram_msg_num": 16367,
+    "symbol": "ZECUSDT",
+    "action": "TP1_BOOKED",
+    "state": "cancelled-flat",
+    "created_at": "2026-10-26T09:58:42.519856+00:00",
+    "raw_text": "$ZEC scalp tp1 here"
+  },
+  {
+    "id": "1a3c1340-3531-4ffe-a896-5986ce9a5d28",
+    "source_message_id": "f73be574-c1dd-4a81-b261-c171e0183c18",
+    "telegram_msg_num": 16386,
+    "symbol": "POWERUSDT",
+    "action": "CLOSE",
+    "state": "reconciled",
+    "created_at": "2026-10-27T18:38:23.968817+00:00",
+    "raw_text": "booked my profit and closing the trade on $POWER"
+  },
+  {
+    "id": "43bc25b6-1fc7-4b1f-a5b7-b215173c77ca",
+    "source_message_id": "c1623a78-9b8a-4161-b843-b90fdd59134c",
+    "telegram_msg_num": 16402,
+    "symbol": "UAIUSDT",
+    "action": "TP1_BOOKED",
+    "state": "cancelled-flat",
+    "created_at": "2026-10-29T13:16:13.928761+00:00",
+    "raw_text": "$UAI TP1 here\u2764\ufe0f"
+  },
+  {
+    "id": "8f8b5461-ec24-445f-bdf4-8da80d4915ac",
+    "source_message_id": "a694bc7a-70cc-405f-bae0-a37e9e995dff",
+    "telegram_msg_num": 16409,
+    "symbol": "PUMPUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-10-30T14:42:19.090579+00:00",
+    "raw_text": "$PUMP sl to entry"
+  },
+  {
+    "id": "d7cac117-4396-4c61-aa0e-f376494b68cd",
+    "source_message_id": "841ea895-deb2-488e-b3cd-04e961da55cd",
+    "telegram_msg_num": 16416,
+    "symbol": "ZROUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-10-31T08:59:25.756345+00:00",
+    "raw_text": "Stoploss to entry $ZRO"
+  },
+  {
+    "id": "5fc43acb-45f0-43d7-96bf-110e8fa18979",
+    "source_message_id": "74320820-ca6a-43b2-a1ce-056cc9d3fb5f",
+    "telegram_msg_num": 16419,
+    "symbol": "EVAAUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-10-31T10:15:54.651203+00:00",
+    "raw_text": "sl to entry $EVAA"
+  },
+  {
+    "id": "82fdc965-14b2-45e3-ade5-e6dc333220a7",
+    "source_message_id": "dacdc6bc-517f-496a-bea4-a916fef48ae3",
+    "telegram_msg_num": 16423,
+    "symbol": "ENAUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-10-31T15:35:52.552005+00:00",
+    "raw_text": "@everyone sl to entry  $ENA"
+  },
+  {
+    "id": "4ae0bc1b-757b-4be4-b1b1-eb47b3b9421b",
+    "source_message_id": "d7495b8b-5b8c-441b-89ba-792fcbd96d47",
+    "telegram_msg_num": 16424,
+    "symbol": "ENAUSDT",
+    "action": "TP1_BOOKED",
+    "state": "cancelled-flat",
+    "created_at": "2026-10-31T15:41:49.565186+00:00",
+    "raw_text": "Tp1 booked on $ENA"
+  },
+  {
+    "id": "dc9912c8-3108-4baf-a4c8-b4220b105be5",
+    "source_message_id": "13053e31-f5ff-42fe-9a5a-f57ac1139c73",
+    "telegram_msg_num": 16428,
+    "symbol": "PENGUUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-11-01T13:38:59.24231+00:00",
+    "raw_text": "$PENGU sl to entry"
+  },
+  {
+    "id": "32fe2f86-f32b-49ab-838c-3e5b551edb73",
+    "source_message_id": "6cab26f6-3dfe-4a48-82cf-0135f7e9b713",
+    "telegram_msg_num": 16429,
+    "symbol": "ZROUSDT",
+    "action": "TP_BOOKED",
+    "state": "cancelled-flat",
+    "created_at": "2026-11-01T14:02:23.093525+00:00",
+    "raw_text": "$ZRO 35% up \ud83d\udd25 \n\nBoth our long and spot trade in profit\n\nOur long just hit full tp \u2764\ufe0f\n\nhttps://x.com/learnernoearner/status/2116893460774928517?a=iZoa3hhFscy0CQjiEsE&s=46"
+  },
+  {
+    "id": "2138da66-836d-4651-9dfb-16efbdcf9345",
+    "source_message_id": "263f8438-bfea-48ba-ae4b-472857ef48a8",
+    "telegram_msg_num": 16432,
+    "symbol": "TRUMPUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-11-01T15:51:04.759693+00:00",
+    "raw_text": "$TRUMP sl to entry"
+  },
+  {
+    "id": "400da6bd-11c8-4440-87a9-91e1a1136f37",
+    "source_message_id": "ccb659bb-4673-431e-94ef-a387a8539906",
+    "telegram_msg_num": 16435,
+    "symbol": "TRUMPUSDT",
+    "action": "TP1_BOOKED",
+    "state": "cancelled-flat",
+    "created_at": "2026-11-02T00:37:07.522251+00:00",
+    "raw_text": "$TRUMP TP1 booked"
+  },
+  {
+    "id": "36541135-c4a1-4247-b7a3-a4247193a32e",
+    "source_message_id": "c8bad73b-415c-4307-853f-8b15e958f4fe",
+    "telegram_msg_num": 16440,
+    "symbol": "ENAUSDT",
+    "action": "CLOSE",
+    "state": "reconciled",
+    "created_at": "2026-11-02T17:49:08.215201+00:00",
+    "raw_text": "close here $ENA -0.5R \n\nLost momentum"
+  },
+  {
+    "id": "019bc6e9-3d03-4c10-8d73-8a8329d1006f",
+    "source_message_id": "0d527794-f447-445f-96d8-605bcc559290",
+    "telegram_msg_num": 16445,
+    "symbol": "ZECUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-11-03T21:19:14.331259+00:00",
+    "raw_text": "sl to entry $ZEC"
+  },
+  {
+    "id": "07e19313-50d6-4f6e-b4b9-d731875026bb",
+    "source_message_id": "51212e2a-54a6-4c79-a6f8-1b74a35b53a3",
+    "telegram_msg_num": 16446,
+    "symbol": "ZECUSDT",
+    "action": "TP1_BOOKED",
+    "state": "cancelled-flat",
+    "created_at": "2026-11-03T21:24:10.263994+00:00",
+    "raw_text": "$ZEC book tp1"
+  },
+  {
+    "id": "b0b1b2d0-522f-4903-ab60-347e45870794",
+    "source_message_id": "e0b7ee1e-867d-4ebc-91e6-5f15dff9f640",
+    "telegram_msg_num": 16452,
+    "symbol": "APEUSDT",
+    "action": "CLOSE",
+    "state": "reconciled",
+    "created_at": "2026-11-05T10:48:53.115511+00:00",
+    "raw_text": "$APE closed in profit"
+  },
+  {
+    "id": "92f7f34c-e110-468d-848a-9996a691a732",
+    "source_message_id": "66f50335-ab58-463e-987d-cfca5ed87969",
+    "telegram_msg_num": 16458,
+    "symbol": "PEPEUSDT",
+    "action": "TP1_BOOKED",
+    "state": "cancelled-flat",
+    "created_at": "2026-11-06T14:39:24.533056+00:00",
+    "raw_text": "tp1 booked on $PEPE"
+  },
+  {
+    "id": "5efe1887-385e-42af-b000-593d1a664455",
+    "source_message_id": "de379d3f-0b2c-4a30-b561-f2c10f138ad5",
+    "telegram_msg_num": 16462,
+    "symbol": "LITUSDT",
+    "action": "TP_BOOKED",
+    "state": "cancelled-flat",
+    "created_at": "2026-11-07T14:31:42.174239+00:00",
+    "raw_text": "$LIT did 1R then hit sl \n\nHit tp on copytrading, placed it as i was gonna sleep"
+  },
+  {
+    "id": "859c8bc0-f715-448e-9a16-29f0aa17ea12",
+    "source_message_id": "45fda470-491a-47c4-b54f-fea1d4d348c6",
+    "telegram_msg_num": 16471,
+    "symbol": "PEPEUSDT",
+    "action": "SL_TO_ENTRY",
+    "state": "failed",
+    "created_at": "2026-11-08T19:27:54.113968+00:00",
+    "raw_text": "sl to entry $PEPE"
+  },
+  {
+    "id": "5e09d6f0-0dbb-44e4-9403-8838ee471c63",
+    "source_message_id": "4084f5d1-2e5a-41c8-a683-d6387b66ac95",
+    "telegram_msg_num": 16472,
+    "symbol": "PEPEUSDT",
+    "action": "TP_BOOKED",
+    "state": "cancelled-flat",
+    "created_at": "2026-11-08T21:59:56.079407+00:00",
+    "raw_text": "$PEPE full tp booked at 3R +\n\nThis trade was pre analysed on our market update video\u2764\ufe0f\n\nhttps://x.com/learnernoearner/status/2119550291922366888?a=HfPmmhVkcjdrDo2yq4w&s=46"
+  }
+]

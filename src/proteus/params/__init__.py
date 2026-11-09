@@ -26,7 +26,11 @@ class OrderParameterSynthesizer:
     """Synthesizes execution parameters adhering to empirical risk geometry."""
 
     MEDIAN_SL_PCT: Decimal = Decimal("0.0260")
+    MEDIAN_SL_LONG_PCT: Decimal = Decimal("0.0267")
+    MEDIAN_SL_SHORT_PCT: Decimal = Decimal("0.0217")
     MEDIAN_TARGET_RR: Decimal = Decimal("4.56")
+    MEDIAN_RR_LONG: Decimal = Decimal("4.87")
+    MEDIAN_RR_SHORT: Decimal = Decimal("4.46")
     TICK_BUFFER_PCT: Decimal = Decimal("0.0015")
     MIN_SL_PCT: Decimal = Decimal("0.0050")
     MAX_SL_PCT: Decimal = Decimal("0.0500")

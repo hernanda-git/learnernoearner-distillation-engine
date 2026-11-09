@@ -1,0 +1,1649 @@
+[
+  {
+    "id": "f6f95b16-2275-4386-8e3e-c12ac573c6cf",
+    "message_id": "c8533589-43a0-460e-88f7-09601f81d252",
+    "telegram_msg_num": 16090,
+    "pair_token": "PUMP",
+    "direction": "LONG",
+    "entry_price": "0.00427",
+    "stop_loss": "0.00416",
+    "take_profits": [
+      "0.004438",
+      "0.004915"
+    ],
+    "created_at": "2026-09-06T14:10:56.813511+00:00",
+    "received_at": "2026-09-04T21:02:33+00:00",
+    "raw_text": "#PUMP $PUMP LONG TRADE\n\nENTRY: 0.00427\n\nTARGETS: 0.004438 - 0.004915\n\nSTOPLOSS: 0.00416",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "cdcad637-9b6b-4082-84df-bcbb07482fee",
+    "message_id": "5714ab4a-772b-420e-84b4-3759d8ccdac3",
+    "telegram_msg_num": 16097,
+    "pair_token": "SUSHI",
+    "direction": "LONG",
+    "entry_price": "0.2512",
+    "stop_loss": "0.2428",
+    "take_profits": [
+      "0.2835"
+    ],
+    "created_at": "2026-09-06T15:43:13.744644+00:00",
+    "received_at": "2026-09-06T15:43:06+00:00",
+    "raw_text": "#SUSHI $SUSHI LONG TRADE\n\nENTRY: 0.2512\n\nTARGET: 0.2835\n\nSTOPLOSS: 0.2428",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "182223ae-08ae-491e-a254-2627779f1375",
+    "message_id": "a81098c7-eca3-4861-a937-824cf2ee8cf9",
+    "telegram_msg_num": 16100,
+    "pair_token": "NOT",
+    "direction": "LONG",
+    "entry_price": "0.0004715",
+    "stop_loss": "0.000458",
+    "take_profits": [
+      "0.00058"
+    ],
+    "created_at": "2026-09-07T13:55:03.479459+00:00",
+    "received_at": "2026-09-07T13:54:27+00:00",
+    "raw_text": "#NOT $NOT LONG TRADE\n\nENTRY: 0.0004715\n\nTARGET: 0.00058\n\nSTOPLOSS: 0.000458",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "2b54f488-ffc7-4652-a6b4-34c373e34cb4",
+    "message_id": "854d4686-8f42-48ef-9997-a174886c7718",
+    "telegram_msg_num": 16103,
+    "pair_token": "WLD",
+    "direction": "LONG",
+    "entry_price": "0.47",
+    "stop_loss": "0.4562",
+    "take_profits": [
+      "0.51"
+    ],
+    "created_at": "2026-09-08T14:06:08.021238+00:00",
+    "received_at": "2026-09-08T14:05:12+00:00",
+    "raw_text": "#WLD $WLD LONG TRADE\n\nENTRY: 0.47\n\nTARGET: 0.51\n\nSTOPLOSS: 0.4562",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "7ec702aa-b83a-4232-a446-7fb2cebdf632",
+    "message_id": "cd4f924e-26b5-44a5-9458-b55d98cd2fa5",
+    "telegram_msg_num": 16107,
+    "pair_token": "FLOKI",
+    "direction": "LONG",
+    "entry_price": "0.02665",
+    "stop_loss": "0.02587",
+    "take_profits": [
+      "0.0304"
+    ],
+    "created_at": "2026-09-08T16:45:45.832345+00:00",
+    "received_at": "2026-09-08T16:45:39+00:00",
+    "raw_text": "#FLOKI $FLOKI LONG TRADE\n\nENTRY: 0.02665\n\nTARGET: 0.0304\n\nSTOPLOSS: 0.02587",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "9229d113-9245-4beb-a01f-5400726b43a8",
+    "message_id": "81fe0d12-d6d3-46d3-ac1b-83609ad149e6",
+    "telegram_msg_num": 16111,
+    "pair_token": "WLD",
+    "direction": "LONG",
+    "entry_price": "0.4495",
+    "stop_loss": "0.4345",
+    "take_profits": [
+      "0.491"
+    ],
+    "created_at": "2026-09-09T13:48:01.778903+00:00",
+    "received_at": "2026-09-09T13:47:52+00:00",
+    "raw_text": "#WLD $WLD LONG TRADE\n\nENTRY: 0.4495\n\nTARGET: 0.491\n\nSTOPLOSS: 0.4345",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "cde00049-479f-47a8-9090-9187fd2205ac",
+    "message_id": "93031ac9-89d0-4107-8685-0395dafc9d64",
+    "telegram_msg_num": 16115,
+    "pair_token": "GRASS",
+    "direction": "LONG",
+    "entry_price": "0.3505",
+    "stop_loss": "0.3382",
+    "take_profits": [
+      "0.414"
+    ],
+    "created_at": "2026-09-10T17:25:57.567816+00:00",
+    "received_at": "2026-09-10T17:25:35+00:00",
+    "raw_text": "#GRASS $GRASS LONG TRADE\n\nENTRY: 0.3505\n\nTARGET: 0.414\n\nSTOPLOSS: 0.3382",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "b0000000-0000-0000-0000-000000000001",
+    "message_id": "a0000000-0000-0000-0000-000000000001",
+    "telegram_msg_num": 999999999,
+    "pair_token": "GRASS",
+    "direction": "LONG",
+    "entry_price": "0.34690",
+    "stop_loss": "0.34400",
+    "take_profits": [
+      0.3496,
+      0.3529
+    ],
+    "created_at": "2026-09-11T09:03:08.342879+00:00",
+    "received_at": "2026-09-11T09:03:08.342879+00:00",
+    "raw_text": "MANUAL SIGNAL: GRASSUSDT LONG @ 0.34690 SL 0.34400 TP1 0.34960 TP2 0.35290",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "d0000000-0000-0000-0000-000000000001",
+    "message_id": "a0000000-0000-0000-0000-000000000001",
+    "telegram_msg_num": 999999999,
+    "pair_token": "GRASS",
+    "direction": "LONG",
+    "entry_price": "0.34690",
+    "stop_loss": "0.34400",
+    "take_profits": [
+      0.3496,
+      0.3529
+    ],
+    "created_at": "2026-09-11T09:31:24.220813+00:00",
+    "received_at": "2026-09-11T09:03:08.342879+00:00",
+    "raw_text": "MANUAL SIGNAL: GRASSUSDT LONG @ 0.34690 SL 0.34400 TP1 0.34960 TP2 0.35290",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "5e604d01-cecd-4235-9492-2c383a8d2955",
+    "message_id": "966d30d5-26fd-48c7-adb9-ba8dabffdbe3",
+    "telegram_msg_num": 16120,
+    "pair_token": "INJ",
+    "direction": "LONG",
+    "entry_price": "5.835",
+    "stop_loss": "5.66",
+    "take_profits": [
+      "6.72"
+    ],
+    "created_at": "2026-09-11T18:27:44.546318+00:00",
+    "received_at": "2026-09-11T18:27:28+00:00",
+    "raw_text": "#INJ $INJ LONG TRADE\n\nENTRY: 5.835\n\nTARGET: 6.72\n\nSTOPLOSS: 5.66",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "f8f504e1-f15c-4625-be04-b529b3d810c5",
+    "message_id": "561dc43c-ecea-4701-8276-633ea8d47f00",
+    "telegram_msg_num": 16122,
+    "pair_token": "ETHFI",
+    "direction": "LONG",
+    "entry_price": "0.751",
+    "stop_loss": "0.718",
+    "take_profits": [
+      "0.87"
+    ],
+    "created_at": "2026-09-12T11:41:19.952743+00:00",
+    "received_at": "2026-09-12T11:40:47+00:00",
+    "raw_text": "#ETHFI $ETHFI LONG TRADE\n\nENTRY: 0.751 - 0.73\n\nTARGET: 0.87\n\nSTOPLOSS: 0.718",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "25ac52f1-1932-4516-958b-1acacdab0e0f",
+    "message_id": "ffafa787-e92a-47f7-adbb-6379dd0045aa",
+    "telegram_msg_num": 16124,
+    "pair_token": "EUL",
+    "direction": "LONG",
+    "entry_price": "1.268",
+    "stop_loss": "1.2365",
+    "take_profits": [
+      "1.47"
+    ],
+    "created_at": "2026-09-12T17:31:16.618112+00:00",
+    "received_at": "2026-09-12T17:31:01+00:00",
+    "raw_text": "#EUL $EUL LONG TRADE\n\nENTRY: 1.268\n\nTARGET: 1.47\n\nSTOPLOSS: 1.2365",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "6bbee916-a466-4862-b865-195f4eb77b41",
+    "message_id": "e7f89b7d-e8da-43c3-872a-d932564c0419",
+    "telegram_msg_num": 16126,
+    "pair_token": "PONS",
+    "direction": "LONG",
+    "entry_price": "0.584",
+    "stop_loss": "0.564",
+    "take_profits": [
+      "0.747"
+    ],
+    "created_at": "2026-09-13T03:48:08.35757+00:00",
+    "received_at": "2026-09-13T03:48:04+00:00",
+    "raw_text": "#PONS $PONS LONG TRADE\n\nENTRY: 0.584\n\nTARGET: 0.747\n\nSTOPLOSS: 0.564",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "8445c4f2-1369-596c-8f8d-a07124bfd6b0",
+    "message_id": "ac5ebb01-8a3b-40af-bb84-c1145d204598",
+    "telegram_msg_num": 16128,
+    "pair_token": "WLD",
+    "direction": "LONG",
+    "entry_price": "0.396",
+    "stop_loss": "0.388",
+    "take_profits": [
+      "0.427"
+    ],
+    "created_at": "2026-09-13T14:28:14.235515+00:00",
+    "received_at": "2026-09-13T14:27:48+00:00",
+    "raw_text": "#WLD $WLD LONG TRADE\n\nENTRY: 0.396\n\nTARGET: 0.427\n\nSTOPLOSS: 0.388",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "a0e66411-f545-5dd1-b8f2-906782fc3163",
+    "message_id": "f2c137d9-871a-426b-92c1-9094c46d6dbb",
+    "telegram_msg_num": 16133,
+    "pair_token": "WLD",
+    "direction": "SHORT",
+    "entry_price": "0.385",
+    "stop_loss": "0.3938",
+    "take_profits": [],
+    "created_at": "2026-09-14T22:38:31.480353+00:00",
+    "received_at": "2026-09-14T14:22:28+00:00",
+    "raw_text": "Shorting $WLD here around 0.385\n\nStoploss: 0.3938",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "7ddd16f0-ff63-5a56-ad27-07df7e22a921",
+    "message_id": "d5fab280-0de5-4050-a55d-c36ded76cd58",
+    "telegram_msg_num": 16138,
+    "pair_token": "SNDK",
+    "direction": "LONG",
+    "entry_price": "1560",
+    "stop_loss": "1535",
+    "take_profits": [
+      "1795"
+    ],
+    "created_at": "2026-09-15T14:09:27.432029+00:00",
+    "received_at": "2026-09-15T14:09:19+00:00",
+    "raw_text": "$SNDK LONG TRADE\n\nENTRY: 1560\n\nTARGET: 1795\n\nSTOPLOSS: 1535",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "e49c5a39-cbe3-58b8-86b4-7f779f33d2e3",
+    "message_id": "c9cfc94a-d500-42c8-b12f-16bc9172c129",
+    "telegram_msg_num": 16142,
+    "pair_token": "TAO",
+    "direction": "LONG",
+    "entry_price": "224.5",
+    "stop_loss": "218.55",
+    "take_profits": [
+      "236.9"
+    ],
+    "created_at": "2026-09-15T16:17:30.623636+00:00",
+    "received_at": "2026-09-15T16:17:23+00:00",
+    "raw_text": "#TAO $TAO LONG TRADE\n\nENTRY: 224.5\n\nTARGET: 236.9\n\nSTOPLOSS: 218.55",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "64574a60-2c3c-5c77-b931-d3456848e934",
+    "message_id": "7328ff35-0eb0-4cce-95bb-f2ee00aae80f",
+    "telegram_msg_num": 16152,
+    "pair_token": "PENDLE",
+    "direction": "LONG",
+    "entry_price": "2.32",
+    "stop_loss": "2.2465",
+    "take_profits": [
+      "3.22"
+    ],
+    "created_at": "2026-09-17T20:25:04.654028+00:00",
+    "received_at": "2026-09-17T20:24:07+00:00",
+    "raw_text": "#PENDLE $PENDLE LONG TRADE\n\nENTRY: 2.32\n\nTARGET: 3.22\n\nSTOPLOSS: 2.2465",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "3ec714d3-f171-565c-ae0f-8a676f7f4262",
+    "message_id": "d17659ad-c1ee-4c2d-b49f-aa894246ddf3",
+    "telegram_msg_num": 16155,
+    "pair_token": "SAGA",
+    "direction": "LONG",
+    "entry_price": "0.0221",
+    "stop_loss": "0.02112",
+    "take_profits": [
+      "0.036"
+    ],
+    "created_at": "2026-09-18T02:23:19.787173+00:00",
+    "received_at": "2026-09-18T02:23:12+00:00",
+    "raw_text": "#SAGA $SAGA LONG TRADE\n\nENTRY: 0.0221 - 0.02155\n\nTARGET: 0.036\n\nSTOPLOSS: 0.02112",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "88967b6a-490a-5f40-bad6-33d0a5c669b1",
+    "message_id": "f0e2b989-749b-4fc0-a0ac-ddb6499e8d12",
+    "telegram_msg_num": 16160,
+    "pair_token": "WLD",
+    "direction": "LONG",
+    "entry_price": "0.431",
+    "stop_loss": "0.4195",
+    "take_profits": [
+      "0.46"
+    ],
+    "created_at": "2026-09-19T18:36:41.625399+00:00",
+    "received_at": "2026-09-19T18:35:41+00:00",
+    "raw_text": "#WLD $WLD LONG TRADE\n\nENTRY: 0.431\n\nTARGET: 0.46\n\nSTOPLOSS: 0.4195",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "ad550c19-9fdb-5cad-9bc6-d3f33a78f397",
+    "message_id": "43946e25-f0fe-4914-973c-60d3afcfd3c2",
+    "telegram_msg_num": 16164,
+    "pair_token": "BONK",
+    "direction": "LONG",
+    "entry_price": "0.003015",
+    "stop_loss": "0.002935",
+    "take_profits": [
+      "0.00333"
+    ],
+    "created_at": "2026-09-20T17:19:35.304109+00:00",
+    "received_at": "2026-09-20T17:19:10+00:00",
+    "raw_text": "#BONK $BONK LONG TRADE\n\nENTRY: 0.003015\n\nTARGET: 0.00333\n\nSTOPLOSS: 0.002935",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "bbd3434b-b0d4-5bb9-9913-6ecba3d1238c",
+    "message_id": "afef265c-876a-4238-8a3b-e72772106989",
+    "telegram_msg_num": 16166,
+    "pair_token": "INJ",
+    "direction": "LONG",
+    "entry_price": "7.74",
+    "stop_loss": "7.582",
+    "take_profits": [
+      "8.36"
+    ],
+    "created_at": "2026-09-21T01:36:58.172113+00:00",
+    "received_at": "2026-09-21T01:36:37+00:00",
+    "raw_text": "#INJ $INJ LONG TRADE\n\nENTRY: 7.74\n\nTARGET: 8.36\n\nSTOPLOSS: 7.582",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "16ae7a70-0fc2-5cdd-a19d-0c95efd23e12",
+    "message_id": "7895c0c9-10e8-46aa-a6e5-e3182dcd028a",
+    "telegram_msg_num": 16168,
+    "pair_token": "ICP",
+    "direction": "LONG",
+    "entry_price": "2.955",
+    "stop_loss": "2.87",
+    "take_profits": [
+      "3.22"
+    ],
+    "created_at": "2026-09-21T12:07:14.728379+00:00",
+    "received_at": "2026-09-21T12:07:07+00:00",
+    "raw_text": "#ICP $ICP LONG TRADE\n\nENTRY: 2.955\n\nTARGET: 3.22\n\nSTOPLOSS: 2.87",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "ca62077c-5f6d-56fb-aeab-760e5a074e06",
+    "message_id": "cd98206a-e432-4f2d-a985-92136b6ebd4d",
+    "telegram_msg_num": 16174,
+    "pair_token": "ZEC",
+    "direction": "LONG",
+    "entry_price": "1532",
+    "stop_loss": "1501",
+    "take_profits": [
+      "1654"
+    ],
+    "created_at": "2026-09-22T15:02:14.939161+00:00",
+    "received_at": "2026-09-22T15:01:45+00:00",
+    "raw_text": "#ZEC $ZEC LONG TRADE\n\nENTRY: 1532\n\nTARGET: 1654\n\nSTOPLOSS: 1501",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "945e1295-d73c-5a48-af1d-2f08cace93df",
+    "message_id": "241d6cbb-f9eb-4a18-bae3-550089ab465a",
+    "telegram_msg_num": 16176,
+    "pair_token": "GIGGLE",
+    "direction": "LONG",
+    "entry_price": "40",
+    "stop_loss": "38.85",
+    "take_profits": [
+      "43"
+    ],
+    "created_at": "2026-09-22T15:23:17.863792+00:00",
+    "received_at": "2026-09-22T15:22:58+00:00",
+    "raw_text": "#GIGGLE $GIGGLE LONG TRADE\n\nENTRY: 40\n\nTARGET: 43\n\nSTOPLOSS: 38.85",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "0e170042-6ac0-5156-850c-ac68ad39da2f",
+    "message_id": "71f565ba-6e2f-47d4-8af5-283751926b49",
+    "telegram_msg_num": 16178,
+    "pair_token": "WLD",
+    "direction": "LONG",
+    "entry_price": "0.4565",
+    "stop_loss": "0.4452",
+    "take_profits": [
+      "0.4915"
+    ],
+    "created_at": "2026-09-22T17:12:24.503701+00:00",
+    "received_at": "2026-09-22T17:11:22+00:00",
+    "raw_text": "#WLD $WLD LONG TRADE\n\nENTRY: 0.4565\n\nTARGET: 0.4915\n\nSTOPLOSS: 0.4452",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "14aa8971-4d2c-5e54-8125-bac50d3e94b7",
+    "message_id": "c1a5e0a2-6b84-4059-973f-212cb09cac40",
+    "telegram_msg_num": 16180,
+    "pair_token": "IOST",
+    "direction": "LONG",
+    "entry_price": "0.000917",
+    "stop_loss": "0.0008885",
+    "take_profits": [
+      "0.001083"
+    ],
+    "created_at": "2026-09-22T19:19:31.507941+00:00",
+    "received_at": "2026-09-22T19:19:30+00:00",
+    "raw_text": "#IOST $IOST LONG TRADE\n\nENTRY: 0.000917\n\nTARGET: 0.001083\n\nSTOPLOSS: 0.0008885",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "22246069-1238-5290-af27-7e3495f4310e",
+    "message_id": "803d356a-52ca-4de7-ac7d-080e741033c5",
+    "telegram_msg_num": 16181,
+    "pair_token": "AVAX",
+    "direction": "LONG",
+    "entry_price": "11.3",
+    "stop_loss": "11.02",
+    "take_profits": [
+      "13.39"
+    ],
+    "created_at": "2026-09-22T23:17:36.803029+00:00",
+    "received_at": "2026-09-22T23:17:13+00:00",
+    "raw_text": "#AVAX $AVAX LONG TRADE\n\nENTRY: 11.3\n\nTARGET: 13.39\n\nSTOPLOSS: 11.02",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "c771d7e9-8bbd-5231-b5e1-d744a125061b",
+    "message_id": "deccd401-61bc-4f3f-8202-eca4ccc898b0",
+    "telegram_msg_num": 16187,
+    "pair_token": "NIL",
+    "direction": "LONG",
+    "entry_price": "0.127",
+    "stop_loss": "0.11885",
+    "take_profits": [
+      "0.1508"
+    ],
+    "created_at": "2026-09-24T00:02:54.02442+00:00",
+    "received_at": "2026-09-24T00:02:08+00:00",
+    "raw_text": "#NIL $NIL LONG TRADE\n\nENTRY: 0.127\n\nTARGET: 0.1508\n\nSTOPLOSS: 0.11885",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "523a8ea3-0639-56e3-b666-5f8a684e6010",
+    "message_id": "e1d2f292-611f-448f-b7f6-6d69160dbe32",
+    "telegram_msg_num": 16196,
+    "pair_token": "WLD",
+    "direction": "LONG",
+    "entry_price": "0.4435",
+    "stop_loss": "0.4335",
+    "take_profits": [
+      "0.469"
+    ],
+    "created_at": "2026-09-25T07:22:43.676709+00:00",
+    "received_at": "2026-09-24T19:08:22+00:00",
+    "raw_text": "#WLD $WLD LONG TRADE\n\nENTRY: 0.4435\n\nTARGET: 0.469\n\nSTOPLOSS: 0.4335",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "36ba73d9-92ca-5136-8fa3-949ff470a682",
+    "message_id": "88f28f30-2969-4227-b4f1-37a6beee323a",
+    "telegram_msg_num": 16189,
+    "pair_token": "STONK",
+    "direction": "LONG",
+    "entry_price": "0.351",
+    "stop_loss": "0.3365",
+    "take_profits": [
+      "0.4435"
+    ],
+    "created_at": "2026-09-25T07:22:43.676709+00:00",
+    "received_at": "2026-09-24T03:02:24+00:00",
+    "raw_text": "#STONK $STONK LONG TRADE\n\nENTRY: 0.351\n\nTARGET: 0.4435\n\nSTOPLOSS: 0.3365",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "7401478b-d55c-52d0-b9cf-60d60cef8ca1",
+    "message_id": "dc443f99-499f-4d6c-9af7-302063653ecc",
+    "telegram_msg_num": 16193,
+    "pair_token": "PENGU",
+    "direction": "LONG",
+    "entry_price": "0.00994",
+    "stop_loss": "0.009685",
+    "take_profits": [
+      "0.01185"
+    ],
+    "created_at": "2026-09-25T07:22:43.676709+00:00",
+    "received_at": "2026-09-24T05:56:33+00:00",
+    "raw_text": "#PENGU $PENGU LONG TRADE\n\nENTRY: 0.00994\n\nTARGET: 0.01185\n\nSTOPLOSS: 0.009685",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "a8b2863b-ddc1-5af9-b377-6184cb29fed2",
+    "message_id": "15eec05e-11c9-4798-9e5e-3fdc5aa9d84d",
+    "telegram_msg_num": 16201,
+    "pair_token": "PENGU",
+    "direction": "LONG",
+    "entry_price": "0.00961",
+    "stop_loss": "0.009375",
+    "take_profits": [
+      "0.0103"
+    ],
+    "created_at": "2026-09-25T07:23:48.333732+00:00",
+    "received_at": "2026-09-25T04:17:49+00:00",
+    "raw_text": "#PENGU $PENGU LONG TRADE\n\nENTRY: 0.00961\n\nTARGET: 0.0103\n\nSTOPLOSS: 0.009375",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "824ff41a-d4d0-51ff-a0dc-4ee8c86ae362",
+    "message_id": "526dca99-a88d-431b-a3b4-2f56c0c44764",
+    "telegram_msg_num": 16199,
+    "pair_token": "NEAR",
+    "direction": "SHORT",
+    "entry_price": "4.625",
+    "stop_loss": "4.735",
+    "take_profits": [
+      "4.325"
+    ],
+    "created_at": "2026-09-25T07:23:48.333732+00:00",
+    "received_at": "2026-09-25T00:42:50+00:00",
+    "raw_text": "#NEAR $NEAR SHORT TRADE\n\nENTRY: 4.625\n\nTARGET: 4.325\n\nSTOPLOSS: 4.735",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "c27415c7-4caa-5ed4-86e6-dcc5a8e2245f",
+    "message_id": "0f51ced8-b711-4c9b-b671-7a37f54bb4be",
+    "telegram_msg_num": 16202,
+    "pair_token": "VVV",
+    "direction": "LONG",
+    "entry_price": "31.3",
+    "stop_loss": "30.62",
+    "take_profits": [
+      "33.5"
+    ],
+    "created_at": "2026-09-25T07:55:42.63341+00:00",
+    "received_at": "2026-09-25T07:55:33+00:00",
+    "raw_text": "#VVV $VVV LONG TRADE\n\nENTRY: 31.3\n\nTARGET: 33.5\n\nSTOPLOSS: 30.62",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "f6a51f56-98ba-5c17-84ef-61288131ce17",
+    "message_id": "8b120130-ea8d-4e0a-9757-55583cc9fdcd",
+    "telegram_msg_num": 16208,
+    "pair_token": "ENA",
+    "direction": "LONG",
+    "entry_price": "0.2625",
+    "stop_loss": "0.25565",
+    "take_profits": [
+      "0.296"
+    ],
+    "created_at": "2026-09-25T20:23:07.351776+00:00",
+    "received_at": "2026-09-25T20:22:08+00:00",
+    "raw_text": "#ENA $ENA LONG TRADE\n\nENTRY: 0.2625\n\nTARGET: 0.296\n\nSTOPLOSS: 0.25565",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "dc26ca1d-46f9-5d3f-88b8-3570c55dfbae",
+    "message_id": "b39db38a-6e4c-4e93-ae82-110f7ddf59a8",
+    "telegram_msg_num": 16211,
+    "pair_token": "ASTER",
+    "direction": "LONG",
+    "entry_price": "0.734",
+    "stop_loss": "0.7115",
+    "take_profits": [
+      "0.822"
+    ],
+    "created_at": "2026-09-26T01:19:09.027146+00:00",
+    "received_at": "2026-09-26T01:18:24+00:00",
+    "raw_text": "#ASTER $ASTER LONG TRADE\n\nENTRY: 0.734\n\nTARGET: 0.822\n\nSTOPLOSS: 0.7115",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "bc6402d1-7c4d-53e3-a6f3-2d004535c7cd",
+    "message_id": "ac10dffa-b6cc-471f-a971-b67b82363dd6",
+    "telegram_msg_num": 16215,
+    "pair_token": "RARE",
+    "direction": "SHORT",
+    "entry_price": "0.0225",
+    "stop_loss": "0.02389",
+    "take_profits": [
+      "0.0159"
+    ],
+    "created_at": "2026-09-26T18:57:40.722281+00:00",
+    "received_at": "2026-09-26T18:57:17+00:00",
+    "raw_text": "#RARE $RARE SHORT TRADE\n\nENTRY: 0.0225\n\nTARGET: 0.0159\n\nSTOPLOSS: 0.02389",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "c132356a-8d31-5e67-8029-b7abdc39c5ff",
+    "message_id": "8e2c4436-f55e-4fa6-b739-690b42969ab4",
+    "telegram_msg_num": 16217,
+    "pair_token": "QNT",
+    "direction": "SHORT",
+    "entry_price": "152.5",
+    "stop_loss": "157.2",
+    "take_profits": [
+      "144"
+    ],
+    "created_at": "2026-09-26T23:48:50.099462+00:00",
+    "received_at": "2026-09-26T23:47:58+00:00",
+    "raw_text": "#QNT $QNT SHORT TRADE\n\nENTRY: 152.5\n\nTARGET: 144\n\nSTOPLOSS: 157.2",
+    "has_media": true,
+    "media_path": null
+  },
+  {
+    "id": "33340437-3a09-5eb4-a5f2-68349f40baa4",
+    "message_id": "46e8e8d2-a048-4a6d-8905-075b8acde308",
+    "telegram_msg_num": 16221,
+    "pair_token": "HBAR",
+    "direction": "LONG",
+    "entry_price": "0.127",
+    "stop_loss": "0.1235",
+    "take_profits": [
+      "0.1444"
+    ],
+    "created_at": "2026-09-28T19:13:23.936167+00:00",
+    "received_at": "2026-09-28T19:13:02+00:00",
+    "raw_text": "#HBAR $HBAR LONG TRADE\n\nENTRY: 0.127\n\nTARGET: 0.1444\n\nSTOPLOSS: 0.1235",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16221/de5bb69ff8a20d0a386dfb3a7cca18cabbb51c78bdd4c3747105827daeb5ea4f.jpg"
+  },
+  {
+    "id": "eaff7e7d-8a08-5a02-bf94-308843c92820",
+    "message_id": "73402cfc-d711-4467-a355-856c03345d02",
+    "telegram_msg_num": 16223,
+    "pair_token": "PUMP",
+    "direction": "LONG",
+    "entry_price": "0.005",
+    "stop_loss": "0.004862",
+    "take_profits": [
+      "0.0063"
+    ],
+    "created_at": "2026-09-29T07:34:33.563961+00:00",
+    "received_at": "2026-09-29T07:34:08+00:00",
+    "raw_text": "#PUMP $PUMP LONG TRADE\n\nENTRY: 0.005\n\nTARGET: 0.0063\n\nSTOPLOSS: 0.004862",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16223/00732a3c3ab97d371bd8974808d2efee5faf3d3b9e4296fe58ece9e3eb83b35f.jpg"
+  },
+  {
+    "id": "cd9ff84a-65e4-5992-9569-3f7a4610794d",
+    "message_id": "57e06738-fef2-4221-875d-1eaeb01e224c",
+    "telegram_msg_num": 16226,
+    "pair_token": "XAU",
+    "direction": "LONG",
+    "entry_price": "4139",
+    "stop_loss": "4005",
+    "take_profits": [],
+    "created_at": "2026-09-29T19:51:13.204818+00:00",
+    "received_at": "2026-09-29T19:50:56+00:00",
+    "raw_text": "$XAU swing longed \n\nDca 4139\n\nStoploss: 4005",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16226/48a6b467334b2bc2348400f6d3853897b83c8759dffc692b0a22eb106d480547.jpg"
+  },
+  {
+    "id": "3448d565-dde1-51c1-8d36-e863c831cb0d",
+    "message_id": "965c2d7c-dc2b-4168-8bb6-e02aaf9eeb98",
+    "telegram_msg_num": 16227,
+    "pair_token": "PENGU",
+    "direction": "SHORT",
+    "entry_price": "0.00988",
+    "stop_loss": "0.010125",
+    "take_profits": [
+      "0.0085"
+    ],
+    "created_at": "2026-09-30T05:08:48.88406+00:00",
+    "received_at": "2026-09-30T05:08:26+00:00",
+    "raw_text": "#PENGU $PENGU SHORT TRADE\n\nENTRY: 0.00988\n\nTARGET: 0.0085\n\nSTOPLOSS: 0.010125",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16227/9db6aeb8a80cc66a2ca21466173ad71e1c4efcd6cb1241ba1119b73b8e6c9df6.jpg"
+  },
+  {
+    "id": "7c83f63e-cbb7-58c5-bf4c-84d962725241",
+    "message_id": "2bdf55dc-93b3-4bd1-9fe7-cbef3de200e3",
+    "telegram_msg_num": 16229,
+    "pair_token": "PEPE",
+    "direction": "LONG",
+    "entry_price": "0.0004325",
+    "stop_loss": "0.0004195",
+    "take_profits": [],
+    "created_at": "2026-09-30T09:28:08.418292+00:00",
+    "received_at": "2026-09-30T09:27:53+00:00",
+    "raw_text": "$PEPE longed here at 0.0004325\n\nDca 0.000426\n\nStoploss: 0.0004195\n\nSend it higher",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16229/390527c6d622b04accb5089306fe503d0dd7e9f12d77f9299e5e580b1b4dcad3.jpg"
+  },
+  {
+    "id": "3f03eb10-c07c-5a81-b878-d294b73c26d6",
+    "message_id": "afadeeb8-d298-407c-af70-cb1415214036",
+    "telegram_msg_num": 16234,
+    "pair_token": "PUMP",
+    "direction": "LONG",
+    "entry_price": "0.00585",
+    "stop_loss": "0.005428",
+    "take_profits": [
+      "0.00712"
+    ],
+    "created_at": "2026-10-01T07:10:35.947883+00:00",
+    "received_at": "2026-10-01T07:10:23+00:00",
+    "raw_text": "#PUMP $PUMP LONG TRADE\n\nENTRY: 0.00585\n\nTARGET: 0.00712\n\nSTOPLOSS: 0.005428",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16234/3b5e9b3d57ace9ae6935dd1c6bdbd1765533841b678a8a26dc372d3a436ecbb1.jpg"
+  },
+  {
+    "id": "cf00f6bb-14c7-5af1-91ed-9932517653f2",
+    "message_id": "32ff4152-7506-4efc-9dcb-d18103b8c9bc",
+    "telegram_msg_num": 16237,
+    "pair_token": "BOME",
+    "direction": "LONG",
+    "entry_price": "0.000998",
+    "stop_loss": "0.0009685",
+    "take_profits": [
+      "0.001194"
+    ],
+    "created_at": "2026-10-03T05:10:45.789301+00:00",
+    "received_at": "2026-10-03T05:10:26+00:00",
+    "raw_text": "#BOME $BOME LONG TRADE\n\nENTRY: 0.000998\n\nTARGET: 0.001194\n\nSTOPLOSS: 0.0009685",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16237/2ce9fdc2834845e1dc8a73de63f102e45980d96e0a68a283abd8e8c8c2f9e997.jpg"
+  },
+  {
+    "id": "8625b6e4-724b-5b84-bf7c-e08ad6c34f6b",
+    "message_id": "7c5f2d60-64a7-46e1-ad1d-f14c39696820",
+    "telegram_msg_num": 16240,
+    "pair_token": "ENA",
+    "direction": "LONG",
+    "entry_price": "0.232",
+    "stop_loss": "0.22665",
+    "take_profits": [
+      "0.271"
+    ],
+    "created_at": "2026-10-03T14:29:23.658648+00:00",
+    "received_at": "2026-10-03T14:29:18+00:00",
+    "raw_text": "#ENA $ENA LONG TRADE\n\nENTRY: 0.232\n\nTARGET: 0.271\n\nSTOPLOSS: 0.22665",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16240/70d9a227dd14eaf56647975f7f2cadeac254300222e1aa4b4bcbed84b4b13942.jpg"
+  },
+  {
+    "id": "9ca4d16d-5b4e-5402-8e1d-535e190e325f",
+    "message_id": "a765dd3a-b0d6-4a69-b470-22184630405b",
+    "telegram_msg_num": 16244,
+    "pair_token": "PUMP",
+    "direction": "LONG",
+    "entry_price": "0.00638",
+    "stop_loss": "0.006215",
+    "take_profits": [
+      "0.006975"
+    ],
+    "created_at": "2026-10-05T04:52:51.902855+00:00",
+    "received_at": "2026-10-05T04:52:16+00:00",
+    "raw_text": "#PUMP $PUMP LONG TRADE\n\nENTRY: 0.00638\n\nTARGET: 0.006975\n\nSTOPLOSS: 0.006215",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16244/1cb73467fc636cb1283f9c246f2e3481b78d7e3aa71e64983e458d0c4870e1bf.jpg"
+  },
+  {
+    "id": "fe2cefdc-bcbd-5f71-9649-abd8de5c3a22",
+    "message_id": "c2e60813-8804-4716-8f64-0e8a8d7fb3be",
+    "telegram_msg_num": 16248,
+    "pair_token": "QNT",
+    "direction": "LONG",
+    "entry_price": "253.4",
+    "stop_loss": "241.65",
+    "take_profits": [
+      "309"
+    ],
+    "created_at": "2026-10-05T09:42:46.483117+00:00",
+    "received_at": "2026-10-05T09:42:45+00:00",
+    "raw_text": "#QNT $QNT LONG TRADE\n\nENTRY: 253.4\n\nTARGET: 309\n\nSTOPLOSS: 241.65",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16248/68eb88768c0f84ee71b1ed3bcb4a3e6f7e6b36756b6bd4e19a80d167d9e8befe.jpg"
+  },
+  {
+    "id": "fe15b7d3-162b-5954-9ba0-118c9f248bb1",
+    "message_id": "41fb9b10-0c67-45e6-a76d-0f8109ebb2a5",
+    "telegram_msg_num": 16250,
+    "pair_token": "FIL",
+    "direction": "LONG",
+    "entry_price": "1.16",
+    "stop_loss": "1.1225",
+    "take_profits": [
+      "1.414"
+    ],
+    "created_at": "2026-10-06T03:18:44.963635+00:00",
+    "received_at": "2026-10-06T03:18:18+00:00",
+    "raw_text": "#FIL $FIL LONG TRADE\n\nENTRY: 1.16\n\nTARGET: 1.414\n\nSTOPLOSS: 1.1225",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16250/2260b0c2c1bbea5bf8e5634e29c28cb21c7394ab22109b72c229d6d0e24cc069.jpg"
+  },
+  {
+    "id": "88981a6e-4b7f-5e86-9b34-505185f1e63e",
+    "message_id": "66717b12-5858-41b4-9903-e77276756439",
+    "telegram_msg_num": 16253,
+    "pair_token": "WLD",
+    "direction": "LONG",
+    "entry_price": "0.5635",
+    "stop_loss": "0.5542",
+    "take_profits": [
+      "0.681"
+    ],
+    "created_at": "2026-10-06T11:59:39.346667+00:00",
+    "received_at": "2026-10-06T11:59:33+00:00",
+    "raw_text": "#WLD $WLD LONG TRADE\n\nENTRY: 0.5635\n\nTARGET: 0.681\n\nSTOPLOSS: 0.5542",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16253/6a02db8b801413c02081e6f049d48398245dba8fdcf51ff6d00cf057a675882f.jpg"
+  },
+  {
+    "id": "c2768905-9fd5-5e03-8d7d-9ae3e8478e73",
+    "message_id": "9c7c1ca7-f898-4624-84b7-9dee8ae7030f",
+    "telegram_msg_num": 16256,
+    "pair_token": "TRUMP",
+    "direction": "SHORT",
+    "entry_price": "2.008",
+    "stop_loss": "2.042",
+    "take_profits": [
+      "1.74"
+    ],
+    "created_at": "2026-10-07T00:29:02.13264+00:00",
+    "received_at": "2026-10-07T00:28:25+00:00",
+    "raw_text": "#TRUMP $TRUMP SHORT TRADE\n\nENTRY: 2.008\n\nTARGET: 1.74\n\nSTOPLOSS: 2.042",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16256/357e3b9fef9785a17a786f847db8a4eabd8e2595f64c1fb9b26718e8993b8d3f.jpg"
+  },
+  {
+    "id": "ef7c9146-7768-5751-a000-da4fd5a67f20",
+    "message_id": "cab9bf12-3c08-43b2-ba44-3dfe59e5e841",
+    "telegram_msg_num": 16259,
+    "pair_token": "SAND",
+    "direction": "LONG",
+    "entry_price": "0.0739",
+    "stop_loss": "0.07162",
+    "take_profits": [
+      "0.085"
+    ],
+    "created_at": "2026-10-07T06:15:35.67352+00:00",
+    "received_at": "2026-10-07T06:15:26+00:00",
+    "raw_text": "#SAND $SAND LONG TRADE\n\nENTRY: 0.0739\n\nTARGET: 0.085\n\nSTOPLOSS: 0.07162",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16259/df6070702bcf26fba35248e07e650555408273cf0f4d548ce8168197c6dd0feb.jpg"
+  },
+  {
+    "id": "77ecbd92-c0a1-5842-87ce-14ebcd3b9ebb",
+    "message_id": "86ab0b2e-59a9-40c6-85b5-f1a6f0e1c002",
+    "telegram_msg_num": 16266,
+    "pair_token": "ZEC",
+    "direction": "SHORT",
+    "entry_price": "1243",
+    "stop_loss": "1263",
+    "take_profits": [
+      "1104"
+    ],
+    "created_at": "2026-10-08T05:10:33.063115+00:00",
+    "received_at": "2026-10-08T05:10:09+00:00",
+    "raw_text": "#ZEC $ZEC SHORT TRADE\n\nENTRY: 1243\n\nTARGET: 1104\n\nSTOPLOSS: 1263",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16266/56b92d76c30be01acab2572e50f5749e68f9c1a8be265d98c148a2c2abf76441.jpg"
+  },
+  {
+    "id": "bb3c4221-8f5b-5913-a765-cdcd4cbe625a",
+    "message_id": "fc5f6c2d-0169-4004-aa0e-740d31ed8831",
+    "telegram_msg_num": 16268,
+    "pair_token": "WLD",
+    "direction": "SHORT",
+    "entry_price": "0.525",
+    "stop_loss": "0.5362",
+    "take_profits": [
+      "0.492"
+    ],
+    "created_at": "2026-10-08T07:17:29.268457+00:00",
+    "received_at": "2026-10-08T07:16:30+00:00",
+    "raw_text": "#WLD $WLD SHORT TRADE\n\nENTRY: 0.525\n\nTARGET: 0.492\n\nSTOPLOSS: 0.5362",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16268/68d4637eb9af3f615c4a32177f23ef6aff68c7f26237c2bae16a46fa03ccb3d4.jpg"
+  },
+  {
+    "id": "d1d8011f-b9ab-549b-8685-0cd194fb9d1d",
+    "message_id": "e5225e78-050c-44ef-95d7-6779c635159b",
+    "telegram_msg_num": 16269,
+    "pair_token": "SAND",
+    "direction": "LONG",
+    "entry_price": "0.0728",
+    "stop_loss": "0.07085",
+    "take_profits": [
+      "0.085"
+    ],
+    "created_at": "2026-10-08T08:52:02.098484+00:00",
+    "received_at": "2026-10-08T08:51:43+00:00",
+    "raw_text": "#SAND $SAND LONG TRADE\n\nENTRY: 0.0728\n\nTARGET: 0.085\n\nSTOPLOSS: 0.07085",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16269/763848ec791d28f2add40b4589f69cfccad471e927582f5649e0b2ba01ed8dc6.jpg"
+  },
+  {
+    "id": "5159ed62-9792-596c-93aa-f94d876e5c19",
+    "message_id": "687407e5-fa4c-4210-b5da-504f89eb8aee",
+    "telegram_msg_num": 16274,
+    "pair_token": "PUMP",
+    "direction": "LONG",
+    "entry_price": "0.00566",
+    "stop_loss": "0.005502",
+    "take_profits": [
+      "0.006"
+    ],
+    "created_at": "2026-10-08T16:29:31.343103+00:00",
+    "received_at": "2026-10-08T16:29:00+00:00",
+    "raw_text": "#PUMP $PUMP LONG TRADE\n\nENTRY: 0.00566\n\nTARGET: 0.006\n\nSTOPLOSS: 0.005502",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16274/756013a3ee1f715c85af13788efe9d27318134fb3c5eabd4d71d246b31c818b8.jpg"
+  },
+  {
+    "id": "7415793f-9007-5a83-a281-a9e59fe57a01",
+    "message_id": "e237e174-6ed3-4663-85ab-5c40a8006584",
+    "telegram_msg_num": 16280,
+    "pair_token": "MAGIC",
+    "direction": "SHORT",
+    "entry_price": "0.157",
+    "stop_loss": "0.16395",
+    "take_profits": [
+      "0.128"
+    ],
+    "created_at": "2026-10-10T06:37:40.021129+00:00",
+    "received_at": "2026-10-10T06:37:24+00:00",
+    "raw_text": "#MAGIC $MAGIC SHORT TRADE\n\nENTRY: 0.157\n\nTARGET: 0.128\n\nSTOPLOSS: 0.16395",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16280/c383a96655164cc1d6652dc8f7b14a64ddd40577d05b74d79d44131057649aca.jpg"
+  },
+  {
+    "id": "b120d92e-e7a7-5e67-b3b3-fe407f1dabc7",
+    "message_id": "ad67329c-76fb-4b07-80fc-4ea495f06fde",
+    "telegram_msg_num": 16292,
+    "pair_token": "FLOW",
+    "direction": "LONG",
+    "entry_price": "0.03355",
+    "stop_loss": "0.03242",
+    "take_profits": [
+      "0.0385"
+    ],
+    "created_at": "2026-10-11T06:19:47.365913+00:00",
+    "received_at": "2026-10-11T06:19:22+00:00",
+    "raw_text": "#FLOW $FLOW LONG TRADE\n\nENTRY: 0.03355\n\nTARGET: 0.0385\n\nSTOPLOSS: 0.03242",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16292/d664ea116382c705eb3092cfd3d6fd84d6a2e16af3a71a5f6c182dc916becbdf.jpg"
+  },
+  {
+    "id": "9fb03bf3-0892-5d70-9c27-44c91430373c",
+    "message_id": "dffdc2c1-15bf-459e-9cce-99cd0d0a4298",
+    "telegram_msg_num": 16299,
+    "pair_token": "MAGIC",
+    "direction": "LONG",
+    "entry_price": "0.124",
+    "stop_loss": "0.11975",
+    "take_profits": [
+      "0.159"
+    ],
+    "created_at": "2026-10-13T08:43:08.370727+00:00",
+    "received_at": "2026-10-13T08:42:51+00:00",
+    "raw_text": "#MAGIC $MAGIC LONG TRADE\n\nENTRY: 0.124\n\nTARGET: 0.159\n\nSTOPLOSS: 0.11975",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16299/16b935fc4a10a82ffc2b5ce9c263541355d22e57d4f865850c5dccbeb04c9559.jpg"
+  },
+  {
+    "id": "9d536dc6-03b4-5d6e-962f-bd1d4c2f1bfa",
+    "message_id": "cc2e4b24-1aa2-4c9a-a189-b5372ae3ad61",
+    "telegram_msg_num": 16302,
+    "pair_token": "INJ",
+    "direction": "LONG",
+    "entry_price": "7.82",
+    "stop_loss": "7.615",
+    "take_profits": [
+      "8.94"
+    ],
+    "created_at": "2026-10-13T11:32:07.98152+00:00",
+    "received_at": "2026-10-13T11:31:59+00:00",
+    "raw_text": "#INJ $INJ LONG TRADE\n\nENTRY: 7.82\n\nTARGET: 8.94\n\nSTOPLOSS: 7.615",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16302/6a925b31d469c637c37a8954378b5e1e2726cf1e48248fdd6940b2e46e61d0c7.jpg"
+  },
+  {
+    "id": "fb906134-53c6-5c51-bf0b-661d7b3d9a4d",
+    "message_id": "c442e82a-0b74-4aa5-9dc3-e6954806f850",
+    "telegram_msg_num": 16305,
+    "pair_token": "ZEC",
+    "direction": "LONG",
+    "entry_price": "1244",
+    "stop_loss": "1221.5",
+    "take_profits": [
+      "1401"
+    ],
+    "created_at": "2026-10-14T06:01:05.272671+00:00",
+    "received_at": "2026-10-14T06:00:30+00:00",
+    "raw_text": "#ZEC $ZEC LONG TRADE\n\nENTRY: 1244\n\nTARGET: 1401\n\nSTOPLOSS: 1221.5",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16305/af60da3dbdc651f6b4c7bd365601b927bd9fcc3ad5229b65cff6c79229c87257.jpg"
+  },
+  {
+    "id": "f60196d1-5dfd-561f-9f87-991b8f0c190d",
+    "message_id": "2b77b1d3-b811-4502-8009-af16d3e329ff",
+    "telegram_msg_num": 16310,
+    "pair_token": "MAGIC",
+    "direction": "LONG",
+    "entry_price": "0.109",
+    "stop_loss": "0.10525",
+    "take_profits": [
+      "0.182"
+    ],
+    "created_at": "2026-10-15T12:34:38.814869+00:00",
+    "received_at": "2026-10-15T12:34:31+00:00",
+    "raw_text": "#MAGIC $MAGIC LONG TRADE\n\nENTRY: 0.109\n\nTARGET: 0.182\n\nSTOPLOSS: 0.10525",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16310/8272adc3f6913a6f554e70461219d7706de6fe0055d4f4c640f104affc9cf0b6.jpg"
+  },
+  {
+    "id": "20c8a3db-ecb6-5aed-92ff-144668366f68",
+    "message_id": "e938a44a-f843-439a-a4d8-5791f061e1b9",
+    "telegram_msg_num": 16314,
+    "pair_token": "NEAR",
+    "direction": "LONG",
+    "entry_price": "5.22",
+    "stop_loss": "5.095",
+    "take_profits": [
+      "5.84"
+    ],
+    "created_at": "2026-10-16T13:21:04.743624+00:00",
+    "received_at": "2026-10-16T13:20:51+00:00",
+    "raw_text": "#NEAR $NEAR LONG TRADE\n\nENTRY: 5.22\n\nTARGET: 5.84\n\nSTOPLOSS: 5.095",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16314/54c2d13d3b2e46d55ed1c2aeb00c7bdcfe0279739e13336eedefb79bf26483b0.jpg"
+  },
+  {
+    "id": "36bbc12c-0261-596f-a4af-b07cff10c00e",
+    "message_id": "018bd2dc-4120-4793-91ab-41a5a32a755a",
+    "telegram_msg_num": 16318,
+    "pair_token": "ENA",
+    "direction": "SHORT",
+    "entry_price": "0.19745",
+    "stop_loss": "0.20225",
+    "take_profits": [
+      "0.1686"
+    ],
+    "created_at": "2026-10-17T10:30:15.708693+00:00",
+    "received_at": "2026-10-17T10:29:51+00:00",
+    "raw_text": "#ENA $ENA SHORT TRADE\n\nENTRY: 0.19745\n\nTARGET: 0.1686\n\nSTOPLOSS: 0.20225",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16318/26ef7e9227cc19d8563e6bff0885b790997213740516d69acff67e3098f48782.jpg"
+  },
+  {
+    "id": "c95822be-45cc-5666-8a15-2611f53a479e",
+    "message_id": "e6513a16-ebd0-4acf-8622-0faf9714a370",
+    "telegram_msg_num": 16324,
+    "pair_token": "WLD",
+    "direction": "LONG",
+    "entry_price": "0.493",
+    "stop_loss": "0.4805",
+    "take_profits": [
+      "0.63"
+    ],
+    "created_at": "2026-10-18T09:15:47.870641+00:00",
+    "received_at": "2026-10-18T09:15:40+00:00",
+    "raw_text": "#WLD $WLD LONG TRADE\n\nENTRY: 0.493\n\nTARGET: 0.63\n\nSTOPLOSS: 0.4805",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16324/d70d404413bdcf333c8607ef9495f970c964c9f2c7cde395a9bfe7479a54e481.jpg"
+  },
+  {
+    "id": "ac5f58a0-b450-5bb3-8108-d3b7b13ac936",
+    "message_id": "d05122cc-9b33-48ef-8ab7-06e42f5a3d79",
+    "telegram_msg_num": 16326,
+    "pair_token": "NEAR",
+    "direction": "SHORT",
+    "entry_price": "4.94",
+    "stop_loss": "5.05",
+    "take_profits": [
+      "4.575"
+    ],
+    "created_at": "2026-10-18T11:42:45.007445+00:00",
+    "received_at": "2026-10-18T11:42:07+00:00",
+    "raw_text": "#NEAR $NEAR SHORT TRADE\n\nENTRY: 4.94\n\nTARGET: 4.575\n\nSTOPLOSS: 5.05",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16326/bba703dacb0e17ceb7d28118cc55b50707b92b5214d1938628d560f26e7cbaaf.jpg"
+  },
+  {
+    "id": "418d71a7-7184-5793-b76e-2347265eb747",
+    "message_id": "6763bec8-4aab-42d8-b433-93b1db83f0c3",
+    "telegram_msg_num": 16332,
+    "pair_token": "WLD",
+    "direction": "SHORT",
+    "entry_price": "0.509",
+    "stop_loss": "0.5192",
+    "take_profits": [
+      "0.4509"
+    ],
+    "created_at": "2026-10-19T09:20:11.693421+00:00",
+    "received_at": "2026-10-19T09:19:52+00:00",
+    "raw_text": "shorted $WLD @ 0.509\n\nSl above 0.5192",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16332/cdec56ba7f480f0eb221c0da5cb845257183f1222662f0807afe8dda30e61c52.jpg"
+  },
+  {
+    "id": "2cfd7c10-a9d7-51b6-81ad-58f252562f5b",
+    "message_id": "67bb6b67-d8ef-4aca-a33b-9f6c2512ef60",
+    "telegram_msg_num": 16336,
+    "pair_token": "WLD",
+    "direction": "SHORT",
+    "entry_price": "0.5615",
+    "stop_loss": "0.5752",
+    "take_profits": [
+      "0.533"
+    ],
+    "created_at": "2026-10-20T14:14:18.594148+00:00",
+    "received_at": "2026-10-20T14:13:43+00:00",
+    "raw_text": "#WLD $WLD SHORT TRADE\n\nENTRY: 0.5615\n\nTARGET: 0.533\n\nSTOPLOSS: 0.5752",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16336/413e5bfa139ff58e9871f3563901c9df47d7242cb0b5ac1130b3b34c17ff00fd.jpg"
+  },
+  {
+    "id": "d87fcfe9-f547-55c6-a658-1cb055d5e08e",
+    "message_id": "3cf8c8b2-0d2d-4c05-bc48-469f61eddee8",
+    "telegram_msg_num": 16339,
+    "pair_token": "GRIFFAIN",
+    "direction": "LONG",
+    "entry_price": "0.01477",
+    "stop_loss": "0.014215",
+    "take_profits": [
+      "0.01956"
+    ],
+    "created_at": "2026-10-21T10:45:18.879847+00:00",
+    "received_at": "2026-10-21T10:45:11+00:00",
+    "raw_text": "$GRIFFAIN #GRIFFAIN LONG TRADE\n\nENTRY: 0.01477\n\nTARGET: 0.01956\n\nSTOPLOSS: 0.014215",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16339/f8c7dadacd361afcda2ae9ff38bfbcb96359ba6b0c822e19128e7f9c44921812.jpg"
+  },
+  {
+    "id": "dec74217-de0a-5485-81bc-282fa81d23bb",
+    "message_id": "0eefe3c5-b1c4-44bd-abc9-57f6b87523d7",
+    "telegram_msg_num": 900001,
+    "pair_token": "WLD",
+    "direction": "SHORT",
+    "entry_price": "0.5714",
+    "stop_loss": "0.5725",
+    "take_profits": [
+      "0.5658"
+    ],
+    "created_at": "2026-10-21T20:29:25.52603+00:00",
+    "received_at": "2026-10-21T20:29:21.369083+00:00",
+    "raw_text": "#WLD $WLD SHORT TRADE\n\nENTRY: 0.5714\n\nTARGET: 0.5658\n\nSTOPLOSS: 0.5725",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "d47eca05-1237-54b3-b28b-894687aba648",
+    "message_id": "e7bc7c16-c3ff-45a7-aade-96bb1afedc34",
+    "telegram_msg_num": 900002,
+    "pair_token": "WLD",
+    "direction": "SHORT",
+    "entry_price": "0.5734",
+    "stop_loss": "0.577",
+    "take_profits": [
+      "0.5658"
+    ],
+    "created_at": "2026-10-21T20:34:30.852093+00:00",
+    "received_at": "2026-10-21T20:34:29.680712+00:00",
+    "raw_text": "#WLD $WLD SHORT TRADE\n\nENTRY: 0.5734\n\nTARGET: 0.5658\n\nSTOPLOSS: 0.5770",
+    "has_media": false,
+    "media_path": null
+  },
+  {
+    "id": "f91b3fd2-6f84-5360-a74e-d341b735b6e5",
+    "message_id": "b460976b-01da-49d8-92af-66d10ecbf987",
+    "telegram_msg_num": 16344,
+    "pair_token": "ENA",
+    "direction": "LONG",
+    "entry_price": "0.198",
+    "stop_loss": "0.1942",
+    "take_profits": [
+      "0.2087"
+    ],
+    "created_at": "2026-10-22T11:52:03.196772+00:00",
+    "received_at": "2026-10-22T11:51:19+00:00",
+    "raw_text": "#ENA $ENA LONG TRADE\n\nENTRY: 0.198\n\nTARGET: 0.2087\n\nSTOPLOSS: 0.1942",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16344/8b25267f5798c8554df9c0628cb72b76965e84aed51793cc6e0106008d243515.jpg"
+  },
+  {
+    "id": "43a64fdb-06a6-5958-a34e-1c420ed18e79",
+    "message_id": "39d1a0bd-54ce-48a4-870c-2700ea189183",
+    "telegram_msg_num": 16347,
+    "pair_token": "INJ",
+    "direction": "LONG",
+    "entry_price": "7.87",
+    "stop_loss": "7.675",
+    "take_profits": [
+      "9.214"
+    ],
+    "created_at": "2026-10-22T17:02:04.255504+00:00",
+    "received_at": "2026-10-22T17:01:57+00:00",
+    "raw_text": "Shared this $INJ limit yesterday in discord\n\nhttps://x.com/learnernoearner/status/2113314779028918718?s=46",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16347/554b43aed4617e4e46d78926f6e7611fe1e6d79094d34376a1047033e8967ed9.jpg"
+  },
+  {
+    "id": "fa034f9a-611b-5a6e-afad-a78d6c30aa6d",
+    "message_id": "28a93e73-0c8c-4cf1-9210-01ad680aa410",
+    "telegram_msg_num": 16349,
+    "pair_token": "PUMP",
+    "direction": "SHORT",
+    "entry_price": "0.00457",
+    "stop_loss": "0.004669",
+    "take_profits": [
+      "0.004057"
+    ],
+    "created_at": "2026-10-23T10:45:14.403916+00:00",
+    "received_at": "2026-10-23T10:44:51+00:00",
+    "raw_text": "$PUMP shorted here around 0.00457\n\nSl above 0.004669",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16349/4da7b95c8bd74cc4e8a92618d74c73cf65d1b27b982e18ed299dbeccdde8be70.jpg"
+  },
+  {
+    "id": "7014a4f1-ecb6-5716-8b3c-e80d2976ba3a",
+    "message_id": "3991cbcc-07af-42b4-a748-47bd5c28138a",
+    "telegram_msg_num": 16354,
+    "pair_token": "DASH",
+    "direction": "LONG",
+    "entry_price": "53.25",
+    "stop_loss": "51.95",
+    "take_profits": [
+      "55.6",
+      "59.6"
+    ],
+    "created_at": "2026-10-23T13:06:30.11081+00:00",
+    "received_at": "2026-10-23T13:05:51+00:00",
+    "raw_text": "#DASH $DASH LONG TRADE\n\nENTRY: 53.25\n\nTARGETS: 55.6 - 59.6\n\nSTOPPOSS: 51.95",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16354/94e0e9bcfdf2d99b94e75ac62051103b660ca72b05483fe6044624de8b1b462f.jpg"
+  },
+  {
+    "id": "2af06955-c79d-52ae-a097-a915ede46c76",
+    "message_id": "2a2dfffb-0a38-4778-94ca-d1f86410237f",
+    "telegram_msg_num": 16363,
+    "pair_token": "WLD",
+    "direction": "SHORT",
+    "entry_price": "0.4408",
+    "stop_loss": "0.4455",
+    "take_profits": [
+      "0.4305"
+    ],
+    "created_at": "2026-10-26T08:32:17.109732+00:00",
+    "received_at": "2026-10-26T08:32:04+00:00",
+    "raw_text": "$WLD SHORT SCALP \n\nENTRY: 0.4408 area\n\nTARGET: 0.4305\n\nSTOPLOSS: 0.4455",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16363/be9f4e230952e6665437458704921621048cf872b0a235b9284290ee6b03d9be.jpg"
+  },
+  {
+    "id": "3c7cf28e-db0b-54c8-8fad-6a0c7bc343cf",
+    "message_id": "26affc16-a15b-4700-bd08-104304820f53",
+    "telegram_msg_num": 16366,
+    "pair_token": "ZEC",
+    "direction": "LONG",
+    "entry_price": "1223",
+    "stop_loss": "1203",
+    "take_profits": [
+      "1290"
+    ],
+    "created_at": "2026-10-26T09:25:15.529136+00:00",
+    "received_at": "2026-10-26T09:24:45+00:00",
+    "raw_text": "#ZEC $ZEC LONG TRADE\n\nENTRY: 1223\n\nTARGET: 1290\n\nSTOPLOSS: 1203",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16366/fb97632d551b7660015f614d8f31bc6cb3f7fa77c953e78dab44aaba5ab0f061.jpg"
+  },
+  {
+    "id": "b4f11fdc-e578-54f0-b8d6-afeb21cafcf0",
+    "message_id": "b6a65513-1d9f-46c2-8dba-ee22d7aff63c",
+    "telegram_msg_num": 16370,
+    "pair_token": "PUMP",
+    "direction": "LONG",
+    "entry_price": "0.004247",
+    "stop_loss": "0.004185",
+    "take_profits": [
+      "0.00444"
+    ],
+    "created_at": "2026-10-26T12:14:41.823788+00:00",
+    "received_at": "2026-10-26T12:13:43+00:00",
+    "raw_text": "#PUMP $PUMP LONG TRADE\n\nENTRY: 0.004247\n\nTARGET: 0.00444\n\nSTOPLOSS: 0.004185",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16370/7d272604cc858a68c967ac58221233c4436c02c004a45b9dda4819c441ba90dd.jpg"
+  },
+  {
+    "id": "98600198-fb49-5af3-9131-b44bcb5d2251",
+    "message_id": "c9f32a7b-6bfd-4fb1-99ca-7790f931225e",
+    "telegram_msg_num": 16373,
+    "pair_token": "ONDO",
+    "direction": "LONG",
+    "entry_price": "0.4092",
+    "stop_loss": "0.4021",
+    "take_profits": [
+      "0.432"
+    ],
+    "created_at": "2026-10-26T13:20:43.737044+00:00",
+    "received_at": "2026-10-26T13:20:27+00:00",
+    "raw_text": "$ONDO LIMIT LONG TRADE\n\nENTRY: 0.4092\n\nTARGET: 0.432\n\nSTOPLOSS: 0.4021",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16373/d0254cb242fa522fe61e01a7a15cb32e65663cd636aa5f38758829bddbcccf0c.jpg"
+  },
+  {
+    "id": "982e6f3a-1918-5968-8ae2-932cce2c95d5",
+    "message_id": "5b1b47e2-7d7a-4864-ad7e-af413ff40b00",
+    "telegram_msg_num": 16379,
+    "pair_token": "ENA",
+    "direction": "LONG",
+    "entry_price": "0.2062",
+    "stop_loss": "0.20245",
+    "take_profits": [
+      "0.2295"
+    ],
+    "created_at": "2026-10-27T08:12:14.351683+00:00",
+    "received_at": "2026-10-27T08:11:26+00:00",
+    "raw_text": "#ENA $ENA LONG TRADE\n\nENTRY: 0.2062\n\nTARGET: 0.2295\n\nSTOPLOSS: 0.20245",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16379/0f51bfc2a66921a6086876f29ca3816b596d312764b51413dddfd31842748a91.jpg"
+  },
+  {
+    "id": "b6a56d57-dfc3-55f6-a32e-f1d5f9450102",
+    "message_id": "d2df840c-251f-4b77-8c88-1c0b80185ae6",
+    "telegram_msg_num": 16382,
+    "pair_token": "POWER",
+    "direction": "LONG",
+    "entry_price": "0.0794",
+    "stop_loss": "0.07645",
+    "take_profits": [
+      "0.0964"
+    ],
+    "created_at": "2026-10-27T09:38:23.127501+00:00",
+    "received_at": "2026-10-27T09:38:06+00:00",
+    "raw_text": "#POWER $POWER LONG TRADE\n\nENTRY: 0.0794\n\nTARGET: 0.0964\n\nSTOPLOSS: 0.07645",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16382/b02a4b3d52d937da386c7adef4d8f70bf5b0a2f8cb3ed1669ac186893f92ae99.jpg"
+  },
+  {
+    "id": "d5be8083-f3b0-5656-9e03-9c3ee87ec1f1",
+    "message_id": "e6cc2224-0048-4632-b7f6-a8d0823fc46c",
+    "telegram_msg_num": 16391,
+    "pair_token": "ZAMA",
+    "direction": "LONG",
+    "entry_price": "0.0776",
+    "stop_loss": "0.07565",
+    "take_profits": [
+      "0.084"
+    ],
+    "created_at": "2026-10-28T11:13:10.152189+00:00",
+    "received_at": "2026-10-28T11:12:48+00:00",
+    "raw_text": "#ZAMA $ZAMA LONG TRADE\n\nENTRY: 0.0776\n\nTARGET: 0.084\n\nSTOPLOSS: 0.07565",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16391/c96a1b01fe0a0632b7d139cdedc2486ba0c58f7d44051aa1d4744a376872943d.jpg"
+  },
+  {
+    "id": "39484e29-bde9-5ec1-b019-fe57d621cae5",
+    "message_id": "a139f34d-e8cc-40af-80f9-54ff70353352",
+    "telegram_msg_num": 16394,
+    "pair_token": "MAGIC",
+    "direction": "LONG",
+    "entry_price": "0.08265",
+    "stop_loss": "0.0805",
+    "take_profits": [
+      "0.1079"
+    ],
+    "created_at": "2026-10-28T17:02:26.475747+00:00",
+    "received_at": "2026-10-28T17:01:30+00:00",
+    "raw_text": "#MAGIC $MAGIC LONG TRADE\n\nENTRY: 0.08265\n\nTARGET: 0.1079\n\nSTOPLOSS: 0.0805",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16394/5ac268f319b137504ea26282f862568bd62a9bc80604f947ec87d0595ea058cf.jpg"
+  },
+  {
+    "id": "ea88ccb7-c5a5-5626-b050-5c364cc7d3ad",
+    "message_id": "2d99c282-4b35-45d6-96df-465586bb6244",
+    "telegram_msg_num": 16397,
+    "pair_token": "UAI",
+    "direction": "LONG",
+    "entry_price": "0.264",
+    "stop_loss": "0.2562",
+    "take_profits": [
+      "0.357"
+    ],
+    "created_at": "2026-10-29T11:25:01.798051+00:00",
+    "received_at": "2026-10-29T11:24:37+00:00",
+    "raw_text": "#UAI $UAI LONG TRADE\n\nENTRY: 0.264\n\nTARGET: 0.357\n\nSTOPLOSS: 0.2562",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16397/55ffe7af59d9d797e485db54e9b742040a28a7c5346b6b5c1f0e8da38880c699.jpg"
+  },
+  {
+    "id": "359aebfd-113f-52e4-86a2-0e6cca55309b",
+    "message_id": "5f4fecd3-250a-4b3a-858c-256b04ba4114",
+    "telegram_msg_num": 16403,
+    "pair_token": "PUMP",
+    "direction": "SHORT",
+    "entry_price": "0.00448",
+    "stop_loss": "0.00453",
+    "take_profits": [
+      "0.00424"
+    ],
+    "created_at": "2026-10-29T15:38:53.567385+00:00",
+    "received_at": "2026-10-29T15:38:47+00:00",
+    "raw_text": "#PUMP $PUMP SHORT TRADE\n\nENTRY: 0.00448\n\nTARGET: 0.00424\n\nSTOPLOSS: 0.00453",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16403/b064a17974f9503e5a0f3f75e60758d309d3fab34f33528ced52d8d158166ec7.jpg"
+  },
+  {
+    "id": "15d35f01-145e-554c-937f-9f4acd107383",
+    "message_id": "e8631a4b-7494-4b61-99dc-b14ff55db2e6",
+    "telegram_msg_num": 16407,
+    "pair_token": "PUMP",
+    "direction": "LONG",
+    "entry_price": "0.00398",
+    "stop_loss": "0.003975",
+    "take_profits": [
+      "0.00448"
+    ],
+    "created_at": "2026-10-30T13:53:45.974488+00:00",
+    "received_at": "2026-10-30T13:53:11+00:00",
+    "raw_text": "#PUMP $PUMP LONG TRADE\n\nENTRY: 0.00398\n\nTARGET: 0.00448\n\nSTOPLOSS: 0.003975",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16407/797f603e63d91ac58335701b63d255216e2d1cc7f04663925a8f2b06787b2365.jpg"
+  },
+  {
+    "id": "770fef6b-a43e-5de3-93b7-6125fac91c57",
+    "message_id": "80502431-c910-41b4-bebf-59ffc441570e",
+    "telegram_msg_num": 16415,
+    "pair_token": "ZRO",
+    "direction": "LONG",
+    "entry_price": "1.707",
+    "stop_loss": "1.6605",
+    "take_profits": [
+      "1.909"
+    ],
+    "created_at": "2026-10-31T00:47:07.03761+00:00",
+    "received_at": "2026-10-31T00:46:51+00:00",
+    "raw_text": "#ZRO $ZRO LONG TRADE\n\nENTRY: 1.707\n\nTARGET: 1.909\n\nSTOPLOSS: 1.6605",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16415/772e56b2c9a6a8bd0fbd36efb22315edd77b9cbf404b4d48950c1ceb568f775f.jpg"
+  },
+  {
+    "id": "c7a71273-9667-5f45-b980-8c5b203483b0",
+    "message_id": "61b0d33c-b6f4-4bcd-8b07-c69eebbc0c3c",
+    "telegram_msg_num": 16418,
+    "pair_token": "EVAA",
+    "direction": "LONG",
+    "entry_price": "1.235",
+    "stop_loss": "1.1985",
+    "take_profits": [
+      "1.559"
+    ],
+    "created_at": "2026-10-31T09:46:52.046447+00:00",
+    "received_at": "2026-10-31T09:46:03+00:00",
+    "raw_text": "#EVAA $EVAA LONG TRADE\n\nENTRY: 1.235\n\nTARGET: 1.559\n\nSTOPLOSS: 1.1985",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16418/1e4a65ea6919bb8d8bb35626a733f5c27ee6e8c5cee022e522928608f1e07b61.jpg"
+  },
+  {
+    "id": "f77654b6-bf95-5f33-bb52-663677b50747",
+    "message_id": "fb78f2d8-d8a2-48f2-8766-dd8ab3fc13c6",
+    "telegram_msg_num": 16427,
+    "pair_token": "PENGU",
+    "direction": "LONG",
+    "entry_price": "0.007325",
+    "stop_loss": "0.007132",
+    "take_profits": [
+      "0.00849"
+    ],
+    "created_at": "2026-11-01T11:40:00.230084+00:00",
+    "received_at": "2026-11-01T11:39:53+00:00",
+    "raw_text": "#PENGU $PENGU LONG TRADE\n\nENTRY: 0.007325\n\nTARGET: 0.00849\n\nSTOPLOSS: 0.007132",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16427/4cc8c5ee7e73db07e7fa1ba65ad68004129c880dcf1c083ef6cc756a67b5e6b6.jpg"
+  },
+  {
+    "id": "06535c7d-e2f2-5e89-8441-9275b6885e89",
+    "message_id": "48f45637-b0e8-4a25-a9f2-b0c041a3a16a",
+    "telegram_msg_num": 16430,
+    "pair_token": "TRUMP",
+    "direction": "LONG",
+    "entry_price": "1.72",
+    "stop_loss": "1.674",
+    "take_profits": [
+      "2.01"
+    ],
+    "created_at": "2026-11-01T15:28:55.459271+00:00",
+    "received_at": "2026-11-01T15:28:24+00:00",
+    "raw_text": "#TRUMP $TRUMP LONG TRADE\n\nENTRY: 1.72 \n\nTARGET: 2.01\n\nSTOPLOSS: 1.674",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16430/3cf05cf6aaf488257ad0c0bac0c5e199f48e53e41b64da473d29673338d3a63f.jpg"
+  },
+  {
+    "id": "707eae14-cf0f-536b-bd8c-845aacb4e4a8",
+    "message_id": "9b26a8d8-09d0-4579-b558-a7957ca04506",
+    "telegram_msg_num": 16439,
+    "pair_token": "ENA",
+    "direction": "LONG",
+    "entry_price": "0.1708",
+    "stop_loss": "0.1662",
+    "take_profits": [
+      "0.187"
+    ],
+    "created_at": "2026-11-02T17:09:06.271079+00:00",
+    "received_at": "2026-11-02T17:08:29+00:00",
+    "raw_text": "#ENA $ENA LONG TRADE\n\nENTRY: 0.1708\n\nTARGET: 0.187\n\nSTOPLOSS: 0.1662",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16439/93860ddc49e73b861ac4f1502340e97b6a45b232b953de1aaadc6f7ea9c6f5c5.jpg"
+  },
+  {
+    "id": "49340026-0c80-521b-8418-0ff672b97d04",
+    "message_id": "52c7a629-b226-4dde-bb04-1475b0728ed0",
+    "telegram_msg_num": 16442,
+    "pair_token": "SNDK",
+    "direction": "SHORT",
+    "entry_price": "1123",
+    "stop_loss": "1144",
+    "take_profits": [
+      "1036"
+    ],
+    "created_at": "2026-11-03T12:28:00.472076+00:00",
+    "received_at": "2026-11-03T12:27:18+00:00",
+    "raw_text": "$SNDK SHORT TRADE\n\nENTRY: 1123\n\nTARGET: 1036\n\nSTOPLOSS: 1144",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16442/2bb741036ffe3ede512851ac618f27986525f8e5bd103fc937018d4803c9829a.jpg"
+  },
+  {
+    "id": "462965e2-2b7b-5b9d-ac62-a9479b4a8ce0",
+    "message_id": "32995ee3-84d6-486f-a4a5-24772cb8810e",
+    "telegram_msg_num": 16444,
+    "pair_token": "ZEC",
+    "direction": "LONG",
+    "entry_price": "1225",
+    "stop_loss": "1198",
+    "take_profits": [
+      "1299"
+    ],
+    "created_at": "2026-11-03T21:13:37.979081+00:00",
+    "received_at": "2026-11-03T21:13:19+00:00",
+    "raw_text": "$ZEC LONG TRADE\n\nENTRY: 1225\n\nTARGET: 1299\n\nSTOPLOSS: 1198",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16444/5d83696046a13361d2b2f540b9d0f1845f77114827e577fb8029e3133b045cee.jpg"
+  },
+  {
+    "id": "fa03a50e-0a13-5682-907c-100c8562b716",
+    "message_id": "ec35e0e7-ad8c-4889-bf7d-974acbacd1a5",
+    "telegram_msg_num": 16451,
+    "pair_token": "APE",
+    "direction": "LONG",
+    "entry_price": "0.1159",
+    "stop_loss": "0.1131",
+    "take_profits": [
+      "0.123"
+    ],
+    "created_at": "2026-11-04T19:03:04.627387+00:00",
+    "received_at": "2026-11-04T19:02:57+00:00",
+    "raw_text": "#APE $APE LONG TRADE\n\nENTRY: 0.1159\n\nTARGET: 0.123\n\nSTOPLOSS: 0.1131",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16451/c754edd0b0418b939f703a1ae294e42bd37f12792a78c759fc747c476c48b299.jpg"
+  },
+  {
+    "id": "b55029c8-2d8d-5cf8-9ef9-1ca3cb4a8884",
+    "message_id": "0c4f3a1a-aa92-4866-ba89-c3c1534ce50b",
+    "telegram_msg_num": 16457,
+    "pair_token": "PEPE",
+    "direction": "LONG",
+    "entry_price": "0.000502",
+    "stop_loss": "0.0004902",
+    "take_profits": [
+      "0.000575"
+    ],
+    "created_at": "2026-11-06T14:12:49.124517+00:00",
+    "received_at": "2026-11-06T14:12:41+00:00",
+    "raw_text": "#PEPE $PEPE LONG TRADE\n\nENTRY: 0.000502\n\nTARGET: 0.000575\n\nSTOPLOSS: 0.0004902",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16457/6ba1fe4d562149a7d6f13117ee48544faf38b94adaed15a7a7c470be8fcde00d.jpg"
+  },
+  {
+    "id": "7785465f-9ac3-5166-8247-96bda088b7ee",
+    "message_id": "9d31d73d-f329-42ba-9ade-19726868ccc9",
+    "telegram_msg_num": 16461,
+    "pair_token": "LIT",
+    "direction": "LONG",
+    "entry_price": "3.47",
+    "stop_loss": "3.352",
+    "take_profits": [
+      "4.12"
+    ],
+    "created_at": "2026-11-07T02:26:44.050898+00:00",
+    "received_at": "2026-11-07T02:26:09+00:00",
+    "raw_text": "#LIT $LIT LONG TRADE\n\nENTRY: 3.47\n\nTARGET: 4.12\n\nSTOPLOSS: 3.352",
+    "has_media": true,
+    "media_path": "/app/runtime/media/telegram/-1001252615519/16461/4757dee6fc0d158141947c76fca5b6e4c6e8475a3ab4af589f39f1f570f0204b.jpg"
+  }
+]
