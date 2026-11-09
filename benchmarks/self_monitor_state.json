@@ -1,9 +1,9 @@
 {
-  "evaluated_at_utc": "2026-11-09T08:00:05.572514+00:00",
-  "overall_status": "HEALTHY",
+  "evaluated_at_utc": "2026-11-09T08:23:33.633608+00:00",
+  "overall_status": "DEGRADED_WARN",
   "latch_active": false,
   "latch_reason": null,
-  "consecutive_healthy_cycles": 7,
+  "consecutive_healthy_cycles": 8,
   "cycles_required_to_heal": 6,
   "total_healed_events": 0,
   "probes": [
@@ -23,8 +23,8 @@
     },
     {
       "probe_name": "shadow_feed_freshness",
-      "status": "PASS",
-      "measured_value": "1796.4s age",
+      "status": "WARN",
+      "measured_value": "3204.4s age",
       "threshold": "<= 1800s",
       "detail": "Last Bitget public scan at 2026-11-09T07:30:09.189361+00:00 (RANGE_BOUND)."
     },

@@ -1,131 +1,94 @@
-# System Architecture: Project Proteus
+# System Architecture: Project Proteus (`learnernoearner-distillation-engine`)
 
 ---
 
-## 1. High-Level Topology
+## 1. End-to-End Cognitive & Autonomous Evolution Topology
 
-```
-┌────────────────────────────────────────────────────────┐
-│               MULTI-TIMEFRAME DATA STREAM              │
-│       • Public CCXT / Binance / Bitget REST / WS       │
-│       • 1D Structure · 4h Swings · 15m Execution       │
-└───────────────────────────┬────────────────────────────┘
-                            │
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│               MACRO COMPASS (BTC / ETH)                │
-│       • 1D Trend Filter (Expansion vs Compression)     │
-│       • If BTC breakdown ──▶ Inhibit All Alt Longs     │
-└───────────────────────────┬────────────────────────────┘
-                            │
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│            3-TIER STRUCTURAL GEOMETRY CORE             │
-│       • Range High / Low (72h extreme wicks)           │
-│       • 50% Mid Range Equilibrium                      │
-│       • Liquidity Sweeps past Session Extremes         │
-└───────────────────────────┬────────────────────────────┘
-                            │
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│            VISUAL SALIENCY & ATTENTION AGENT           │
-│       • Generates clean TradingView candlestick image  │
-│       • Predicts S/R bounding boxes (IoU >= 0.80)      │
-└───────────────────────────┬────────────────────────────┘
-                            │
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│         COGNITIVE POLICY & ABSTENTION GATE             │
-│       • Evaluates P(ABSTAIN) vs P(ENTER)               │
-│       • Enforces 80/20 Long-Bias Ceiling               │
-│       • Drops 95% of bars in "no-man's land"           │
-└───────────────────────────┬────────────────────────────┘
-                            │
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│             ORDER PARAMETER SYNTHESIZER                │
-│       • Median 2.60% Stop-Loss (1 tick outside wick)   │
-│       • Median 4.56R Take-Profit Structural Target     │
-│       • Power-of-10 Price Scaler for meme tokens       │
-└───────────────────────────┬────────────────────────────┘
-                            │
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│            IN-FLIGHT TRADE MANAGEMENT FSM              │
-│       • Migrates SL to Breakeven at +1.0R              │
-│       • Derisks before sleep (UTC 21:00+)              │
-│       • Logs tick-level execution telemetry            │
-└────────────────────────────────────────────────────────┘
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                     PUBLIC BITGET USDT-FUTURES STREAM                        │
+│         • Zero API Keys · 1D Macro · 4H 72h Structure · 15m Execution        │
+└──────────────────────────────────────┬───────────────────────────────────────┘
+                                       │
+                                       ▼
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                 1. MACRO COMPASS GATE (proteus.compass)                      │
+│         • Evaluates BTC & ETH 1D (BULLISH_EXPANSION / RANGE_BOUND / BREAKDOWN)│
+│         • BTC/ETH never traded directly · Breakdown freezes all Alt Longs    │
+└──────────────────────────────────────┬───────────────────────────────────────┘
+                                       │
+                                       ▼
+┌──────────────────────────────────────────────────────────────────────────────┐
+│        2. 3-TIER STRUCTURAL GEOMETRY & VISION SALIENCY (geometry / vision)   │
+│         • 72h Range High (Supply) · 50% Midrange Pivot · Range Low (Demand)  │
+│         • 15m Wick Sweep (ratio >= 0.35) · RGB TradingView Box IoU >= 0.80   │
+└──────────────────────────────────────┬───────────────────────────────────────┘
+                                       │
+                                       ▼
+┌──────────────────────────────────────────────────────────────────────────────┐
+│           3. COGNITIVE POLICY & ABSTENTION GATE (proteus.policy)             │
+│         • Rule Gate + Fitted 5,097-Bar Gaussian Naive Bayes Classifier       │
+│         • Interior "No-Man's Land" -> P(ABSTAIN) = 0.92                      │
+│         • Asymmetric Admission: Long >= 0.65 (80.4%) · Short >= 0.85 (19.6%) │
+└──────────────────────────────────────┬───────────────────────────────────────┘
+                                       │
+                                       ▼
+┌──────────────────────────────────────────────────────────────────────────────┐
+│          4. ASYMMETRIC PARAMETER SYNTHESIZER (proteus.params)                │
+│         • Longs: 2.67% Median SL (15 bps below swing low) · 4.87R Target     │
+│         • Shorts: 2.17% Median SL (15 bps above wick high) · 4.46R Target    │
+│         • Retests -> LIMIT (2 bps Maker) · Sweeps -> MARKET (6 bps Taker)    │
+└──────────────────────────────────────┬───────────────────────────────────────┘
+                                       │
+                                       ▼
+┌──────────────────────────────────────────────────────────────────────────────┐
+│        5. VIRTUAL PAPER EXCHANGE & 2-HOUR IMPULSE FSM (paper / fsm)          │
+│         • $1,000 Base · $20 (2.0%)/1R Risk · Max 3 Concurrent Slots          │
+│         • +1.0R (~119.1m): Auto "sl to entry" (rescues 61.7% of whipsaws)    │
+│         • +1.5R (~123.6m): Auto 50% "tp1 booked"                             │
+│         • UTC 21:00+: Bedtime derisk · Stalled slot eviction when 3/3 full   │
+└──────────────────────────────────────┬───────────────────────────────────────┘
+                                       │
+                                       ▼
+┌──────────────────────────────────────────────────────────────────────────────┐
+│     6. SELF-MONITOR WATCHDOG & 4-STAGE AI EVOLVER (monitor / evolver / web)  │
+│         • 6 Runtime Probes + 6-Cycle Auto-Healing LatchHealer                │
+│         • Scout -> AdversarialCritic -> TuringVerifier -> SHA-256 Journal    │
+│         • Served Live at https://engine.warga-digital.com (127.0.0.1:18085)  │
+└──────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 2. Component Contract & Interfaces
+## 2. Subpackage Responsibilities (`src/proteus/`)
 
-### 2.1 Domain Models (`proteus.domain.models`)
-```python
-from dataclasses import dataclass
-from decimal import Decimal
-from enum import Enum
-from typing import Optional
-
-class Direction(str, Enum):
-    LONG = "LONG"
-    SHORT = "SHORT"
-
-class Action(str, Enum):
-    ABSTAIN = "ABSTAIN"
-    ENTER_LONG = "ENTER_LONG"
-    ENTER_SHORT = "ENTER_SHORT"
-
-class OrderMode(str, Enum):
-    MARKET = "MARKET"
-    LIMIT = "LIMIT"
-
-class MacroRegime(str, Enum):
-    BULLISH_EXPANSION = "BULLISH_EXPANSION"
-    RANGE_BOUND = "RANGE_BOUND"
-    BREAKDOWN = "BREAKDOWN"
-
-class SetupArchetype(str, Enum):
-    MIDRANGE_RETEST = "MIDRANGE_RETEST"
-    LIQUIDITY_SWEEP_RECLAIM = "LIQUIDITY_SWEEP_RECLAIM"
-    RANGE_HIGH_REJECTION = "RANGE_HIGH_REJECTION"
-    BREAKOUT_CONTINUATION = "BREAKOUT_CONTINUATION"
-    NONE = "NONE"
-
-@dataclass(frozen=True)
-class TradeSetup:
-    symbol: str
-    direction: Direction
-    order_mode: OrderMode
-    entry_price: Decimal
-    stop_loss: Decimal
-    take_profit: Decimal
-    planned_rr: Decimal
-    risk_pct: Decimal
-    confidence: float
-    archetype: SetupArchetype
-    limit_band_low: Optional[Decimal] = None
-    limit_band_high: Optional[Decimal] = None
-    scale_factor: int = 1
-```
-
-### 2.2 Module Responsibilities
-
-| Module | Package Path | Core Responsibility |
+| Subpackage | Module Path | Responsibility & Key Classes |
 | :--- | :--- | :--- |
-| **1. Lakehouse** | `proteus.market` | High-beta universe filter, $[T_0-30\text{d}, T_0+48\text{h}]$ alignment, negative-space mining |
-| **2. Macro Compass** | `proteus.compass` | `BTC`/`ETH` 1D regime evaluation (`BULLISH_EXPANSION`, `RANGE_BOUND`, `BREAKDOWN`) |
-| **3. Geometry Core** | `proteus.geometry` | 72h Range High/Low, $50\%$ Midrange equilibrium, wick sweep & no-man's land detection |
-| **4. Vision Saliency** | `proteus.vision` | S/R consolidation bounding-box proposal & spatial parity check ($\text{IoU} \ge 0.80$) |
-| **5. Policy Gate** | `proteus.policy` | $P(\text{ABSTAIN})$ filter, $80.4\%$ Long ($\ge 0.65$) vs $19.6\%$ Short ($\ge 0.85$) asymmetry |
-| **6. Synthesizer** | `proteus.params` | $2.60\%$ structural SL ($15\text{ bps}$ wick buffer), $4.56R$ single TP, $10^k$ meme price scaler |
-| **7. Lifecycle FSM** | `proteus.fsm` | $+1.0R$ breakeven shift (`sl to entry`), UTC 21:00+ bedtime derisking, lexicon commands |
-| **8. Turing Harness** | `proteus.benchmark` | Behavioral Parity Score ($BPS \ge 0.85$) across action, spatial, abstention, and timing |
+| **Domain** | `proteus.domain.models` | Immutable `Candle`, `RangeGeometry`, `BoundingBox`, `PolicyDecision`, `TradeSetup`, `PositionState` |
+| **Market** | `proteus.market` & `lakehouse` | `MultiTimeframeStore`, `NegativeSpaceDatasetBuilder` (5,097 bars), `fetch_public_bitget_candles_batch` |
+| **Compass** | `proteus.compass` | `MacroCompassGate`: `BTC`/`ETH` 1D regime evaluation and directional admissibility |
+| **Geometry** | `proteus.geometry` | `StructuralGeometryEngine`: 72h 3-tier levels, wick rejection ratios, midrange retests, no-man's land |
+| **Vision** | `proteus.vision` | `VisualSaliencyAgent`, `TradingViewBoxExtractor`, `VisionCorpusAnalyzer` (284 charts), `SyntheticTradingViewRenderer` |
+| **Policy** | `proteus.policy` & `bayesian` | `CognitivePolicyGate` (deterministic) & `BayesianCognitivePolicy` (fitted on 97 setups + 5,000 negative bars) |
+| **Params** | `proteus.params` | `OrderParameterSynthesizer`: directional SL (`2.67%` / `2.17%`), R:R (`4.87R` / `4.46R`), and $10^k$ meme price scaler |
+| **FSM** | `proteus.fsm` | `TradeLifecycleFSM`: $+1.0R$ breakeven shift, UTC 21:00+ bedtime derisking, linguistic command translator |
+| **Benchmark** | `proteus.benchmark` | `BehavioralParityBenchmark`: evaluates $BPS = 0.35 S_{\text{action}} + 0.25 S_{\text{spatial}} + 0.25 S_{\text{abstain}} + 0.15 S_{\text{timing}}$ |
+| **Replay** | `proteus.replay` | `EmpiricalCorpusReplay`: replays 784 messages, 97 setups, and 47 management updates ($BPS = 0.9700$) |
+| **Backtest** | `proteus.backtest` | `LifecycleBacktestSimulator`: compares Naive Set-and-Forget vs. Distilled FSM + 87-signal real-candle whipsaw audit |
+| **Shadow** | `proteus.shadow` & `lead_time` | `ForwardShadowScanner` (live Bitget scan) & `ShadowLeadTimeComparator` (median $\Delta t = -16.5\text{s}$) |
+| **Paper** | `proteus.paper` | `VirtualPaperExchange`: `$1,000` ledger, Bitget Maker/Taker fees (`2 bps`/`6 bps`), 3-slot margin velocity eviction |
+| **Constitution** | `proteus.constitution` | `ConstitutionalIdentityGuard` (AST anti-indicator scanner + corridors) & `BoundedSelfCorrector` |
+| **Monitor** | `proteus.monitor` | `SelfMonitoringWatchdog`: 6 runtime health probes + 6-cycle `LatchHealer` recovery |
+| **Evolver** | `proteus.evolver` | `AgenticSelfImprover` (`TelemetryScout` → `AdversarialCritic` → `TuringVerifier` → `HashChainCommitter`) |
+| **Web UI** | `proteus.web` | `ProteusWebHandler` & `INDEX_HTML`: 7-tab institutional dark-mode console on `127.0.0.1:18085` |
 
-### 2.3 Hard Invariant Guarantees
-1. **Air-Gap Credential Guard**: `ProteusDistillationEngine.verify_air_gap()` aborts immediately if `BITGET_API_KEY`, `BITGET_SECRET`, `BITGET_PASSPHRASE`, or `TRIPLEDES` environment variables are present.
-2. **Capital Risk Cap**: Synthesized orders enforce $0.50\% \le \text{SL distance} \le 5.00\%$, anchored $15\text{ bps}$ outside the 15m invalidation wick (defaulting to the $2.60\%$ empirical median when local wicks violate bounds).
-3. **Directional Safety Guard**: `BTC` and `ETH` are never traded directly; high-beta Longs freeze during `BTC` 1D `BREAKDOWN`, and high-beta Shorts freeze during `BTC` 1D `BULLISH_EXPANSION`.
-4. **Execution Mode Separation**: Structural retests (`MIDRANGE_RETEST`, `RANGE_HIGH_REJECTION`) emit `OrderMode.LIMIT`; liquidity sweeps (`LIQUIDITY_SWEEP_RECLAIM`) emit `OrderMode.MARKET`.
+---
+
+## 3. Hard Invariant Guarantees
+
+1. **Air-Gap Credential Guard**: `ProteusDistillationEngine.verify_air_gap()` aborts immediately with `AirGapSecurityError` if `BITGET_API_KEY`, `BITGET_SECRET`, `BITGET_PASSPHRASE`, or `TRIPLEDES` environment variables exist.
+2. **Codebase Anti-Indicator Purity**: `ConstitutionalIdentityGuard.verify_codebase_purity()` scans all `.py` files in `src/proteus/` and raises `IdentityDriftError` if any lagging retail oscillator (`RSI`, `MACD`, `Bollinger`, `Stochastic`, `Ichimoku`, `EMA/SMA crossover`) is introduced.
+3. **Capital Risk Cap**: Synthesized orders enforce $0.50\% \le \text{SL distance} \le 5.00\%$, anchored $15\text{ bps}$ beyond the 15m invalidation swing wick.
+4. **Directional Safety Guard**: `BTC` and `ETH` are never traded directly; high-beta Longs freeze during `BTC` 1D `BREAKDOWN`, and high-beta Shorts freeze during `BTC` 1D `BULLISH_EXPANSION`.
+5. **Execution Mode Separation**: Structural retests (`MIDRANGE_RETEST`, `RANGE_HIGH_REJECTION`) emit `OrderMode.LIMIT` (`2.0 bps` Maker); liquidity sweeps (`LIQUIDITY_SWEEP_RECLAIM`) emit `OrderMode.MARKET` (`6.0 bps` Taker).
+6. **Constitutional Self-Correction Rollback**: `BoundedSelfCorrector` and `AgenticSelfImprover` automatically reject and roll back any parameter update that violates `CONSTITUTIONAL_CORRIDORS` or drops $BPS < 0.85$.
