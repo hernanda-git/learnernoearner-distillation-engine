@@ -1,0 +1,7173 @@
+[
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16151,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 230.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.7421,
+      0.7576
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.7475
+    ],
+    "sr_zone_box_norm": [
+      0.6164,
+      0.3232,
+      0.7484,
+      0.7677
+    ],
+    "visual_implied_rr": 1.02
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16152,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 231.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2579,
+      0.2222,
+      0.9811,
+      0.9091
+    ],
+    "sl_box_norm": [
+      0.2767,
+      0.2222,
+      0.9686,
+      0.8081
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.17
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16155,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 232.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.283,
+      0.2222,
+      0.9748,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.3082,
+      0.2222,
+      0.9811,
+      0.4646
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.79
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16157,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 235.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2828,
+      0.9811,
+      0.7475
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2626,
+      0.6604,
+      0.5051
+    ],
+    "sr_zone_box_norm": [
+      0.6604,
+      0.7374,
+      0.9811,
+      0.8283
+    ],
+    "visual_implied_rr": 1.92
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16159,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 227.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.1635,
+      0.2222,
+      0.7421,
+      0.6768
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.3535,
+      0.9811,
+      0.8081
+    ],
+    "sr_zone_box_norm": [
+      0.717,
+      0.3636,
+      0.7421,
+      0.6869
+    ],
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16160,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 156.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.3232,
+      0.9748,
+      0.8283
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9748,
+      0.7879
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.89
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16162,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 241.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.1132,
+      0.2222,
+      0.9874,
+      0.8283
+    ],
+    "sl_box_norm": [
+      0.1509,
+      0.2222,
+      0.6038,
+      0.8485
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.97
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16163,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 177.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2893,
+      0.2222,
+      0.6918,
+      0.7576
+    ],
+    "sl_box_norm": [
+      0.2956,
+      0.2222,
+      0.9874,
+      0.7374
+    ],
+    "sr_zone_box_norm": [
+      0.6541,
+      0.4949,
+      0.6855,
+      0.7677
+    ],
+    "visual_implied_rr": 1.04
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16164,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 161.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.1572,
+      0.2222,
+      0.9811,
+      0.8788
+    ],
+    "sl_box_norm": [
+      0.1698,
+      0.2222,
+      0.9874,
+      0.5758
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.86
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16166,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 167.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2727,
+      0.9748,
+      0.8788
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9748,
+      0.7475
+    ],
+    "sr_zone_box_norm": [
+      0.9686,
+      0.4242,
+      0.9686,
+      0.4242
+    ],
+    "visual_implied_rr": 1.15
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16167,
+    "width": 1536,
+    "height": 2048,
+    "aspect_ratio": 0.75,
+    "theme": "DARK",
+    "avg_luminance": 127.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0,
+      0.0404,
+      1.0,
+      1.0
+    ],
+    "sl_box_norm": [
+      0.1069,
+      0.0,
+      0.9874,
+      0.3838
+    ],
+    "sr_zone_box_norm": [
+      0.0,
+      0.1717,
+      1.0,
+      1.0
+    ],
+    "visual_implied_rr": 2.5
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16168,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 228.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9748,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9748,
+      0.6061
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.84
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16169,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 241.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.434,
+      0.2222,
+      0.5409,
+      0.5657
+    ],
+    "sl_box_norm": [
+      0.478,
+      0.3737,
+      0.9811,
+      0.4545
+    ],
+    "sr_zone_box_norm": [
+      0.4843,
+      0.3939,
+      0.5472,
+      0.5758
+    ],
+    "visual_implied_rr": 4.25
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16171,
+    "width": 1062,
+    "height": 654,
+    "aspect_ratio": 1.62,
+    "theme": "DARK",
+    "avg_luminance": 20.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.3131,
+      0.9119,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.2828,
+      0.9057,
+      0.9495
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.86
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16174,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 228.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.2222,
+      0.9811,
+      0.8081
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.5354
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.87
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16176,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 231.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.2323,
+      0.9748,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2828,
+      0.9748,
+      0.5859
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.0
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16178,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 157.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.3939,
+      0.9874,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9874,
+      0.5758
+    ],
+    "sr_zone_box_norm": [
+      0.9182,
+      0.2626,
+      0.9182,
+      0.2626
+    ],
+    "visual_implied_rr": 1.43
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16180,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 168.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2222,
+      0.9748,
+      0.8586
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9748,
+      0.4646
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.63
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16181,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 164.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.4403,
+      0.2222,
+      0.9874,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9874,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.87
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16185,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 236.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.4465,
+      0.2222,
+      0.9811,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.5094,
+      0.2626,
+      0.9811,
+      0.697
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.53
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16187,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 171.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.5849,
+      0.2222,
+      0.9748,
+      0.6869
+    ],
+    "sl_box_norm": [
+      0.6667,
+      0.2222,
+      0.9748,
+      0.4444
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.09
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16189,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 166.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0755,
+      0.2222,
+      0.9811,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.2013,
+      0.2222,
+      0.9874,
+      0.6465
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.57
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16191,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 170.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0692,
+      0.2222,
+      0.9811,
+      0.8081
+    ],
+    "sl_box_norm": [
+      0.0818,
+      0.2222,
+      0.9811,
+      0.6162
+    ],
+    "sr_zone_box_norm": [
+      0.522,
+      0.3939,
+      0.522,
+      0.3939
+    ],
+    "visual_implied_rr": 1.49
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16193,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 227.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9748,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.2727,
+      0.9748,
+      0.6768
+    ],
+    "sr_zone_box_norm": [
+      0.8805,
+      0.5455,
+      0.9686,
+      0.5859
+    ],
+    "visual_implied_rr": 1.75
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16195,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 232.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.1635,
+      0.5152,
+      0.9748,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.1132,
+      0.2626,
+      0.5346,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.5346,
+      0.5051,
+      0.6478,
+      0.7677
+    ],
+    "visual_implied_rr": 0.62
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16196,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 158.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.2222,
+      0.9748,
+      0.9091
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9748,
+      0.7273
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.36
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16198,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 168.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.195,
+      0.2525,
+      0.8742,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.1887,
+      0.2323,
+      0.9748,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.4843,
+      0.5051,
+      0.7044,
+      0.7879
+    ],
+    "visual_implied_rr": 0.97
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16199,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 167.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.2222,
+      0.9748,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.7799,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.7862,
+      0.7172,
+      0.9748,
+      0.9091
+    ],
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16201,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 150.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.404,
+      0.9748,
+      0.9192
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2323,
+      0.9748,
+      0.7576
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.98
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16202,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 226.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9874,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.0629,
+      0.2222,
+      0.9874,
+      0.7475
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.29
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16206,
+    "width": 675,
+    "height": 1200,
+    "aspect_ratio": 0.56,
+    "theme": "DARK",
+    "avg_luminance": 108.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.0,
+      0.0,
+      0.9497,
+      0.596
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16208,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 167.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.5346,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2323,
+      0.8994,
+      0.4242
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 3.68
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16211,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 163.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2424,
+      0.9874,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9874,
+      0.5152
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.34
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16212,
+    "width": 800,
+    "height": 493,
+    "aspect_ratio": 1.62,
+    "theme": "DARK",
+    "avg_luminance": 20.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.3434,
+      0.9119,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.2828,
+      0.9057,
+      0.9495
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.82
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16215,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 231.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2767,
+      0.2222,
+      0.9811,
+      0.7879
+    ],
+    "sl_box_norm": [
+      0.3648,
+      0.2727,
+      0.9811,
+      0.8384
+    ],
+    "sr_zone_box_norm": [
+      0.7925,
+      0.7273,
+      0.9811,
+      0.9192
+    ],
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16217,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 172.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.5535,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.566,
+      0.2222,
+      0.9874,
+      0.7475
+    ],
+    "sr_zone_box_norm": [
+      0.7421,
+      0.6566,
+      0.9811,
+      0.8283
+    ],
+    "visual_implied_rr": 1.35
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16219,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 165.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.2222,
+      0.9811,
+      0.8586
+    ],
+    "sl_box_norm": [
+      0.0692,
+      0.2222,
+      0.9811,
+      0.5455
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.97
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16221,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 168.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.5031,
+      0.2222,
+      0.9811,
+      0.9192
+    ],
+    "sl_box_norm": [
+      0.5723,
+      0.2222,
+      0.9811,
+      0.5253
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.3
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16223,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 227.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.0252,
+      0.3333,
+      0.8868,
+      0.5758
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.79
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16226,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 162.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.3939,
+      0.9811,
+      0.8586
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.2626,
+      0.9811,
+      0.7576
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.94
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16227,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 156.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9748,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2626,
+      0.9748,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.7296,
+      0.7778,
+      0.9686,
+      0.9293
+    ],
+    "visual_implied_rr": 1.06
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16229,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 232.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0818,
+      0.2222,
+      0.9811,
+      0.8687
+    ],
+    "sl_box_norm": [
+      0.0881,
+      0.2222,
+      0.9811,
+      0.7273
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.28
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16230,
+    "width": 1242,
+    "height": 1757,
+    "aspect_ratio": 0.71,
+    "theme": "DARK",
+    "avg_luminance": 110.0,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.3836,
+      0.7677,
+      0.5975,
+      0.798
+    ],
+    "sl_box_norm": [
+      0.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "sr_zone_box_norm": [
+      0.3711,
+      0.7576,
+      0.5975,
+      0.798
+    ],
+    "visual_implied_rr": 0.03
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16233,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 170.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.3434,
+      0.9874,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.5354,
+      0.4843,
+      0.8788
+    ],
+    "sr_zone_box_norm": [
+      0.4906,
+      0.3333,
+      0.5912,
+      0.7879
+    ],
+    "visual_implied_rr": 1.71
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 16234,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 225.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2138,
+      0.2222,
+      0.9811,
+      0.8687
+    ],
+    "sl_box_norm": [
+      0.2327,
+      0.2222,
+      0.9811,
+      0.4646
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.67
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 327,
+    "width": 1280,
+    "height": 642,
+    "aspect_ratio": 1.99,
+    "theme": "DARK",
+    "avg_luminance": 16.4,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.0063,
+      0.1616,
+      0.8994,
+      0.9798
+    ],
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 328,
+    "width": 1039,
+    "height": 1280,
+    "aspect_ratio": 0.81,
+    "theme": "DARK",
+    "avg_luminance": 15.9,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.1069,
+      0.0404,
+      0.9057,
+      0.9697
+    ],
+    "sl_box_norm": [
+      0.1132,
+      0.7475,
+      0.5472,
+      0.7576
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.3939,
+      1.0,
+      0.4646
+    ],
+    "visual_implied_rr": 15.0
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 329,
+    "width": 1200,
+    "height": 585,
+    "aspect_ratio": 2.05,
+    "theme": "DARK",
+    "avg_luminance": 24.3,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.6038,
+      0.1616,
+      0.8679,
+      0.6667
+    ],
+    "sl_box_norm": null,
+    "sr_zone_box_norm": [
+      0.6918,
+      0.3535,
+      0.761,
+      0.5455
+    ],
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 330,
+    "width": 1039,
+    "height": 1280,
+    "aspect_ratio": 0.81,
+    "theme": "DARK",
+    "avg_luminance": 15.9,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.1069,
+      0.0404,
+      0.9057,
+      0.9697
+    ],
+    "sl_box_norm": [
+      0.1132,
+      0.7475,
+      0.5472,
+      0.7576
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.3939,
+      1.0,
+      0.4646
+    ],
+    "visual_implied_rr": 15.0
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 332,
+    "width": 1280,
+    "height": 1144,
+    "aspect_ratio": 1.12,
+    "theme": "DARK",
+    "avg_luminance": 26.9,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.0377,
+      0.2222,
+      0.9623,
+      0.8788
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 337,
+    "width": 1280,
+    "height": 1186,
+    "aspect_ratio": 1.08,
+    "theme": "DARK",
+    "avg_luminance": 26.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2222,
+      0.9623,
+      0.8586
+    ],
+    "sl_box_norm": [
+      0.7736,
+      0.2121,
+      0.9623,
+      0.3535
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 4.5
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 339,
+    "width": 1280,
+    "height": 1226,
+    "aspect_ratio": 1.04,
+    "theme": "DARK",
+    "avg_luminance": 27.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.2828,
+      0.9623,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.7673,
+      0.2727,
+      0.9623,
+      0.404
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 4.62
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 341,
+    "width": 1244,
+    "height": 1265,
+    "aspect_ratio": 0.98,
+    "theme": "DARK",
+    "avg_luminance": 25.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.697,
+      0.9623,
+      0.8687
+    ],
+    "sl_box_norm": [
+      0.7736,
+      0.2929,
+      0.956,
+      0.4141
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.42
+  },
+  {
+    "file_name": "source.jpg",
+    "telegram_msg_num": 343,
+    "width": 1280,
+    "height": 1219,
+    "aspect_ratio": 1.05,
+    "theme": "DARK",
+    "avg_luminance": 25.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2323,
+      0.9623,
+      0.7071
+    ],
+    "sl_box_norm": [
+      0.044,
+      0.2222,
+      0.9623,
+      0.8586
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.75
+  },
+  {
+    "file_name": "de5bb69ff8a20d0a386dfb3a7cca18cabbb51c78bdd4c3747105827daeb5ea4f.jpg",
+    "telegram_msg_num": 16221,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 168.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.5031,
+      0.2222,
+      0.9811,
+      0.9192
+    ],
+    "sl_box_norm": [
+      0.5723,
+      0.2222,
+      0.9811,
+      0.5253
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.3
+  },
+  {
+    "file_name": "00732a3c3ab97d371bd8974808d2efee5faf3d3b9e4296fe58ece9e3eb83b35f.jpg",
+    "telegram_msg_num": 16223,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 227.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.0252,
+      0.3333,
+      0.8868,
+      0.5758
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.79
+  },
+  {
+    "file_name": "48a6b467334b2bc2348400f6d3853897b83c8759dffc692b0a22eb106d480547.jpg",
+    "telegram_msg_num": 16226,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 162.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.3939,
+      0.9811,
+      0.8586
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.2626,
+      0.9811,
+      0.7576
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.94
+  },
+  {
+    "file_name": "9db6aeb8a80cc66a2ca21466173ad71e1c4efcd6cb1241ba1119b73b8e6c9df6.jpg",
+    "telegram_msg_num": 16227,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 156.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9748,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2626,
+      0.9748,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.7296,
+      0.7778,
+      0.9686,
+      0.9293
+    ],
+    "visual_implied_rr": 1.06
+  },
+  {
+    "file_name": "390527c6d622b04accb5089306fe503d0dd7e9f12d77f9299e5e580b1b4dcad3.jpg",
+    "telegram_msg_num": 16229,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 232.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0818,
+      0.2222,
+      0.9811,
+      0.8687
+    ],
+    "sl_box_norm": [
+      0.0881,
+      0.2222,
+      0.9811,
+      0.7273
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.28
+  },
+  {
+    "file_name": "a2c6d68afa6afc3416be39a3b6821c8d3162e31396a60a6d90abc2d8ead8a1ae.jpg",
+    "telegram_msg_num": 16230,
+    "width": 1242,
+    "height": 1757,
+    "aspect_ratio": 0.71,
+    "theme": "DARK",
+    "avg_luminance": 110.0,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.3836,
+      0.7677,
+      0.5975,
+      0.798
+    ],
+    "sl_box_norm": [
+      0.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "sr_zone_box_norm": [
+      0.3711,
+      0.7576,
+      0.5975,
+      0.798
+    ],
+    "visual_implied_rr": 0.03
+  },
+  {
+    "file_name": "b8606e0af9706d694bb5b482a6d269cf53ec1e7ae7611e1c4ab7ce96acd09e56.jpg",
+    "telegram_msg_num": 16233,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 170.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.3434,
+      0.9874,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.5354,
+      0.4843,
+      0.8788
+    ],
+    "sr_zone_box_norm": [
+      0.4906,
+      0.3333,
+      0.5912,
+      0.7879
+    ],
+    "visual_implied_rr": 1.71
+  },
+  {
+    "file_name": "3b5e9b3d57ace9ae6935dd1c6bdbd1765533841b678a8a26dc372d3a436ecbb1.jpg",
+    "telegram_msg_num": 16234,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 225.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2138,
+      0.2222,
+      0.9811,
+      0.8687
+    ],
+    "sl_box_norm": [
+      0.2327,
+      0.2222,
+      0.9811,
+      0.4646
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.67
+  },
+  {
+    "file_name": "15d224e7c266bd8adcbbbef35d6d97238a16d932ffa157eea077d0a3d0bfe9d8.jpg",
+    "telegram_msg_num": 16236,
+    "width": 1200,
+    "height": 424,
+    "aspect_ratio": 2.83,
+    "theme": "LIGHT",
+    "avg_luminance": 140.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2767,
+      0.4848,
+      0.4717,
+      0.9091
+    ],
+    "sl_box_norm": [
+      0.0,
+      0.303,
+      1.0,
+      1.0
+    ],
+    "sr_zone_box_norm": [
+      0.044,
+      0.4242,
+      0.3208,
+      1.0
+    ],
+    "visual_implied_rr": 0.61
+  },
+  {
+    "file_name": "2ce9fdc2834845e1dc8a73de63f102e45980d96e0a68a283abd8e8c8c2f9e997.jpg",
+    "telegram_msg_num": 16237,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 230.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9748,
+      0.8485
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9748,
+      0.6162
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.59
+  },
+  {
+    "file_name": "70d9a227dd14eaf56647975f7f2cadeac254300222e1aa4b4bcbed84b4b13942.jpg",
+    "telegram_msg_num": 16240,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 219.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.3333,
+      0.9811,
+      0.9091
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.7778
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.04
+  },
+  {
+    "file_name": "62093e959a71a1bbd01c5809c7615b7362c8c6effdcc0114746b3e83032bcc5b.jpg",
+    "telegram_msg_num": 16242,
+    "width": 200,
+    "height": 200,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "1cb73467fc636cb1283f9c246f2e3481b78d7e3aa71e64983e458d0c4870e1bf.jpg",
+    "telegram_msg_num": 16244,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 161.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2013,
+      0.2222,
+      0.9811,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.2138,
+      0.2424,
+      0.9811,
+      0.6364
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.56
+  },
+  {
+    "file_name": "ad31681d696762cb1d35f2ec90348b6f8da5cf6eee20d8daf93d7470cc4d5026.jpg",
+    "telegram_msg_num": 16247,
+    "width": 1062,
+    "height": 654,
+    "aspect_ratio": 1.62,
+    "theme": "DARK",
+    "avg_luminance": 20.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.3434,
+      0.9119,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.2828,
+      0.9057,
+      0.9495
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.82
+  },
+  {
+    "file_name": "68eb88768c0f84ee71b1ed3bcb4a3e6f7e6b36756b6bd4e19a80d167d9e8befe.jpg",
+    "telegram_msg_num": 16248,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 228.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2828,
+      0.9811,
+      0.8788
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.2525,
+      0.9874,
+      0.8283
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.04
+  },
+  {
+    "file_name": "2260b0c2c1bbea5bf8e5634e29c28cb21c7394ab22109b72c229d6d0e24cc069.jpg",
+    "telegram_msg_num": 16250,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 172.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.4528,
+      0.2222,
+      0.9686,
+      0.8182
+    ],
+    "sl_box_norm": [
+      0.4088,
+      0.2222,
+      0.9811,
+      0.4444
+    ],
+    "sr_zone_box_norm": [
+      0.6352,
+      0.2424,
+      0.6352,
+      0.2626
+    ],
+    "visual_implied_rr": 2.68
+  },
+  {
+    "file_name": "5e3cdeb1ed077297e781a3abbfa4830f36615d4568d4e136f229694aa3ab00e9.jpg",
+    "telegram_msg_num": 16252,
+    "width": 800,
+    "height": 493,
+    "aspect_ratio": 1.62,
+    "theme": "DARK",
+    "avg_luminance": 20.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.3434,
+      0.9119,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.2828,
+      0.9057,
+      0.9495
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.82
+  },
+  {
+    "file_name": "6a02db8b801413c02081e6f049d48398245dba8fdcf51ff6d00cf057a675882f.jpg",
+    "telegram_msg_num": 16253,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 234.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2323,
+      0.9874,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.8239,
+      0.5455
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.03
+  },
+  {
+    "file_name": "357e3b9fef9785a17a786f847db8a4eabd8e2595f64c1fb9b26718e8993b8d3f.jpg",
+    "telegram_msg_num": 16256,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 169.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.1069,
+      0.2929,
+      0.956,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0755,
+      0.4646,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.6855,
+      0.7374,
+      0.956,
+      0.9192
+    ],
+    "visual_implied_rr": 1.37
+  },
+  {
+    "file_name": "bb77202e723e8e069fff53d52d6a055ee1c4f0f55afb219c54e3dd2a05d2e326.jpg",
+    "telegram_msg_num": 16258,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 162.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2626,
+      0.9748,
+      0.7677
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.4545,
+      0.9748,
+      0.7576
+    ],
+    "sr_zone_box_norm": [
+      0.5786,
+      0.6768,
+      0.9748,
+      0.8182
+    ],
+    "visual_implied_rr": 1.67
+  },
+  {
+    "file_name": "df6070702bcf26fba35248e07e650555408273cf0f4d548ce8168197c6dd0feb.jpg",
+    "telegram_msg_num": 16259,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 233.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.5157,
+      0.2222,
+      0.9811,
+      0.7778
+    ],
+    "sl_box_norm": [
+      0.5346,
+      0.2323,
+      0.9811,
+      0.4242
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.9
+  },
+  {
+    "file_name": "92a0fb3d28404caa6b62b3d724cc3c769f0c8dba97c12919afda84404ba625f4.jpg",
+    "telegram_msg_num": 16261,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 230.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2828,
+      0.9811,
+      0.7576
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2323,
+      0.9811,
+      0.6061
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.27
+  },
+  {
+    "file_name": "b2f5304df3f58e80ec89eaaddcd8db34cc94af63b42646dbd37b275b5569e1da.jpg",
+    "telegram_msg_num": 16263,
+    "width": 835,
+    "height": 1280,
+    "aspect_ratio": 0.65,
+    "theme": "LIGHT",
+    "avg_luminance": 215.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2642,
+      0.2222,
+      0.9874,
+      0.8586
+    ],
+    "sl_box_norm": [
+      0.1132,
+      0.0303,
+      0.7673,
+      1.0
+    ],
+    "sr_zone_box_norm": [
+      0.5912,
+      0.3131,
+      0.9874,
+      0.9293
+    ],
+    "visual_implied_rr": 0.66
+  },
+  {
+    "file_name": "56b92d76c30be01acab2572e50f5749e68f9c1a8be265d98c148a2c2abf76441.jpg",
+    "telegram_msg_num": 16266,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 173.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0566,
+      0.3333,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.2626,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.7296,
+      0.7071,
+      0.9811,
+      0.8081
+    ],
+    "visual_implied_rr": 0.89
+  },
+  {
+    "file_name": "68d4637eb9af3f615c4a32177f23ef6aff68c7f26237c2bae16a46fa03ccb3d4.jpg",
+    "telegram_msg_num": 16268,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 232.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2642,
+      0.2323,
+      0.9811,
+      0.9394
+    ],
+    "sl_box_norm": [
+      0.2516,
+      0.5152,
+      0.9874,
+      0.9394
+    ],
+    "sr_zone_box_norm": [
+      0.7736,
+      0.6869,
+      0.9811,
+      0.8788
+    ],
+    "visual_implied_rr": 1.67
+  },
+  {
+    "file_name": "763848ec791d28f2add40b4589f69cfccad471e927582f5649e0b2ba01ed8dc6.jpg",
+    "telegram_msg_num": 16269,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 235.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.3711,
+      0.2222,
+      0.9811,
+      0.7576
+    ],
+    "sl_box_norm": [
+      0.3836,
+      0.2222,
+      0.9811,
+      0.7475
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.02
+  },
+  {
+    "file_name": "bc37a6e6269fceac36148c8b9f89838f8b50f873ed06e9b8182079f950d36b69.jpg",
+    "telegram_msg_num": 16272,
+    "width": 1206,
+    "height": 1835,
+    "aspect_ratio": 0.66,
+    "theme": "LIGHT",
+    "avg_luminance": 230.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0,
+      0.202,
+      0.9874,
+      0.8788
+    ],
+    "sl_box_norm": [
+      0.0566,
+      0.0303,
+      0.9874,
+      0.8283
+    ],
+    "sr_zone_box_norm": [
+      0.2704,
+      0.3737,
+      0.9874,
+      0.9596
+    ],
+    "visual_implied_rr": 0.85
+  },
+  {
+    "file_name": "57d8d170200371a5f4593a295410b571dd5f80dba09ae964ef6ef15454b62642.jpg",
+    "telegram_msg_num": 16273,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 229.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0629,
+      0.303,
+      0.9874,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.3434,
+      0.8176,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.6667,
+      0.7172,
+      0.9811,
+      0.8586
+    ],
+    "visual_implied_rr": 1.07
+  },
+  {
+    "file_name": "756013a3ee1f715c85af13788efe9d27318134fb3c5eabd4d71d246b31c818b8.jpg",
+    "telegram_msg_num": 16274,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 233.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2222,
+      0.9811,
+      0.9192
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2323,
+      0.9811,
+      0.8889
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.404,
+      0.8994,
+      0.404
+    ],
+    "visual_implied_rr": 1.06
+  },
+  {
+    "file_name": "56375da6f49dee9044cc335a757b06651f665fad2e428cacc78dbc54b389f1ad.jpg",
+    "telegram_msg_num": 16279,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 222.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.8283
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.17
+  },
+  {
+    "file_name": "c383a96655164cc1d6652dc8f7b14a64ddd40577d05b74d79d44131057649aca.jpg",
+    "telegram_msg_num": 16280,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 235.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.478,
+      0.2222,
+      0.9811,
+      0.7576
+    ],
+    "sl_box_norm": [
+      0.4843,
+      0.2222,
+      0.6792,
+      0.7475
+    ],
+    "sr_zone_box_norm": [
+      0.6855,
+      0.697,
+      0.9811,
+      0.8384
+    ],
+    "visual_implied_rr": 1.02
+  },
+  {
+    "file_name": "18f335acd4a008c23790cecc22bc99825aa30916d4ecb8984adff28e4769473d.jpg",
+    "telegram_msg_num": 16284,
+    "width": 800,
+    "height": 493,
+    "aspect_ratio": 1.62,
+    "theme": "DARK",
+    "avg_luminance": 20.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.3434,
+      0.9119,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.0314,
+      0.2828,
+      0.9057,
+      0.9495
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.82
+  },
+  {
+    "file_name": "3c14656cf8154eb4c5aa6357aeb9a530941fa0b3ca30f54a72db8bbbd89f9753.jpg",
+    "telegram_msg_num": 16285,
+    "width": 800,
+    "height": 493,
+    "aspect_ratio": 1.62,
+    "theme": "DARK",
+    "avg_luminance": 20.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.3434,
+      0.9119,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.0314,
+      0.2828,
+      0.9057,
+      0.9495
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.82
+  },
+  {
+    "file_name": "e03aa219761d6b46c7f6ab0a767fef4bbed2f1aa7ee8ad7c8db81de09ea9d8dd.jpg",
+    "telegram_msg_num": 16286,
+    "width": 1536,
+    "height": 2048,
+    "aspect_ratio": 0.75,
+    "theme": "LIGHT",
+    "avg_luminance": 131.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.1616,
+      0.9245,
+      0.8182
+    ],
+    "sl_box_norm": [
+      0.0,
+      0.0303,
+      1.0,
+      1.0
+    ],
+    "sr_zone_box_norm": [
+      0.0881,
+      0.3636,
+      0.9057,
+      0.7071
+    ],
+    "visual_implied_rr": 0.68
+  },
+  {
+    "file_name": "e3f28b6f8ae39aa4272ae8dc1409ed862e3efe33c3807c28d50925c9007f40b5.jpg",
+    "telegram_msg_num": 16287,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 174.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2704,
+      0.2222,
+      0.9748,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.283,
+      0.2323,
+      0.761,
+      0.8182
+    ],
+    "sr_zone_box_norm": [
+      0.7736,
+      0.7879,
+      0.9686,
+      0.8687
+    ],
+    "visual_implied_rr": 1.14
+  },
+  {
+    "file_name": "9839f09933c4ea1f5c28e4601779a3d9d6fb87894dfe754553ef4fe385642cba.jpg",
+    "telegram_msg_num": 16289,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 165.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.2727,
+      0.9748,
+      0.7879
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2929,
+      0.9748,
+      0.798
+    ],
+    "sr_zone_box_norm": [
+      0.6101,
+      0.6364,
+      0.9686,
+      0.899
+    ],
+    "visual_implied_rr": 1.02
+  },
+  {
+    "file_name": "e237570f040b53afe66cb5fbea2f38fa355928988731ce5141a09800b66998d3.jpg",
+    "telegram_msg_num": 16291,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 167.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2264,
+      0.2222,
+      0.9748,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.2327,
+      0.2323,
+      0.9748,
+      0.8081
+    ],
+    "sr_zone_box_norm": [
+      0.6478,
+      0.5354,
+      0.9686,
+      0.9192
+    ],
+    "visual_implied_rr": 1.16
+  },
+  {
+    "file_name": "d664ea116382c705eb3092cfd3d6fd84d6a2e16af3a71a5f6c182dc916becbdf.jpg",
+    "telegram_msg_num": 16292,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 231.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.2222,
+      0.9811,
+      0.8485
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.5152
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.14
+  },
+  {
+    "file_name": "b3bfe427f9455721abdaa6f66ced767dc43648222e7dfa58da46e990c14dff7b.jpg",
+    "telegram_msg_num": 16294,
+    "width": 800,
+    "height": 493,
+    "aspect_ratio": 1.62,
+    "theme": "DARK",
+    "avg_luminance": 20.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.3434,
+      0.9119,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.2828,
+      0.9057,
+      0.9495
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.82
+  },
+  {
+    "file_name": "c1fdb9acc8dc5dcc4f823c846be4821c568bf0ded12edd4bb89263a62911e4a9.jpg",
+    "telegram_msg_num": 16296,
+    "width": 1206,
+    "height": 1203,
+    "aspect_ratio": 1.0,
+    "theme": "LIGHT",
+    "avg_luminance": 133.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.4654,
+      0.3939,
+      0.9748,
+      0.9495
+    ],
+    "sl_box_norm": [
+      0.0,
+      0.3232,
+      1.0,
+      1.0
+    ],
+    "sr_zone_box_norm": [
+      0.0,
+      0.3535,
+      1.0,
+      0.9495
+    ],
+    "visual_implied_rr": 0.82
+  },
+  {
+    "file_name": "16b935fc4a10a82ffc2b5ce9c263541355d22e57d4f865850c5dccbeb04c9559.jpg",
+    "telegram_msg_num": 16299,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 238.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.1195,
+      0.2222,
+      0.9811,
+      0.8586
+    ],
+    "sl_box_norm": [
+      0.2201,
+      0.2222,
+      0.9748,
+      0.8081
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.09
+  },
+  {
+    "file_name": "590e12d5d84c41f7b2f0c31ca7ed255c148e1bbb976b89cb6deeaf0a7c47f2ef.jpg",
+    "telegram_msg_num": 16300,
+    "width": 2400,
+    "height": 1350,
+    "aspect_ratio": 1.78,
+    "theme": "DARK",
+    "avg_luminance": 38.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.6038,
+      0.1212,
+      0.8428,
+      0.7071
+    ],
+    "sl_box_norm": [
+      0.0881,
+      0.0202,
+      1.0,
+      0.8384
+    ],
+    "sr_zone_box_norm": [
+      0.7107,
+      0.1818,
+      0.7233,
+      0.5657
+    ],
+    "visual_implied_rr": 0.72
+  },
+  {
+    "file_name": "4e9cc55be5e617185060277703e4e4cd00e52f04679153b0a21606a0f91473e0.jpg",
+    "telegram_msg_num": 16301,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 237.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.303,
+      0.9748,
+      0.9091
+    ],
+    "sl_box_norm": [
+      0.0252,
+      0.2626,
+      0.9748,
+      0.6162
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.71
+  },
+  {
+    "file_name": "6a925b31d469c637c37a8954378b5e1e2726cf1e48248fdd6940b2e46e61d0c7.jpg",
+    "telegram_msg_num": 16302,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 229.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.1384,
+      0.2222,
+      0.9748,
+      0.8586
+    ],
+    "sl_box_norm": [
+      0.1698,
+      0.2323,
+      0.9748,
+      0.5253
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.17
+  },
+  {
+    "file_name": "664f346312ded6654e93e2013be13d15d00f7b6187592f5179d25a74ce18dcb8.jpg",
+    "telegram_msg_num": 16303,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 231.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2424,
+      0.9811,
+      0.697
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2323,
+      0.4088,
+      0.5354
+    ],
+    "sr_zone_box_norm": [
+      0.4277,
+      0.3737,
+      0.5031,
+      0.7071
+    ],
+    "visual_implied_rr": 1.5
+  },
+  {
+    "file_name": "af60da3dbdc651f6b4c7bd365601b927bd9fcc3ad5229b65cff6c79229c87257.jpg",
+    "telegram_msg_num": 16305,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 163.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9811,
+      0.4848
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.4848,
+      0.9811,
+      0.5253
+    ],
+    "visual_implied_rr": 2.35
+  },
+  {
+    "file_name": "409106a5117dc7952a051811c156b5bc04929409401d73c100084f78f4598b6a.jpg",
+    "telegram_msg_num": 16308,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 233.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0629,
+      0.2222,
+      0.9811,
+      0.8788
+    ],
+    "sl_box_norm": [
+      0.1069,
+      0.2222,
+      0.8868,
+      0.4848
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.5
+  },
+  {
+    "file_name": "8272adc3f6913a6f554e70461219d7706de6fe0055d4f4c640f104affc9cf0b6.jpg",
+    "telegram_msg_num": 16310,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 233.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2704,
+      0.2222,
+      0.9748,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.3208,
+      0.2222,
+      0.9748,
+      0.697
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.4
+  },
+  {
+    "file_name": "e508f8c23bf6758d9445c00d4812cecfd06b142e9b3e14d60c8a4425fb456145.jpg",
+    "telegram_msg_num": 16311,
+    "width": 800,
+    "height": 493,
+    "aspect_ratio": 1.62,
+    "theme": "DARK",
+    "avg_luminance": 20.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.3434,
+      0.9119,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.2828,
+      0.9057,
+      0.9495
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.82
+  },
+  {
+    "file_name": "54a016146673aebe6d2da02ea3c5bbf6ebb98cf1e49727e494cc7c112551f1b2.jpg",
+    "telegram_msg_num": 16313,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 229.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2323,
+      0.4654,
+      0.7374
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2424,
+      0.9811,
+      0.5657
+    ],
+    "sr_zone_box_norm": [
+      0.3522,
+      0.2727,
+      0.4591,
+      0.7273
+    ],
+    "visual_implied_rr": 1.56
+  },
+  {
+    "file_name": "54c2d13d3b2e46d55ed1c2aeb00c7bdcfe0279739e13336eedefb79bf26483b0.jpg",
+    "telegram_msg_num": 16314,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 235.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2642,
+      0.2222,
+      0.9748,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.2956,
+      0.2323,
+      0.9748,
+      0.5556
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.91
+  },
+  {
+    "file_name": "26ef7e9227cc19d8563e6bff0885b790997213740516d69acff67e3098f48782.jpg",
+    "telegram_msg_num": 16318,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 230.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2525,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.5354,
+      0.7673,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.7799,
+      0.7475,
+      0.9811,
+      0.9293
+    ],
+    "visual_implied_rr": 1.72
+  },
+  {
+    "file_name": "68964341b3f7845f33e5355ab7f5e8b161504796d29c9fd6a42a230340de9eae.jpg",
+    "telegram_msg_num": 16318,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 230.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2525,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.5354,
+      0.7673,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.7799,
+      0.7475,
+      0.9811,
+      0.9293
+    ],
+    "visual_implied_rr": 1.72
+  },
+  {
+    "file_name": "6a8d4cbb38bd9336b8c675c42c0a58b857bee4e99972a2530bb25d1a8190f906.jpg",
+    "telegram_msg_num": 16319,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 232.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.798
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.2727,
+      0.6855,
+      0.7172
+    ],
+    "sr_zone_box_norm": [
+      0.6918,
+      0.6869,
+      0.9811,
+      0.8283
+    ],
+    "visual_implied_rr": 1.3
+  },
+  {
+    "file_name": "55aa25bf1ec177918080eab869b1dbf011a1f205f4e9f90492e4a390f7be1bef.jpg",
+    "telegram_msg_num": 16324,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 224.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9874,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.0252,
+      0.2525,
+      0.8616,
+      0.5455
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.31
+  },
+  {
+    "file_name": "d70d404413bdcf333c8607ef9495f970c964c9f2c7cde395a9bfe7479a54e481.jpg",
+    "telegram_msg_num": 16324,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 224.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9874,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.0252,
+      0.2525,
+      0.8616,
+      0.5455
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.31
+  },
+  {
+    "file_name": "604900949d2f225888ed78157b51f8b1c7bffe760d04c1538aeea66ab1bdac25.jpg",
+    "telegram_msg_num": 16326,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 229.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2929,
+      0.9748,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.3131,
+      0.9748,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.8113,
+      0.6465,
+      0.9748,
+      0.8586
+    ],
+    "visual_implied_rr": 1.03
+  },
+  {
+    "file_name": "bba703dacb0e17ceb7d28118cc55b50707b92b5214d1938628d560f26e7cbaaf.jpg",
+    "telegram_msg_num": 16326,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 229.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2929,
+      0.9748,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.3131,
+      0.9748,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.8113,
+      0.6465,
+      0.9748,
+      0.8586
+    ],
+    "visual_implied_rr": 1.03
+  },
+  {
+    "file_name": "8f6f9bc9a8da4974c4b3b7630bf541403e3ecc131f510d19c880f72ea18bdee6.jpg",
+    "telegram_msg_num": 16328,
+    "width": 800,
+    "height": 493,
+    "aspect_ratio": 1.62,
+    "theme": "DARK",
+    "avg_luminance": 19.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.3434,
+      0.9119,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.0314,
+      0.2828,
+      0.9057,
+      0.9495
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.82
+  },
+  {
+    "file_name": "d8498da9c92b2f1206643ab83cbc2a524e0cccbbc0513da50ff17fd701c4d857.jpg",
+    "telegram_msg_num": 16328,
+    "width": 800,
+    "height": 493,
+    "aspect_ratio": 1.62,
+    "theme": "DARK",
+    "avg_luminance": 19.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.3434,
+      0.9119,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.0314,
+      0.2828,
+      0.9057,
+      0.9495
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.82
+  },
+  {
+    "file_name": "1a7af955b652b5f33d6d298cfab613933908fe65aa29b873327d7a6bc14874bc.jpg",
+    "telegram_msg_num": 16329,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 227.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.3333,
+      0.9748,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.4848,
+      0.9748,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.7296,
+      0.5051,
+      0.9748,
+      0.9293
+    ],
+    "visual_implied_rr": 1.34
+  },
+  {
+    "file_name": "64b63e1c461afa1e3168af5d2e0c67b3ba7cf06482173bc7706ec2b32330bc13.jpg",
+    "telegram_msg_num": 16329,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 227.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.3333,
+      0.9748,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.4848,
+      0.9748,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.7296,
+      0.5051,
+      0.9748,
+      0.9293
+    ],
+    "visual_implied_rr": 1.34
+  },
+  {
+    "file_name": "3e84bdb80641ba5481f96ced95f7e0acc76b14509ba11c1d012a56876be6dc95.jpg",
+    "telegram_msg_num": 16330,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 232.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2828,
+      0.6289,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2929,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.02
+  },
+  {
+    "file_name": "44c3ad912c75ca1ef84a065986c992ee69793f7db0406c07549a46705de51281.jpg",
+    "telegram_msg_num": 16330,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 232.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2828,
+      0.6289,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2929,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.02
+  },
+  {
+    "file_name": "cdec56ba7f480f0eb221c0da5cb845257183f1222662f0807afe8dda30e61c52.jpg",
+    "telegram_msg_num": 16332,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 231.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.3434,
+      0.9874,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.4141,
+      0.7547,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.761,
+      0.7374,
+      0.9811,
+      0.9192
+    ],
+    "visual_implied_rr": 1.14
+  },
+  {
+    "file_name": "e3ff722958ebf676f6eeef416220b21da30f020b471fc114213c430f489e59de.jpg",
+    "telegram_msg_num": 16332,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 231.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.3434,
+      0.9874,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.4141,
+      0.7547,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.761,
+      0.7374,
+      0.9811,
+      0.9192
+    ],
+    "visual_implied_rr": 1.14
+  },
+  {
+    "file_name": "3f00e159a62668acf97d8b7e51d8737e98b90e4ce53656e392015448bf7708cb.jpg",
+    "telegram_msg_num": 16333,
+    "width": 800,
+    "height": 493,
+    "aspect_ratio": 1.62,
+    "theme": "DARK",
+    "avg_luminance": 19.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.3434,
+      0.9119,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.0314,
+      0.2828,
+      0.9057,
+      0.9495
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.82
+  },
+  {
+    "file_name": "501f6226c18ca94d8d96590f06ef04a3dbfc85dc8347ed3e6c4bf6563b4fe37c.jpg",
+    "telegram_msg_num": 16333,
+    "width": 800,
+    "height": 493,
+    "aspect_ratio": 1.62,
+    "theme": "DARK",
+    "avg_luminance": 19.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.3434,
+      0.9119,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.0314,
+      0.2828,
+      0.9057,
+      0.9495
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.82
+  },
+  {
+    "file_name": "afd013cba6b3a7dacd016dbbc3a56d4552af8932c42f5dc4e73331c258d87c03.jpg",
+    "telegram_msg_num": 16335,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 237.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.3737,
+      0.6289,
+      0.9192
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.3737,
+      0.9811,
+      0.9192
+    ],
+    "sr_zone_box_norm": [
+      0.5786,
+      0.3636,
+      0.6289,
+      0.5859
+    ],
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "dd41d00a418ed85091b8635ce5684fb7f6259b17f647dd262ca36ec5d8ff2519.jpg",
+    "telegram_msg_num": 16335,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 237.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.3737,
+      0.6289,
+      0.9192
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.3737,
+      0.9811,
+      0.9192
+    ],
+    "sr_zone_box_norm": [
+      0.5786,
+      0.3636,
+      0.6289,
+      0.5859
+    ],
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "413e5bfa139ff58e9871f3563901c9df47d7242cb0b5ac1130b3b34c17ff00fd.jpg",
+    "telegram_msg_num": 16336,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 228.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9874,
+      0.6869
+    ],
+    "sl_box_norm": [
+      0.2013,
+      0.2222,
+      0.6226,
+      0.6061
+    ],
+    "sr_zone_box_norm": [
+      0.6164,
+      0.6768,
+      0.9811,
+      0.8182
+    ],
+    "visual_implied_rr": 1.21
+  },
+  {
+    "file_name": "35c64b9e715324ba01012348adb18480f689c49c5f3628fc3ae598201d1fea25.jpg",
+    "telegram_msg_num": 16338,
+    "width": 1280,
+    "height": 778,
+    "aspect_ratio": 1.65,
+    "theme": "LIGHT",
+    "avg_luminance": 240.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.1111,
+      0.9874,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.1111,
+      0.9937,
+      0.8384
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "494b1fe5237550f5e7caed338babded3f96e824cf1c52fa5c36ce4b6afe93d6f.jpg",
+    "telegram_msg_num": 16339,
+    "width": 1280,
+    "height": 778,
+    "aspect_ratio": 1.65,
+    "theme": "LIGHT",
+    "avg_luminance": 240.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.1111,
+      0.9874,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.1111,
+      0.9937,
+      0.8384
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "f8c7dadacd361afcda2ae9ff38bfbcb96359ba6b0c822e19128e7f9c44921812.jpg",
+    "telegram_msg_num": 16339,
+    "width": 1280,
+    "height": 778,
+    "aspect_ratio": 1.65,
+    "theme": "LIGHT",
+    "avg_luminance": 240.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.1111,
+      0.9874,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0377,
+      0.1111,
+      0.9937,
+      0.8384
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "0a8ed374ab41f752b0ecf34f553399371e2e65745311a9ef94f09a49d33daa59.jpg",
+    "telegram_msg_num": 16340,
+    "width": 1280,
+    "height": 778,
+    "aspect_ratio": 1.65,
+    "theme": "LIGHT",
+    "avg_luminance": 242.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.1212,
+      0.9874,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0063,
+      0.1212,
+      0.9874,
+      0.6869
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.27
+  },
+  {
+    "file_name": "d9af149cb52933e70ab232b2de6eb0c23a885204948df6b83af33e2116106bf3.jpg",
+    "telegram_msg_num": 16340,
+    "width": 1280,
+    "height": 778,
+    "aspect_ratio": 1.65,
+    "theme": "LIGHT",
+    "avg_luminance": 242.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.1212,
+      0.9874,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0063,
+      0.1212,
+      0.9874,
+      0.6869
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.27
+  },
+  {
+    "file_name": "0862137dff214d063c1a4e379c75ee86d15ac92852909d6fc6be0036e2a62807.jpg",
+    "telegram_msg_num": 16341,
+    "width": 200,
+    "height": 200,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "65736dbedbb1ae4b7866da4451e192164b8060a4dc067d7ec681b9874336ebb1.jpg",
+    "telegram_msg_num": 16341,
+    "width": 200,
+    "height": 200,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "b38d595d5b787b5a29bfa7c097dcfa04ccd046137b938904b9b9c3393bf1b02d.jpg",
+    "telegram_msg_num": 16342,
+    "width": 914,
+    "height": 1280,
+    "aspect_ratio": 0.71,
+    "theme": "DARK",
+    "avg_luminance": 19.8,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.0,
+      0.0,
+      1.0,
+      0.9394
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "dd04b617402a6697f363ac891d4406d25addd20c6b4af8eb40272708a5386949.jpg",
+    "telegram_msg_num": 16342,
+    "width": 914,
+    "height": 1280,
+    "aspect_ratio": 0.71,
+    "theme": "DARK",
+    "avg_luminance": 19.8,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.0,
+      0.0,
+      1.0,
+      0.9394
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "8b25267f5798c8554df9c0628cb72b76965e84aed51793cc6e0106008d243515.jpg",
+    "telegram_msg_num": 16344,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 223.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0314,
+      0.2222,
+      0.9811,
+      0.9394
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.99
+  },
+  {
+    "file_name": "c00fb4e15eba84454cd5f594c67f1e2a68a1ced2a94ddfa9976a74b282e772f0.jpg",
+    "telegram_msg_num": 16344,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 223.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0314,
+      0.2222,
+      0.9811,
+      0.9394
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.99
+  },
+  {
+    "file_name": "1b4f7139e5446c6e4f4a89d9d87a39d2f73ac7f2a81329da1cfb9f5072c69d02.jpg",
+    "telegram_msg_num": 16347,
+    "width": 1206,
+    "height": 1883,
+    "aspect_ratio": 0.64,
+    "theme": "LIGHT",
+    "avg_luminance": 244.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2327,
+      0.0,
+      0.9497,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0629,
+      0.0,
+      0.9497,
+      0.9495
+    ],
+    "sr_zone_box_norm": [
+      0.0377,
+      0.0101,
+      0.6541,
+      0.5758
+    ],
+    "visual_implied_rr": 0.88
+  },
+  {
+    "file_name": "554b43aed4617e4e46d78926f6e7611fe1e6d79094d34376a1047033e8967ed9.jpg",
+    "telegram_msg_num": 16347,
+    "width": 1206,
+    "height": 1883,
+    "aspect_ratio": 0.64,
+    "theme": "LIGHT",
+    "avg_luminance": 244.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2327,
+      0.0,
+      0.9497,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0629,
+      0.0,
+      0.9497,
+      0.9495
+    ],
+    "sr_zone_box_norm": [
+      0.0377,
+      0.0101,
+      0.6541,
+      0.5758
+    ],
+    "visual_implied_rr": 0.88
+  },
+  {
+    "file_name": "378b6cc3d79e872ad2fd0c1d8b0cc9a770877d09a1f1cd0cf519089cbb3f4a7e.jpg",
+    "telegram_msg_num": 16349,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 231.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.2525,
+      0.9811,
+      0.9394
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.5253,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.7421,
+      0.7576,
+      0.9811,
+      0.8889
+    ],
+    "visual_implied_rr": 1.7
+  },
+  {
+    "file_name": "4da7b95c8bd74cc4e8a92618d74c73cf65d1b27b982e18ed299dbeccdde8be70.jpg",
+    "telegram_msg_num": 16349,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 231.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.2525,
+      0.9811,
+      0.9394
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.5253,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.7421,
+      0.7576,
+      0.9811,
+      0.8889
+    ],
+    "visual_implied_rr": 1.7
+  },
+  {
+    "file_name": "7e4169aa86d212bc08f78697db0f923a6d26ba736b715bd40d4b624340078f3d.jpg",
+    "telegram_msg_num": 16350,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 228.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2642,
+      0.2222,
+      0.9811,
+      0.8283
+    ],
+    "sl_box_norm": [
+      0.2893,
+      0.4848,
+      0.673,
+      0.8081
+    ],
+    "sr_zone_box_norm": [
+      0.6541,
+      0.3636,
+      0.805,
+      0.7071
+    ],
+    "visual_implied_rr": 1.87
+  },
+  {
+    "file_name": "7e4169aa86d212bc08f78697db0f923a6d26ba736b715bd40d4b624340078f3d.jpg",
+    "telegram_msg_num": 16351,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 228.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2642,
+      0.2222,
+      0.9811,
+      0.8283
+    ],
+    "sl_box_norm": [
+      0.2893,
+      0.4848,
+      0.673,
+      0.8081
+    ],
+    "sr_zone_box_norm": [
+      0.6541,
+      0.3636,
+      0.805,
+      0.7071
+    ],
+    "visual_implied_rr": 1.87
+  },
+  {
+    "file_name": "1e16f3be88616185e808ee8cc402231b75c10fa2762bbf33891f63617b1de6e7.jpg",
+    "telegram_msg_num": 16352,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 228.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2642,
+      0.2222,
+      0.9811,
+      0.8283
+    ],
+    "sl_box_norm": [
+      0.2893,
+      0.4848,
+      0.673,
+      0.8081
+    ],
+    "sr_zone_box_norm": [
+      0.6541,
+      0.3636,
+      0.805,
+      0.7071
+    ],
+    "visual_implied_rr": 1.87
+  },
+  {
+    "file_name": "9fdb900faedc6e7ac48d28198c3323940cad13ac821ea0c17fcda5ac8526fb4c.jpg",
+    "telegram_msg_num": 16352,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 228.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2642,
+      0.2222,
+      0.9811,
+      0.8283
+    ],
+    "sl_box_norm": [
+      0.2893,
+      0.4848,
+      0.673,
+      0.8081
+    ],
+    "sr_zone_box_norm": [
+      0.6541,
+      0.3636,
+      0.805,
+      0.7071
+    ],
+    "visual_implied_rr": 1.87
+  },
+  {
+    "file_name": "130b3db64b316b802913f08353b1fa627c0191249b43cb884bc215512c07ceba.jpg",
+    "telegram_msg_num": 16354,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 233.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.2222,
+      0.9748,
+      0.8485
+    ],
+    "sl_box_norm": [
+      0.0503,
+      0.2222,
+      0.9748,
+      0.9394
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.87
+  },
+  {
+    "file_name": "94e0e9bcfdf2d99b94e75ac62051103b660ca72b05483fe6044624de8b1b462f.jpg",
+    "telegram_msg_num": 16354,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 233.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.2222,
+      0.9748,
+      0.8485
+    ],
+    "sl_box_norm": [
+      0.0503,
+      0.2222,
+      0.9748,
+      0.9394
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.87
+  },
+  {
+    "file_name": "4bb0f3eab8d9622088e05ca1b0fb4ad72a2788b46588a6d5c532ce656023c73e.jpg",
+    "telegram_msg_num": 16358,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 230.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2828,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.5859,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.6226,
+      0.7879,
+      0.9811,
+      0.9091
+    ],
+    "visual_implied_rr": 1.88
+  },
+  {
+    "file_name": "52d9171fea62321570dc8ba1ae9b4fd82524863da3af30e97c3784c3af7457c7.jpg",
+    "telegram_msg_num": 16358,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 230.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2828,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.5859,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.6226,
+      0.7879,
+      0.9811,
+      0.9091
+    ],
+    "visual_implied_rr": 1.88
+  },
+  {
+    "file_name": "ed53b0b5ee2b6638117567b3e9acbdbe5050dc2a2d3984222c44dffc6902ac99.jpg",
+    "telegram_msg_num": 16358,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 230.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2828,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.5859,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.6226,
+      0.7879,
+      0.9811,
+      0.9091
+    ],
+    "visual_implied_rr": 1.88
+  },
+  {
+    "file_name": "c157f3e458b627ed90e4f0ac1ba1303820c80e2cde297dc30b6d8f0c3ceabd38.jpg",
+    "telegram_msg_num": 16361,
+    "width": 1024,
+    "height": 516,
+    "aspect_ratio": 1.98,
+    "theme": "LIGHT",
+    "avg_luminance": 244.4,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.761,
+      0.0707,
+      0.9623,
+      0.2828
+    ],
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "c544febcc43f8f1e5bfd9453312f0346c655d46f9c440acf2f21b8cb51dec262.jpg",
+    "telegram_msg_num": 16361,
+    "width": 1024,
+    "height": 516,
+    "aspect_ratio": 1.98,
+    "theme": "LIGHT",
+    "avg_luminance": 244.4,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.761,
+      0.0707,
+      0.9623,
+      0.2828
+    ],
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "3998ee283a21597dadd04ab9957400049f63b0ea73f25448142c1af4f6812aef.jpg",
+    "telegram_msg_num": 16362,
+    "width": 1200,
+    "height": 492,
+    "aspect_ratio": 2.44,
+    "theme": "LIGHT",
+    "avg_luminance": 207.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0943,
+      0.0303,
+      0.7358,
+      0.9899
+    ],
+    "sl_box_norm": [
+      0.0314,
+      0.0,
+      0.761,
+      0.9798
+    ],
+    "sr_zone_box_norm": [
+      0.3899,
+      0.3939,
+      0.5597,
+      0.9697
+    ],
+    "visual_implied_rr": 0.98
+  },
+  {
+    "file_name": "a0735c1f0ac60a8d2b6c4e48d7a0ea5e7473845ae0887242d898ea5c88e18234.jpg",
+    "telegram_msg_num": 16362,
+    "width": 1200,
+    "height": 492,
+    "aspect_ratio": 2.44,
+    "theme": "LIGHT",
+    "avg_luminance": 207.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0943,
+      0.0303,
+      0.7358,
+      0.9899
+    ],
+    "sl_box_norm": [
+      0.0314,
+      0.0,
+      0.761,
+      0.9798
+    ],
+    "sr_zone_box_norm": [
+      0.3899,
+      0.3939,
+      0.5597,
+      0.9697
+    ],
+    "visual_implied_rr": 0.98
+  },
+  {
+    "file_name": "8b12715295d8ffc7e3cce83d6ee32df5dd41e1d8621b6d233fd2a49d5e5d780d.jpg",
+    "telegram_msg_num": 16363,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 224.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2327,
+      0.2323,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.2453,
+      0.2626,
+      0.9874,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.7296,
+      0.7374,
+      0.9811,
+      0.8586
+    ],
+    "visual_implied_rr": 1.05
+  },
+  {
+    "file_name": "be9f4e230952e6665437458704921621048cf872b0a235b9284290ee6b03d9be.jpg",
+    "telegram_msg_num": 16363,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 224.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2327,
+      0.2323,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.2453,
+      0.2626,
+      0.9874,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.7296,
+      0.7374,
+      0.9811,
+      0.8586
+    ],
+    "visual_implied_rr": 1.05
+  },
+  {
+    "file_name": "d0064a5596572d4420076fa468b5c2a268f0d860e1e746aa5d42545842284567.jpg",
+    "telegram_msg_num": 16365,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 225.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.3019,
+      0.2323,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.327,
+      0.2626,
+      0.9874,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.5786,
+      0.6566,
+      0.9811,
+      0.8687
+    ],
+    "visual_implied_rr": 1.05
+  },
+  {
+    "file_name": "d3f7d5d3234f41bf0a3697f7d567bc800d6f53db2e8b99b038f3af549bc64ef1.jpg",
+    "telegram_msg_num": 16365,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 225.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.3019,
+      0.2323,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.327,
+      0.2626,
+      0.9874,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.5786,
+      0.6566,
+      0.9811,
+      0.8687
+    ],
+    "visual_implied_rr": 1.05
+  },
+  {
+    "file_name": "835b9c54e5ea67715ea0f8db67954edce93bf7d63673c6a2d331a1e659d209a4.jpg",
+    "telegram_msg_num": 16366,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 217.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.8586
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2424,
+      0.9811,
+      0.5455
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.6566,
+      0.9811,
+      0.697
+    ],
+    "visual_implied_rr": 2.1
+  },
+  {
+    "file_name": "fb97632d551b7660015f614d8f31bc6cb3f7fa77c953e78dab44aaba5ab0f061.jpg",
+    "telegram_msg_num": 16366,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 217.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.8586
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2424,
+      0.9811,
+      0.5455
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.6566,
+      0.9811,
+      0.697
+    ],
+    "visual_implied_rr": 2.1
+  },
+  {
+    "file_name": "2ae38a12656a9b2a76227ac82ef68ce4a8fd33135792ebd2a427de8470af1bb4.jpg",
+    "telegram_msg_num": 16367,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 218.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.7879
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9811,
+      0.4949
+    ],
+    "sr_zone_box_norm": [
+      0.7547,
+      0.4343,
+      0.9811,
+      0.6566
+    ],
+    "visual_implied_rr": 2.07
+  },
+  {
+    "file_name": "ce74589ebe154d51f500e9dfb3742656a18a641d9262469f8751652706fb63d7.jpg",
+    "telegram_msg_num": 16367,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 218.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.7879
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9811,
+      0.4949
+    ],
+    "sr_zone_box_norm": [
+      0.7547,
+      0.4343,
+      0.9811,
+      0.6566
+    ],
+    "visual_implied_rr": 2.07
+  },
+  {
+    "file_name": "0b4b5aac9fec9a5c074062900d6b53f5312623b79fde89e41686aee84cc9db2e.jpg",
+    "telegram_msg_num": 16368,
+    "width": 1206,
+    "height": 959,
+    "aspect_ratio": 1.26,
+    "theme": "LIGHT",
+    "avg_luminance": 235.4,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.5094,
+      0.899,
+      0.8302,
+      0.9091
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "3eaf63ae614353e85840a4a4d774f5375e69ee1cba83070f03b249b19bb6f697.jpg",
+    "telegram_msg_num": 16368,
+    "width": 1206,
+    "height": 959,
+    "aspect_ratio": 1.26,
+    "theme": "LIGHT",
+    "avg_luminance": 235.4,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.5094,
+      0.899,
+      0.8302,
+      0.9091
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "81b6540e9c220c45a92bcd298bfc78d586c5cfcf62886eedf3fb23d575a86ac7.jpg",
+    "telegram_msg_num": 16368,
+    "width": 1206,
+    "height": 959,
+    "aspect_ratio": 1.26,
+    "theme": "LIGHT",
+    "avg_luminance": 235.4,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.5094,
+      0.899,
+      0.8302,
+      0.9091
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "7d272604cc858a68c967ac58221233c4436c02c004a45b9dda4819c441ba90dd.jpg",
+    "telegram_msg_num": 16370,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 227.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.327,
+      0.2323,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.2893,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.4646,
+      0.8994,
+      0.4646
+    ],
+    "visual_implied_rr": 0.99
+  },
+  {
+    "file_name": "93e81de00d0cf585b217faadd5aec14f56eb2a72b63bd26b6b9046f204c53b01.jpg",
+    "telegram_msg_num": 16370,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 227.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.327,
+      0.2323,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.2893,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.4646,
+      0.8994,
+      0.4646
+    ],
+    "visual_implied_rr": 0.99
+  },
+  {
+    "file_name": "3df859af585fe0e082beae7770f8512b02d6a24bc008051c4ac7ee9338b33842.jpg",
+    "telegram_msg_num": 16371,
+    "width": 1206,
+    "height": 972,
+    "aspect_ratio": 1.24,
+    "theme": "LIGHT",
+    "avg_luminance": 243.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.0,
+      0.9434,
+      0.697
+    ],
+    "sl_box_norm": [
+      0.1258,
+      0.3232,
+      0.9623,
+      0.899
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.21
+  },
+  {
+    "file_name": "a0a78cdcea8565f261439d10c45f52636dc3c5f411491a44261616b7850998ac.jpg",
+    "telegram_msg_num": 16371,
+    "width": 1206,
+    "height": 972,
+    "aspect_ratio": 1.24,
+    "theme": "LIGHT",
+    "avg_luminance": 243.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.0,
+      0.9434,
+      0.697
+    ],
+    "sl_box_norm": [
+      0.1258,
+      0.3232,
+      0.9623,
+      0.899
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.21
+  },
+  {
+    "file_name": "6861f174c259788b3dba96c4c570b1c73f29189bf498dfece0c3f952ebde4502.jpg",
+    "telegram_msg_num": 16372,
+    "width": 1206,
+    "height": 947,
+    "aspect_ratio": 1.27,
+    "theme": "LIGHT",
+    "avg_luminance": 243.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.596,
+      0.956,
+      0.7172
+    ],
+    "sl_box_norm": [
+      0.1258,
+      0.3232,
+      0.9623,
+      0.9091
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.21
+  },
+  {
+    "file_name": "710a86169eb54dad69251b4c6e720832460681d87f61b4874205aa1d21078c96.jpg",
+    "telegram_msg_num": 16372,
+    "width": 1206,
+    "height": 947,
+    "aspect_ratio": 1.27,
+    "theme": "LIGHT",
+    "avg_luminance": 243.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.596,
+      0.956,
+      0.7172
+    ],
+    "sl_box_norm": [
+      0.1258,
+      0.3232,
+      0.9623,
+      0.9091
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.21
+  },
+  {
+    "file_name": "a16bb0d3c109abd2ebd1d9dc8720c2ddcdeb80b67037d72b133ad7f1f7b8785c.jpg",
+    "telegram_msg_num": 16372,
+    "width": 1206,
+    "height": 947,
+    "aspect_ratio": 1.27,
+    "theme": "LIGHT",
+    "avg_luminance": 243.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.596,
+      0.956,
+      0.7172
+    ],
+    "sl_box_norm": [
+      0.1258,
+      0.3232,
+      0.9623,
+      0.9091
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.21
+  },
+  {
+    "file_name": "bc9962f17cc00ca272dbcf679411016dacca55d55ae809df2dbe3b87cf9f23cc.jpg",
+    "telegram_msg_num": 16372,
+    "width": 1206,
+    "height": 947,
+    "aspect_ratio": 1.27,
+    "theme": "LIGHT",
+    "avg_luminance": 243.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.596,
+      0.956,
+      0.7172
+    ],
+    "sl_box_norm": [
+      0.1258,
+      0.3232,
+      0.9623,
+      0.9091
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.21
+  },
+  {
+    "file_name": "6ad86377327cfd2a1d0d7af8948387b28f696631b3dddfcc628697f3bc37e2e9.jpg",
+    "telegram_msg_num": 16373,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 226.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2828,
+      0.9874,
+      0.9394
+    ],
+    "sl_box_norm": [
+      0.0252,
+      0.2222,
+      0.9874,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.9182,
+      0.2424,
+      0.9182,
+      0.2424
+    ],
+    "visual_implied_rr": 0.93
+  },
+  {
+    "file_name": "d0254cb242fa522fe61e01a7a15cb32e65663cd636aa5f38758829bddbcccf0c.jpg",
+    "telegram_msg_num": 16373,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 226.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2828,
+      0.9874,
+      0.9394
+    ],
+    "sl_box_norm": [
+      0.0252,
+      0.2222,
+      0.9874,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.9182,
+      0.2424,
+      0.9182,
+      0.2424
+    ],
+    "visual_implied_rr": 0.93
+  },
+  {
+    "file_name": "1171a67f85cb0f519237166ff887779b5b4c63fb921a39def746e025f5780425.jpg",
+    "telegram_msg_num": 16374,
+    "width": 1206,
+    "height": 760,
+    "aspect_ratio": 1.59,
+    "theme": "LIGHT",
+    "avg_luminance": 244.9,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.0377,
+      0.4646,
+      0.1132,
+      0.6162
+    ],
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "9316ce9b0ee3bfa67387dcccf00caa4f45c1d5ee5cb26a10ab89dabe1d92d2d3.jpg",
+    "telegram_msg_num": 16374,
+    "width": 1206,
+    "height": 760,
+    "aspect_ratio": 1.59,
+    "theme": "LIGHT",
+    "avg_luminance": 244.9,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.0377,
+      0.4646,
+      0.1132,
+      0.6162
+    ],
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "273a492d2780636f8c9e2c34f422bca91d88b69b89d37767abc6d806fc98e295.jpg",
+    "telegram_msg_num": 16376,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 224.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0943,
+      0.6465,
+      0.8931,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0881,
+      0.6061,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.4025,
+      0.8788,
+      0.8931,
+      0.9293
+    ],
+    "visual_implied_rr": 0.88
+  },
+  {
+    "file_name": "c02350cdb6441d9cb4e1e8aadd28166233f0f1c1c552119870ed7137ed370a4f.jpg",
+    "telegram_msg_num": 16376,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 224.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0943,
+      0.6465,
+      0.8931,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0881,
+      0.6061,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.4025,
+      0.8788,
+      0.8931,
+      0.9293
+    ],
+    "visual_implied_rr": 0.88
+  },
+  {
+    "file_name": "0052d7ef8562e2e95e5d422f938f0ea1ccebf290118e68bd39ec289581542c06.jpg",
+    "telegram_msg_num": 16377,
+    "width": 895,
+    "height": 423,
+    "aspect_ratio": 2.12,
+    "theme": "DARK",
+    "avg_luminance": 114.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0,
+      0.0,
+      0.956,
+      1.0
+    ],
+    "sl_box_norm": [
+      0.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "sr_zone_box_norm": [
+      0.0,
+      0.0,
+      0.9623,
+      1.0
+    ],
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "aad86cd42d5fae16c239b036a4a4ac887657decdab34baf2bb09a9bb7a2f0243.jpg",
+    "telegram_msg_num": 16377,
+    "width": 895,
+    "height": 423,
+    "aspect_ratio": 2.12,
+    "theme": "DARK",
+    "avg_luminance": 114.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0,
+      0.0,
+      0.956,
+      1.0
+    ],
+    "sl_box_norm": [
+      0.0,
+      0.0,
+      1.0,
+      1.0
+    ],
+    "sr_zone_box_norm": [
+      0.0,
+      0.0,
+      0.9623,
+      1.0
+    ],
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "6a2303375f6d90b616c0cc980f4294f5a6fb4db10034aee9a8534b999d296b27.jpg",
+    "telegram_msg_num": 16378,
+    "width": 1103,
+    "height": 1200,
+    "aspect_ratio": 0.92,
+    "theme": "LIGHT",
+    "avg_luminance": 196.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0629,
+      0.1515,
+      1.0,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.1698,
+      0.3131,
+      1.0,
+      0.9697
+    ],
+    "sr_zone_box_norm": [
+      0.0566,
+      0.2323,
+      0.9119,
+      0.8788
+    ],
+    "visual_implied_rr": 1.18
+  },
+  {
+    "file_name": "afbfc8871fb627c8fb3ef708ec9230b2e320a52a107f066eb8be071e2ef89644.jpg",
+    "telegram_msg_num": 16378,
+    "width": 1103,
+    "height": 1200,
+    "aspect_ratio": 0.92,
+    "theme": "LIGHT",
+    "avg_luminance": 196.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0629,
+      0.1515,
+      1.0,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.1698,
+      0.3131,
+      1.0,
+      0.9697
+    ],
+    "sr_zone_box_norm": [
+      0.0566,
+      0.2323,
+      0.9119,
+      0.8788
+    ],
+    "visual_implied_rr": 1.18
+  },
+  {
+    "file_name": "0f51bfc2a66921a6086876f29ca3816b596d312764b51413dddfd31842748a91.jpg",
+    "telegram_msg_num": 16379,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 227.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9748,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "2b891866916ed2cf7e4b4c11f67bac88405f427d86b8868ffb797cbebd08561a.jpg",
+    "telegram_msg_num": 16379,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 227.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9748,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "da3f1a77fbb6b8c0b52b25026a9d70f70c981f4b34cf2427c570738638d7a9a8.jpg",
+    "telegram_msg_num": 16380,
+    "width": 1206,
+    "height": 1011,
+    "aspect_ratio": 1.19,
+    "theme": "LIGHT",
+    "avg_luminance": 243.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.6465,
+      0.3711,
+      0.6869
+    ],
+    "sl_box_norm": [
+      0.1258,
+      0.3232,
+      0.956,
+      0.8788
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.07
+  },
+  {
+    "file_name": "f4fc29715ea7bab1e01c01b71fb689a3abd75faa94b8864804bd472618c15717.jpg",
+    "telegram_msg_num": 16380,
+    "width": 1206,
+    "height": 1011,
+    "aspect_ratio": 1.19,
+    "theme": "LIGHT",
+    "avg_luminance": 243.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.6465,
+      0.3711,
+      0.6869
+    ],
+    "sl_box_norm": [
+      0.1258,
+      0.3232,
+      0.956,
+      0.8788
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.07
+  },
+  {
+    "file_name": "b02a4b3d52d937da386c7adef4d8f70bf5b0a2f8cb3ed1669ac186893f92ae99.jpg",
+    "telegram_msg_num": 16382,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 222.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.2323,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2727,
+      0.9748,
+      0.9394
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.05
+  },
+  {
+    "file_name": "e6fdbf5e7eac79ba81da66d51d315368df1128fb699874a0949edfffa819caa6.jpg",
+    "telegram_msg_num": 16382,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 222.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.2323,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2727,
+      0.9748,
+      0.9394
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.05
+  },
+  {
+    "file_name": "304c49d2b75a90e9c0f5ee29cbb7dcd14c73edf5a951590c7937241d69c0da74.jpg",
+    "telegram_msg_num": 16383,
+    "width": 1206,
+    "height": 973,
+    "aspect_ratio": 1.24,
+    "theme": "LIGHT",
+    "avg_luminance": 244.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.6465,
+      0.0755,
+      0.6869
+    ],
+    "sl_box_norm": [
+      0.1258,
+      0.3131,
+      0.9623,
+      0.8889
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.07
+  },
+  {
+    "file_name": "c8eb1f88f1dc95aa2162056d693fab621da8784f0bb61fb9a65d64bb1a869fd0.jpg",
+    "telegram_msg_num": 16388,
+    "width": 967,
+    "height": 1280,
+    "aspect_ratio": 0.76,
+    "theme": "LIGHT",
+    "avg_luminance": 139.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.1515,
+      0.9623,
+      0.7273
+    ],
+    "sl_box_norm": [
+      0.0692,
+      0.4343,
+      0.5157,
+      0.9596
+    ],
+    "sr_zone_box_norm": [
+      0.044,
+      0.3535,
+      0.4654,
+      0.8081
+    ],
+    "visual_implied_rr": 1.1
+  },
+  {
+    "file_name": "77213e175b13920be124b52dd601ef899d9472b2b79ae1056cf6fe77f951bd19.jpg",
+    "telegram_msg_num": 16389,
+    "width": 967,
+    "height": 1280,
+    "aspect_ratio": 0.76,
+    "theme": "LIGHT",
+    "avg_luminance": 139.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.1515,
+      0.9623,
+      0.7273
+    ],
+    "sl_box_norm": [
+      0.0692,
+      0.4343,
+      0.5157,
+      0.9596
+    ],
+    "sr_zone_box_norm": [
+      0.044,
+      0.3535,
+      0.4654,
+      0.8081
+    ],
+    "visual_implied_rr": 1.1
+  },
+  {
+    "file_name": "9eb66790b4bc5496b35cc3f4ccb2f73e34d03e48c470e02c5e5c98e224131716.jpg",
+    "telegram_msg_num": 16389,
+    "width": 967,
+    "height": 1280,
+    "aspect_ratio": 0.76,
+    "theme": "LIGHT",
+    "avg_luminance": 139.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.1515,
+      0.9623,
+      0.7273
+    ],
+    "sl_box_norm": [
+      0.0692,
+      0.4343,
+      0.5157,
+      0.9596
+    ],
+    "sr_zone_box_norm": [
+      0.044,
+      0.3535,
+      0.4654,
+      0.8081
+    ],
+    "visual_implied_rr": 1.1
+  },
+  {
+    "file_name": "1994bf05cd0eb69e2d815784533dddf13d0c085e94034cb1aef2d3bc4e729edc.jpg",
+    "telegram_msg_num": 16391,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 230.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.3648,
+      0.2222,
+      0.9811,
+      0.8283
+    ],
+    "sl_box_norm": [
+      0.3836,
+      0.2222,
+      0.9811,
+      0.5354
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.94
+  },
+  {
+    "file_name": "c96a1b01fe0a0632b7d139cdedc2486ba0c58f7d44051aa1d4744a376872943d.jpg",
+    "telegram_msg_num": 16391,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 230.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.3648,
+      0.2222,
+      0.9811,
+      0.8283
+    ],
+    "sl_box_norm": [
+      0.3836,
+      0.2222,
+      0.9811,
+      0.5354
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.94
+  },
+  {
+    "file_name": "b6e49434d4208beda9ad92220220067b9e8abfe2031995bb311b67c979e395e4.jpg",
+    "telegram_msg_num": 16393,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 236.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.1447,
+      0.2222,
+      0.9811,
+      0.8788
+    ],
+    "sl_box_norm": [
+      0.1384,
+      0.2222,
+      0.6604,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.6352,
+      0.3737,
+      0.7484,
+      0.6667
+    ],
+    "visual_implied_rr": 0.93
+  },
+  {
+    "file_name": "cc838233968f428a8ef8951d8688ebb745b8345fd28185edad11b5b12edc1af5.jpg",
+    "telegram_msg_num": 16393,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 236.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.1447,
+      0.2222,
+      0.9811,
+      0.8788
+    ],
+    "sl_box_norm": [
+      0.1384,
+      0.2222,
+      0.6604,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.6352,
+      0.3737,
+      0.7484,
+      0.6667
+    ],
+    "visual_implied_rr": 0.93
+  },
+  {
+    "file_name": "5ac268f319b137504ea26282f862568bd62a9bc80604f947ec87d0595ea058cf.jpg",
+    "telegram_msg_num": 16394,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 233.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.3232,
+      0.9748,
+      0.9091
+    ],
+    "sl_box_norm": [
+      0.0314,
+      0.2626,
+      0.9748,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.2929,
+      0.8994,
+      0.2929
+    ],
+    "visual_implied_rr": 0.88
+  },
+  {
+    "file_name": "ba08907881d95da184df014f0aad05a5e85646077a8ebf74bc48cef020cf3522.jpg",
+    "telegram_msg_num": 16394,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 233.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.3232,
+      0.9748,
+      0.9091
+    ],
+    "sl_box_norm": [
+      0.0314,
+      0.2626,
+      0.9748,
+      0.9293
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.2929,
+      0.8994,
+      0.2929
+    ],
+    "visual_implied_rr": 0.88
+  },
+  {
+    "file_name": "55ffe7af59d9d797e485db54e9b742040a28a7c5346b6b5c1f0e8da38880c699.jpg",
+    "telegram_msg_num": 16397,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 225.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2929,
+      0.9811,
+      0.8687
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2525,
+      0.9874,
+      0.6667
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.39
+  },
+  {
+    "file_name": "6b77d8e5f3c0803750f731a4e69e6f49bd826753336b40db443d461907900fe1.jpg",
+    "telegram_msg_num": 16397,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 225.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2929,
+      0.9811,
+      0.8687
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2525,
+      0.9874,
+      0.6667
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.39
+  },
+  {
+    "file_name": "10d80a0c350bc60ef9ce251f2cc53fac597bce999e45479fb3cf94b5ea42d1c0.jpg",
+    "telegram_msg_num": 16399,
+    "width": 400,
+    "height": 400,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "2ecb9f99cfa0c842f45ff39b20b0046de831d9d28d088de94f817ccf0d42e85d.jpg",
+    "telegram_msg_num": 16402,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 233.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2222,
+      0.9874,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0755,
+      0.2222,
+      0.9874,
+      0.596
+    ],
+    "sr_zone_box_norm": [
+      0.7044,
+      0.4545,
+      0.9119,
+      0.7273
+    ],
+    "visual_implied_rr": 1.89
+  },
+  {
+    "file_name": "b81867b154dae097cd6eb4da81f793fd10d19d5b9c4d3f66e41d9cdd9f364469.jpg",
+    "telegram_msg_num": 16402,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 233.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2222,
+      0.9874,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0755,
+      0.2222,
+      0.9874,
+      0.596
+    ],
+    "sr_zone_box_norm": [
+      0.7044,
+      0.4545,
+      0.9119,
+      0.7273
+    ],
+    "visual_implied_rr": 1.89
+  },
+  {
+    "file_name": "3fffd41ab7e612947907475729f35da3faf1851e85a8d051b84e1245175c6fff.jpg",
+    "telegram_msg_num": 16403,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 211.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.2323,
+      0.9811,
+      0.7374
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2323,
+      0.9811,
+      0.8889
+    ],
+    "sr_zone_box_norm": [
+      0.7044,
+      0.6566,
+      0.9811,
+      0.8384
+    ],
+    "visual_implied_rr": 0.77
+  },
+  {
+    "file_name": "b064a17974f9503e5a0f3f75e60758d309d3fab34f33528ced52d8d158166ec7.jpg",
+    "telegram_msg_num": 16403,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 211.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.2323,
+      0.9811,
+      0.7374
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2323,
+      0.9811,
+      0.8889
+    ],
+    "sr_zone_box_norm": [
+      0.7044,
+      0.6566,
+      0.9811,
+      0.8384
+    ],
+    "visual_implied_rr": 0.77
+  },
+  {
+    "file_name": "34cfeabf16ff74e555d90ceb31b9d1c4736f07292c1427d7e671dd3621d37d5d.jpg",
+    "telegram_msg_num": 16406,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 234.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.5152,
+      0.7799,
+      0.9192
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.3333,
+      0.9811,
+      0.9192
+    ],
+    "sr_zone_box_norm": [
+      0.761,
+      0.4646,
+      0.7862,
+      0.596
+    ],
+    "visual_implied_rr": 0.69
+  },
+  {
+    "file_name": "92d85d3655cff56e92ac23559ea9cc1734cf914a066d59197eb73da4fa237b7c.jpg",
+    "telegram_msg_num": 16406,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 234.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.5152,
+      0.7799,
+      0.9192
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.3333,
+      0.9811,
+      0.9192
+    ],
+    "sr_zone_box_norm": [
+      0.761,
+      0.4646,
+      0.7862,
+      0.596
+    ],
+    "visual_implied_rr": 0.69
+  },
+  {
+    "file_name": "797f603e63d91ac58335701b63d255216e2d1cc7f04663925a8f2b06787b2365.jpg",
+    "telegram_msg_num": 16407,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 210.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2727,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.93
+  },
+  {
+    "file_name": "ea248e5106c021784a14c0d01ef3de204ac341c6908f8cbf0011e74e115fc47c.jpg",
+    "telegram_msg_num": 16407,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 210.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2727,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.93
+  },
+  {
+    "file_name": "207979b97fcdb4b4082ddda9b7245a9e89aef4e7c977d5ab1a6ca80dfc795247.jpg",
+    "telegram_msg_num": 16411,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 219.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.3636,
+      0.7296,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.3636,
+      0.9811,
+      0.7374
+    ],
+    "sr_zone_box_norm": [
+      0.2264,
+      0.3939,
+      0.7296,
+      0.8283
+    ],
+    "visual_implied_rr": 1.27
+  },
+  {
+    "file_name": "8e6415eede09b06468dcec0dbfe6677e4341b1fc1a8881987dc4687b01166635.jpg",
+    "telegram_msg_num": 16411,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 219.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.3636,
+      0.7296,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.3636,
+      0.9811,
+      0.7374
+    ],
+    "sr_zone_box_norm": [
+      0.2264,
+      0.3939,
+      0.7296,
+      0.8283
+    ],
+    "visual_implied_rr": 1.27
+  },
+  {
+    "file_name": "43a757baa2880432d97f9ad29dfa29becac32589bfa60b82acca9c4e6c2a6950.jpg",
+    "telegram_msg_num": 16412,
+    "width": 1206,
+    "height": 1573,
+    "aspect_ratio": 0.77,
+    "theme": "DARK",
+    "avg_luminance": 111.0,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.0,
+      0.5455,
+      0.761,
+      0.8283
+    ],
+    "sr_zone_box_norm": [
+      0.0,
+      0.0707,
+      0.7421,
+      0.6364
+    ],
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "a763f4b18630420296c0386785ca4037446abd7fb1f4dda9f8b782f619c20081.jpg",
+    "telegram_msg_num": 16412,
+    "width": 1206,
+    "height": 1573,
+    "aspect_ratio": 0.77,
+    "theme": "DARK",
+    "avg_luminance": 111.0,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.0,
+      0.5455,
+      0.761,
+      0.8283
+    ],
+    "sr_zone_box_norm": [
+      0.0,
+      0.0707,
+      0.7421,
+      0.6364
+    ],
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "0d284b4a6eda4cc95917f3bd48bde3b6800507d0423f47b6314353a91a1cb1ac.jpg",
+    "telegram_msg_num": 16413,
+    "width": 1149,
+    "height": 1280,
+    "aspect_ratio": 0.9,
+    "theme": "DARK",
+    "avg_luminance": 24.4,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.9497,
+      0.6162,
+      0.956,
+      0.6162
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "8926c1f6504344673894308d0ef240239f80df62970e212b6db0be7bd96c30bd.jpg",
+    "telegram_msg_num": 16413,
+    "width": 1149,
+    "height": 1280,
+    "aspect_ratio": 0.9,
+    "theme": "DARK",
+    "avg_luminance": 24.4,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.9497,
+      0.6162,
+      0.956,
+      0.6162
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "015b3d95c98065f598eaff5fa7a8b86ce155b49b8ad3852b1233a406b6ff1f81.jpg",
+    "telegram_msg_num": 16414,
+    "width": 1024,
+    "height": 522,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 154.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.2222,
+      0.3585,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "d6a50fae9fb5bdf6f0fd66f8ff1485b0be180b6eb09635e1495c894155aa8dd3.jpg",
+    "telegram_msg_num": 16414,
+    "width": 1024,
+    "height": 522,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 154.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.2222,
+      0.3585,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "0ccc31745a0d5ce8077462e35e21fb5d7113e6e1c6e25ffdb47d085e238d9875.jpg",
+    "telegram_msg_num": 16415,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 228.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.2222,
+      0.9811,
+      0.8283
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9874,
+      0.5859
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.67
+  },
+  {
+    "file_name": "772e56b2c9a6a8bd0fbd36efb22315edd77b9cbf404b4d48950c1ceb568f775f.jpg",
+    "telegram_msg_num": 16415,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 228.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.2222,
+      0.9811,
+      0.8283
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9874,
+      0.5859
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.67
+  },
+  {
+    "file_name": "1e4a65ea6919bb8d8bb35626a733f5c27ee6e8c5cee022e522928608f1e07b61.jpg",
+    "telegram_msg_num": 16418,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 233.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.2222,
+      0.9811,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0252,
+      0.2222,
+      0.9874,
+      0.7374
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.2
+  },
+  {
+    "file_name": "21ccdad00c5526db8162028b75ff8e9b74eac10472f13e0a39e89e3af206053a.jpg",
+    "telegram_msg_num": 16418,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 233.2,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.2222,
+      0.9811,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0252,
+      0.2222,
+      0.9874,
+      0.7374
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.2
+  },
+  {
+    "file_name": "28b7bc7242267f0a16236c0272880e6df0b07a0eeec4321b3145154255a906cf.jpg",
+    "telegram_msg_num": 16421,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 232.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "45c76fd3f5f125255414fadcd8accef7705bf2a47c30abb375bc6b4c2c69e04b.jpg",
+    "telegram_msg_num": 16421,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 232.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.0
+  },
+  {
+    "file_name": "029889ba9fde052cf352283f70a90a3c3d4e5f6aa8b28715a10bc8e1cc03ee4a.jpg",
+    "telegram_msg_num": 16425,
+    "width": 1206,
+    "height": 528,
+    "aspect_ratio": 2.28,
+    "theme": "DARK",
+    "avg_luminance": 34.6,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.7233,
+      0.2828,
+      0.9686,
+      0.8586
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "6f8247bfcb124aa3c80b19086a0bf372ec90266320fdea28c320ee957d3012d7.jpg",
+    "telegram_msg_num": 16425,
+    "width": 1206,
+    "height": 528,
+    "aspect_ratio": 2.28,
+    "theme": "DARK",
+    "avg_luminance": 34.6,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.7233,
+      0.2828,
+      0.9686,
+      0.8586
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "53075a4a2c5bcd021044dc1b4b148cff46b216ecfee82f8fb705e83029b1eea3.jpg",
+    "telegram_msg_num": 16426,
+    "width": 1190,
+    "height": 2048,
+    "aspect_ratio": 0.58,
+    "theme": "DARK",
+    "avg_luminance": 100.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2201,
+      0.0202,
+      1.0,
+      0.7576
+    ],
+    "sl_box_norm": [
+      0.0881,
+      0.0,
+      0.9874,
+      1.0
+    ],
+    "sr_zone_box_norm": [
+      0.0063,
+      0.5051,
+      0.9434,
+      1.0
+    ],
+    "visual_implied_rr": 0.74
+  },
+  {
+    "file_name": "99c7566d1a6869ab35b2acba7a6b8f43e66da3e27b10a995464470b0776171ff.jpg",
+    "telegram_msg_num": 16426,
+    "width": 1190,
+    "height": 2048,
+    "aspect_ratio": 0.58,
+    "theme": "DARK",
+    "avg_luminance": 100.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.2201,
+      0.0202,
+      1.0,
+      0.7576
+    ],
+    "sl_box_norm": [
+      0.0881,
+      0.0,
+      0.9874,
+      1.0
+    ],
+    "sr_zone_box_norm": [
+      0.0063,
+      0.5051,
+      0.9434,
+      1.0
+    ],
+    "visual_implied_rr": 0.74
+  },
+  {
+    "file_name": "4cc8c5ee7e73db07e7fa1ba65ad68004129c880dcf1c083ef6cc756a67b5e6b6.jpg",
+    "telegram_msg_num": 16427,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 219.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2323,
+      0.9811,
+      0.8081
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2727,
+      0.9811,
+      0.7879
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.12
+  },
+  {
+    "file_name": "9378e59f00b94cbe1d2d690206642d176b3d4a8a00a339937e170b499f0f7983.jpg",
+    "telegram_msg_num": 16427,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 219.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2323,
+      0.9811,
+      0.8081
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2727,
+      0.9811,
+      0.7879
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.12
+  },
+  {
+    "file_name": "f7fbb6005c5d843ddfd5ff6a96c8470ec09467d286486689b7878742da2b2018.jpg",
+    "telegram_msg_num": 16429,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 215.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.4242,
+      0.9811,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9686,
+      0.899
+    ],
+    "sr_zone_box_norm": [
+      0.7925,
+      0.3434,
+      0.8428,
+      0.7475
+    ],
+    "visual_implied_rr": 0.7
+  },
+  {
+    "file_name": "fe0595805bfdff50898b278aff2471fc4f8e3ef7ead1b0bc889c8b70acda270d.jpg",
+    "telegram_msg_num": 16429,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 215.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.4242,
+      0.9811,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9686,
+      0.899
+    ],
+    "sr_zone_box_norm": [
+      0.7925,
+      0.3434,
+      0.8428,
+      0.7475
+    ],
+    "visual_implied_rr": 0.7
+  },
+  {
+    "file_name": "3cf05cf6aaf488257ad0c0bac0c5e199f48e53e41b64da473d29673338d3a63f.jpg",
+    "telegram_msg_num": 16430,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 234.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.2222,
+      0.9748,
+      0.8788
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9748,
+      0.4343
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 3.1
+  },
+  {
+    "file_name": "922ccbdbfae58f7e45ee9e153ffac8567990384b97b2bbebfea14c86481abb64.jpg",
+    "telegram_msg_num": 16430,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 234.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.2222,
+      0.9748,
+      0.8788
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9748,
+      0.4343
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 3.1
+  },
+  {
+    "file_name": "0a079b33a4df67753d1dedea2b35a76b17f6e5fd4aae075fbef73ffcef63ca05.jpg",
+    "telegram_msg_num": 16434,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 166.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.3899,
+      0.2222,
+      0.9748,
+      0.8687
+    ],
+    "sl_box_norm": [
+      0.4025,
+      0.2222,
+      0.9748,
+      0.5253
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.13
+  },
+  {
+    "file_name": "d013a871154df5ab1e0920587b223acd4b0b6909910ec1061b12f9a66bc7471c.jpg",
+    "telegram_msg_num": 16434,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 166.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.3899,
+      0.2222,
+      0.9748,
+      0.8687
+    ],
+    "sl_box_norm": [
+      0.4025,
+      0.2222,
+      0.9748,
+      0.5253
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.13
+  },
+  {
+    "file_name": "0e28e6c26027929f83f69a7d3fc3556c2da71ff03f4c59053029890e3fab984b.jpg",
+    "telegram_msg_num": 16436,
+    "width": 400,
+    "height": 400,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "98f312aa385123acc4f916e872d656eaef6a82dd336710f4bc579c0d21e6e2e4.jpg",
+    "telegram_msg_num": 16436,
+    "width": 400,
+    "height": 400,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "6db2662b784c86fba7bd30b3e774ebb1a4ab3450ade9684824689a140f61124e.jpg",
+    "telegram_msg_num": 16437,
+    "width": 1206,
+    "height": 1525,
+    "aspect_ratio": 0.79,
+    "theme": "LIGHT",
+    "avg_luminance": 153.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.202,
+      0.9623,
+      0.4545
+    ],
+    "sl_box_norm": [
+      0.0566,
+      0.4949,
+      0.1887,
+      0.8485
+    ],
+    "sr_zone_box_norm": [
+      0.044,
+      0.404,
+      0.478,
+      0.8889
+    ],
+    "visual_implied_rr": 0.71
+  },
+  {
+    "file_name": "8db33c643c702cd6139ddc862c40a99e97b4d790b4171f71c7c584c7a560c7b2.jpg",
+    "telegram_msg_num": 16437,
+    "width": 1206,
+    "height": 1525,
+    "aspect_ratio": 0.79,
+    "theme": "LIGHT",
+    "avg_luminance": 153.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.202,
+      0.9623,
+      0.4545
+    ],
+    "sl_box_norm": [
+      0.0566,
+      0.4949,
+      0.1887,
+      0.8485
+    ],
+    "sr_zone_box_norm": [
+      0.044,
+      0.404,
+      0.478,
+      0.8889
+    ],
+    "visual_implied_rr": 0.71
+  },
+  {
+    "file_name": "93860ddc49e73b861ac4f1502340e97b6a45b232b953de1aaadc6f7ea9c6f5c5.jpg",
+    "telegram_msg_num": 16439,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 228.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.4343,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2424,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.72
+  },
+  {
+    "file_name": "c27184263799f38c7a1a7494d2279ea41c1b274f7a60d3c9282f5a221a1881fc.jpg",
+    "telegram_msg_num": 16439,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 228.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.4343,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2424,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.72
+  },
+  {
+    "file_name": "4cd9a0beed59924e9800ce3a4ef3849e657af0ab20c3ddb539019c300c24c063.jpg",
+    "telegram_msg_num": 16441,
+    "width": 1536,
+    "height": 2048,
+    "aspect_ratio": 0.75,
+    "theme": "DARK",
+    "avg_luminance": 105.9,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0,
+      0.3838,
+      1.0,
+      1.0
+    ],
+    "sl_box_norm": [
+      0.5723,
+      0.5253,
+      0.9811,
+      0.7576
+    ],
+    "sr_zone_box_norm": [
+      0.0,
+      0.5859,
+      1.0,
+      1.0
+    ],
+    "visual_implied_rr": 2.65
+  },
+  {
+    "file_name": "2bb741036ffe3ede512851ac618f27986525f8e5bd103fc937018d4803c9829a.jpg",
+    "telegram_msg_num": 16442,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 228.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.2828,
+      0.9811,
+      0.8485
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2626,
+      0.7233,
+      0.8586
+    ],
+    "sr_zone_box_norm": [
+      0.7107,
+      0.7374,
+      0.9811,
+      0.8788
+    ],
+    "visual_implied_rr": 0.95
+  },
+  {
+    "file_name": "d18e6918b8a367e63a37aa493919cdc1f006513a2cbc7fedb2b59f1e4959cb3a.jpg",
+    "telegram_msg_num": 16442,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 228.3,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0189,
+      0.2828,
+      0.9811,
+      0.8485
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2626,
+      0.7233,
+      0.8586
+    ],
+    "sr_zone_box_norm": [
+      0.7107,
+      0.7374,
+      0.9811,
+      0.8788
+    ],
+    "visual_implied_rr": 0.95
+  },
+  {
+    "file_name": "5d83696046a13361d2b2f540b9d0f1845f77114827e577fb8029e3133b045cee.jpg",
+    "telegram_msg_num": 16444,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 147.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2222,
+      0.9811,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.6869
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.6364,
+      0.9811,
+      0.6768
+    ],
+    "visual_implied_rr": 1.46
+  },
+  {
+    "file_name": "6ff981a804693fe8e798d60bed4337eec7feeba744e10b0a8ad500c5b26d76bb.jpg",
+    "telegram_msg_num": 16444,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 147.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2222,
+      0.9811,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.6869
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.6364,
+      0.9811,
+      0.6768
+    ],
+    "visual_implied_rr": 1.46
+  },
+  {
+    "file_name": "cee6d4b699c3351d4ef89c5f0ed12166378d2d534230910044a48d992ac4c92b.jpg",
+    "telegram_msg_num": 16444,
+    "width": 1280,
+    "height": 653,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 147.6,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2222,
+      0.9811,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.6869
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.6364,
+      0.9811,
+      0.6768
+    ],
+    "visual_implied_rr": 1.46
+  },
+  {
+    "file_name": "b9f8c084d57c8c078ee0ff16fa8e8a6f6ec0fd5bdd1ff08c1c773a38a05c1ffe.jpg",
+    "telegram_msg_num": 16447,
+    "width": 400,
+    "height": 400,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "be998524a3bfcdae784e2dae5078d799c8408e9e4ca53b20b08c9a1f94f934c8.jpg",
+    "telegram_msg_num": 16447,
+    "width": 400,
+    "height": 400,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "c4378a407933fea6480cd93288ba583495b9fc963626d006eb64c7f0fb70caf1.jpg",
+    "telegram_msg_num": 16449,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 225.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.404,
+      0.9811,
+      0.9091
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2626,
+      0.8931,
+      0.8889
+    ],
+    "sr_zone_box_norm": [
+      0.6792,
+      0.3737,
+      0.717,
+      0.6061
+    ],
+    "visual_implied_rr": 0.81
+  },
+  {
+    "file_name": "f056b057ec83332498fd7c48ee5b70789880452ffc599c6a4dc85e320f840fe6.jpg",
+    "telegram_msg_num": 16449,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 225.1,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.404,
+      0.9811,
+      0.9091
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2626,
+      0.8931,
+      0.8889
+    ],
+    "sr_zone_box_norm": [
+      0.6792,
+      0.3737,
+      0.717,
+      0.6061
+    ],
+    "visual_implied_rr": 0.81
+  },
+  {
+    "file_name": "a6260952934ea169dec0915947821c9555ec1c808114d1977b394e969f79b921.jpg",
+    "telegram_msg_num": 16450,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 219.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.3535,
+      0.9811,
+      0.8182
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2626,
+      0.5975,
+      0.8485
+    ],
+    "sr_zone_box_norm": [
+      0.2201,
+      0.3131,
+      0.7736,
+      0.8182
+    ],
+    "visual_implied_rr": 0.79
+  },
+  {
+    "file_name": "b263755291958ffc4c26864566b70075bc68f02bf9e965737c2f08e066ee8cbd.jpg",
+    "telegram_msg_num": 16450,
+    "width": 2048,
+    "height": 1045,
+    "aspect_ratio": 1.96,
+    "theme": "LIGHT",
+    "avg_luminance": 219.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.3535,
+      0.9811,
+      0.8182
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2626,
+      0.5975,
+      0.8485
+    ],
+    "sr_zone_box_norm": [
+      0.2201,
+      0.3131,
+      0.7736,
+      0.8182
+    ],
+    "visual_implied_rr": 0.79
+  },
+  {
+    "file_name": "b180eec77a288fe35b985cb4ac65358b5f67fc841c0d7e29aa165f4e81a8a100.jpg",
+    "telegram_msg_num": 16451,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 226.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9748,
+      0.8687
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9748,
+      0.5455
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.0
+  },
+  {
+    "file_name": "c754edd0b0418b939f703a1ae294e42bd37f12792a78c759fc747c476c48b299.jpg",
+    "telegram_msg_num": 16451,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 226.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2222,
+      0.9748,
+      0.8687
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2222,
+      0.9748,
+      0.5455
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.0
+  },
+  {
+    "file_name": "67ca7e69bf0daf68f76db4f60a70cd81b501b21712838499292a1d4f46bd9293.jpg",
+    "telegram_msg_num": 16453,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 233.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.404,
+      0.9811,
+      0.9293
+    ],
+    "sl_box_norm": [
+      0.0189,
+      0.2929,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.83
+  },
+  {
+    "file_name": "70644cac079b436febec8d6cb07b8c28576c757bbd94347cfc629b2308bb33b3.jpg",
+    "telegram_msg_num": 16454,
+    "width": 1536,
+    "height": 2048,
+    "aspect_ratio": 0.75,
+    "theme": "DARK",
+    "avg_luminance": 119.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0,
+      0.6667,
+      1.0,
+      1.0
+    ],
+    "sl_box_norm": [
+      0.283,
+      0.0,
+      1.0,
+      0.6364
+    ],
+    "sr_zone_box_norm": [
+      0.0,
+      0.5758,
+      1.0,
+      1.0
+    ],
+    "visual_implied_rr": 0.52
+  },
+  {
+    "file_name": "a99a757ff9c9bdddae992cf3420925f272ab9dde2a5cc312af592990d0c28921.jpg",
+    "telegram_msg_num": 16454,
+    "width": 1536,
+    "height": 2048,
+    "aspect_ratio": 0.75,
+    "theme": "DARK",
+    "avg_luminance": 119.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0,
+      0.6667,
+      1.0,
+      1.0
+    ],
+    "sl_box_norm": [
+      0.283,
+      0.0,
+      1.0,
+      0.6364
+    ],
+    "sr_zone_box_norm": [
+      0.0,
+      0.5758,
+      1.0,
+      1.0
+    ],
+    "visual_implied_rr": 0.52
+  },
+  {
+    "file_name": "6ba1fe4d562149a7d6f13117ee48544faf38b94adaed15a7a7c470be8fcde00d.jpg",
+    "telegram_msg_num": 16457,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 225.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2323,
+      0.9811,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.94
+  },
+  {
+    "file_name": "d66fa947fd953033d5701345b60c095892728a1794d7307fc10e77190cddcfc8.jpg",
+    "telegram_msg_num": 16457,
+    "width": 1280,
+    "height": 651,
+    "aspect_ratio": 1.97,
+    "theme": "LIGHT",
+    "avg_luminance": 225.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2323,
+      0.9811,
+      0.899
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2222,
+      0.9811,
+      0.9293
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.94
+  },
+  {
+    "file_name": "4e62cb37fab0f48fac925d10c0f04c31f8f1fdc5a4183d6f949f3be964fa989c.jpg",
+    "telegram_msg_num": 16459,
+    "width": 400,
+    "height": 400,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "c390c5b50684d58f763d43d2863feb3cf7dd5dc87dbf62987b1eb1d764f937c9.jpg",
+    "telegram_msg_num": 16459,
+    "width": 400,
+    "height": 400,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "4757dee6fc0d158141947c76fca5b6e4c6e8475a3ab4af589f39f1f570f0204b.jpg",
+    "telegram_msg_num": 16461,
+    "width": 1280,
+    "height": 674,
+    "aspect_ratio": 1.9,
+    "theme": "LIGHT",
+    "avg_luminance": 227.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0252,
+      0.2121,
+      0.9811,
+      0.9394
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.2121,
+      0.8931,
+      0.5152
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 2.4
+  },
+  {
+    "file_name": "2182abafea6406b4b0415419a15274bd26e3daf29ae8d68a36d35f2cf1a5f531.jpg",
+    "telegram_msg_num": 16463,
+    "width": 400,
+    "height": 400,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "d0ad0552269c43cf19a91fc3f67bf1357a16a446f2768343ef6ee69e3631ce78.jpg",
+    "telegram_msg_num": 16463,
+    "width": 400,
+    "height": 400,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "35ef2246cafbf34709b594be9918292bcaf1694d918805181ca564abd07273d2.jpg",
+    "telegram_msg_num": 16464,
+    "width": 1200,
+    "height": 675,
+    "aspect_ratio": 1.78,
+    "theme": "DARK",
+    "avg_luminance": 1.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "b945f0c1aa3e462dafe6cc56949932d863c19b5041294c9cc97fbc5d4b535422.jpg",
+    "telegram_msg_num": 16464,
+    "width": 1200,
+    "height": 675,
+    "aspect_ratio": 1.78,
+    "theme": "DARK",
+    "avg_luminance": 1.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "4709455691632f68b77c63e5af8e9adb2ae5d3e436f9305326ccc2445b60d774.jpg",
+    "telegram_msg_num": 16467,
+    "width": 1206,
+    "height": 1320,
+    "aspect_ratio": 0.91,
+    "theme": "DARK",
+    "avg_luminance": 76.1,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "cd7d960c5e8cfee79c63071f6103315b84336aa380c8ddf192d0fa4c32d52043.jpg",
+    "telegram_msg_num": 16467,
+    "width": 1206,
+    "height": 1320,
+    "aspect_ratio": 0.91,
+    "theme": "DARK",
+    "avg_luminance": 76.1,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "a6b29f25995c9e5d9e672f42181f9b3a32065c2971fdbf67332e030324523e2c.jpg",
+    "telegram_msg_num": 16468,
+    "width": 1280,
+    "height": 674,
+    "aspect_ratio": 1.9,
+    "theme": "LIGHT",
+    "avg_luminance": 223.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.2626,
+      0.9811,
+      0.6869
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.4242,
+      0.6918,
+      0.697
+    ],
+    "sr_zone_box_norm": [
+      0.6918,
+      0.697,
+      0.9811,
+      0.8384
+    ],
+    "visual_implied_rr": 1.56
+  },
+  {
+    "file_name": "de009a0149e1817e05af14bb7b5f4cfe7e3664f6ed7b27fd75ad36570b304ec5.jpg",
+    "telegram_msg_num": 16468,
+    "width": 1280,
+    "height": 674,
+    "aspect_ratio": 1.9,
+    "theme": "LIGHT",
+    "avg_luminance": 223.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0314,
+      0.2626,
+      0.9811,
+      0.6869
+    ],
+    "sl_box_norm": [
+      0.0126,
+      0.4242,
+      0.6918,
+      0.697
+    ],
+    "sr_zone_box_norm": [
+      0.6918,
+      0.697,
+      0.9811,
+      0.8384
+    ],
+    "visual_implied_rr": 1.56
+  },
+  {
+    "file_name": "f60467cb4243c7660260c90b7e2db1c96bcdc60e7ffbbbc9c5cb9e9b7bce5349.jpg",
+    "telegram_msg_num": 16469,
+    "width": 400,
+    "height": 400,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "fdeefe8ef0c6b4502ea84a08edb89d35db3f997b3aa1e7f228dbec150c707fd8.jpg",
+    "telegram_msg_num": 16469,
+    "width": 400,
+    "height": 400,
+    "aspect_ratio": 1.0,
+    "theme": "DARK",
+    "avg_luminance": 11.5,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "9d021ad3cc8a9bb6e4d29cb507f4e5c6cdbeddaeaea1d267fb2e9dfbc7539972.jpg",
+    "telegram_msg_num": 16472,
+    "width": 2048,
+    "height": 1080,
+    "aspect_ratio": 1.9,
+    "theme": "LIGHT",
+    "avg_luminance": 222.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2323,
+      0.9811,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0252,
+      0.2626,
+      0.9811,
+      0.7475
+    ],
+    "sr_zone_box_norm": [
+      0.6289,
+      0.3636,
+      0.9811,
+      0.8081
+    ],
+    "visual_implied_rr": 1.25
+  },
+  {
+    "file_name": "d68a516ee71764aa2125f158c98cab020c470cb62c8509a2ac28202d61d176c9.jpg",
+    "telegram_msg_num": 16472,
+    "width": 2048,
+    "height": 1080,
+    "aspect_ratio": 1.9,
+    "theme": "LIGHT",
+    "avg_luminance": 222.0,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0126,
+      0.2323,
+      0.9811,
+      0.8384
+    ],
+    "sl_box_norm": [
+      0.0252,
+      0.2626,
+      0.9811,
+      0.7475
+    ],
+    "sr_zone_box_norm": [
+      0.6289,
+      0.3636,
+      0.9811,
+      0.8081
+    ],
+    "visual_implied_rr": 1.25
+  },
+  {
+    "file_name": "7560b71e47eeabbe87b6f8bbbcb91a18c994fb07665cc8ad93b2460548491d65.jpg",
+    "telegram_msg_num": 327,
+    "width": 1280,
+    "height": 642,
+    "aspect_ratio": 1.99,
+    "theme": "DARK",
+    "avg_luminance": 16.4,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.0063,
+      0.1616,
+      0.8994,
+      0.9798
+    ],
+    "sl_box_norm": null,
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "a0a2d62d27387027a2f7232e908595ff84836d49fb35f1c0eaa34f0dc606825b.jpg",
+    "telegram_msg_num": 328,
+    "width": 1039,
+    "height": 1280,
+    "aspect_ratio": 0.81,
+    "theme": "DARK",
+    "avg_luminance": 15.9,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.1069,
+      0.0404,
+      0.9057,
+      0.9697
+    ],
+    "sl_box_norm": [
+      0.1132,
+      0.7475,
+      0.5472,
+      0.7576
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.3939,
+      1.0,
+      0.4646
+    ],
+    "visual_implied_rr": 15.0
+  },
+  {
+    "file_name": "0ad27fdcdbed6ec1e506fc6db0dd027a30f2536f6c29c36d9c0c10fa18479861.jpg",
+    "telegram_msg_num": 329,
+    "width": 1200,
+    "height": 585,
+    "aspect_ratio": 2.05,
+    "theme": "DARK",
+    "avg_luminance": 24.3,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.6038,
+      0.1616,
+      0.8679,
+      0.6667
+    ],
+    "sl_box_norm": null,
+    "sr_zone_box_norm": [
+      0.6918,
+      0.3535,
+      0.761,
+      0.5455
+    ],
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "b3ec6b59939f6ff25ffaa5add5d3a371ecdc3e35e3c8d61467a4c1ba08ccd4a1.jpg",
+    "telegram_msg_num": 330,
+    "width": 1039,
+    "height": 1280,
+    "aspect_ratio": 0.81,
+    "theme": "DARK",
+    "avg_luminance": 15.9,
+    "has_rr_projection_box": false,
+    "tp_box_norm": [
+      0.1069,
+      0.0404,
+      0.9057,
+      0.9697
+    ],
+    "sl_box_norm": [
+      0.1132,
+      0.7475,
+      0.5472,
+      0.7576
+    ],
+    "sr_zone_box_norm": [
+      0.8994,
+      0.3939,
+      1.0,
+      0.4646
+    ],
+    "visual_implied_rr": 15.0
+  },
+  {
+    "file_name": "b3ec6b59939f6ff25ffaa5add5d3a371ecdc3e35e3c8d61467a4c1ba08ccd4a1.jpg",
+    "telegram_msg_num": 332,
+    "width": 1280,
+    "height": 1144,
+    "aspect_ratio": 1.12,
+    "theme": "DARK",
+    "avg_luminance": 26.9,
+    "has_rr_projection_box": false,
+    "tp_box_norm": null,
+    "sl_box_norm": [
+      0.0377,
+      0.2222,
+      0.9623,
+      0.8788
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": null
+  },
+  {
+    "file_name": "b3ec6b59939f6ff25ffaa5add5d3a371ecdc3e35e3c8d61467a4c1ba08ccd4a1.jpg",
+    "telegram_msg_num": 337,
+    "width": 1280,
+    "height": 1186,
+    "aspect_ratio": 1.08,
+    "theme": "DARK",
+    "avg_luminance": 26.5,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2222,
+      0.9623,
+      0.8586
+    ],
+    "sl_box_norm": [
+      0.7736,
+      0.2121,
+      0.9623,
+      0.3535
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 4.5
+  },
+  {
+    "file_name": "b3ec6b59939f6ff25ffaa5add5d3a371ecdc3e35e3c8d61467a4c1ba08ccd4a1.jpg",
+    "telegram_msg_num": 339,
+    "width": 1280,
+    "height": 1226,
+    "aspect_ratio": 1.04,
+    "theme": "DARK",
+    "avg_luminance": 27.4,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.0377,
+      0.2828,
+      0.9623,
+      0.8889
+    ],
+    "sl_box_norm": [
+      0.7673,
+      0.2727,
+      0.9623,
+      0.404
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 4.62
+  },
+  {
+    "file_name": "b3ec6b59939f6ff25ffaa5add5d3a371ecdc3e35e3c8d61467a4c1ba08ccd4a1.jpg",
+    "telegram_msg_num": 341,
+    "width": 1244,
+    "height": 1265,
+    "aspect_ratio": 0.98,
+    "theme": "DARK",
+    "avg_luminance": 25.8,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.697,
+      0.9623,
+      0.8687
+    ],
+    "sl_box_norm": [
+      0.7736,
+      0.2929,
+      0.956,
+      0.4141
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 1.42
+  },
+  {
+    "file_name": "b3ec6b59939f6ff25ffaa5add5d3a371ecdc3e35e3c8d61467a4c1ba08ccd4a1.jpg",
+    "telegram_msg_num": 343,
+    "width": 1280,
+    "height": 1219,
+    "aspect_ratio": 1.05,
+    "theme": "DARK",
+    "avg_luminance": 25.7,
+    "has_rr_projection_box": true,
+    "tp_box_norm": [
+      0.044,
+      0.2323,
+      0.9623,
+      0.7071
+    ],
+    "sl_box_norm": [
+      0.044,
+      0.2222,
+      0.9623,
+      0.8586
+    ],
+    "sr_zone_box_norm": null,
+    "visual_implied_rr": 0.75
+  }
+]

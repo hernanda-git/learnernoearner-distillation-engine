@@ -346,3 +346,47 @@ def test_phase4_comparative_97_signal_backtest_simulator() -> None:
     assert report.proteus_distilled_fsm.total_realized_r > report.naive_set_and_forget.total_realized_r
     assert report.proteus_distilled_fsm.profit_factor > report.naive_set_and_forget.profit_factor * 3.5
     assert report.drawdown_reduction_r > 12.0
+    assert report.real_candle_audit.resolved_signals == 87
+    assert report.real_candle_audit.reached_1r_before_sl == 47
+    assert report.real_candle_audit.whipsaw_reversed_to_sl_after_1r == 29
+    assert report.real_candle_audit.whipsaw_rate_of_1r_winners_pct == 61.7
+    assert report.real_candle_audit.silent_stop_out_share_pct == 56.5
+
+
+def test_real_284_screenshot_vision_corpus_annotations() -> None:
+    from proteus.vision.chart_extractor import VisionCorpusAnalyzer
+
+    summary = VisionCorpusAnalyzer.summarize_corpus()
+    assert summary.total_screenshots == 284
+    assert summary.light_theme_count == 216
+    assert summary.dark_theme_count == 68
+    assert summary.rr_projection_box_count == 238
+    assert summary.rr_projection_box_pct == 83.8
+    assert summary.sr_zone_box_count == 129
+
+
+def test_virtual_paper_exchange_admits_and_steps_shadow_positions(tmp_path: Path) -> None:
+    import json
+    from proteus.paper import VirtualPaperExchange
+    from proteus.shadow import AssetShadowState, LiveShadowSnapshot
+
+    snap_path = Path(__file__).resolve().parents[1] / "benchmarks" / "live_shadow_snapshot.json"
+    raw = json.loads(snap_path.read_text(encoding="utf-8"))
+    snapshot = LiveShadowSnapshot(
+        scanned_at_utc=raw["scanned_at_utc"],
+        btc_1d_close=raw["btc_1d_close"],
+        eth_1d_close=raw["eth_1d_close"],
+        macro_regime=raw["macro_regime"],
+        universe_evaluated=raw["universe_evaluated"],
+        active_entries=raw["active_entries"],
+        abstentions=raw["abstentions"],
+        states=[AssetShadowState(**s) for s in raw["states"]],
+    )
+
+    ledger_file = tmp_path / "paper_ledger.json"
+    exchange = VirtualPaperExchange(ledger_path=ledger_file)
+    ledger = exchange.process_shadow_snapshot(snapshot)
+    assert ledger.open_positions_count == 2
+    assert "INJ" in ledger.positions
+    assert "PEPE" in ledger.positions
+    assert ledger.positions["INJ"].state == "ACTIVE"

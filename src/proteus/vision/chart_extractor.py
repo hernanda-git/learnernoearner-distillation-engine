@@ -116,3 +116,49 @@ class TradingViewBoxExtractor:
             implied_rr=implied_rr,
             spatial_iou_vs_human=iou,
         )
+
+
+@dataclass(frozen=True)
+class VisionCorpusSummary:
+    total_screenshots: int
+    light_theme_count: int
+    dark_theme_count: int
+    light_theme_pct: float
+    rr_projection_box_count: int
+    rr_projection_box_pct: float
+    sr_zone_box_count: int
+    sr_zone_box_pct: float
+
+
+class VisionCorpusAnalyzer:
+    """Summarizes pixel-level CV annotations across the 284 real TradingView screenshots."""
+
+    @staticmethod
+    def summarize_corpus(annotations_path: str | None = None) -> VisionCorpusSummary:
+        import json
+        from pathlib import Path
+
+        default_path = (
+            Path(__file__).resolve().parents[3]
+            / "benchmarks"
+            / "corpus"
+            / "vision_annotations.json"
+        )
+        target = Path(annotations_path) if annotations_path else default_path
+        rows = json.loads(target.read_text(encoding="utf-8"))
+        n = len(rows)
+        light = sum(1 for r in rows if r.get("theme") == "LIGHT")
+        dark = sum(1 for r in rows if r.get("theme") == "DARK")
+        rr_boxes = sum(1 for r in rows if r.get("has_rr_projection_box"))
+        sr_boxes = sum(1 for r in rows if r.get("sr_zone_box_norm") is not None)
+
+        return VisionCorpusSummary(
+            total_screenshots=n,
+            light_theme_count=light,
+            dark_theme_count=dark,
+            light_theme_pct=round((light / max(1, n)) * 100.0, 1),
+            rr_projection_box_count=rr_boxes,
+            rr_projection_box_pct=round((rr_boxes / max(1, n)) * 100.0, 1),
+            sr_zone_box_count=sr_boxes,
+            sr_zone_box_pct=round((sr_boxes / max(1, n)) * 100.0, 1),
+        )
