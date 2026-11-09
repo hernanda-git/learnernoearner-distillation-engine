@@ -147,7 +147,18 @@ class BitgetCandleStream:
             thread.start()
             self._threads.append(thread)
         self._started = True
+        self.wait_ready(timeout=10.0)
         return True
+
+    def wait_ready(self, timeout: float = 10.0) -> bool:
+        """Block briefly until every shard has a live connection (or timeout)."""
+        deadline = time.monotonic() + timeout
+        target = len(self._threads)
+        while time.monotonic() < deadline:
+            if self.connected_legs >= target:
+                return True
+            time.sleep(0.1)
+        return self.connected_legs > 0
 
     def stop(self) -> None:
         self._stop.set()
