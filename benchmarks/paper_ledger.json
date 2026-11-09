@@ -2,12 +2,12 @@
   "starting_equity_usdt": 1000.0,
   "risk_per_trade_usdt": 20.0,
   "max_open_positions": 3,
-  "current_equity_usdt": 999.4,
-  "realized_pnl_usdt": 0.0,
-  "unrealized_pnl_usdt": -0.6,
-  "total_fees_paid_usdt": 0.0,
+  "current_equity_usdt": 975.18,
+  "realized_pnl_usdt": -2.22,
+  "unrealized_pnl_usdt": -22.6,
+  "total_fees_paid_usdt": 2.22,
   "margin_evictions_count": 0,
-  "open_positions_count": 2,
+  "open_positions_count": 3,
   "closed_positions_count": 0,
   "positions": {
     "INJ": {
@@ -23,12 +23,12 @@
       "state": "ACTIVE",
       "remaining_size_fraction": "1.00",
       "realized_r": "0.00",
-      "unrealized_r": "-0.09",
+      "unrealized_r": "-0.68",
       "fees_paid_usdt": 0.0,
       "confidence": 0.86,
       "eviction_reason": null,
       "opened_at_utc": "2026-11-09T06:06:12.308986+00:00",
-      "updated_at_utc": "2026-11-09T06:38:36.829846+00:00"
+      "updated_at_utc": "2026-11-09T07:30:09.189361+00:00"
     },
     "PEPE": {
       "symbol": "PEPE",
@@ -43,12 +43,32 @@
       "state": "ACTIVE",
       "remaining_size_fraction": "1.00",
       "realized_r": "0.00",
-      "unrealized_r": "0.06",
+      "unrealized_r": "-0.59",
       "fees_paid_usdt": 0.0,
       "confidence": 0.86,
       "eviction_reason": null,
       "opened_at_utc": "2026-11-09T06:06:12.308986+00:00",
-      "updated_at_utc": "2026-11-09T06:38:36.829846+00:00"
+      "updated_at_utc": "2026-11-09T07:30:09.189361+00:00"
+    },
+    "MAGIC": {
+      "symbol": "MAGIC",
+      "direction": "LONG",
+      "order_mode": "MARKET",
+      "archetype": "LIQUIDITY_SWEEP_RECLAIM",
+      "entry_price": "0.08169",
+      "stop_loss": "0.08124746",
+      "current_sl": "0.08124746",
+      "take_profit": "0.08370796",
+      "planned_rr": "4.56",
+      "state": "ACTIVE",
+      "remaining_size_fraction": "1.00",
+      "realized_r": "0.00",
+      "unrealized_r": "0.14",
+      "fees_paid_usdt": 2.2151,
+      "confidence": 0.9,
+      "eviction_reason": null,
+      "opened_at_utc": "2026-11-09T07:19:49.477505+00:00",
+      "updated_at_utc": "2026-11-09T07:30:09.189361+00:00"
     }
   }
 }

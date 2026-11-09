@@ -235,39 +235,53 @@ def fetch_public_bitget_candles_batch(
     requests_spec: Sequence[tuple[str, str, int]],
     ssh_relay_host: str | None = "valarion@46.202.155.192",
 ) -> dict[tuple[str, str], list[Candle]]:
-    """Fetch multiple (symbol, granularity, limit) candle series in a single SSH relay round-trip."""
+    """Fetch multiple (symbol, granularity, limit) candle series via direct HTTPS or SSH relay fallback."""
     results: dict[tuple[str, str], list[Candle]] = {}
     if not requests_spec:
         return results
 
-    curl_parts: list[str] = []
     keys: list[tuple[str, str]] = []
+    urls: list[str] = []
     for sym, gran, lim in requests_spec:
         pair = sym.upper().replace("/", "")
         if not pair.endswith("USDT"):
             pair = f"{pair}USDT"
         keys.append((sym, gran))
-        url = (
+        urls.append(
             f"https://api.bitget.com/api/v2/mix/market/candles"
             f"?symbol={pair}&productType=USDT-FUTURES&granularity={gran}&limit={lim}"
         )
-        curl_parts.append(f"curl -s '{url}'; echo ''")
 
-    remote_cmd = "; ".join(curl_parts)
-    cmd = [
-        "ssh",
-        "-o",
-        "BatchMode=yes",
-        "-o",
-        "ConnectTimeout=10",
-        ssh_relay_host or "valarion@46.202.155.192",
-        remote_cmd,
-    ]
-    res = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", check=True)
-    json_lines = [
-        line.strip() for line in res.stdout.splitlines() if line.strip().startswith("{")
-    ]
-
+    json_lines: list[str] = []
+    try:
+        for url in urls:
+            req = urllib.request.Request(
+                url, headers={"User-Agent": "ProteusDistillationEngine/0.1"}
+            )
+            with urllib.request.urlopen(req, timeout=4) as resp:
+                json_lines.append(resp.read().decode("utf-8").strip())
+    except Exception:
+        json_lines = []
+        if ssh_relay_host:
+            curl_parts = [f"curl -s '{u}'; echo ''" for u in urls]
+            remote_cmd = "; ".join(curl_parts)
+            cmd = [
+                "ssh",
+                "-o",
+                "BatchMode=yes",
+                "-o",
+                "ConnectTimeout=10",
+                ssh_relay_host,
+                remote_cmd,
+            ]
+            res = subprocess.run(
+                cmd, capture_output=True, text=True, encoding="utf-8", check=True
+            )
+            json_lines = [
+                line.strip()
+                for line in res.stdout.splitlines()
+                if line.strip().startswith("{")
+            ]
     for (sym, gran), line in zip(keys, json_lines):
         payload = json.loads(line)
         if payload.get("code") != "00000":

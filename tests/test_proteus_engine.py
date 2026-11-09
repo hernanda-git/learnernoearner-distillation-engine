@@ -564,3 +564,16 @@ def test_bounded_self_corrector_fine_tuning_and_auto_rollback(tmp_path: Path) ->
             observed_estimates={"no_mans_land_abstain_prob": 0.40},
             strict_mode=True,
         )
+
+
+def test_web_ui_dashboard_payload_and_template() -> None:
+    from proteus.web import build_dashboard_payload
+    from proteus.web.ui_template import INDEX_HTML
+
+    payload = build_dashboard_payload()
+    assert payload["constitution"]["pure_codebase"] is True
+    assert payload["turing_replay"]["total_signals"] == 97
+    assert payload["vision_summary"]["total_screenshots"] == 284
+    assert len(payload["signals_ledger"]) == 97
+    assert len(payload["management_updates"]) == 47
+    assert "PROJECT PROTEUS" in INDEX_HTML
