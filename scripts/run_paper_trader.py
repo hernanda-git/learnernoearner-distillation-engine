@@ -132,15 +132,18 @@ def main(argv: list[str] | None = None) -> int:
 
     signal.signal(signal.SIGTERM, _terminate)
 
-    cycle_idx = 0
+    heartbeat = max(10, args.interval)
+    seen = stream.close_seq if stream is not None else 0
+    last_improve = time.monotonic()
+    trigger = "startup"
     try:
         while True:
             snapshot = _load_or_scan_snapshot(refresh_live=True, scanner=scanner)
             ledger = exchange.process_shadow_snapshot(snapshot)
             mon = watchdog.evaluate_and_heal()
-            if cycle_idx % 12 == 0:
+            if time.monotonic() - last_improve >= 3600.0:
                 improver.run_improvement_cycle(trigger_source="daemon_hourly_auto_evolve")
-            cycle_idx += 1
+                last_improve = time.monotonic()
             print(
                 json.dumps(
                     {
@@ -150,13 +153,20 @@ def main(argv: list[str] | None = None) -> int:
                         "open_positions": ledger.open_positions_count,
                         "monitor_status": mon.overall_status,
                         "healthy_streak": mon.consecutive_healthy_cycles,
+                        "trigger": trigger,
                         "ws_legs": stream.connected_legs if stream is not None else 0,
                         "ws_error": stream.last_error if stream is not None else None,
                     }
                 ),
                 flush=True,
             )
-            time.sleep(max(10, args.interval))
+            if stream is not None:
+                seen = stream.close_seq  # drain closes that landed during this cycle
+                woke, seen = stream.wait_for_close(seen, heartbeat)
+                trigger = "candle_close" if woke else "interval"
+            else:
+                time.sleep(heartbeat)
+                trigger = "interval"
     except KeyboardInterrupt:
         return 0
     finally:

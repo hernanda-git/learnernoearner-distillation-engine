@@ -43,7 +43,7 @@ Unlike reactive copy-trading (which suffers $6\text{–}28\text{s}$ human screen
 | **284-Chart Computer Vision Pass** | 216 Light (76.1%) · 68 Dark (23.9%) | **83.8% R:R boxes · 45.4% S/R** | $\text{IoU} \ge 0.80$ (**PASSED**) |
 | **$1,000 Paper Sim (97 Setups, Net of Fees)** | `$20/1R` risk · `$59.69` Bitget fees | **$2,938.51 (+193.9% net)** | `PF = 10.08 · Max DD = 4.0%` |
 | **Constitutional Codebase Purity** | All `src/proteus/` Python modules | **30/30 files pure** | Zero retail oscillators (**PASSED**) |
-| **Automated Test Suite (`pytest`)** | 23 invariant/CV/replay + 4 rate-limit + 7 stream tests | **34/34 passed (3.21s)** | `100% pass` (**PASSED**) |
+| **Automated Test Suite (`pytest`)** | 23 invariant/CV/replay + 4 rate-limit + 9 stream/trigger tests | **36/36 passed (2.79s)** | `100% pass` (**PASSED**) |
 
 ---
 
@@ -110,7 +110,7 @@ learnernoearner-distillation-engine/
 ├── tests/
 │   ├── test_proteus_engine.py               # 23-test invariant, CV, Bayes, audit, paper & evolver suite
 │   ├── test_bitget_client.py                # 4-test rate-limit, retry, cache & relay-fallback suite
-│   └── test_bitget_ws.py                    # 7-test candle-shard, push-upsert, staleness & fallback suite
+│   └── test_bitget_ws.py                    # 9-test candle-shard, push-upsert, staleness, close-trigger suite
 ├── AGENTS.md                                # Mandatory anti-drift rules for AI coding agents
 ├── ARCHITECTURE.md                          # Complete system topology & module contracts
 ├── IDENTITY.md                              # Immutable project identity & self-correction charter

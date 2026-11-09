@@ -61,6 +61,7 @@ A full 45-symbol cycle issues 92 candle requests (18×4H + 12×15m per symbol, p
 | Connections | 2 sharded, 46 channels each (Bitget recommends <50/connection) |
 | Channels | 92: `candle4H` + `candle15m` per 45 symbols, `candle1Dutc` for BTC/ETH |
 | Bootstrap | one REST batch at service start, then deltas only |
+| Scan trigger | **15m bar close event** (≈1–2 s latency) or 300 s heartbeat, whichever first |
 | Heartbeat | text `ping` every 25 s; reconnect 1→30 s jittered backoff |
 | Fallback | missing/stale series (15m > 45 min, 4H > 12 h, 1D > 3 d) → REST per series |
 | Without the extra | daemon logs `{"stream": "rest"}` and polls REST exactly as before |
@@ -73,7 +74,7 @@ The only new dependency is `websockets>=13,<16`. Bitget limits: 100 connections/
 
 ### 3.1 Local / Development CLI Commands
 ```bash
-# 1. Run full 34-test verification suite
+# 1. Run full 36-test verification suite
 C:/Workspace/bots/fatty-live-fix/.venv/Scripts/pytest.exe -v
 
 # 2. Run complete Phases 1–6 Cognitive Turing & Constitutional Scorecard

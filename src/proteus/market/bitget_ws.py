@@ -66,8 +66,9 @@ def _chunks(rows: Sequence[Any], size: int) -> Iterable[list[Any]]:
         yield list(rows[start : start + size])
 
 
-def upsert_candle(series: list[Candle], candle: Candle, max_bars: int) -> None:
-    """Apply a pushed bar in place: replace the forming bar, append a new one, trim."""
+def upsert_candle(series: list[Candle], candle: Candle, max_bars: int) -> bool:
+    """Apply a pushed bar; return True only when the series advanced to a new bar."""
+    rolled = False
     if series and series[-1].timestamp_utc == candle.timestamp_utc:
         series[-1] = candle
     elif series and candle.timestamp_utc < series[-1].timestamp_utc:
@@ -76,9 +77,12 @@ def upsert_candle(series: list[Candle], candle: Candle, max_bars: int) -> None:
                 series[index] = candle
                 break
     else:
+        had_bars = bool(series)
         series.append(candle)
+        rolled = had_bars
     if len(series) > max_bars:
         del series[: len(series) - max_bars]
+    return rolled
 
 
 def candle_from_push(symbol: str, granularity: str, row: Sequence[str]) -> Candle | None:
@@ -115,6 +119,8 @@ class BitgetCandleStream:
         self._pushed_at: dict[tuple[str, str], float] = {}
         self._inst_symbol: dict[str, str] = {}
         self._lock = threading.Lock()
+        self._cond = threading.Condition()
+        self._close_seq = 0
         self._stop = threading.Event()
         self._threads: list[threading.Thread] = []
         self._started = False
@@ -130,6 +136,23 @@ class BitgetCandleStream:
     @property
     def connections(self) -> int:
         return self._connections
+
+    @property
+    def close_seq(self) -> int:
+        """Monotonic count of closed 15m bars observed on the stream."""
+        with self._cond:
+            return self._close_seq
+
+    def wait_for_close(self, seen: int, timeout: float) -> tuple[bool, int]:
+        """Block until a 15m bar closes (``close_seq`` moves past ``seen``) or timeout."""
+        deadline = time.monotonic() + max(0.0, timeout)
+        with self._cond:
+            while self._close_seq == seen:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    break
+                self._cond.wait(remaining)
+            return self._close_seq != seen, self._close_seq
 
     def start(self, bootstrap: bool = True) -> bool:
         """Bootstrap via REST, then open the subscription threads. Returns availability."""
@@ -281,11 +304,18 @@ class BitgetCandleStream:
             return
         rows = payload.get("data") or []
         now = time.monotonic()
+        rolled_15m = False
         with self._lock:
             series = self._series.setdefault((symbol, granularity), [])
             for row in rows:
                 candle = candle_from_push(symbol, granularity, row)
-                if candle is not None:
-                    upsert_candle(series, candle, limit)
+                if candle is None:
+                    continue
+                if upsert_candle(series, candle, limit) and granularity == "15m":
+                    rolled_15m = True
             if rows:
                 self._pushed_at[(symbol, granularity)] = now
+        if rolled_15m:
+            with self._cond:
+                self._close_seq += 1
+                self._cond.notify_all()

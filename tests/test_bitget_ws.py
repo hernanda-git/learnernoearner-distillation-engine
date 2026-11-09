@@ -156,3 +156,40 @@ def test_build_requests_spec_covers_compass_and_universe() -> None:
     assert spec[:2] == [("BTCUSDT", "1Dutc", 5), ("ETHUSDT", "1Dutc", 5)]
     assert len(spec) == 6
     assert ("WLD", "4H", 18) in spec and ("PEPE", "15m", 12) in spec
+
+
+def _push(channel: str, inst_id: str, ts: datetime, price: str = "2.05") -> str:
+    return json.dumps(
+        {
+            "action": "update",
+            "arg": {"channel": channel, "instId": inst_id},
+            "data": [_row(ts, price)],
+        }
+    )
+
+
+def test_upsert_reports_only_new_bars() -> None:
+    series = [_candle(minutes_ago=15)]
+    assert upsert_candle(series, _candle(minutes_ago=15, close="1.1"), 12) is False
+    assert upsert_candle(series, _candle(), 12) is True
+    assert upsert_candle(series, _candle(close="1.2"), 12) is False
+
+
+def test_only_15m_roll_wakes_close_waiters() -> None:
+    stream = BitgetCandleStream(
+        [("WLD", "15m", 12), ("WLD", "4H", 18)], connect_factory=object()
+    )
+    stream._inst_symbol["WLDUSDT"] = "WLD"
+    t0 = datetime(2026, 11, 9, 12, 0, tzinfo=UTC)
+
+    stream._handle(_push("candle15m", "WLDUSDT", t0))
+    stream._handle(_push("candle4H", "WLDUSDT", t0))
+    assert stream.close_seq == 0, "the first bar is an open, not a close"
+    assert stream.wait_for_close(0, timeout=0.01) == (False, 0)
+
+    stream._handle(_push("candle4H", "WLDUSDT", t0 + timedelta(hours=4)))
+    assert stream.close_seq == 0, "4H rolls must not wake 15m close waiters"
+
+    stream._handle(_push("candle15m", "WLDUSDT", t0 + timedelta(minutes=15)))
+    assert stream.close_seq == 1
+    assert stream.wait_for_close(0, timeout=0.01) == (True, 1)
