@@ -49,20 +49,26 @@ This repository is **completely decoupled and isolated** from the live Bitget pr
 ```
 learnernoearner-distillation-engine/
 ├── docs/
-│   ├── BEHAVIORAL-ANALYSIS.md      # Quantitative & psychological profile
-│   └── MASTER-PLAN.md              # 5-phase engineering roadmap
+│   ├── BEHAVIORAL-ANALYSIS.md      # Empirical profile (784 msgs, 97 setups, 230 charts)
+│   └── MASTER-PLAN.md              # 5-phase Project Proteus engineering roadmap
 ├── scripts/
-│   └── extract_corpus_readonly.py  # Read-only snapshot extractor
+│   └── extract_corpus_readonly.py  # Air-gapped read-only SQLite/JSONL snapshot extractor
 ├── src/
-│   └── proteus/                    # Autonomous clone engine modules
-│       ├── market/                 # Multi-TF candle aggregator
-│       ├── compass/                # BTC/ETH macro regime gate
-│       ├── geometry/               # 3-tier range & liquidity sweeps
-│       ├── vision/                 # Visual chart saliency & box detector
-│       ├── policy/                 # Action vs Abstention classifier
-│       ├── params/                 # 2.6% SL & 4.56R TP synthesizer
-│       └── fsm/                    # 1R BE & bedtime trade manager
+│   └── proteus/                    # Autonomous clone engine package
+│       ├── domain/                 # Immutable domain models & value objects
+│       ├── market/                 # Multi-TF candle lakehouse & negative-space sampler
+│       ├── compass/                # BTC/ETH 1D macro regime gate
+│       ├── geometry/               # 3-tier 72h range & liquidity sweep detector
+│       ├── vision/                 # S/R bounding-box proposer & IoU >= 0.80 gate
+│       ├── policy/                 # Bayesian abstention & 80/20 Long-bias policy
+│       ├── params/                 # 2.60% SL, 4.56R TP & power-of-10 price scaler
+│       ├── fsm/                    # +1.0R breakeven & UTC 21:00+ bedtime trade FSM
+│       ├── benchmark/              # Behavioral Parity Score (BPS >= 0.85) Turing harness
+│       └── engine.py               # End-to-end 7-module pipeline orchestrator
+├── tests/
+│   └── test_proteus_engine.py      # Invariant, geometry, FSM, and air-gap test suite
 ├── ARCHITECTURE.md
+├── pyproject.toml
 ├── README.md
 └── .gitignore
 ```

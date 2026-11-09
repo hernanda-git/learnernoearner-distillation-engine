@@ -22,7 +22,7 @@
 │             ▼                                          │
 │                                                        │
 │  PROJECT PROTEUS (Isolated Local / Non-Prod Workspace) │
-│  • Separate Repository: proteus-trader-engine          │
+│  • Separate Repository: learnernoearner-distillation-engine │
 │  • Read-only SQLite/DuckDB lakehouse                   │
 │  • Synthetic simulated execution (Zero Live Keys)      │
 │  • Independent GPU/CPU compute (Zero VPS load)         │
