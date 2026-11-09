@@ -79,7 +79,7 @@ The distilled engine comprises 7 decoupled modules:
 - Ingests and maintains local multi-timeframe arrays:
   - **1D / 4h**: Higher-Timeframe market structure, 3-day high/low, daily open, volume profile.
   - **15m / 5m**: Lower-timeframe execution, wick expansion speed, order block boundaries.
-- **Scope**: Screened universe of top 25 high-beta perpetuals (`WLD`, `PUMP`, `ENA`, `ZEC`, `PENGU`, `INJ`, `MAGIC`, `NEAR`, `PEPE`).
+- **Scope**: All 45 perpetuals `@learnernoearner` traded in the 97-setup corpus that remain listed on Bitget USDT-FUTURES (`TRADABLE_UNIVERSE` in `src/proteus/market/__init__.py`; `SAGA`, `BONK`, `FLOW` excluded as delisted). Scanned at 8 req/s through a token bucket, well under Bitget's 20 req/s/IP ceiling.
 
 ### Module 2: The Macro Compass Gate (`proteus.compass`)
 - Implements the trader's fundamental rule: *Altcoins follow Bitcoin's structural stance.*

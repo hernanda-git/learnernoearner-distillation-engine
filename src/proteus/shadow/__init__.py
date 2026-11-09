@@ -7,12 +7,14 @@ every asset through the 7-module Project Proteus pipeline in real time.
 
 from __future__ import annotations
 
+import os
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from typing import Sequence
 
 from proteus.engine import ProteusDistillationEngine
-from proteus.market.lakehouse import fetch_public_bitget_candles_batch
+from proteus.market import TRADABLE_UNIVERSE
+from proteus.market.bitget import BitgetPublicMarketClient
 
 
 @dataclass(frozen=True)
@@ -55,31 +57,31 @@ class LiveShadowSnapshot:
 class ForwardShadowScanner:
     """Executes real-time shadow scans across BTC/ETH and the high-beta universe."""
 
-    DEFAULT_SCAN_SYMBOLS: tuple[str, ...] = (
-        "WLD",
-        "PUMP",
-        "ENA",
-        "ZEC",
-        "INJ",
-        "PENGU",
-        "MAGIC",
-        "NEAR",
-        "PEPE",
-    )
+    # Single source of truth: the empirically traded Bitget-listed universe.
+    # PROTEUS_SCAN_SYMBOLS (comma-separated) narrows or widens it per deployment.
+    DEFAULT_SCAN_SYMBOLS: tuple[str, ...] = TRADABLE_UNIVERSE
 
     def __init__(
         self,
         engine: ProteusDistillationEngine | None = None,
         ssh_relay_host: str | None = "valarion@46.202.155.192",
+        client: BitgetPublicMarketClient | None = None,
+        symbols: Sequence[str] | None = None,
     ) -> None:
         self.engine = engine or ProteusDistillationEngine(env={})
         self.ssh_relay_host = ssh_relay_host
+        override = os.getenv("PROTEUS_SCAN_SYMBOLS", "")
+        env_symbols = tuple(s.strip().upper() for s in override.split(",") if s.strip())
+        self.symbols: tuple[str, ...] = tuple(
+            symbols or env_symbols or self.DEFAULT_SCAN_SYMBOLS
+        )
+        self.client = client or BitgetPublicMarketClient(ssh_relay_host=self.ssh_relay_host)
 
     def scan_live_universe(
         self,
         symbols: Sequence[str] | None = None,
     ) -> LiveShadowSnapshot:
-        target_symbols = symbols or self.DEFAULT_SCAN_SYMBOLS
+        target_symbols = tuple(symbols) if symbols else self.symbols
 
         batch_spec: list[tuple[str, str, int]] = [
             ("BTCUSDT", "1Dutc", 5),
@@ -89,9 +91,7 @@ class ForwardShadowScanner:
             batch_spec.append((sym, "4H", 18))
             batch_spec.append((sym, "15m", 12))
 
-        fetched = fetch_public_bitget_candles_batch(
-            batch_spec, ssh_relay_host=self.ssh_relay_host
-        )
+        fetched = self.client.fetch_candles_batch(batch_spec)
         btc_1d = fetched.get(("BTCUSDT", "1Dutc"), [])
         eth_1d = fetched.get(("ETHUSDT", "1Dutc"), [])
 

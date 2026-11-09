@@ -8,16 +8,14 @@ synthetic `_det_float` random numbers.
 from __future__ import annotations
 
 import json
-import subprocess
-import urllib.request
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from decimal import Decimal
 from pathlib import Path
 from typing import Any, Sequence
 
 from proteus.domain.models import Candle
 from proteus.geometry.fractal import FractalHorizontalStructureEngine
+from proteus.market.bitget import BitgetPublicMarketClient
 
 DEFAULT_CORPUS_DIR = Path(__file__).resolve().parents[3] / "benchmarks" / "corpus"
 
@@ -199,131 +197,17 @@ def fetch_public_bitget_candles(
     limit: int = 32,
     ssh_relay_host: str | None = "valarion@46.202.155.192",
 ) -> list[Candle]:
-    """Fetch public Bitget USDT-FUTURES candles with zero API keys."""
-    pair = symbol.upper().replace("/", "")
-    if not pair.endswith("USDT"):
-        pair = f"{pair}USDT"
-    url = (
-        f"https://api.bitget.com/api/v2/mix/market/candles"
-        f"?symbol={pair}&productType=USDT-FUTURES&granularity={granularity}&limit={limit}"
+    """Fetch public Bitget USDT-FUTURES candles (rate-limited, zero API keys)."""
+    return BitgetPublicMarketClient(ssh_relay_host=ssh_relay_host).fetch_candles(
+        symbol, granularity, limit
     )
-
-    payload: dict[str, Any] | None = None
-    try:
-        req = urllib.request.Request(url, headers={"User-Agent": "ProteusDistillationEngine/0.1"})
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            payload = json.loads(resp.read().decode("utf-8"))
-    except Exception:
-        if ssh_relay_host:
-            cmd = [
-                "ssh",
-                "-o",
-                "BatchMode=yes",
-                "-o",
-                "ConnectTimeout=8",
-                ssh_relay_host,
-                f"curl -s '{url}'",
-            ]
-            res = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", check=True)
-            lines = [line.strip() for line in res.stdout.splitlines() if line.strip().startswith("{")]
-            if lines:
-                payload = json.loads(lines[-1])
-
-    if not payload or payload.get("code") != "00000":
-        return []
-
-    candles: list[Candle] = []
-    for row in payload.get("data", []):
-        ts_ms = int(row[0])
-        candles.append(
-            Candle(
-                symbol=pair,
-                timeframe=granularity,
-                timestamp_utc=datetime.fromtimestamp(ts_ms / 1000.0, tz=timezone.utc),
-                open=Decimal(str(row[1])),
-                high=Decimal(str(row[2])),
-                low=Decimal(str(row[3])),
-                close=Decimal(str(row[4])),
-                volume=Decimal(str(row[5])),
-            )
-        )
-    candles.sort(key=lambda c: c.timestamp_utc)
-    return candles
 
 
 def fetch_public_bitget_candles_batch(
     requests_spec: Sequence[tuple[str, str, int]],
     ssh_relay_host: str | None = "valarion@46.202.155.192",
 ) -> dict[tuple[str, str], list[Candle]]:
-    """Fetch multiple (symbol, granularity, limit) candle series via direct HTTPS or SSH relay fallback."""
-    results: dict[tuple[str, str], list[Candle]] = {}
-    if not requests_spec:
-        return results
-
-    keys: list[tuple[str, str]] = []
-    urls: list[str] = []
-    for sym, gran, lim in requests_spec:
-        pair = sym.upper().replace("/", "")
-        if not pair.endswith("USDT"):
-            pair = f"{pair}USDT"
-        keys.append((sym, gran))
-        urls.append(
-            f"https://api.bitget.com/api/v2/mix/market/candles"
-            f"?symbol={pair}&productType=USDT-FUTURES&granularity={gran}&limit={lim}"
-        )
-
-    json_lines: list[str] = []
-    try:
-        for url in urls:
-            req = urllib.request.Request(
-                url, headers={"User-Agent": "ProteusDistillationEngine/0.1"}
-            )
-            with urllib.request.urlopen(req, timeout=4) as resp:
-                json_lines.append(resp.read().decode("utf-8").strip())
-    except Exception:
-        json_lines = []
-        if ssh_relay_host:
-            curl_parts = [f"curl -s '{u}'; echo ''" for u in urls]
-            remote_cmd = "; ".join(curl_parts)
-            cmd = [
-                "ssh",
-                "-o",
-                "BatchMode=yes",
-                "-o",
-                "ConnectTimeout=10",
-                ssh_relay_host,
-                remote_cmd,
-            ]
-            res = subprocess.run(
-                cmd, capture_output=True, text=True, encoding="utf-8", check=True
-            )
-            json_lines = [
-                line.strip()
-                for line in res.stdout.splitlines()
-                if line.strip().startswith("{")
-            ]
-
-    for (sym, gran), line in zip(keys, json_lines):
-        payload = json.loads(line)
-        if payload.get("code") != "00000":
-            results[(sym, gran)] = []
-            continue
-        series: list[Candle] = []
-        for row in payload.get("data", []):
-            ts_ms = int(row[0])
-            series.append(
-                Candle(
-                    symbol=sym,
-                    timeframe=gran,
-                    timestamp_utc=datetime.fromtimestamp(ts_ms / 1000.0, tz=timezone.utc),
-                    open=Decimal(str(row[1])),
-                    high=Decimal(str(row[2])),
-                    low=Decimal(str(row[3])),
-                    close=Decimal(str(row[4])),
-                    volume=Decimal(str(row[5])),
-                )
-            )
-        series.sort(key=lambda c: c.timestamp_utc)
-        results[(sym, gran)] = series
-
-    return results
+    """Fetch multiple (symbol, granularity, limit) series through the rate-limited client."""
+    return BitgetPublicMarketClient(ssh_relay_host=ssh_relay_host).fetch_candles_batch(
+        requests_spec
+    )

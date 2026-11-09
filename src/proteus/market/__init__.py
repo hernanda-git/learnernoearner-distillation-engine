@@ -8,19 +8,58 @@ from typing import Iterable, Sequence
 
 from proteus.domain.models import Candle
 
+# Every perpetual @learnernoearner actually traded across the 97-setup corpus
+# that is still listed on Bitget USDT-FUTURES (verified 2026-11-09). SAGA,
+# BONK and FLOW were dropped: delisted from Bitget futures, so they would only
+# burn requests returning empty arrays. Keep in sync with the corpus, not with
+# a hand-picked "top N", so the clone never invents a universe the trader never
+# touched. Override at runtime with PROTEUS_SCAN_SYMBOLS (comma-separated).
 TRADABLE_UNIVERSE: tuple[str, ...] = (
     "WLD",
     "PUMP",
     "ENA",
     "ZEC",
-    "PENGU",
     "INJ",
+    "PENGU",
     "MAGIC",
     "NEAR",
-    "GRASS",
-    "PEPE",
     "SNDK",
+    "QNT",
+    "PEPE",
     "TRUMP",
+    "SAND",
+    "GRASS",
+    "SUSHI",
+    "NOT",
+    "FLOKI",
+    "ETHFI",
+    "EUL",
+    "PONS",
+    "TAO",
+    "PENDLE",
+    "ICP",
+    "GIGGLE",
+    "IOST",
+    "AVAX",
+    "NIL",
+    "STONK",
+    "VVV",
+    "ASTER",
+    "RARE",
+    "HBAR",
+    "XAU",
+    "BOME",
+    "FIL",
+    "GRIFFAIN",
+    "DASH",
+    "ONDO",
+    "POWER",
+    "ZAMA",
+    "UAI",
+    "ZRO",
+    "EVAA",
+    "APE",
+    "LIT",
 )
 
 MACRO_COMPASS_ASSETS: tuple[str, ...] = ("BTC", "ETH")

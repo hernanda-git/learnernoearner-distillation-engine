@@ -11,7 +11,7 @@
 **Project Proteus** reverse-engineers the implicit market heuristics, 3-tier horizontal range perception, visual chart saliency, and intraday risk management of discretionary crypto trader `@learnernoearner` into an autonomous, self-monitoring, self-improving decision engine.
 
 Unlike reactive copy-trading (which suffers $6\text{–}28\text{s}$ human screenshot/typing lag and **56.5% survivorship silence** on unannounced stop-outs) or naive retail indicator bots (which curve-fit lagging oscillators like RSI/MACD), Project Proteus models the human as a **Bayesian structural range & liquidity agent** governed by four empirical laws:
-1. **Macro Compass Separation (`proteus.compass`)**: `BTC` and `ETH` are never traded directly; their 1D candles gate directional admission across high-beta perpetuals (`WLD`, `PUMP`, `ENA`, `ZEC`, `INJ`, `PENGU`, `MAGIC`, `NEAR`, `GRASS`, `PEPE`, `SNDK`, `TRUMP`).
+1. **Macro Compass Separation (`proteus.compass`)**: `BTC` and `ETH` are never traded directly; their 1D candles gate directional admission across the **45 perpetuals `@learnernoearner` actually traded** in the 97-setup corpus that remain listed on Bitget USDT-FUTURES (full list in `src/proteus/market/__init__.py`; `SAGA`, `BONK`, `FLOW` are excluded because Bitget delisted them).
 2. **72-Hour 3-Tier Range & Abstention First (`proteus.geometry`, `proteus.policy`)**: Price is mapped against 72h `Range High`, `50% Mid Range`, and `Range Low`. Over **85%–98%** of intraday bars floating in interior "no-man's land" are dropped ($P(\text{ABSTAIN}) = 0.92$).
 3. **Directional Conviction & Stop/Target Asymmetry (`proteus.params`)**:
    - **80.4% LONG (78)** ($\theta_{\text{Long}} \ge 0.65$, **2.67% median SL**, **4.87R median TP**) vs. **19.6% SHORT (19)** ($\theta_{\text{Short}} \ge 0.85$, **2.17% median SL**, **4.46R median TP**).
@@ -90,7 +90,7 @@ learnernoearner-distillation-engine/
 ├── src/
 │   └── proteus/                             # Autonomous clone engine package
 │       ├── domain/                          # Immutable domain models & value objects
-│       ├── market/                          # Multi-TF lakehouse, 5000-bar miner & REST client
+│       ├── market/                          # Multi-TF lakehouse, 5000-bar miner & rate-limited Bitget client
 │       ├── compass/                         # BTC/ETH 1D macro regime gate
 │       ├── geometry/                        # 3-tier 72h range & liquidity sweep detector
 │       ├── vision/                          # RGB TradingView box extractor, 284-chart analyzer & renderer

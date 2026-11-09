@@ -20,7 +20,7 @@
 ## 2. Web Console Tabs & REST API Endpoints
 
 ### 2.1 Interactive Console Tabs (`https://engine.warga-digital.com`)
-1. **Tab 1 — Live Shadow Radar & Paper Exchange**: Active Virtual Paper Ledger (`$1,000` base, `$20` risk/trade, max `3` slots), 72h 3-Tier Range Position gauges across all 9 high-beta perpetuals, and Phase 6.1 Shadow Lead-Time Parity log ($\Delta t = -16.5\text{s}$).
+1. **Tab 1 — Live Shadow Radar & Paper Exchange**: Active Virtual Paper Ledger (`$1,000` base, `$20` risk/trade, max `3` slots), 72h 3-Tier Range Position gauges across all 45 Bitget-listed perpetuals, and Phase 6.1 Shadow Lead-Time Parity log ($\Delta t = -16.5\text{s}$).
 2. **Tab 2 — 97-Setup Backtest & Real-Candle Whipsaw Audit**: Side-by-side comparison of Distilled Proteus FSM (`64.9%` win rate, `10.08` PF, `2.00R` Max DD) vs. Naive Set-and-Forget (`32.0%` win rate, `2.48` PF, `15.14R` Max DD) + 87-signal Bitget 1H candle forensic audit.
 3. **Tab 3 — All 97 Canonical Signals & 48h MFE/MAE**: Searchable/filterable ledger of all 97 signals with 48h real Bitget Max Favorable Excursion ($R$), Max Adverse Excursion ($R$), minutes to $+1.0R$, minutes to SL, and verbatim Telegram text.
 4. **Tab 4 — Behavioral Profile & 47 In-Flight Actions**: Directional SL/R:R quantile baselines, 784-message cognitive taxonomy, and all 47 in-flight management updates (`SL_TO_ENTRY`, `TP1_BOOKED`, `TP_BOOKED`, `CLOSE`).
@@ -34,6 +34,22 @@
 - `POST /api/v1/scan` — Trigger an immediate Bitget public candle scan, step `VirtualPaperExchange`, and evaluate `SelfMonitoringWatchdog`.
 - `POST /api/v1/self-correct` — Test a parameter proposal `{parameter, observed_value, learning_rate, candidate_bps}` through `BoundedSelfCorrector`.
 - `POST /api/v1/evolve` — Trigger a full 4-stage `AgenticSelfImprover` cycle and append to `benchmarks/self_improvement_journal.json`.
+
+### 2.3 Bitget Market-Data Rate-Limit Protection
+
+`proteus.market.bitget.BitgetPublicMarketClient` is the single code path that reads Bitget candles. The exchange allows **20 requests/second per IP** on `/api/v2/mix/market/candles` and answers HTTP 429 beyond it.
+
+| Guard | Default | Env override |
+| :--- | :--- | :--- |
+| Token-bucket limiter | 8 req/s | `BITGET_RATE_LIMIT_RPS` |
+| Parallel fetch workers | 4 | `BITGET_MAX_WORKERS` |
+| Retries (429 / 5xx / network) | 4 attempts, jittered exponential backoff, honours `Retry-After` | `BITGET_MAX_ATTEMPTS` |
+| Per-request timeout | 6 s | `BITGET_TIMEOUT_SECONDS` |
+| 429 cooldown after 3 consecutive hits | 5 s | — |
+| Candle TTL cache | 60 s (15m/4H), 120 s (1D) | — |
+| Scan universe override | `TRADABLE_UNIVERSE` (45 symbols) | `PROTEUS_SCAN_SYMBOLS=WLD,PEPE,...` |
+
+A full 45-symbol cycle issues 92 candle requests (18×4H + 12×15m per symbol, plus 5×1D each for BTC/ETH). At 8 req/s that is ≈12 s and uses ~4.6% of the exchange ceiling. If direct HTTPS to `api.bitget.com` fails (egress IP blocked), the client marks direct unavailable for 10 minutes and runs the whole batch as **one** SSH relay command to the VPS.
 
 ---
 
