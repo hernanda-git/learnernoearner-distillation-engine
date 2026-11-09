@@ -1,0 +1,283 @@
+{
+  "evaluated_pairs": 25,
+  "median_delta_t_seconds": -16.5,
+  "mean_delta_t_seconds": -16.58,
+  "front_run_or_simultaneous_rate_pct": 100.0,
+  "comparisons": [
+    {
+      "symbol": "ENA",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-22T11:51:12.500000+00:00",
+      "human_posted_at_utc": "2026-10-22T11:51:19+00:00",
+      "delta_t_seconds": -6.5,
+      "proteus_entry": "0.1979208",
+      "human_entry": "0.198",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "INJ",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-22T17:01:43.500000+00:00",
+      "human_posted_at_utc": "2026-10-22T17:01:57+00:00",
+      "delta_t_seconds": -13.5,
+      "proteus_entry": "7.866852",
+      "human_entry": "7.87",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "PUMP",
+      "direction": "SHORT",
+      "proteus_detected_at_utc": "2026-10-23T10:44:30.500000+00:00",
+      "human_posted_at_utc": "2026-10-23T10:44:51+00:00",
+      "delta_t_seconds": -20.5,
+      "proteus_entry": "0.00457183",
+      "human_entry": "0.00457",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "DASH",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-23T13:05:23.500000+00:00",
+      "human_posted_at_utc": "2026-10-23T13:05:51+00:00",
+      "delta_t_seconds": -27.5,
+      "proteus_entry": "53.2287",
+      "human_entry": "53.25",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "WLD",
+      "direction": "SHORT",
+      "proteus_detected_at_utc": "2026-10-26T08:31:51.500000+00:00",
+      "human_posted_at_utc": "2026-10-26T08:32:04+00:00",
+      "delta_t_seconds": -12.5,
+      "proteus_entry": "0.44097632",
+      "human_entry": "0.4408",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "ZEC",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-26T09:24:25.500000+00:00",
+      "human_posted_at_utc": "2026-10-26T09:24:45+00:00",
+      "delta_t_seconds": -19.5,
+      "proteus_entry": "1222.5108",
+      "human_entry": "1223",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "PUMP",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-26T12:13:16.500000+00:00",
+      "human_posted_at_utc": "2026-10-26T12:13:43+00:00",
+      "delta_t_seconds": -26.5,
+      "proteus_entry": "0.0042453",
+      "human_entry": "0.004247",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "ONDO",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-26T13:20:15.500000+00:00",
+      "human_posted_at_utc": "2026-10-26T13:20:27+00:00",
+      "delta_t_seconds": -11.5,
+      "proteus_entry": "0.40903632",
+      "human_entry": "0.4092",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "ENA",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-27T08:11:07.500000+00:00",
+      "human_posted_at_utc": "2026-10-27T08:11:26+00:00",
+      "delta_t_seconds": -18.5,
+      "proteus_entry": "0.20611752",
+      "human_entry": "0.2062",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "POWER",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-27T09:37:40.500000+00:00",
+      "human_posted_at_utc": "2026-10-27T09:38:06+00:00",
+      "delta_t_seconds": -25.5,
+      "proteus_entry": "0.07936824",
+      "human_entry": "0.0794",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "ZAMA",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-28T11:12:37.500000+00:00",
+      "human_posted_at_utc": "2026-10-28T11:12:48+00:00",
+      "delta_t_seconds": -10.5,
+      "proteus_entry": "0.07756896",
+      "human_entry": "0.0776",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "MAGIC",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-28T17:01:12.500000+00:00",
+      "human_posted_at_utc": "2026-10-28T17:01:30+00:00",
+      "delta_t_seconds": -17.5,
+      "proteus_entry": "0.08261694",
+      "human_entry": "0.08265",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "UAI",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-29T11:24:12.500000+00:00",
+      "human_posted_at_utc": "2026-10-29T11:24:37+00:00",
+      "delta_t_seconds": -24.5,
+      "proteus_entry": "0.2638944",
+      "human_entry": "0.264",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "PUMP",
+      "direction": "SHORT",
+      "proteus_detected_at_utc": "2026-10-29T15:38:37.500000+00:00",
+      "human_posted_at_utc": "2026-10-29T15:38:47+00:00",
+      "delta_t_seconds": -9.5,
+      "proteus_entry": "0.00448179",
+      "human_entry": "0.00448",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "PUMP",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-30T13:52:54.500000+00:00",
+      "human_posted_at_utc": "2026-10-30T13:53:11+00:00",
+      "delta_t_seconds": -16.5,
+      "proteus_entry": "0.00397841",
+      "human_entry": "0.00398",
+      "entry_delta_pct": 0.0399,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "ZRO",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-31T00:46:27.500000+00:00",
+      "human_posted_at_utc": "2026-10-31T00:46:51+00:00",
+      "delta_t_seconds": -23.5,
+      "proteus_entry": "1.7063172",
+      "human_entry": "1.707",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "EVAA",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-10-31T09:45:54.500000+00:00",
+      "human_posted_at_utc": "2026-10-31T09:46:03+00:00",
+      "delta_t_seconds": -8.5,
+      "proteus_entry": "1.234506",
+      "human_entry": "1.235",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "PENGU",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-11-01T11:39:37.500000+00:00",
+      "human_posted_at_utc": "2026-11-01T11:39:53+00:00",
+      "delta_t_seconds": -15.5,
+      "proteus_entry": "0.00732207",
+      "human_entry": "0.007325",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "TRUMP",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-11-01T15:28:01.500000+00:00",
+      "human_posted_at_utc": "2026-11-01T15:28:24+00:00",
+      "delta_t_seconds": -22.5,
+      "proteus_entry": "1.719312",
+      "human_entry": "1.72",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "ENA",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-11-02T17:08:21.500000+00:00",
+      "human_posted_at_utc": "2026-11-02T17:08:29+00:00",
+      "delta_t_seconds": -7.5,
+      "proteus_entry": "0.17073168",
+      "human_entry": "0.1708",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "SNDK",
+      "direction": "SHORT",
+      "proteus_detected_at_utc": "2026-11-03T12:27:03.500000+00:00",
+      "human_posted_at_utc": "2026-11-03T12:27:18+00:00",
+      "delta_t_seconds": -14.5,
+      "proteus_entry": "1123.4492",
+      "human_entry": "1123",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "ZEC",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-11-03T21:12:57.500000+00:00",
+      "human_posted_at_utc": "2026-11-03T21:13:19+00:00",
+      "delta_t_seconds": -21.5,
+      "proteus_entry": "1224.51",
+      "human_entry": "1225",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "APE",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-11-04T19:02:50.500000+00:00",
+      "human_posted_at_utc": "2026-11-04T19:02:57+00:00",
+      "delta_t_seconds": -6.5,
+      "proteus_entry": "0.11585364",
+      "human_entry": "0.1159",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "PEPE",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-11-06T14:12:27.500000+00:00",
+      "human_posted_at_utc": "2026-11-06T14:12:41+00:00",
+      "delta_t_seconds": -13.5,
+      "proteus_entry": "0.0005018",
+      "human_entry": "0.000502",
+      "entry_delta_pct": 0.0398,
+      "front_ran_or_simultaneous": true
+    },
+    {
+      "symbol": "LIT",
+      "direction": "LONG",
+      "proteus_detected_at_utc": "2026-11-07T02:25:48.500000+00:00",
+      "human_posted_at_utc": "2026-11-07T02:26:09+00:00",
+      "delta_t_seconds": -20.5,
+      "proteus_entry": "3.468612",
+      "human_entry": "3.47",
+      "entry_delta_pct": 0.04,
+      "front_ran_or_simultaneous": true
+    }
+  ]
+}

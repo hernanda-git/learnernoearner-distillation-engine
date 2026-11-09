@@ -395,3 +395,99 @@ def test_virtual_paper_exchange_admits_and_steps_shadow_positions(tmp_path: Path
     assert hist["proteus_distilled_clone"]["ending_equity_usdt"] == 2998.2
     assert hist["proteus_distilled_clone"]["max_drawdown_pct"] == 4.0
     assert hist["naive_set_and_forget"]["max_drawdown_pct"] == 30.28
+
+
+def test_phase6_synthetic_tradingview_rgb_renderer() -> None:
+    from proteus.geometry import StructuralGeometryEngine
+    from proteus.vision.renderer import SyntheticTradingViewRenderer
+
+    t0 = datetime(2026, 11, 9, 8, 0, tzinfo=timezone.utc)
+    bars = [
+        _make_candle(
+            "INJ",
+            "15m",
+            t0 + timedelta(minutes=15 * i),
+            "8.05",
+            "8.50" if i == 2 else "8.20",
+            "7.70" if i == 1 else "8.00",
+            "8.13",
+        )
+        for i in range(16)
+    ]
+    geom = StructuralGeometryEngine().compute("INJ", bars)
+    renderer = SyntheticTradingViewRenderer(dark_theme=True)
+    extraction = renderer.render_and_extract_iou(
+        candles=bars,
+        geometry=geom,
+        direction=Direction.LONG,
+        entry_price=Decimal("8.13"),
+        stop_loss=Decimal("7.92"),
+        take_profit=Decimal("9.09"),
+    )
+    assert extraction.implied_direction == "LONG"
+    assert extraction.spatial_iou_vs_human >= 0.85
+
+
+def test_phase6_shadow_lead_time_comparator(tmp_path: Path) -> None:
+    from proteus.shadow.lead_time import ShadowLeadTimeComparator
+
+    comp = ShadowLeadTimeComparator(log_path=tmp_path / "lead_log.json")
+    summary = comp.evaluate_shadow_lead_time()
+    assert summary.evaluated_pairs == 25
+    assert summary.median_delta_t_seconds < 0.0
+    assert summary.front_run_or_simultaneous_rate_pct == 100.0
+
+
+def test_phase6_fee_model_and_margin_velocity_slot_eviction(tmp_path: Path) -> None:
+    from proteus.paper import VirtualPaperExchange
+    from proteus.shadow import AssetShadowState, LiveShadowSnapshot
+
+    def _state(sym: str, conf: float) -> AssetShadowState:
+        return AssetShadowState(
+            symbol=sym,
+            last_close="10.00",
+            range_low_72h="9.50",
+            mid_range_72h="10.00",
+            range_high_72h="10.50",
+            equilibrium_width_pct="10.5%",
+            swept_low=False,
+            swept_high=False,
+            reclaimed_midrange=True,
+            in_no_mans_land=False,
+            action="ENTER_LONG",
+            confidence=conf,
+            abstain_prob=round(1.0 - conf, 2),
+            archetype="MIDRANGE_RETEST",
+            order_mode="LIMIT",
+            synthesized_sl="9.74",
+            synthesized_tp="11.18",
+            rationale="Midrange retest",
+        )
+
+    snap = LiveShadowSnapshot(
+        scanned_at_utc="2026-11-09T08:00:00+00:00",
+        btc_1d_close="75000",
+        eth_1d_close="2150",
+        macro_regime="RANGE_BOUND",
+        universe_evaluated=4,
+        active_entries=4,
+        abstentions=0,
+        states=[
+            _state("WLD", 0.72),
+            _state("ENA", 0.78),
+            _state("INJ", 0.84),
+            _state("PEPE", 0.91),
+        ],
+    )
+
+    exchange = VirtualPaperExchange(
+        ledger_path=tmp_path / "evict_ledger.json",
+        max_open_positions=3,
+    )
+    ledger = exchange.process_shadow_snapshot(snap)
+    # Max 3 open positions enforced; WLD (lowest confidence 0.72, 0.00R stalled) evicted for PEPE (0.91)
+    assert ledger.open_positions_count == 3
+    assert ledger.margin_evictions_count == 1
+    assert ledger.positions["WLD"].state == "CLOSED_EARLY"
+    assert ledger.positions["WLD"].eviction_reason == "margin_velocity_eviction_for_PEPE"
+    assert ledger.total_fees_paid_usdt > 0.0

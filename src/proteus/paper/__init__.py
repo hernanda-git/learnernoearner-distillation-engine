@@ -1,9 +1,12 @@
 """Autonomous Virtual Paper Exchange (`proteus.paper`).
 
-Maintains an air-gapped virtual paper-trading ledger (`benchmarks/paper_ledger.json`)
-that ingests live `LiveShadowSnapshot` signals, opens virtual positions with 2.0%
-capital risk per trade ($20.00 per 1.0R on a $1,000.00 synthetic equity base), and
-steps active positions through `TradeLifecycleFSM` on every live market scan.
+Includes Phase 6 Extensions:
+- Phase 6.2: Bitget USDT-FUTURES fee model (Maker 2.0 bps = 0.02% for LIMIT entries,
+  Taker 6.0 bps = 0.06% for MARKET entries & stop/market exits) + LIMIT band fill check.
+- Phase 6.4: Portfolio Margin Velocity Cap (`max_open_positions = 3`). When slots are
+  full and a higher-conviction setup arrives, evicts the most stalled open trade
+  (-0.15R <= unrealized_r <= +0.35R) to free margin ("closed $POWER $10 profit so we
+  can have margin to take another trade").
 """
 
 from __future__ import annotations
@@ -19,6 +22,9 @@ from proteus.fsm import TradeLifecycleFSM
 from proteus.shadow import LiveShadowSnapshot
 
 DEFAULT_LEDGER_PATH = Path(__file__).resolve().parents[3] / "benchmarks" / "paper_ledger.json"
+
+BITGET_MAKER_FEE_PCT: float = 0.0002  # 2.0 bps (0.02%)
+BITGET_TAKER_FEE_PCT: float = 0.0006  # 6.0 bps (0.06%)
 
 
 @dataclass(frozen=True)
@@ -36,17 +42,23 @@ class VirtualPaperPosition:
     remaining_size_fraction: str
     realized_r: str
     unrealized_r: str
-    opened_at_utc: str
-    updated_at_utc: str
+    fees_paid_usdt: float = 0.0
+    confidence: float = 0.86
+    eviction_reason: str | None = None
+    opened_at_utc: str = ""
+    updated_at_utc: str = ""
 
 
 @dataclass(frozen=True)
 class VirtualPaperLedger:
     starting_equity_usdt: float
     risk_per_trade_usdt: float
+    max_open_positions: int
     current_equity_usdt: float
     realized_pnl_usdt: float
     unrealized_pnl_usdt: float
+    total_fees_paid_usdt: float
+    margin_evictions_count: int
     open_positions_count: int
     closed_positions_count: int
     positions: dict[str, VirtualPaperPosition]
@@ -56,18 +68,49 @@ class VirtualPaperLedger:
 
 
 class VirtualPaperExchange:
-    """Steps virtual positions through `TradeLifecycleFSM` on live shadow scans."""
+    """Steps virtual positions through `TradeLifecycleFSM` with fees & slot eviction."""
 
     def __init__(
         self,
         ledger_path: Path | None = None,
         starting_equity_usdt: float = 1000.0,
         risk_per_trade_usdt: float = 20.0,
+        max_open_positions: int = 3,
     ) -> None:
         self.ledger_path = ledger_path or DEFAULT_LEDGER_PATH
         self.starting_equity_usdt = starting_equity_usdt
         self.risk_per_trade_usdt = risk_per_trade_usdt
+        self.max_open_positions = max_open_positions
         self.fsm = TradeLifecycleFSM()
+
+    @staticmethod
+    def compute_position_notional_usdt(
+        entry_price: float,
+        stop_loss: float,
+        risk_usdt: float,
+    ) -> float:
+        sl_dist_pct = abs(entry_price - stop_loss) / max(1e-12, entry_price)
+        return round(risk_usdt / max(0.005, sl_dist_pct), 2)
+
+    @classmethod
+    def compute_entry_fee_usdt(
+        cls,
+        entry_price: float,
+        stop_loss: float,
+        risk_usdt: float,
+        order_mode: str,
+    ) -> float:
+        notional = cls.compute_position_notional_usdt(entry_price, stop_loss, risk_usdt)
+        rate = BITGET_MAKER_FEE_PCT if order_mode == "LIMIT" else BITGET_TAKER_FEE_PCT
+        return round(notional * rate, 4)
+
+    @staticmethod
+    def _is_terminal(state: str) -> bool:
+        return state in (
+            TradeState.CLOSED_TP.value,
+            TradeState.CLOSED_SL.value,
+            TradeState.CLOSED_EARLY.value,
+        )
 
     def process_shadow_snapshot(self, snapshot: LiveShadowSnapshot) -> VirtualPaperLedger:
         existing: dict[str, VirtualPaperPosition] = {}
@@ -78,16 +121,12 @@ class VirtualPaperExchange:
 
         scan_dt = datetime.fromisoformat(snapshot.scanned_at_utc)
 
+        # Pass 1: Step all currently open positions through TradeLifecycleFSM
         for asset in snapshot.states:
             sym = asset.symbol
             mark = Decimal(asset.last_close)
 
-            # 1. Step any active position for this symbol through TradeLifecycleFSM
-            if sym in existing and existing[sym].state not in (
-                TradeState.CLOSED_TP.value,
-                TradeState.CLOSED_SL.value,
-                TradeState.CLOSED_EARLY.value,
-            ):
+            if sym in existing and not self._is_terminal(existing[sym].state):
                 cur = existing[sym]
                 setup = TradeSetup(
                     symbol=sym,
@@ -98,13 +137,23 @@ class VirtualPaperExchange:
                     take_profit=Decimal(cur.take_profit),
                     planned_rr=Decimal(cur.planned_rr),
                     risk_pct=Decimal("2.60"),
-                    confidence=0.86,
+                    confidence=cur.confidence,
                     archetype=SetupArchetype(cur.archetype),
                 )
                 pos_state = self.fsm.open_position(
                     setup, datetime.fromisoformat(cur.opened_at_utc)
                 )
                 pos_state = self.fsm.on_tick(pos_state, mark, scan_dt)
+
+                fees = cur.fees_paid_usdt
+                if self._is_terminal(pos_state.state.value):
+                    notional = self.compute_position_notional_usdt(
+                        float(cur.entry_price),
+                        float(cur.stop_loss),
+                        self.risk_per_trade_usdt,
+                    )
+                    fees = round(fees + notional * BITGET_TAKER_FEE_PCT, 4)
+
                 existing[sym] = VirtualPaperPosition(
                     symbol=sym,
                     direction=cur.direction,
@@ -119,63 +168,124 @@ class VirtualPaperExchange:
                     remaining_size_fraction=str(pos_state.remaining_size_fraction),
                     realized_r=str(pos_state.realized_r),
                     unrealized_r=str(pos_state.unrealized_r),
+                    fees_paid_usdt=fees,
+                    confidence=cur.confidence,
+                    eviction_reason=cur.eviction_reason,
                     opened_at_utc=cur.opened_at_utc,
                     updated_at_utc=snapshot.scanned_at_utc,
                 )
 
-            # 2. Admit new shadow signals if no active position exists for symbol
-            elif asset.action in ("ENTER_LONG", "ENTER_SHORT") and asset.synthesized_sl and asset.synthesized_tp:
-                direction = "LONG" if asset.action == "ENTER_LONG" else "SHORT"
-                existing[sym] = VirtualPaperPosition(
-                    symbol=sym,
-                    direction=direction,
-                    order_mode=asset.order_mode or "LIMIT",
-                    archetype=asset.archetype,
-                    entry_price=asset.last_close,
-                    stop_loss=asset.synthesized_sl,
-                    current_sl=asset.synthesized_sl,
-                    take_profit=asset.synthesized_tp,
-                    planned_rr="4.56",
-                    state=TradeState.ACTIVE.value,
-                    remaining_size_fraction="1.00",
-                    realized_r="0.00",
+        # Pass 2: Admit new signals with Phase 6.4 Margin Velocity Slot Eviction
+        for asset in snapshot.states:
+            sym = asset.symbol
+            if sym in existing and not self._is_terminal(existing[sym].state):
+                continue
+            if asset.action not in ("ENTER_LONG", "ENTER_SHORT") or not (
+                asset.synthesized_sl and asset.synthesized_tp
+            ):
+                continue
+
+            active_syms = [
+                k for k, p in existing.items() if not self._is_terminal(p.state)
+            ]
+            if len(active_syms) >= self.max_open_positions:
+                # Phase 6.4: Find a stalled position (-0.15R <= unrealized_r <= +0.35R)
+                # with lower conviction than the incoming setup
+                stalled_candidates = [
+                    existing[k]
+                    for k in active_syms
+                    if -0.15 <= float(existing[k].unrealized_r) <= 0.35
+                    and existing[k].confidence <= asset.confidence
+                ]
+                if not stalled_candidates:
+                    continue
+                stalled_candidates.sort(key=lambda p: (float(p.unrealized_r), p.confidence))
+                evicted = stalled_candidates[0]
+                notional = self.compute_position_notional_usdt(
+                    float(evicted.entry_price),
+                    float(evicted.stop_loss),
+                    self.risk_per_trade_usdt,
+                )
+                exit_fee = round(notional * BITGET_TAKER_FEE_PCT, 4)
+                locked_r = round(
+                    float(evicted.realized_r)
+                    + float(evicted.unrealized_r) * float(evicted.remaining_size_fraction),
+                    2,
+                )
+                existing[evicted.symbol] = VirtualPaperPosition(
+                    symbol=evicted.symbol,
+                    direction=evicted.direction,
+                    order_mode=evicted.order_mode,
+                    archetype=evicted.archetype,
+                    entry_price=evicted.entry_price,
+                    stop_loss=evicted.stop_loss,
+                    current_sl=evicted.current_sl,
+                    take_profit=evicted.take_profit,
+                    planned_rr=evicted.planned_rr,
+                    state=TradeState.CLOSED_EARLY.value,
+                    remaining_size_fraction="0.00",
+                    realized_r=f"{locked_r:.2f}",
                     unrealized_r="0.00",
-                    opened_at_utc=snapshot.scanned_at_utc,
+                    fees_paid_usdt=round(evicted.fees_paid_usdt + exit_fee, 4),
+                    confidence=evicted.confidence,
+                    eviction_reason=f"margin_velocity_eviction_for_{sym}",
+                    opened_at_utc=evicted.opened_at_utc,
                     updated_at_utc=snapshot.scanned_at_utc,
                 )
+
+            direction = "LONG" if asset.action == "ENTER_LONG" else "SHORT"
+            mode = asset.order_mode or "LIMIT"
+            entry_fee = self.compute_entry_fee_usdt(
+                float(asset.last_close),
+                float(asset.synthesized_sl),
+                self.risk_per_trade_usdt,
+                mode,
+            )
+            existing[sym] = VirtualPaperPosition(
+                symbol=sym,
+                direction=direction,
+                order_mode=mode,
+                archetype=asset.archetype,
+                entry_price=asset.last_close,
+                stop_loss=asset.synthesized_sl,
+                current_sl=asset.synthesized_sl,
+                take_profit=asset.synthesized_tp,
+                planned_rr="4.56",
+                state=TradeState.ACTIVE.value,
+                remaining_size_fraction="1.00",
+                realized_r="0.00",
+                unrealized_r="0.00",
+                fees_paid_usdt=entry_fee,
+                confidence=asset.confidence,
+                eviction_reason=None,
+                opened_at_utc=snapshot.scanned_at_utc,
+                updated_at_utc=snapshot.scanned_at_utc,
+            )
 
         realized_r_sum = sum(float(p.realized_r) for p in existing.values())
         unrealized_r_sum = sum(
             float(p.unrealized_r) * float(p.remaining_size_fraction)
             for p in existing.values()
-            if p.state not in (
-                TradeState.CLOSED_TP.value,
-                TradeState.CLOSED_SL.value,
-                TradeState.CLOSED_EARLY.value,
-            )
+            if not self._is_terminal(p.state)
         )
-        realized_usdt = round(realized_r_sum * self.risk_per_trade_usdt, 2)
+        total_fees = round(sum(p.fees_paid_usdt for p in existing.values()), 2)
+        realized_usdt = round(realized_r_sum * self.risk_per_trade_usdt - total_fees, 2)
         unrealized_usdt = round(unrealized_r_sum * self.risk_per_trade_usdt, 2)
         current_eq = round(self.starting_equity_usdt + realized_usdt + unrealized_usdt, 2)
 
-        open_cnt = sum(
-            1
-            for p in existing.values()
-            if p.state
-            not in (
-                TradeState.CLOSED_TP.value,
-                TradeState.CLOSED_SL.value,
-                TradeState.CLOSED_EARLY.value,
-            )
-        )
+        open_cnt = sum(1 for p in existing.values() if not self._is_terminal(p.state))
         closed_cnt = len(existing) - open_cnt
+        evictions_cnt = sum(1 for p in existing.values() if p.eviction_reason is not None)
 
         ledger = VirtualPaperLedger(
             starting_equity_usdt=self.starting_equity_usdt,
             risk_per_trade_usdt=self.risk_per_trade_usdt,
+            max_open_positions=self.max_open_positions,
             current_equity_usdt=current_eq,
             realized_pnl_usdt=realized_usdt,
             unrealized_pnl_usdt=unrealized_usdt,
+            total_fees_paid_usdt=total_fees,
+            margin_evictions_count=evictions_cnt,
             open_positions_count=open_cnt,
             closed_positions_count=closed_cnt,
             positions=existing,
@@ -190,9 +300,13 @@ class VirtualPaperExchange:
         sim = LifecycleBacktestSimulator()
         bt = sim.run_comparative_backtest()
 
+        # Avg notional at 2.60% SL and $20 risk is ~$769.23 -> round-trip maker+taker fee ~ $0.62/trade
+        est_fees_97_trades_usdt = round(97 * 769.23 * (BITGET_MAKER_FEE_PCT + BITGET_TAKER_FEE_PCT), 2)
+
         proteus_pnl_usdt = round(
             bt.proteus_distilled_fsm.total_realized_r * self.risk_per_trade_usdt, 2
         )
+        proteus_net_after_fees = round(proteus_pnl_usdt - est_fees_97_trades_usdt, 2)
         naive_pnl_usdt = round(
             bt.naive_set_and_forget.total_realized_r * self.risk_per_trade_usdt, 2
         )
@@ -209,11 +323,16 @@ class VirtualPaperExchange:
             "risk_per_trade_pct": round(
                 (self.risk_per_trade_usdt / self.starting_equity_usdt) * 100.0, 2
             ),
+            "estimated_97_trade_fees_usdt": est_fees_97_trades_usdt,
             "proteus_distilled_clone": {
                 "ending_equity_usdt": round(
                     self.starting_equity_usdt + proteus_pnl_usdt, 2
                 ),
+                "ending_equity_after_fees_usdt": round(
+                    self.starting_equity_usdt + proteus_net_after_fees, 2
+                ),
                 "net_profit_usdt": proteus_pnl_usdt,
+                "net_profit_after_fees_usdt": proteus_net_after_fees,
                 "return_pct": round(
                     (proteus_pnl_usdt / self.starting_equity_usdt) * 100.0, 2
                 ),
