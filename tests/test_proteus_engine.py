@@ -293,3 +293,56 @@ def test_empirical_corpus_replay_all_97_signals_and_784_messages() -> None:
     assert report.median_mins_to_tp1 == 123.6
     assert report.parity_metrics.bps >= 0.85
     assert report.parity_metrics.passed is True
+
+
+def test_phase1_and_3_5097_bar_bayesian_cognitive_policy() -> None:
+    from proteus.market.lakehouse import NegativeSpaceDatasetBuilder
+    from proteus.policy.bayesian import BayesianCognitivePolicy
+
+    builder = NegativeSpaceDatasetBuilder()
+    dataset = builder.build_dataset(negative_count=5000)
+    assert len(dataset) == 5097
+
+    model = BayesianCognitivePolicy().fit(dataset)
+    metrics = model.evaluate_dataset(dataset)
+    assert metrics.total_bars == 5097
+    assert metrics.positive_signals == 97
+    assert metrics.negative_bars == 5000
+    assert metrics.abstention_accuracy >= 0.99
+    assert metrics.setup_recall >= 0.95
+    assert metrics.directional_concordance == 1.0
+
+
+def test_phase2_tradingview_rgb_box_extractor() -> None:
+    from proteus.vision.chart_extractor import TradingViewBoxExtractor
+
+    # Build a 100x100 synthetic TradingView candlestick canvas with Long TP & SL boxes
+    # Price axis y=0 at bottom (row 99), y=1 at top (row 0).
+    # Entry at y_norm = 0.30 (row 70), Stop box y_norm [0.20, 0.30] (rows 70..80),
+    # Profit box y_norm [0.30, 0.75] (rows 25..70) -> Implied RR = 0.45 / 0.10 = 4.50R
+    grid = [[(19, 23, 34) for _ in range(100)] for _ in range(100)]
+    for r_idx in range(25, 70):
+        for c_idx in range(30, 80):
+            grid[r_idx][c_idx] = (8, 153, 129)  # TradingView teal profit zone
+    for r_idx in range(70, 80):
+        for c_idx in range(30, 80):
+            grid[r_idx][c_idx] = (242, 54, 69)  # TradingView crimson stop zone
+
+    extractor = TradingViewBoxExtractor()
+    human_gt = BoundingBox(0.30, 0.30, 0.80, 0.75)
+    res = extractor.extract_from_rgb_grid(grid, human_profit_box=human_gt)
+    assert res.implied_direction == "LONG"
+    assert 4.2 <= res.implied_rr <= 4.9
+    assert res.spatial_iou_vs_human >= 0.90
+
+
+def test_phase4_comparative_97_signal_backtest_simulator() -> None:
+    from proteus.backtest import LifecycleBacktestSimulator
+
+    sim = LifecycleBacktestSimulator()
+    report = sim.run_comparative_backtest()
+    assert report.naive_set_and_forget.total_trades == 97
+    assert report.proteus_distilled_fsm.total_trades == 97
+    assert report.proteus_distilled_fsm.total_realized_r > report.naive_set_and_forget.total_realized_r
+    assert report.proteus_distilled_fsm.profit_factor > report.naive_set_and_forget.profit_factor * 3.5
+    assert report.drawdown_reduction_r > 12.0

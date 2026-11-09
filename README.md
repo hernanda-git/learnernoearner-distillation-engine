@@ -48,31 +48,35 @@ This repository is **completely decoupled and isolated** from the live Bitget pr
 ```
 learnernoearner-distillation-engine/
 ├── benchmarks/
-│   └── corpus/                     # Air-gapped snapshot: 784 msgs, 97 setups, 47 updates
-│       ├── canonical_signals.json
-│       ├── management_updates.json
-│       └── telegram_messages.json
+│   ├── corpus/                     # Air-gapped snapshot: 784 msgs, 97 setups, 47 updates
+│   │   ├── canonical_signals.json
+│   │   ├── management_updates.json
+│   │   └── telegram_messages.json
+│   └── live_shadow_snapshot.json   # Real-time Phase 5 Bitget USDT-FUTURES shadow scan
 ├── docs/
 │   ├── BEHAVIORAL-ANALYSIS.md      # Empirical profile (784 msgs, 97 setups, 230 charts)
 │   └── MASTER-PLAN.md              # 5-phase Project Proteus engineering roadmap
 ├── scripts/
 │   ├── extract_corpus_readonly.py  # Air-gapped read-only SQLite/JSONL snapshot extractor
-│   └── run_turing_benchmark.py     # Replays all 97 setups & 784 msgs (BPS = 0.97)
+│   ├── run_turing_benchmark.py     # Phases 1–4 Turing replay, 5097-bar Bayes & 97-trade backtest
+│   └── run_shadow_daemon.py        # Phase 5 live public-REST forward shadow scanner
 ├── src/
 │   └── proteus/                    # Autonomous clone engine package
 │       ├── domain/                 # Immutable domain models & value objects
-│       ├── market/                 # Multi-TF candle lakehouse & negative-space sampler
+│       ├── market/                 # Multi-TF lakehouse, 5000-bar miner & public Bitget client
 │       ├── compass/                # BTC/ETH 1D macro regime gate
 │       ├── geometry/               # 3-tier 72h range & liquidity sweep detector
-│       ├── vision/                 # S/R bounding-box proposer & IoU >= 0.80 gate
-│       ├── policy/                 # Bayesian abstention & 80/20 Long-bias policy
+│       ├── vision/                 # S/R box proposer & RGB TradingView TP/SL box extractor
+│       ├── policy/                 # Rule policy + fitted 5097-bar Bayesian log-odds classifier
 │       ├── params/                 # Directional SL (2.67%/2.17%), R:R & 10^k price scaler
 │       ├── fsm/                    # +1.0R breakeven & UTC 21:00+ bedtime trade FSM
 │       ├── benchmark/              # Behavioral Parity Score (BPS >= 0.85) Turing harness
 │       ├── replay/                 # 97-signal & 784-message empirical replay engine
+│       ├── backtest/               # 97-setup Naive Set-and-Forget vs Distilled FSM simulator
+│       ├── shadow/                 # Live zero-key Bitget USDT-FUTURES shadow scanner
 │       └── engine.py               # End-to-end 7-module pipeline orchestrator
 ├── tests/
-│   └── test_proteus_engine.py      # 8-test invariant & full-corpus replay suite
+│   └── test_proteus_engine.py      # 11-test invariant, vision, Bayes, replay & backtest suite
 ├── ARCHITECTURE.md
 ├── pyproject.toml
 ├── README.md
