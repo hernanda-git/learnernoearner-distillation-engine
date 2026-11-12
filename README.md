@@ -45,6 +45,7 @@ Unlike reactive copy-trading (which suffers $6\text{–}28\text{s}$ human screen
 | **Chronological OOS Split** | 80/20 by timestamp (cutoff `2026-10-25`) | **97.4% abstain / 4.8% recall (1/21) / 26 false entries** | Fails; see benchmark `phase1_and_3_oos_time_split` |
 | **Candle-Driven Backtest** | 91 resolvable setups · 1H · strict conservative · net fees | **Naive −3.03R / PF 0.96 / DD 18.62R** vs **FSM −10.60R / PF 0.76 / DD 10.60R** | FSM cuts DD, not profitable |
 | **Touch-Fill Sensitivity** | 91 setups · LIMIT fill only if the first bar trades through entry | **27 unfilled / 64 traded; FSM −19.33R / PF 0.50** | Fill assumption dominates |
+| **1m Subset Replay** | 20 newest signals · 143,280 1m bars | **Naive +5.92R / PF 1.39 / DD 4.77R** vs **FSM −4.08R / PF 0.63 / DD 5.90R**; 0/10 first-hit order disagreements vs 1H | FSM hurts on this subset |
 | **Shadow Lead-Time Parity ($\Delta t$)** | 0 paired detections | **Unmeasured** | Detection log now written; pairs accumulate forward |
 | **284-Chart Vision Pass** | 216 Light (76.1%) · 68 Dark (23.9%) | **238 legacy detector boxes** | No human labels; IoU `None` |
 | **$1,000 Paper Sim (Net of Fees)** | `$20/1R` risk · 91 setups | **$788.00 (−21.20%)** vs naive **$939.40** | Honest baseline |

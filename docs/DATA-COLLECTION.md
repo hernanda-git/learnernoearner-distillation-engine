@@ -31,6 +31,14 @@ python scripts/fetch_1m_candles.py --latest 10 --out data/1m --force
 
 Output: one JSON per signal (`rows`, `candles: [[ts_ms,o,h,l,c,v], ...]`) plus `MANIFEST.json` with per-file SHA-256.
 
+Analyse the collected series with 1m intrabar order:
+
+```bash
+python scripts/analyze_1m_intrabar.py --data-dir /home/valarion/proteus-data/1m
+```
+
+Production run (2026-11-12): 20 newest signals, **143,280 bars**, **0 unfilled**, naive **+5.92R / PF 1.39 / DD 4.77R**, FSM **−4.08R / PF 0.63 / DD 5.90R**, **0/10** first-hit-order disagreements vs 1H. The FSM overlay hurts on this subset as well.
+
 **Retention limit (verified 2026-11-12):** Bitget's public `history-candles` endpoint returned 1m data for the newest signal (LIT, 7,164 bars) but **zero rows for a 2026-09-04 window**. The old 95-signal corpus cannot be backfilled from this API. Choose one:
 
 1. Run the fetcher continuously from now on (forward-only corpus; the daemon's `shadow_detections.jsonl` supplies the timestamps).
