@@ -12,13 +12,15 @@ from __future__ import annotations
 
 import json
 import os
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any
 
 from proteus.constitution import ConstitutionalIdentityGuard, ConstitutionalParameters
 from proteus.engine import ProteusDistillationEngine
+from proteus.paths import state_path as resolve_state_path
 
 DEFAULT_MONITOR_PATH = (
     Path(__file__).resolve().parents[3] / "benchmarks" / "self_monitor_state.json"
@@ -69,16 +71,18 @@ class SelfMonitoringWatchdog:
         shadow_path: Path | None = None,
         ledger_path: Path | None = None,
     ) -> None:
-        self.state_path = state_path or DEFAULT_MONITOR_PATH
-        self.shadow_path = shadow_path or DEFAULT_SHADOW_PATH
-        self.ledger_path = ledger_path or DEFAULT_LEDGER_PATH
+        self.state_path = state_path or resolve_state_path("self_monitor_state.json")
+        self.shadow_path = shadow_path or resolve_state_path("live_shadow_snapshot.json")
+        self.ledger_path = ledger_path or resolve_state_path("paper_ledger.json", seed=False)
 
     def evaluate_and_heal(
         self,
         env: Mapping[str, str] | None = None,
         now_utc: datetime | None = None,
+        *,
+        persist: bool = True,
     ) -> SelfMonitorSnapshot:
-        now = now_utc or datetime.now(timezone.utc)
+        now = now_utc or datetime.now(UTC)
         probes: list[HealthProbeResult] = []
 
         # Probe 1: Air-Gap & Secret Hygiene
@@ -93,7 +97,7 @@ class SelfMonitoringWatchdog:
                     detail="Zero live Bitget API/HMAC/3DES keys in environment.",
                 )
             )
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001 - a failed probe must latch, not crash
             probes.append(
                 HealthProbeResult(
                     probe_name="air_gap_secret_hygiene",
@@ -117,7 +121,7 @@ class SelfMonitoringWatchdog:
                     detail="All source files and active parameters obey IDENTITY.md corridors.",
                 )
             )
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001 - a failed probe must latch, not crash
             probes.append(
                 HealthProbeResult(
                     probe_name="constitutional_identity_purity",
@@ -189,9 +193,13 @@ class SelfMonitoringWatchdog:
             )
 
             positions = ledger.get("positions", {})
+            terminal_states = {"CLOSED_TP", "CLOSED_SL", "CLOSED_EARLY"}
+            open_positions = {
+                sym: p for sym, p in positions.items() if p.get("state") not in terminal_states
+            }
             unprotected = [
                 sym
-                for sym, p in positions.items()
+                for sym, p in open_positions.items()
                 if not p.get("current_sl") or not p.get("take_profit")
             ]
             prot_status = "PASS" if not unprotected else "FAIL"
@@ -199,9 +207,11 @@ class SelfMonitoringWatchdog:
                 HealthProbeResult(
                     probe_name="position_protection_integrity",
                     status=prot_status,
-                    measured_value=f"{len(positions) - len(unprotected)}/{len(positions)} protected",
-                    threshold="100% SL & TP attached",
-                    detail="Every open virtual position has verified structural SL and 4.56R TP.",
+                    measured_value=(
+                        f"{len(open_positions) - len(unprotected)}/{len(open_positions)} open protected"
+                    ),
+                    threshold="100% of open positions have SL & TP attached",
+                    detail="Every open virtual position has a structural SL and TP.",
                 )
             )
 
@@ -217,7 +227,7 @@ class SelfMonitoringWatchdog:
                 prev_reason = prev.get("latch_reason")
                 consecutive_healthy = int(prev.get("consecutive_healthy_cycles", 0))
                 total_healed = int(prev.get("total_healed_events", 0))
-            except Exception:
+            except Exception:  # noqa: BLE001, S110 - corrupt state is discarded
                 pass
 
         failed_probes = [p for p in probes if p.status == "FAIL"]
@@ -257,8 +267,9 @@ class SelfMonitoringWatchdog:
             total_healed_events=total_healed,
             probes=probes,
         )
-        self.state_path.parent.mkdir(parents=True, exist_ok=True)
-        self.state_path.write_text(
-            json.dumps(snapshot.to_dict(), indent=2) + "\n", encoding="utf-8"
-        )
+        if persist:
+            self.state_path.parent.mkdir(parents=True, exist_ok=True)
+            self.state_path.write_text(
+                json.dumps(snapshot.to_dict(), indent=2) + "\n", encoding="utf-8"
+            )
         return snapshot

@@ -8,8 +8,8 @@ for P(ABSTAIN | x), P(ENTER_LONG | x), and P(ENTER_SHORT | x).
 from __future__ import annotations
 
 import math
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Sequence
 
 from proteus.market.lakehouse import FeatureVector
 
@@ -25,6 +25,21 @@ class PolicyEvaluationMetrics:
     setup_recall: float
     directional_concordance: float
     learned_class_priors: dict[str, float]
+
+
+@dataclass(frozen=True)
+class TimeSplitEvaluation:
+    cutoff_utc: str
+    train_bars: int
+    test_bars: int
+    test_positives: int
+    test_negatives: int
+    abstention_accuracy: float
+    setup_recall: float
+    directional_concordance: float
+    predicted_entries: int
+    false_entries: int
+    status: str = "MEASURED"
 
 
 class BayesianCognitivePolicy:
@@ -130,3 +145,48 @@ class BayesianCognitivePolicy:
             directional_concordance=round(dir_correct / max(1, pos_recalled), 4),
             learned_class_priors=dict(self._priors),
         )
+
+
+def evaluate_time_split(
+    dataset: Sequence[FeatureVector],
+    cutoff_utc: str | None = None,
+    train_fraction: float = 0.8,
+) -> TimeSplitEvaluation | None:
+    """Train on bars strictly before ``cutoff_utc`` and evaluate after it.
+
+    The split is chronological; no row is shuffled. When ``cutoff_utc`` is
+    omitted the 80th percentile timestamp is used. Returns ``None`` when either
+    side is empty.
+    """
+    ordered = sorted(dataset, key=lambda row: row.timestamp_utc)
+    if not ordered:
+        return None
+    if cutoff_utc is None:
+        index = min(len(ordered) - 1, max(0, int(len(ordered) * train_fraction)))
+        cutoff_utc = ordered[index].timestamp_utc
+
+    train = [row for row in ordered if row.timestamp_utc < cutoff_utc]
+    test = [row for row in ordered if row.timestamp_utc >= cutoff_utc]
+    if not train or not test:
+        return None
+
+    model = BayesianCognitivePolicy().fit(train)
+    metrics = model.evaluate_dataset(test)
+    predictions = [model.predict(row) for row in test]
+    false_entries = sum(
+        1
+        for row, prediction in zip(test, predictions)
+        if row.label == "ABSTAIN" and prediction != "ABSTAIN"
+    )
+    return TimeSplitEvaluation(
+        cutoff_utc=cutoff_utc,
+        train_bars=len(train),
+        test_bars=len(test),
+        test_positives=metrics.positive_signals,
+        test_negatives=metrics.negative_bars,
+        abstention_accuracy=metrics.abstention_accuracy,
+        setup_recall=metrics.setup_recall,
+        directional_concordance=metrics.directional_concordance,
+        predicted_entries=sum(1 for prediction in predictions if prediction != "ABSTAIN"),
+        false_entries=false_entries,
+    )

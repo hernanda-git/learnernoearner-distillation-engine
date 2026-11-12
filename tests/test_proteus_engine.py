@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import sqlite3
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
 
@@ -49,7 +49,7 @@ def _make_candle(
         high=Decimal(h),
         low=Decimal(l),
         close=Decimal(c),
-        volume=Decimal("1000"),
+        volume=Decimal(1000),
     )
 
 
@@ -73,7 +73,7 @@ def test_market_universe_and_negative_space_sampling() -> None:
     assert MultiTimeframeStore.is_tradable_symbol("ETH/USDT") is False
 
     store = MultiTimeframeStore()
-    t0 = datetime(2026, 11, 1, 8, 0, tzinfo=timezone.utc)
+    t0 = datetime(2026, 11, 1, 8, 0, tzinfo=UTC)
     candles = [
         _make_candle("WLD", "15m", t0 + timedelta(minutes=15 * i), "2.00", "2.05", "1.95", "2.01")
         for i in range(-20, 21)
@@ -88,7 +88,7 @@ def test_market_universe_and_negative_space_sampling() -> None:
 
 def test_macro_compass_regime_and_directional_invariants() -> None:
     compass = MacroCompassGate()
-    t0 = datetime(2026, 11, 1, 0, 0, tzinfo=timezone.utc)
+    t0 = datetime(2026, 11, 1, 0, 0, tzinfo=UTC)
 
     btc_prior = [
         _make_candle("BTC", "1D", t0 - timedelta(days=3), "82000", "85000", "81000", "83500"),
@@ -122,7 +122,7 @@ def test_macro_compass_regime_and_directional_invariants() -> None:
 def test_3tier_geometry_and_no_mans_land_abstention() -> None:
     geom_engine = StructuralGeometryEngine()
     policy = CognitivePolicyGate()
-    t0 = datetime(2026, 11, 2, 8, 0, tzinfo=timezone.utc)  # London Open (08:00 UTC)
+    t0 = datetime(2026, 11, 2, 8, 0, tzinfo=UTC)  # London Open (08:00 UTC)
 
     # 72h range: Range Low = 2140, Range High = 2700 -> Mid Range = 2420
     pool = [
@@ -133,9 +133,9 @@ def test_3tier_geometry_and_no_mans_land_abstention() -> None:
     # Case A: Floating in No-Man's Land (2560 is halfway between Mid 2420 and High 2700)
     floating_bar = _make_candle("ENA", "15m", t0, "2555", "2570", "2550", "2560")
     geom_float = geom_engine.compute("ENA", pool, execution_candle=floating_bar)
-    assert geom_float.range_high == Decimal("2700")
-    assert geom_float.range_low == Decimal("2140")
-    assert geom_float.mid_range == Decimal("2420")
+    assert geom_float.range_high == Decimal(2700)
+    assert geom_float.range_low == Decimal(2140)
+    assert geom_float.mid_range == Decimal(2420)
     assert geom_float.in_no_mans_land is True
 
     decision_float = policy.evaluate(geom_float, MacroRegime.RANGE_BOUND, t0)
@@ -165,7 +165,7 @@ def test_3tier_geometry_and_no_mans_land_abstention() -> None:
 
 def test_parameter_synthesizer_and_meme_power_of_10_scaler() -> None:
     synth = OrderParameterSynthesizer()
-    t0 = datetime(2026, 11, 2, 14, 0, tzinfo=timezone.utc)
+    t0 = datetime(2026, 11, 2, 14, 0, tzinfo=UTC)
 
     # Shorthand quote 0.50 vs live reference 0.0000050 (10^-5 scale)
     scaled_price, factor = synth.resolve_power_of_10_scale(
@@ -174,7 +174,7 @@ def test_parameter_synthesizer_and_meme_power_of_10_scaler() -> None:
     assert scaled_price == Decimal("0.0000050")
     assert factor == 100000
 
-    # End-to-end engine run on WLD midrange retest with 2.6% structural risk & 4.56R TP
+    # End-to-end engine run on WLD midrange retest with directional 2.67% anchor & 4.87R TP
     engine = ProteusDistillationEngine(env={})
     btc_1d = [
         _make_candle("BTC", "1D", t0 - timedelta(days=2), "82000", "84000", "81000", "83000"),
@@ -195,14 +195,14 @@ def test_parameter_synthesizer_and_meme_power_of_10_scaler() -> None:
     assert decision.action == Action.ENTER_LONG
     assert setup is not None
     assert Decimal("0.50") <= setup.risk_pct <= Decimal("5.00")
-    assert setup.planned_rr == Decimal("4.56")
+    assert setup.planned_rr == Decimal("4.87")
     assert setup.stop_loss < setup.entry_price < setup.take_profit
 
 
 def test_in_flight_fsm_breakeven_bedtime_and_lexicon() -> None:
     fsm = TradeLifecycleFSM()
     engine = ProteusDistillationEngine(env={})
-    t0 = datetime(2026, 11, 2, 14, 0, tzinfo=timezone.utc)
+    t0 = datetime(2026, 11, 2, 14, 0, tzinfo=UTC)
 
     btc_1d = [
         _make_candle("BTC", "1D", t0 - timedelta(days=1), "82000", "85000", "81000", "84000"),
@@ -330,7 +330,7 @@ def test_lakehouse_features_are_not_label_encoded() -> None:
     # A label-encoded dataset has in_no_mans_land == 0 for every positive and
     # ~0.875 for abstain. A real feature is mixed in both classes.
     for label in ("ENTER_LONG", "ENTER_SHORT"):
-        values = {getattr(r, "in_no_mans_land") for r in by_class[label]}
+        values = {r.in_no_mans_land for r in by_class[label]}
         assert values == {0.0, 1.0}, (label, values)
 
     long_reclaims = [r.reclaimed_midrange for r in by_class["ENTER_LONG"]]
@@ -404,6 +404,7 @@ def test_real_284_screenshot_vision_corpus_annotations() -> None:
 
 def test_virtual_paper_exchange_admits_and_steps_shadow_positions(tmp_path: Path) -> None:
     import json
+
     from proteus.paper import VirtualPaperExchange
     from proteus.shadow import AssetShadowState, LiveShadowSnapshot
 
@@ -427,8 +428,8 @@ def test_virtual_paper_exchange_admits_and_steps_shadow_positions(tmp_path: Path
     assert ledger.current_equity_usdt <= 1000.0
     hist = exchange.run_historical_paper_simulation()
     assert hist["fees_included_in_r"] is True
-    assert hist["proteus_distilled_clone"]["ending_equity_usdt"] == 844.8
-    assert hist["proteus_distilled_clone"]["max_drawdown_pct"] == 21.0
+    assert hist["proteus_distilled_clone"]["ending_equity_usdt"] == 788.0
+    assert hist["proteus_distilled_clone"]["max_drawdown_pct"] == 21.2
     assert hist["naive_set_and_forget"]["max_drawdown_pct"] == 37.24
 
 
@@ -436,7 +437,7 @@ def test_phase6_synthetic_tradingview_rgb_renderer() -> None:
     from proteus.geometry import StructuralGeometryEngine
     from proteus.vision.renderer import SyntheticTradingViewRenderer
 
-    t0 = datetime(2026, 11, 9, 8, 0, tzinfo=timezone.utc)
+    t0 = datetime(2026, 11, 9, 8, 0, tzinfo=UTC)
     bars = [
         _make_candle(
             "INJ",
@@ -601,6 +602,7 @@ def test_bounded_self_corrector_fine_tuning_and_auto_rollback(tmp_path: Path) ->
     with pytest.raises(IdentityDriftError, match="violates corridor"):
         corrector.propose_fine_tune(
             observed_estimates={"no_mans_land_abstain_prob": 0.40},
+            candidate_bps=0.96,
             strict_mode=True,
         )
 
@@ -609,7 +611,7 @@ def test_web_ui_dashboard_payload_and_template() -> None:
     from proteus.web import build_dashboard_payload
     from proteus.web.ui_template import INDEX_HTML
 
-    payload = build_dashboard_payload()
+    payload = build_dashboard_payload(persist=False)
     assert payload["constitution"]["pure_codebase"] is True
     assert payload["turing_replay"]["total_signals"] == 95
     assert payload["vision_summary"]["total_screenshots"] == 284
@@ -692,6 +694,7 @@ def test_fractal_structure_engine_beats_naive_72h_on_91_real_bitget_series() -> 
 
 def test_cross_sectional_attention_and_thesis_memory_reentry() -> None:
     import json
+
     from proteus.fsm.thesis_memory import ThesisMemoryTracker
     from proteus.market.attention import CrossSectionalAttentionScorer
 
@@ -709,7 +712,7 @@ def test_cross_sectional_attention_and_thesis_memory_reentry() -> None:
     assert 0.0 <= att.score <= 1.0
 
     tracker = ThesisMemoryTracker()
-    t0 = datetime(2026, 11, 9, 10, 0, tzinfo=timezone.utc)
+    t0 = datetime(2026, 11, 9, 10, 0, tzinfo=UTC)
     mem = tracker.record_stop_out(
         symbol="WLD",
         direction="LONG",
@@ -833,3 +836,207 @@ def test_bps_refuses_unmeasured_components() -> None:
     assert scorecard.passed is False
     assert "spatial_iou" in scorecard.unmeasured
     assert "median_timing_delta_seconds" in scorecard.unmeasured
+
+
+def test_backtest_conservative_rechecks_moved_stop() -> None:
+    from proteus.backtest import LifecycleBacktestSimulator
+
+    bars = [[0, 100.0, 125.0, 99.0, 110.0]]
+    conservative = LifecycleBacktestSimulator()
+    assert conservative._simulate("LONG", 100.0, 90.0, 120.0, bars, True) == 0.75
+    favorable = LifecycleBacktestSimulator(intrabar_policy="favorable")
+    assert favorable._simulate("LONG", 100.0, 90.0, 120.0, bars, True) == 1.75
+
+
+def test_backtest_touch_fill_policy_reports_unfilled() -> None:
+    from proteus.backtest import LifecycleBacktestSimulator
+
+    report = LifecycleBacktestSimulator(entry_fill_policy="touch").run_comparative_backtest()
+    assert report.entry_fill_policy == "touch"
+    assert report.unfilled_signals > 0
+    assert report.proteus_distilled_fsm.total_trades < 91
+
+
+def test_directional_synthesizer_uses_directional_anchors() -> None:
+    from proteus.domain.models import PolicyDecision, RangeGeometry
+
+    now = datetime(2026, 11, 12, 12, 0, tzinfo=UTC)
+    candles = [_make_candle("WLD", "15m", now, "100", "100.05", "99.99", "100")]
+    geometry = RangeGeometry(
+        symbol="WLD",
+        range_high=Decimal(110),
+        range_low=Decimal(90),
+        mid_range=Decimal(100),
+        equilibrium_width_pct=Decimal(20),
+        swept_low=True,
+        swept_high=True,
+        reclaimed_midrange=False,
+        rejected_midrange=False,
+        in_no_mans_land=False,
+    )
+    long_decision = PolicyDecision(
+        action=Action.ENTER_LONG,
+        direction=Direction.LONG,
+        confidence=0.9,
+        abstain_prob=0.1,
+        archetype=SetupArchetype.LIQUIDITY_SWEEP_RECLAIM,
+        order_mode=OrderMode.MARKET,
+        rationale="test",
+    )
+    short_decision = PolicyDecision(
+        action=Action.ENTER_SHORT,
+        direction=Direction.SHORT,
+        confidence=0.9,
+        abstain_prob=0.1,
+        archetype=SetupArchetype.RANGE_HIGH_REJECTION,
+        order_mode=OrderMode.LIMIT,
+        rationale="test",
+    )
+    synth = OrderParameterSynthesizer()
+    long_setup = synth.synthesize("WLD", long_decision, geometry, candles)
+    short_setup = synth.synthesize("WLD", short_decision, geometry, candles)
+    assert long_setup.planned_rr == Decimal("4.87")
+    assert long_setup.risk_pct == Decimal("2.67")
+    assert short_setup.planned_rr == Decimal("4.46")
+    assert short_setup.risk_pct == Decimal("2.17")
+
+
+def test_paper_reentry_preserves_closed_history(tmp_path: Path) -> None:
+    from proteus.paper import VirtualPaperExchange
+    from proteus.shadow import AssetShadowState, LiveShadowSnapshot
+
+    def asset(close: str, action: str, sl: str | None, tp: str | None) -> AssetShadowState:
+        return AssetShadowState(
+            symbol="WLD",
+            last_close=close,
+            range_low_72h="90",
+            mid_range_72h="95",
+            range_high_72h="110",
+            equilibrium_width_pct="20",
+            swept_low=action == "ENTER_LONG",
+            swept_high=False,
+            reclaimed_midrange=False,
+            in_no_mans_land=action == "ABSTAIN",
+            action=action,
+            confidence=0.8,
+            abstain_prob=0.2,
+            archetype="LIQUIDITY_SWEEP_RECLAIM",
+            order_mode="MARKET" if action != "ABSTAIN" else None,
+            synthesized_sl=sl,
+            synthesized_tp=tp,
+            rationale="test",
+        )
+
+    def snapshot(close: str, action: str, sl: str | None, tp: str | None) -> LiveShadowSnapshot:
+        return LiveShadowSnapshot(
+            scanned_at_utc="2026-11-12T00:00:00+00:00",
+            btc_1d_close="80000",
+            eth_1d_close="3000",
+            macro_regime="RANGE_BOUND",
+            universe_evaluated=1,
+            active_entries=1 if action != "ABSTAIN" else 0,
+            abstentions=1 if action == "ABSTAIN" else 0,
+            states=[asset(close, action, sl, tp)],
+        )
+
+    exchange = VirtualPaperExchange(ledger_path=tmp_path / "ledger.json")
+    first = exchange.process_shadow_snapshot(snapshot("100", "ENTER_LONG", "99", "101"))
+    assert first.open_positions_count == 1
+    closed = exchange.process_shadow_snapshot(snapshot("102", "ABSTAIN", None, None))
+    assert closed.closed_positions_count == 1
+    reopened = exchange.process_shadow_snapshot(snapshot("103", "ENTER_LONG", "102", "104"))
+    assert len(reopened.closed_positions) == 1
+    assert reopened.closed_positions[0].state == TradeState.CLOSED_TP.value
+    assert reopened.closed_positions[0].realized_r == "1.00"
+    assert reopened.closed_positions_count == 1
+    assert not (tmp_path / "ledger.json.tmp").exists()
+    assert (tmp_path / "paper_closed_trades.jsonl").exists()
+
+
+def test_vision_iou_is_none_without_human_box() -> None:
+    from proteus.vision.chart_extractor import TradingViewBoxExtractor
+
+    grid = [[(0, 0, 0) for _ in range(60)] for _ in range(60)]
+    for y in range(10, 30):
+        for x in range(5, 55):
+            grid[y][x] = (8, 153, 129)
+    for y in range(35, 55):
+        for x in range(5, 55):
+            grid[y][x] = (242, 54, 69)
+    extraction = TradingViewBoxExtractor().extract_from_rgb_grid(grid)
+    assert extraction.spatial_iou_vs_human is None
+
+
+def test_web_post_authorization_requires_token_behind_proxy() -> None:
+    from proteus.web.server import is_post_authorized
+
+    headers = {"X-Proteus-Action": "1"}
+    assert is_post_authorized("127.0.0.1", headers, "") is True
+    assert (
+        is_post_authorized(
+            "127.0.0.1", {"X-Proteus-Action": "1", "X-Forwarded-For": "1.2.3.4"}, ""
+        )
+        is False
+    )
+    assert is_post_authorized("203.0.113.9", headers, "") is False
+    assert (
+        is_post_authorized(
+            "203.0.113.9", {**headers, "X-Proteus-Token": "secret"}, "secret"
+        )
+        is True
+    )
+    assert (
+        is_post_authorized("203.0.113.9", {**headers, "X-Proteus-Token": "wrong"}, "secret")
+        is False
+    )
+    assert is_post_authorized("203.0.113.9", headers, "secret") is False
+
+
+def test_state_path_env_override(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    from proteus.paths import state_path
+
+    monkeypatch.setenv("PROTEUS_STATE_DIR", str(tmp_path / "state"))
+    target = state_path("x.json", seed=False)
+    assert target == tmp_path / "state" / "x.json"
+
+
+def test_time_split_evaluation_is_chronological() -> None:
+    from proteus.market.lakehouse import NegativeSpaceDatasetBuilder
+    from proteus.policy.bayesian import evaluate_time_split
+
+    dataset = NegativeSpaceDatasetBuilder().build_dataset(negative_count=500)
+    result = evaluate_time_split(dataset)
+    assert result is not None
+    assert result.train_bars + result.test_bars == len(dataset)
+    assert result.test_positives > 0
+    assert 0.0 <= result.setup_recall <= 1.0
+
+
+def test_lead_time_pairs_logged_detection(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import json
+
+    from proteus.shadow.lead_time import ShadowLeadTimeComparator
+
+    monkeypatch.setenv("PROTEUS_STATE_DIR", str(tmp_path))
+    (tmp_path / "shadow_detections.jsonl").write_text(
+        json.dumps(
+            {
+                "symbol": "WLD",
+                "detected_at_utc": "2026-11-12T03:50:00+00:00",
+                "entry_price": "2.00",
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    signal = {
+        "pair_token": "WLD",
+        "direction": "LONG",
+        "received_at": "2026-11-12T04:00:00+00:00",
+        "entry_price": "2.01",
+    }
+    summary = ShadowLeadTimeComparator().evaluate_shadow_lead_time([signal], persist=False)
+    assert summary.evaluated_pairs == 1
+    assert summary.median_delta_t_seconds == -600.0

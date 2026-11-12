@@ -13,8 +13,8 @@ SRC_DIR = REPO_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from proteus.evolver import AgenticSelfImprover  # noqa: E402
-from proteus.monitor import SelfMonitoringWatchdog  # noqa: E402
+from proteus.evolver import AgenticSelfImprover
+from proteus.monitor import SelfMonitoringWatchdog
 
 
 def main(argv: list[str] | None = None) -> int:

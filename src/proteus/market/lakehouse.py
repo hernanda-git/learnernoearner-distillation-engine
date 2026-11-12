@@ -12,10 +12,11 @@ labeled dataset; they remain in the corpus with an explicit manifest entry.
 from __future__ import annotations
 
 import json
+from collections.abc import Sequence
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
 from proteus.domain.models import Candle
 from proteus.market.bitget import BitgetPublicMarketClient
@@ -193,7 +194,7 @@ class NegativeSpaceDatasetBuilder:
         for i in range(negative_count):
             tok, window = untraded_pool[i % len(untraded_pool)]
             ts_ms = int(window[-1][0])
-            dt = datetime.fromtimestamp(ts_ms / 1000.0, tz=timezone.utc)
+            dt = datetime.fromtimestamp(ts_ms / 1000.0, tz=UTC)
             features = self._extract_features(window, dt)
             dataset.append(
                 FeatureVector(

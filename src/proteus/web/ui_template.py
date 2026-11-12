@@ -663,8 +663,8 @@ INDEX_HTML = r"""<!DOCTYPE html>
               <input type="number" id="sc-alpha" step="0.01" value="0.15" style="width:100%;" />
             </div>
             <div>
-              <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;">Candidate Turing BPS (Gate ≥ 0.85)</label>
-              <input type="number" id="sc-bps" step="0.01" value="0.97" style="width:100%;" />
+              <label style="font-size:11px;color:var(--muted);display:block;margin-bottom:4px;">Turing BPS (measured server-side; updates refused while unmeasured)</label>
+              <div id="sc-bps-note" style="font-size:12px;color:var(--muted);padding:6px 0;">Computed from the current replay, never supplied by the caller.</div>
             </div>
           </div>
           <button class="btn" onclick="submitSelfCorrection()">Run Bounded Self-Correction Step</button>
@@ -887,9 +887,9 @@ INDEX_HTML = r"""<!DOCTYPE html>
       const ca = bt.real_candle_audit || {};
       const fb = d.fractal_blind_recall || {};
       document.getElementById('tbody-candle-audit').innerHTML = `
-        <tr><td>Naive 72h Rolling Box Blind Recall</td><td class="num" style="color:var(--error);font-weight:700;">${fb.naive_72h_recalled_count || 23} / ${fb.evaluated_real_series || 92} (${fb.naive_72h_recall_pct || 25.0}%)</td><td>Falsely rejects ${fb.naive_72h_false_reject_pct || 75.0}% of real entries as No-Man's Land</td></tr>
-        <tr><td>Multi-Scale Fractal &amp; Body-Cluster Blind Recall</td><td class="num" style="color:var(--success);font-weight:700;">${fb.fractal_recalled_count || 89} / ${fb.evaluated_real_series || 92} (${fb.fractal_recall_pct || 96.7}%)</td><td>Zero-lookahead 72h/24h tiers + ≥4-touch body clusters + S/R flips</td></tr>
-        <tr><td>LONG vs SHORT Pre-Entry 24h Return</td><td class="num" style="color:var(--accent);font-weight:700;">+${fb.long_mean_24h_ret_pct || 3.50}% vs +${fb.short_mean_24h_ret_pct || 10.11}%</td><td>Longs enter compressed reclaims; Shorts fade +17% parabolic pumps</td></tr>
+        <tr><td>Naive 72h Rolling Box Blind Recall</td><td class="num" style="color:var(--error);font-weight:700;">${fb.naive_72h_recalled_count ?? '—'} / ${fb.evaluated_real_series ?? '—'} (${fb.naive_72h_recall_pct ?? '—'}%)</td><td>Falsely rejects ${fb.naive_72h_false_reject_pct ?? '—'}% of real entries as No-Man's Land</td></tr>
+        <tr><td>Multi-Scale Fractal &amp; Body-Cluster Blind Recall</td><td class="num" style="color:var(--success);font-weight:700;">${fb.fractal_recalled_count ?? '—'} / ${fb.evaluated_real_series ?? '—'} (${fb.fractal_recall_pct ?? '—'}%)</td><td>Zero-lookahead 72h/24h tiers + ≥4-touch body clusters + S/R flips</td></tr>
+        <tr><td>LONG vs SHORT Pre-Entry 24h Return</td><td class="num" style="color:var(--accent);font-weight:700;">${fb.long_mean_24h_ret_pct ?? '—'}% vs ${fb.short_mean_24h_ret_pct ?? '—'}%</td><td>Longs enter compressed reclaims; Shorts fade parabolic pumps</td></tr>
         <tr><td>Reached +1.0R Before Stop-Loss</td><td class="num" style="color:var(--success);font-weight:700;">${ca.reached_1r_before_sl} (${ca.reached_1r_pct}%)</td><td>Over half of setups expand +1.0R in favor first</td></tr>
         <tr><td>Reached +1.0R THEN Whipsawed to SL (&lt;48h)</td><td class="num" style="color:var(--warning);font-weight:700;">${ca.whipsaw_reversed_to_sl_after_1r} (${ca.whipsaw_rate_of_1r_winners_pct}% of +1R)</td><td>Rescued from −1.0R loss by 2-hour "sl to entry" rule</td></tr>
         <tr><td>Survivorship Silence Share (Unannounced SL)</td><td class="num" style="color:var(--warning);font-weight:700;">${ca.silent_stop_out_share_pct}%</td><td>Majority of silent Telegram setups were initial SL hits</td></tr>
@@ -1010,12 +1010,31 @@ INDEX_HTML = r"""<!DOCTYPE html>
       }).join('');
     }
 
+    function proteusHeaders(extra) {
+      const token = localStorage.getItem('proteus_token') || '';
+      return { 'X-Proteus-Action': '1', ...(token ? { 'X-Proteus-Token': token } : {}), ...(extra || {}) };
+    }
+
+    async function proteusPost(url, body) {
+      const options = { method: 'POST', headers: proteusHeaders(body ? { 'Content-Type': 'application/json' } : {}) };
+      if (body) options.body = JSON.stringify(body);
+      let resp = await fetch(url, options);
+      if (resp.status === 401) {
+        const entered = prompt('Proteus API token:');
+        if (entered) {
+          localStorage.setItem('proteus_token', entered);
+          resp = await fetch(url, options);
+        }
+      }
+      return resp;
+    }
+
     async function triggerLiveScan() {
       const btn = document.getElementById('btn-scan');
       btn.disabled = true;
       btn.textContent = 'Scanning Bitget Public Candles...';
       try {
-        await fetch('/api/v1/scan', { method: 'POST', headers: { 'X-Proteus-Action': '1' } });
+        await proteusPost('/api/v1/scan');
         await loadDashboard();
       } finally {
         btn.disabled = false;
@@ -1027,12 +1046,11 @@ INDEX_HTML = r"""<!DOCTYPE html>
       const param = document.getElementById('sc-param').value;
       const val = Number(document.getElementById('sc-val').value);
       const alpha = Number(document.getElementById('sc-alpha').value);
-      const bps = Number(document.getElementById('sc-bps').value);
 
-      const resp = await fetch('/api/v1/self-correct', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Proteus-Action': '1' },
-        body: JSON.stringify({ parameter: param, observed_value: val, learning_rate: alpha, candidate_bps: bps })
+      const resp = await proteusPost('/api/v1/self-correct', {
+        parameter: param,
+        observed_value: val,
+        learning_rate: alpha
       });
       const out = await resp.json();
       document.getElementById('sc-output').textContent = JSON.stringify(out, null, 2);
@@ -1044,11 +1062,7 @@ INDEX_HTML = r"""<!DOCTYPE html>
       btn.disabled = true;
       btn.textContent = 'Running 4-Stage AI Cycle...';
       try {
-        await fetch('/api/v1/evolve', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Proteus-Action': '1' },
-          body: JSON.stringify({ learning_rate: 0.12 })
-        });
+        await proteusPost('/api/v1/evolve', { learning_rate: 0.12 });
         await loadDashboard();
       } finally {
         btn.disabled = false;

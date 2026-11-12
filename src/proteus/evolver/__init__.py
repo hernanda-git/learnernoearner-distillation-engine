@@ -20,7 +20,7 @@ import re
 import shutil
 import subprocess
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -31,6 +31,7 @@ from proteus.constitution import (
     ConstitutionalIdentityGuard,
 )
 from proteus.monitor import SelfMonitoringWatchdog
+from proteus.paths import state_path
 from proteus.replay import EmpiricalCorpusReplay
 
 DEFAULT_JOURNAL_PATH = (
@@ -108,7 +109,7 @@ class FailClosedCodexBridge:
                 exit_code=proc.returncode,
                 redacted_output=out,
             )
-        except Exception as exc:
+        except Exception as exc:  # noqa: BLE001 - fail-closed subprocess boundary
             return CodexRunResult(
                 invoked=True,
                 terminal_failure=True,
@@ -158,7 +159,7 @@ class AgenticSelfImprover:
         corrector: BoundedSelfCorrector | None = None,
         watchdog: SelfMonitoringWatchdog | None = None,
     ) -> None:
-        self.journal_path = journal_path or DEFAULT_JOURNAL_PATH
+        self.journal_path = journal_path or state_path("self_improvement_journal.json")
         self.corpus_dir = corpus_dir or DEFAULT_CORPUS_DIR
         self.corrector = corrector or BoundedSelfCorrector()
         self.watchdog = watchdog or SelfMonitoringWatchdog()
@@ -199,7 +200,7 @@ class AgenticSelfImprover:
         custom_proposals: dict[str, float] | None = None,
         learning_rate: float = 0.12,
     ) -> SelfImprovementJournalEntry:
-        now_str = datetime.now(timezone.utc).isoformat()
+        now_str = datetime.now(UTC).isoformat()
         traces: list[AgenticStageTrace] = []
 
         # Step 0: Self-Monitoring Watchdog Gate

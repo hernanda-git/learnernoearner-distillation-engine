@@ -13,12 +13,14 @@ from __future__ import annotations
 
 import json
 import subprocess
+from collections.abc import Sequence
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
 from proteus.market import normalize_base_symbol
+from proteus.paths import state_path
 
 DEFAULT_CORPUS_DIR = Path(__file__).resolve().parents[3] / "benchmarks" / "corpus"
 DEFAULT_LEAD_LOG_PATH = (
@@ -62,7 +64,7 @@ class ShadowLeadTimeComparator:
         ssh_relay_host: str | None = "valarion@46.202.155.192",
     ) -> None:
         self.corpus_dir = corpus_dir or DEFAULT_CORPUS_DIR
-        self.log_path = log_path or DEFAULT_LEAD_LOG_PATH
+        self.log_path = log_path or state_path("shadow_lead_time_log.json")
         self.ssh_relay_host = ssh_relay_host
 
     def fetch_recent_human_signals(self, limit: int = 25) -> list[dict[str, Any]]:
@@ -95,15 +97,56 @@ class ShadowLeadTimeComparator:
         lines = [line.strip() for line in res.stdout.splitlines() if line.strip().startswith("[")]
         return json.loads(lines[-1]) if lines else []
 
+    def _detection_log_path(self) -> Path:
+        return state_path("shadow_detections.jsonl")
+
+    def _load_detections(self) -> list[dict[str, Any]]:
+        path = self._detection_log_path()
+        if not path.exists():
+            return []
+        rows: list[dict[str, Any]] = []
+        for line in path.read_text(encoding="utf-8").splitlines():
+            try:
+                rows.append(json.loads(line))
+            except json.JSONDecodeError:
+                continue
+        return rows
+
+    def _match_detection(
+        self, symbol: str, human_dt: datetime
+    ) -> dict[str, Any] | None:
+        """Closest logged detection for ``symbol`` in the 6h-before/1h-after window."""
+        target = normalize_base_symbol(symbol)
+        best: dict[str, Any] | None = None
+        best_key: tuple[float, int] | None = None
+        for row in self._load_detections():
+            if normalize_base_symbol(str(row.get("symbol", ""))) != target:
+                continue
+            try:
+                detected_dt = datetime.fromisoformat(str(row["detected_at_utc"]))
+            except (KeyError, ValueError):
+                continue
+            delta = (detected_dt - human_dt).total_seconds()
+            if delta > 3600 or delta < -6 * 3600:
+                continue
+            key = (abs(delta), 0 if delta <= 0 else 1)
+            if best_key is None or key < best_key:
+                best = row
+                best_key = key
+        return best
+
     def evaluate_shadow_lead_time(
         self,
         human_signals: Sequence[dict[str, Any]] | None = None,
+        *,
+        persist: bool = True,
     ) -> ShadowLeadTimeSummary:
         """Compute lead time from actual paired detections.
 
         A signal is only counted when it carries ``proteus_detected_at_utc``
-        (or ``detected_at``) from a scan log. Without that timestamp the result
-        is ``UNMEASURED`` — never a fabricated negative delta.
+        (or ``detected_at``) or a matching row in ``shadow_detections.jsonl``.
+        Without a timestamp the result is ``UNMEASURED`` — never a fabricated
+        negative delta.
         """
         signals = (
             list(human_signals)
@@ -113,18 +156,38 @@ class ShadowLeadTimeComparator:
         comparisons: list[LeadTimeComparison] = []
 
         for sig in signals:
-            detected = sig.get("proteus_detected_at_utc") or sig.get("detected_at")
-            human_ts = sig.get("human_posted_at_utc") or sig.get("received_at") or sig.get("created_at")
-            if not detected or not human_ts:
+            human_ts = (
+                sig.get("human_posted_at_utc")
+                or sig.get("received_at")
+                or sig.get("created_at")
+            )
+            if not human_ts:
                 continue
             try:
-                proteus_dt = datetime.fromisoformat(str(detected))
                 human_dt = datetime.fromisoformat(str(human_ts))
             except ValueError:
                 continue
 
+            detected = sig.get("proteus_detected_at_utc") or sig.get("detected_at")
+            matched = self._match_detection(
+                str(sig.get("pair_token") or sig.get("symbol") or ""), human_dt
+            )
+            if not detected and matched:
+                detected = matched.get("detected_at_utc")
+            if not detected:
+                continue
+            try:
+                proteus_dt = datetime.fromisoformat(str(detected))
+            except ValueError:
+                continue
+
             delta_t = round((proteus_dt - human_dt).total_seconds(), 2)
-            proteus_entry = str(sig.get("proteus_entry", sig.get("entry_price", "")))
+            proteus_entry = str(
+                sig.get(
+                    "proteus_entry",
+                    matched.get("entry_price") if matched else sig.get("entry_price", ""),
+                )
+            )
             human_entry = str(sig.get("entry_price", ""))
             try:
                 entry_delta_pct = round(
@@ -174,5 +237,9 @@ class ShadowLeadTimeComparator:
                 status="MEASURED",
             )
 
-        self.log_path.write_text(json.dumps(summary.to_dict(), indent=2) + "\n", encoding="utf-8")
+        if persist:
+            self.log_path.parent.mkdir(parents=True, exist_ok=True)
+            self.log_path.write_text(
+                json.dumps(summary.to_dict(), indent=2) + "\n", encoding="utf-8"
+            )
         return summary

@@ -29,6 +29,7 @@ from typing import Any
 from proteus.domain.models import Candle
 
 CANDLES_URL = "https://api.bitget.com/api/v2/mix/market/candles"
+HISTORY_CANDLES_URL = "https://api.bitget.com/api/v2/mix/market/history-candles"
 USER_AGENT = "ProteusDistillationEngine/0.1"
 RELAY_SENTINEL = "@@@PROTEUS@@@"
 
@@ -330,6 +331,50 @@ class BitgetPublicMarketClient:
         return self.fetch_candles_batch([(symbol, granularity, limit)]).get(
             (symbol, granularity), []
         )
+
+    def fetch_candle_range(
+        self,
+        symbol: str,
+        granularity: str,
+        start_ms: int,
+        end_ms: int,
+        page_limit: int = 200,
+    ) -> list[Candle]:
+        """Fetch historical candles in ``[start_ms, end_ms]`` by paging backwards.
+
+        Bitget's ``history-candles`` endpoint caps ``limit`` at 200 and returns
+        the newest rows up to ``endTime``; the loop walks backwards until the
+        requested start is covered. No synthetic rows are produced.
+        """
+        pair = symbol.upper().replace("/", "")
+        if not pair.endswith("USDT"):
+            pair = f"{pair}USDT"
+        collected: dict[int, Candle] = {}
+        cursor = int(end_ms)
+        while cursor > int(start_ms):
+            url = (
+                f"{HISTORY_CANDLES_URL}?symbol={pair}&productType=USDT-FUTURES"
+                f"&granularity={granularity}&limit={int(page_limit)}&endTime={cursor}"
+            )
+            payload, _status = self._get_json(url)
+            if payload is None and self.ssh_relay_host:
+                relayed = self._fetch_via_relay([url])
+                payload = relayed[0] if relayed else None
+            rows = _to_candles(payload, symbol, granularity)
+            if not rows:
+                break
+            added = 0
+            oldest = cursor
+            for candle in rows:
+                stamp = int(candle.timestamp_utc.timestamp() * 1000)
+                oldest = min(oldest, stamp)
+                if int(start_ms) <= stamp <= int(end_ms) and stamp not in collected:
+                    collected[stamp] = candle
+                    added += 1
+            if added == 0 or oldest <= int(start_ms) or oldest >= cursor:
+                break
+            cursor = oldest - 1
+        return [collected[stamp] for stamp in sorted(collected)]
 
     def fetch_candles_batch(
         self,

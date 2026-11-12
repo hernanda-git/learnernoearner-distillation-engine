@@ -6,8 +6,8 @@ liquidity sweeps past session extremes, and 'no-man's land' interior zones.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from decimal import Decimal
-from typing import Sequence
 
 from proteus.domain.models import Candle, RangeGeometry
 from proteus.market import normalize_base_symbol
@@ -39,15 +39,15 @@ class StructuralGeometryEngine:
 
         range_high = max(c.high for c in structural_pool)
         range_low = min(c.low for c in structural_pool)
-        mid_range = (range_high + range_low) / Decimal("2")
+        mid_range = (range_high + range_low) / Decimal(2)
 
-        if range_low > Decimal("0"):
-            equilibrium_width_pct = ((range_high - range_low) / range_low) * Decimal("100")
+        if range_low > Decimal(0):
+            equilibrium_width_pct = ((range_high - range_low) / range_low) * Decimal(100)
         else:
-            equilibrium_width_pct = Decimal("0")
+            equilibrium_width_pct = Decimal(0)
 
         # Liquidity sweep of Range Low: wick pierces or touches Range Low and closes above
-        low_tolerance = range_low * (Decimal("1") + self.level_proximity_pct * Decimal("0.5"))
+        low_tolerance = range_low * (Decimal(1) + self.level_proximity_pct * Decimal("0.5"))
         swept_low = (
             current.low <= low_tolerance
             and current.close > range_low
@@ -55,7 +55,7 @@ class StructuralGeometryEngine:
         )
 
         # Liquidity sweep / rejection at Range High: wick pierces or touches Range High and closes below
-        high_tolerance = range_high * (Decimal("1") - self.level_proximity_pct * Decimal("0.5"))
+        high_tolerance = range_high * (Decimal(1) - self.level_proximity_pct * Decimal("0.5"))
         swept_high = (
             current.high >= high_tolerance
             and current.close < range_high
@@ -64,36 +64,36 @@ class StructuralGeometryEngine:
 
         # 50% Midrange retest from above (Long confirmation) or rejection from below (Short confirmation)
         mid_distance_pct = (
-            abs(current.close - mid_range) / mid_range if mid_range > Decimal("0") else Decimal("1")
+            abs(current.close - mid_range) / mid_range if mid_range > Decimal(0) else Decimal(1)
         )
         low_to_mid_pct = (
-            abs(current.low - mid_range) / mid_range if mid_range > Decimal("0") else Decimal("1")
+            abs(current.low - mid_range) / mid_range if mid_range > Decimal(0) else Decimal(1)
         )
         high_to_mid_pct = (
-            abs(current.high - mid_range) / mid_range if mid_range > Decimal("0") else Decimal("1")
+            abs(current.high - mid_range) / mid_range if mid_range > Decimal(0) else Decimal(1)
         )
 
         reclaimed_midrange = (
             current.close >= mid_range
             and (low_to_mid_pct <= self.level_proximity_pct or mid_distance_pct <= self.level_proximity_pct)
-            and current.low <= mid_range * (Decimal("1") + self.level_proximity_pct)
+            and current.low <= mid_range * (Decimal(1) + self.level_proximity_pct)
         )
 
         rejected_midrange = (
             current.close < mid_range
             and (high_to_mid_pct <= self.level_proximity_pct or mid_distance_pct <= self.level_proximity_pct)
-            and current.high >= mid_range * (Decimal("1") - self.level_proximity_pct)
+            and current.high >= mid_range * (Decimal(1) - self.level_proximity_pct)
         )
 
         # "No-man's land": price is floating between the 3 tiers without sweep or midrange confirmation
         near_low = (
             abs(current.close - range_low) / range_low <= self.level_proximity_pct
-            if range_low > Decimal("0")
+            if range_low > Decimal(0)
             else False
         )
         near_high = (
             abs(current.close - range_high) / range_high <= self.level_proximity_pct
-            if range_high > Decimal("0")
+            if range_high > Decimal(0)
             else False
         )
         near_mid = mid_distance_pct <= self.level_proximity_pct

@@ -9,10 +9,12 @@ from __future__ import annotations
 
 import json
 import re
+from collections.abc import Mapping
 from dataclasses import asdict, dataclass, replace
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Mapping
+
+from proteus.paths import state_path
 
 FORBIDDEN_INDICATOR_PATTERNS: tuple[str, ...] = (
     r"(?:^|[\W_])rsi(?:$|[\W_0-9])",
@@ -54,6 +56,9 @@ class ConstitutionalParameters:
     bedtime_start_hour_utc: int = 21
     generation: int = 1
     updated_at_utc: str = "2026-11-09T06:35:00+00:00"
+    invalidated_generations: int = 0
+    invalidated_at_utc: str = ""
+    invalidated_reason: str = ""
 
     def to_dict(self) -> dict[str, object]:
         return asdict(self)
@@ -161,9 +166,9 @@ class BoundedSelfCorrector:
     MIN_REQUIRED_BPS: float = 0.85
 
     def __init__(self, checkpoint_path: Path | None = None) -> None:
-        self.checkpoint_path = checkpoint_path or DEFAULT_CHECKPOINT_PATH
+        self.checkpoint_path = checkpoint_path or state_path("constitutional_checkpoint.json")
 
-    def load_active_parameters(self) -> ConstitutionalParameters:
+    def load_active_parameters(self, *, seed: bool = True) -> ConstitutionalParameters:
         if self.checkpoint_path.exists():
             raw = json.loads(self.checkpoint_path.read_text(encoding="utf-8"))
             params = ConstitutionalParameters(**raw)
@@ -171,7 +176,8 @@ class BoundedSelfCorrector:
             return params
         default_params = ConstitutionalParameters()
         ConstitutionalIdentityGuard.validate_parameters(default_params)
-        self.save_checkpoint(default_params)
+        if seed:
+            self.save_checkpoint(default_params)
         return default_params
 
     def save_checkpoint(self, params: ConstitutionalParameters) -> None:
@@ -185,7 +191,7 @@ class BoundedSelfCorrector:
         self,
         observed_estimates: Mapping[str, float],
         learning_rate: float = 0.15,
-        candidate_bps: float = 0.97,
+        candidate_bps: float = 0.0,
         strict_mode: bool = False,
     ) -> SelfCorrectionOutcome:
         """Apply prior-anchored shrinkage and validate against Constitutional Corridors & BPS gate.
@@ -226,7 +232,7 @@ class BoundedSelfCorrector:
             updates[key] = clamped
 
         updates["generation"] = current.generation + 1
-        updates["updated_at_utc"] = datetime.now(timezone.utc).isoformat()
+        updates["updated_at_utc"] = datetime.now(UTC).isoformat()
 
         candidate = replace(current, **updates)
         try:

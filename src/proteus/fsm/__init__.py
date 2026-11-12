@@ -40,7 +40,7 @@ class TradeLifecycleFSM:
     @staticmethod
     def compute_r_multiple(setup: TradeSetup, mark_price: Decimal) -> Decimal:
         initial_risk = abs(setup.entry_price - setup.stop_loss)
-        if initial_risk <= Decimal("0"):
+        if initial_risk <= Decimal(0):
             return Decimal("0.00")
         if setup.direction == Direction.LONG:
             pnl = mark_price - setup.entry_price

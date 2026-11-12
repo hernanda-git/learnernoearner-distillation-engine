@@ -19,11 +19,11 @@
 
 ## 2. Web Console Tabs & REST API Endpoints
 
-> **POST auth:** every `POST` endpoint requires `X-Proteus-Action: 1`. If `PROTEUS_API_TOKEN` is set, it also requires `X-Proteus-Token: <token>`. The web UI sends the CSRF header automatically; set the environment token on the systemd unit to protect the public origin.
+> **POST auth:** every `POST` endpoint requires `X-Proteus-Action: 1`. When `PROTEUS_API_TOKEN` is set (mandatory in production), it also requires `X-Proteus-Token: <token>`; a missing or wrong token returns `401`. If no token is configured, POSTs are accepted only from a direct loopback client without `X-Forwarded-For` — OpenLiteSpeed always adds that header, so the public origin cannot fall back to loopback. `/health` and cached `/api/v1/dashboard` reads are side-effect free. `refresh=1`, `/scan`, `/self-correct`, and `/evolve` are rate-limited.
 
 ### 2.1 Interactive Console Tabs (`https://engine.warga-digital.com`)
 1. **Tab 1 — Live Shadow Radar & Paper Exchange**: Active Virtual Paper Ledger (`$1,000` base, `$20` risk/trade, max `3` slots), 72h 3-Tier Range Position gauges across all 45 Bitget-listed perpetuals, and Phase 6.1 lead-time log (unmeasured until detections are paired).
-2. **Tab 2 — 91-Setup Candle Backtest & Whipsaw Audit**: Candle-driven comparison of the Distilled FSM (`31.9%` win rate, `0.82` PF, `10.50R` Max DD) vs. Naive Set-and-Forget (`25.3%` win rate, `0.96` PF, `18.62R` Max DD) + 86-signal Bitget 1H candle forensic audit.
+2. **Tab 2 — 91-Setup Candle Backtest & Whipsaw Audit**: Strict-conservative comparison of the Distilled FSM (`30.8%` win rate, `0.76` PF, `10.60R` Max DD, `−10.60R`) vs. Naive Set-and-Forget (`25.3%` win rate, `0.96` PF, `18.62R` Max DD, `−3.03R`) + 86-signal Bitget 1H candle forensic audit + chronological OOS split (`4.8%` recall, 1/21).
 3. **Tab 3 — All 95 Canonical Signals & 48h MFE/MAE**: Searchable/filterable ledger of all 95 signals with 48h real Bitget Max Favorable Excursion ($R$), Max Adverse Excursion ($R$), minutes to $+1.0R$, minutes to SL, and verbatim Telegram text.
 4. **Tab 4 — Behavioral Profile & 47 In-Flight Actions**: Directional SL/R:R quantile baselines, 784-message cognitive taxonomy, and all 47 in-flight management updates (`SL_TO_ENTRY`, `TP1_BOOKED`, `TP_BOOKED`, `CLOSE`).
 5. **Tab 5 — Computer Vision Lab (284 TradingView Charts)**: Pixel-level RGB/HSV summary and 60-chart table showing Light/Dark theme classification, green TP boxes, red SL boxes, blue/purple S/R bands, and visual implied R:R.
@@ -72,14 +72,49 @@ The only new dependency is `websockets>=13,<16`. Bitget limits: 100 connections/
 
 ---
 
+### 2.5 Runtime State Directory & Auth Environment
+
+Production writes must not dirty the git tree. Set these on **both** systemd units:
+
+```ini
+Environment=PROTEUS_STATE_DIR=/home/valarion/proteus-state
+Environment=PROTEUS_API_TOKEN=<48-hex-secret>
+Environment=PROTEUS_SELF_IMPROVE=0
+```
+
+- `PROTEUS_STATE_DIR` relocates `paper_ledger.json`, `paper_closed_trades.jsonl`, `live_shadow_snapshot.json`, `shadow_detections.jsonl`, `shadow_lead_time_log.json`, `self_monitor_state.json`, `self_improvement_journal.json`, and `constitutional_checkpoint.json`. The immutable corpus stays under `benchmarks/corpus/`.
+- `PROTEUS_SELF_IMPROVE=0` freezes the hourly parameter loop until BPS is measured. The evolver itself also refuses updates while BPS is `None`.
+- The UI prompts once for the API token and stores it in `localStorage`; `POST` buttons send `X-Proteus-Token`.
+
+### 2.6 First-Run Migration (from a pre-state-dir deployment)
+
+```bash
+ssh valarion@46.202.155.192 '
+  cd /home/valarion/apps/learnernoearner-distillation-engine
+  stamp=$(date -u +%Y%m%dT%H%M%SZ)
+  mkdir -p /home/valarion/proteus-backups/$stamp
+  cp benchmarks/*.json /home/valarion/proteus-backups/$stamp/ 2>/dev/null || true
+  mkdir -p /home/valarion/proteus-state
+  cp benchmarks/self_improvement_journal.json benchmarks/constitutional_checkpoint.json \
+     benchmarks/self_monitor_state.json /home/valarion/proteus-state/ 2>/dev/null || true
+  cp benchmarks/paper_ledger.json /home/valarion/proteus-backups/$stamp/paper_ledger.pre-fix.json
+  rm -f /home/valarion/proteus-state/paper_ledger.json
+'
+```
+
+The pre-fix ledger is retained as a backup but is **not** carried forward: its FSM state was reset every scan. A fresh $1,000 ledger is created by the daemon.
+
+---
+
 ## 3. CLI & Service Management Commands
 
 ### 3.1 Local / Development CLI Commands
 ```bash
-# 1. Run full 41-test verification suite
+# 1. Run full 50-test verification suite
 python -m pytest -v
 
 # 2. Run complete Phases 1–6 Cognitive Turing & Constitutional Scorecard
+#    Exit code is 1 while BPS is unmeasured.
 python scripts/run_turing_benchmark.py
 
 # 3. Simulate $1,000 paper account across all 91 resolvable historical setups
@@ -90,6 +125,9 @@ python scripts/run_paper_trader.py --mode live-step --refresh-live
 
 # 5. Run Self-Monitoring Watchdog & 4-stage AI-Agent Self-Improver
 python scripts/run_self_improver.py --learning-rate 0.12
+
+# 6. Backfill 1m candles for the newest signals (forward retention only)
+python scripts/fetch_1m_candles.py --latest 10 --out data/1m
 ```
 
 ### 3.2 Production VPS Service Management (`46.202.155.192`)
@@ -97,8 +135,16 @@ python scripts/run_self_improver.py --learning-rate 0.12
 # Check service health and recent daemon ticks
 ssh valarion@46.202.155.192 "systemctl status proteus-web.service proteus-paper-daemon.service --no-pager"
 
-# Pull latest main branch and restart both services
-ssh valarion@46.202.155.192 "cd /home/valarion/apps/learnernoearner-distillation-engine && git fetch origin && git reset --hard origin/main && sudo -n systemctl restart proteus-web.service proteus-paper-daemon.service"
+# Deploy latest main, preserving runtime state (never reset --hard without the backup step)
+ssh valarion@46.202.155.192 '
+  cd /home/valarion/apps/learnernoearner-distillation-engine
+  stamp=$(date -u +%Y%m%dT%H%M%SZ)
+  mkdir -p /home/valarion/proteus-backups/$stamp
+  cp /home/valarion/proteus-state/*.json /home/valarion/proteus-backups/$stamp/ 2>/dev/null || true
+  git fetch origin
+  git reset --hard origin/main
+  sudo -n systemctl restart proteus-web.service proteus-paper-daemon.service
+'
 ```
 
 ---

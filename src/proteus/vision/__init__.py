@@ -6,8 +6,8 @@ evaluates spatial Intersection-over-Union (IoU >= 0.80 acceptance threshold).
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from decimal import Decimal
-from typing import Sequence
 
 from proteus.domain.models import BoundingBox, Candle, RangeGeometry
 

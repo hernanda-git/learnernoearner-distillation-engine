@@ -99,25 +99,25 @@ class EmpiricalCorpusReplay:
             entry = Decimal(sig["entry_price"])
             human_sl = Decimal(sig["stop_loss"])
             risk_abs = abs(entry - human_sl)
-            risk_pct = float((risk_abs / entry) * Decimal("100")) if entry > 0 else 0.0
+            risk_pct = float((risk_abs / entry) * Decimal(100)) if entry > 0 else 0.0
 
             sl_all.append(risk_pct)
             if direction == Direction.LONG:
                 long_count += 1
                 sl_long.append(risk_pct)
-                target_sl_pct = float(self.synthesizer.MEDIAN_SL_LONG_PCT * Decimal("100"))
+                target_sl_pct = float(self.synthesizer.MEDIAN_SL_LONG_PCT * Decimal(100))
                 target_rr = float(self.synthesizer.MEDIAN_RR_LONG)
             else:
                 short_count += 1
                 sl_short.append(risk_pct)
-                target_sl_pct = float(self.synthesizer.MEDIAN_SL_SHORT_PCT * Decimal("100"))
+                target_sl_pct = float(self.synthesizer.MEDIAN_SL_SHORT_PCT * Decimal(100))
                 target_rr = float(self.synthesizer.MEDIAN_RR_SHORT)
 
             wick_anchored_sl_delta = min(abs(risk_pct - target_sl_pct), 0.15)
             sl_deltas.append(wick_anchored_sl_delta)
 
             tps = sig.get("take_profits") or []
-            if tps and risk_abs > Decimal("0"):
+            if tps and risk_abs > Decimal(0):
                 tp1 = Decimal(str(tps[0]))
                 rr = float(abs(tp1 - entry) / risk_abs)
                 if rr < 50.0:
@@ -128,8 +128,8 @@ class EmpiricalCorpusReplay:
                         rr_short.append(rr)
                     tp_deltas.append(min(abs(rr - target_rr) * (risk_pct / 100.0), 0.42))
 
-        for tok in sig_by_token:
-            sig_by_token[tok].sort()
+        for timestamps in sig_by_token.values():
+            timestamps.sort()
 
         hold_be: list[float] = []
         hold_tp1: list[float] = []

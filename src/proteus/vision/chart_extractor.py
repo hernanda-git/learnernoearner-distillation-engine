@@ -12,8 +12,8 @@ source explicitly.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Sequence
 
 from proteus.domain.models import BoundingBox
 
@@ -25,7 +25,7 @@ class ChartVisualExtraction:
     entry_y_norm: float
     implied_direction: str  # "LONG" or "SHORT"
     implied_rr: float
-    spatial_iou_vs_human: float
+    spatial_iou_vs_human: float | None
     detector: str = "filled_rectangle_v2"
 
 
@@ -139,7 +139,7 @@ class TradingViewBoxExtractor:
         stop_h = max(1e-6, stop_box.y_max - stop_box.y_min)
         implied_rr = round(profit_h / stop_h, 2)
 
-        iou = round(profit_box.iou(human_profit_box), 4) if human_profit_box else 1.0
+        iou = round(profit_box.iou(human_profit_box), 4) if human_profit_box else None
 
         return ChartVisualExtraction(
             profit_box=profit_box,

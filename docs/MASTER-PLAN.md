@@ -60,7 +60,7 @@ flowchart TD
     subgraph DECISION [3. Cognitive Action & Abstention Policy]
         COMPASS & GEOM & VISION --> GATE{Abstention Filter P_ABSTAIN}
         GATE -->|P > 0.15| ABSTAIN[ABSTAIN: No Trade / Preserves Capital]
-        GATE -->|P <= 0.15| SYNTH[Setup Synthesizer: 2.6% SL, 4.56R TP]
+        GATE -->|P <= 0.15| SYNTH[Setup Synthesizer: 2.67%/2.17% SL, 4.87/4.46R TP]
     end
 
     subgraph LIFECYCLE [4. In-Flight Management FSM]
@@ -112,10 +112,10 @@ The distilled engine comprises 7 decoupled modules:
 - Enforces the **Abstention Default**: If price is in "no-man's land" between Mid Range and Range High, probability of `ABSTAIN` must exceed $0.85$.
 
 ### Module 6: Parameter Synthesizer & Price Scaler (`proteus.params`)
-- **Stop Loss**: Structural anchor matching empirical data (Median = $2.60\% \pm 1.1\%$).
+- **Stop Loss**: Structural anchor matching empirical data (Long median $2.67\%$, Short median $2.17\%$).
   $$\text{SL}_{\text{Long}} = \text{SwingLow}_{\text{15m}} - (P_{\text{entry}} \times 0.0015)$$
-- **Take Profit**: Planned median target of $4.56R$:
-  $$\text{TP} = P_{\text{entry}} + (4.56 \times |P_{\text{entry}} - \text{SL}|)$$
+- **Take Profit**: Directional median target (Long $4.87R$, Short $4.46R$):
+  $$\text{TP}_{\text{Long}} = P_{\text{entry}} + (4.87 \times |P_{\text{entry}} - \text{SL}|)$$
 - **Dynamic Price Scaler**: Automatic power-of-10 normalization for meme tokens (`1000PEPE`, `PUMP`).
 
 ### Module 7: In-Flight Management FSM (`proteus.fsm`)
@@ -206,7 +206,7 @@ Before initializing any code execution for Project Proteus:
 
 ## 6. Implementation & Verification Status (Phases 1–6 Implemented, Unvalidated)
 
-All six phases are implemented. The evidence layer is **unvalidated**: BPS is `None`, vision has no human labels, and lead time has no paired detections. The test suite is **41/41 passing**.
+All six phases are implemented. The evidence layer is **unvalidated**: BPS is `None`, the chronological OOS split recalls only 1/21 positives, vision has no human labels, and lead time has no paired detections. The test suite is **50/50 passing** and `ruff` is clean.
 
 > The retired `PF 10.08` / `$2,938.51` figures came from keyword→fixed-R and SHA-256 outcome mappings. See `docs/AUDIT-2026-11-10.md` for the independent re-simulation.
 
@@ -215,6 +215,6 @@ All six phases are implemented. The evidence layer is **unvalidated**: BPS is `N
 | **Phase 1: Lakehouse & Negative Space** | `src/proteus/market/lakehouse.py` | **IMPLEMENTED** | `5,091` aligned 9-D feature vectors (`91` usable signals + `5,000` negative-space bars); `4` signals unresolved; `86` real Bitget 1H `[T₀−72h, T₀+48h]` candle audits |
 | **Phase 2: Geometry & Vision Lab** | `src/proteus/geometry/` & `vision/` | **IMPLEMENTED / UNVALIDATED** | 72h 3-tier range engine + filled-rectangle box extractor across **284 screenshots**; legacy annotations have no human labels, so IoU is unmeasured |
 | **Phase 3: Policy & Lifecycle FSM** | `src/proteus/policy/bayesian.py` & `fsm/` | **IMPLEMENTED** | Leak-free 5,091-bar Gaussian Naive Bayes (`98.56%` abstention / `4.4%` recall) + FSM (`+1.0R` BE / `50%` at `+1.5R`) |
-| **Phase 4: Turing Harness & Backtest** | `src/proteus/replay/` & `backtest/` | **IMPLEMENTED / UNVALIDATED** | BPS `None` (unmeasured components); candle-driven 91-setup backtest: Naive `−3.03R / PF 0.96 / DD 18.62R` vs FSM `−7.76R / PF 0.82 / DD 10.50R` |
+| **Phase 4: Turing Harness & Backtest** | `src/proteus/replay/` & `backtest/` | **IMPLEMENTED / UNVALIDATED** | BPS `None` (unmeasured components); chronological OOS recall `4.8%` (1/21); strict-conservative 91-setup backtest: Naive `−3.03R / PF 0.96 / DD 18.62R` vs FSM `−10.60R / PF 0.76 / DD 10.60R`; touch-fill sensitivity `−19.33R / PF 0.50` with 27/91 unfilled |
 | **Phase 5: Forward Shadow Mode** | `src/proteus/shadow/` & `paper/` | **IMPLEMENTED** | Live systemd daemon + stateful `VirtualPaperExchange` with Bitget Maker (`2 bps`) / Taker (`6 bps`) fees & 3-slot eviction; lead time unmeasured until detections are logged |
 | **Phase 6: Self-Monitor, AI Evolver & Web UI** | `src/proteus/constitution/`, `monitor/`, `evolver/`, `web/` | **IMPLEMENTED** | 6-probe `SelfMonitoringWatchdog` (`LatchHealer`), 4-stage `AgenticSelfImprover` (`FAJ1` SHA-256 hash-chain journal; updates rejected while BPS is unmeasured), and 7-tab console |

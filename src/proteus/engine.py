@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import os
+from collections.abc import Mapping, Sequence
 from decimal import Decimal
-from typing import Mapping, Optional, Sequence
 
 from proteus.compass import MacroCompassGate
 from proteus.constitution import ConstitutionalIdentityGuard, ConstitutionalParameters
@@ -80,7 +80,7 @@ class ProteusDistillationEngine:
         eth_daily_candles: Sequence[Candle] | None = None,
         live_reference_price: Decimal | None = None,
         visual_saliency_iou: float = 0.88,
-    ) -> tuple[MacroRegime, PolicyDecision, Optional[TradeSetup]]:
+    ) -> tuple[MacroRegime, PolicyDecision, TradeSetup | None]:
         """Run the full 7-module cognitive evaluation for a candidate bar."""
         if not recent_15m_candles:
             raise ValueError("recent_15m_candles must not be empty")

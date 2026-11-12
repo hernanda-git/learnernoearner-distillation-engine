@@ -23,7 +23,7 @@ SRC_DIR = REPO_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from proteus.engine import ProteusDistillationEngine  # noqa: E402
+from proteus.engine import ProteusDistillationEngine
 
 
 def compute_sha256(path: Path) -> str:
@@ -56,7 +56,7 @@ def extract_sqlite_readonly(db_path: Path, output_dir: Path) -> dict[str, Any]:
         ]
         for table in tables:
             out_file = output_dir / f"{table}.jsonl"
-            rows = cursor.execute(f"SELECT * FROM {table}").fetchall()  # noqa: S608
+            rows = cursor.execute(f"SELECT * FROM {table}").fetchall()
             with out_file.open("w", encoding="utf-8") as handle:
                 for row in rows:
                     handle.write(json.dumps(dict(row), sort_keys=True) + "\n")

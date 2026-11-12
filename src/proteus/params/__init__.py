@@ -1,14 +1,15 @@
 """Module 6: Order Parameter Synthesizer & Price Scaler (`proteus.params`).
 
-Synthesizes structural Stop-Loss (median 2.60%, 1 tick outside invalidation wick),
-single structural Take-Profit (median 4.56R), and power-of-10 meme price scaling.
+Synthesizes structural Stop-Loss (anchor: 2.67% Long / 2.17% Short, 1 tick outside
+invalidation wick), a single structural Take-Profit (anchor: 4.87R Long / 4.46R
+Short), and power-of-10 meme price scaling.
 Enforces Architecture Invariant 1 (0.50% <= SL distance <= 5.00%).
 """
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from decimal import Decimal
-from typing import Sequence
 
 from proteus.domain.models import (
     Action,
@@ -25,10 +26,8 @@ from proteus.market import normalize_base_symbol
 class OrderParameterSynthesizer:
     """Synthesizes execution parameters adhering to empirical risk geometry."""
 
-    MEDIAN_SL_PCT: Decimal = Decimal("0.0260")
     MEDIAN_SL_LONG_PCT: Decimal = Decimal("0.0267")
     MEDIAN_SL_SHORT_PCT: Decimal = Decimal("0.0217")
-    MEDIAN_TARGET_RR: Decimal = Decimal("4.56")
     MEDIAN_RR_LONG: Decimal = Decimal("4.87")
     MEDIAN_RR_SHORT: Decimal = Decimal("4.46")
     TICK_BUFFER_PCT: Decimal = Decimal("0.0015")
@@ -44,7 +43,7 @@ class OrderParameterSynthesizer:
 
         Returns (aligned_price, scale_exponent_base10).
         """
-        if live_reference_price is None or live_reference_price <= Decimal("0") or quoted_price <= Decimal("0"):
+        if live_reference_price is None or live_reference_price <= Decimal(0) or quoted_price <= Decimal(0):
             return quoted_price, 1
 
         best_price = quoted_price
@@ -90,15 +89,16 @@ class OrderParameterSynthesizer:
             candidate_sl = swing_low - (entry_price * self.TICK_BUFFER_PCT)
             raw_risk_pct = (entry_price - candidate_sl) / entry_price
             if raw_risk_pct < self.MIN_SL_PCT or raw_risk_pct > self.MAX_SL_PCT:
-                # Clamp to empirical median 2.60% when local wick violates Invariant 1
-                risk_pct = max(self.MIN_SL_PCT, min(self.MAX_SL_PCT, self.MEDIAN_SL_PCT))
-                stop_loss = entry_price * (Decimal("1") - risk_pct)
+                # Clamp to the long-side constitutional anchor when the local wick
+                # violates Invariant 1.
+                risk_pct = max(self.MIN_SL_PCT, min(self.MAX_SL_PCT, self.MEDIAN_SL_LONG_PCT))
+                stop_loss = entry_price * (Decimal(1) - risk_pct)
             else:
                 risk_pct = raw_risk_pct
                 stop_loss = candidate_sl
 
             risk_abs = entry_price - stop_loss
-            take_profit = entry_price + (self.MEDIAN_TARGET_RR * risk_abs)
+            take_profit = entry_price + (self.MEDIAN_RR_LONG * risk_abs)
             limit_low = (
                 (entry_price - risk_abs * Decimal("0.25")).quantize(Decimal("0.00000001"))
                 if decision.order_mode == OrderMode.LIMIT
@@ -112,14 +112,14 @@ class OrderParameterSynthesizer:
             candidate_sl = swing_high + (entry_price * self.TICK_BUFFER_PCT)
             raw_risk_pct = (candidate_sl - entry_price) / entry_price
             if raw_risk_pct < self.MIN_SL_PCT or raw_risk_pct > self.MAX_SL_PCT:
-                risk_pct = max(self.MIN_SL_PCT, min(self.MAX_SL_PCT, self.MEDIAN_SL_PCT))
-                stop_loss = entry_price * (Decimal("1") + risk_pct)
+                risk_pct = max(self.MIN_SL_PCT, min(self.MAX_SL_PCT, self.MEDIAN_SL_SHORT_PCT))
+                stop_loss = entry_price * (Decimal(1) + risk_pct)
             else:
                 risk_pct = raw_risk_pct
                 stop_loss = candidate_sl
 
             risk_abs = stop_loss - entry_price
-            take_profit = entry_price - (self.MEDIAN_TARGET_RR * risk_abs)
+            take_profit = entry_price - (self.MEDIAN_RR_SHORT * risk_abs)
             limit_low = entry_price if decision.order_mode == OrderMode.LIMIT else None
             limit_high = (
                 (entry_price + risk_abs * Decimal("0.25")).quantize(Decimal("0.00000001"))
@@ -130,7 +130,7 @@ class OrderParameterSynthesizer:
         planned_rr = (abs(take_profit - entry_price) / abs(entry_price - stop_loss)).quantize(
             Decimal("0.01")
         )
-        risk_pct_display = (risk_pct * Decimal("100")).quantize(Decimal("0.01"))
+        risk_pct_display = (risk_pct * Decimal(100)).quantize(Decimal("0.01"))
 
         return TradeSetup(
             symbol=base,

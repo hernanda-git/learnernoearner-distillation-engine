@@ -103,7 +103,7 @@ class ThesisMemoryTracker:
                 True,
                 0.10,
                 f"Secondary lower-demand re-entry triggered at {target} "
-                f"(attempt {mem.attempts_used + 1}/{mem.max_attempts} after {mem.stopped_out_entry} stop-out).",
+                + f"(attempt {mem.attempts_used + 1}/{mem.max_attempts} after {mem.stopped_out_entry} stop-out).",
             )
 
         return False, 0.0, f"Waiting for lower demand level {target} (current dist {dist_pct*100:.2f}%)."

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import dataclasses
 import json
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -19,26 +19,31 @@ from proteus.geometry.fractal import FractalHorizontalStructureEngine
 from proteus.market.lakehouse import NegativeSpaceDatasetBuilder
 from proteus.monitor import SelfMonitoringWatchdog
 from proteus.paper import VirtualPaperExchange
-from proteus.policy.bayesian import BayesianCognitivePolicy
+from proteus.paths import state_path
+from proteus.policy.bayesian import BayesianCognitivePolicy, evaluate_time_split
 from proteus.replay import EmpiricalCorpusReplay
 from proteus.shadow.lead_time import ShadowLeadTimeComparator
 from proteus.vision.chart_extractor import VisionCorpusAnalyzer
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-BENCH_DIR = REPO_ROOT / "benchmarks"
-CORPUS_DIR = BENCH_DIR / "corpus"
+CORPUS_DIR = REPO_ROOT / "benchmarks" / "corpus"
 
 
-def build_dashboard_payload() -> dict[str, Any]:
-    """Assemble the complete, high-density telemetry payload for the Web UI."""
+def build_dashboard_payload(*, persist: bool = True) -> dict[str, Any]:
+    """Assemble the complete, high-density telemetry payload for the Web UI.
+
+    ``persist=False`` makes every GET path side-effect free: the watchdog is
+    evaluated without saving its latch state, the self-improver never bootstraps,
+    and the lead-time comparator only reads.
+    """
     pure_codebase, scanned_files = ConstitutionalIdentityGuard.verify_codebase_purity()
     corrector = BoundedSelfCorrector()
-    active_const = corrector.load_active_parameters()
+    active_const = corrector.load_active_parameters(seed=persist)
 
-    mon_snapshot = SelfMonitoringWatchdog().evaluate_and_heal()
+    mon_snapshot = SelfMonitoringWatchdog().evaluate_and_heal(persist=persist)
     improver = AgenticSelfImprover()
     journal_rows = improver.load_journal()
-    if not journal_rows:
+    if not journal_rows and persist:
         improver.run_improvement_cycle(trigger_source="initial_bootstrap")
         journal_rows = improver.load_journal()
     chain_valid, chain_len = improver.verify_journal_hash_chain()
@@ -47,19 +52,20 @@ def build_dashboard_payload() -> dict[str, Any]:
     fractal_blind = FractalHorizontalStructureEngine().evaluate_real_corpus_blind_recall()
     dataset = NegativeSpaceDatasetBuilder().build_dataset(negative_count=5000)
     bayes_metrics = BayesianCognitivePolicy().fit(dataset).evaluate_dataset(dataset)
+    oos_metrics = evaluate_time_split(dataset)
     backtest_report = LifecycleBacktestSimulator().run_comparative_backtest()
     vision_summary = VisionCorpusAnalyzer.summarize_corpus()
-    lead_time = ShadowLeadTimeComparator().evaluate_shadow_lead_time()
+    lead_time = ShadowLeadTimeComparator().evaluate_shadow_lead_time(persist=persist)
 
     exchange = VirtualPaperExchange()
     hist_paper = exchange.run_historical_paper_simulation()
 
-    snap_path = BENCH_DIR / "live_shadow_snapshot.json"
+    snap_path = state_path("live_shadow_snapshot.json", seed=False)
     live_shadow: dict[str, Any] = (
         json.loads(snap_path.read_text(encoding="utf-8")) if snap_path.exists() else {}
     )
 
-    ledger_path = BENCH_DIR / "paper_ledger.json"
+    ledger_path = state_path("paper_ledger.json", seed=False)
     paper_ledger: dict[str, Any] = (
         json.loads(ledger_path.read_text(encoding="utf-8")) if ledger_path.exists() else {}
     )
@@ -121,7 +127,7 @@ def build_dashboard_payload() -> dict[str, Any]:
     ]
 
     return {
-        "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+        "generated_at_utc": datetime.now(UTC).isoformat(),
         "self_monitor": mon_snapshot.to_dict(),
         "self_improver": {
             "hash_chain_valid": chain_valid,
@@ -138,6 +144,9 @@ def build_dashboard_payload() -> dict[str, Any]:
         "turing_replay": dataclasses.asdict(replay_report),
         "fractal_blind_recall": fractal_blind.to_dict(),
         "bayesian_5097": dataclasses.asdict(bayes_metrics),
+        "bayesian_oos_time_split": (
+            dataclasses.asdict(oos_metrics) if oos_metrics is not None else None
+        ),
         "comparative_backtest": dataclasses.asdict(backtest_report),
         "historical_paper_sim": hist_paper,
         "live_shadow": live_shadow,

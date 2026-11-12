@@ -6,7 +6,6 @@ from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
 from enum import Enum
-from typing import Optional
 
 
 class Direction(str, Enum):
@@ -59,7 +58,7 @@ class Candle:
     high: Decimal
     low: Decimal
     close: Decimal
-    volume: Decimal = Decimal("0")
+    volume: Decimal = Decimal(0)
 
     @property
     def is_bullish(self) -> bool:
@@ -68,16 +67,16 @@ class Candle:
     @property
     def lower_wick_ratio(self) -> Decimal:
         total_range = self.high - self.low
-        if total_range <= Decimal("0"):
-            return Decimal("0")
+        if total_range <= Decimal(0):
+            return Decimal(0)
         body_low = min(self.open, self.close)
         return (body_low - self.low) / total_range
 
     @property
     def upper_wick_ratio(self) -> Decimal:
         total_range = self.high - self.low
-        if total_range <= Decimal("0"):
-            return Decimal("0")
+        if total_range <= Decimal(0):
+            return Decimal(0)
         body_high = max(self.open, self.close)
         return (self.high - body_high) / total_range
 
@@ -131,11 +130,11 @@ class BoundingBox:
 @dataclass(frozen=True)
 class PolicyDecision:
     action: Action
-    direction: Optional[Direction]
+    direction: Direction | None
     confidence: float
     abstain_prob: float
     archetype: SetupArchetype
-    order_mode: Optional[OrderMode]
+    order_mode: OrderMode | None
     rationale: str
 
 
@@ -151,8 +150,8 @@ class TradeSetup:
     risk_pct: Decimal
     confidence: float
     archetype: SetupArchetype
-    limit_band_low: Optional[Decimal] = None
-    limit_band_high: Optional[Decimal] = None
+    limit_band_low: Decimal | None = None
+    limit_band_high: Decimal | None = None
     scale_factor: int = 1
 
 

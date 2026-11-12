@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import signal
 import sys
 import time
@@ -21,17 +22,18 @@ SRC_DIR = REPO_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from proteus.evolver import AgenticSelfImprover  # noqa: E402
-from proteus.market.bitget_ws import BitgetCandleStream  # noqa: E402
-from proteus.monitor import SelfMonitoringWatchdog  # noqa: E402
-from proteus.paper import VirtualPaperExchange  # noqa: E402
-from proteus.shadow import AssetShadowState, ForwardShadowScanner, LiveShadowSnapshot  # noqa: E402
+from proteus.evolver import AgenticSelfImprover
+from proteus.market.bitget_ws import BitgetCandleStream
+from proteus.monitor import SelfMonitoringWatchdog
+from proteus.paper import VirtualPaperExchange
+from proteus.paths import state_path
+from proteus.shadow import AssetShadowState, ForwardShadowScanner, LiveShadowSnapshot
 
 
 def _load_or_scan_snapshot(
     refresh_live: bool, scanner: ForwardShadowScanner | None = None
 ) -> LiveShadowSnapshot:
-    snapshot_path = REPO_ROOT / "benchmarks" / "live_shadow_snapshot.json"
+    snapshot_path = state_path("live_shadow_snapshot.json", seed=False)
     if not refresh_live and snapshot_path.exists():
         raw = json.loads(snapshot_path.read_text(encoding="utf-8"))
         states = [AssetShadowState(**s) for s in raw["states"]]
@@ -159,7 +161,10 @@ def main(argv: list[str] | None = None) -> int:
             snapshot = _load_or_scan_snapshot(refresh_live=True, scanner=scanner)
             ledger = exchange.process_shadow_snapshot(snapshot)
             mon = watchdog.evaluate_and_heal()
-            if time.monotonic() - last_improve >= 3600.0:
+            if (
+                os.getenv("PROTEUS_SELF_IMPROVE", "1") == "1"
+                and time.monotonic() - last_improve >= 3600.0
+            ):
                 improver.run_improvement_cycle(trigger_source="daemon_hourly_auto_evolve")
                 last_improve = time.monotonic()
             print(

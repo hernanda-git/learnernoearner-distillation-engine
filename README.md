@@ -18,7 +18,7 @@ Unlike reactive copy-trading (which suffers $6\text{–}28\text{s}$ human screen
    - Structural retests emit **`LIMIT`** orders (`2.0 bps` Maker fee); liquidity sweep reclaims emit **`MARKET`** orders (`6.0 bps` Taker fee).
 4. **The 2-Hour Coupled Impulse FSM (`proteus.fsm`)**:
    - Real Bitget 1H candle forensics (`86` resolved setups) proved that while **54.7% ($47/86$)** reach $+1.0R$ before SL, **61.7% ($29/47$) of those $+1.0R$ winners reverse to the original SL within 48 hours**.
-   - In a conservative 1H re-simulation (`docs/AUDIT-2026-11-10.md`), migrating `SL → Entry` at **$+1.0R$** and booking $50\%$ at **`TP1`** reduces max drawdown from **18.62R to 10.50R** but does **not** turn a profit (`PF 0.82` vs `0.96`). The earlier `PF 10.08` / `$2,938.51` figures were produced by keyword→fixed-R and SHA-256 outcome mappings; they are retired.
+   - In a strict conservative 1H re-simulation (`docs/AUDIT-2026-11-10.md`), migrating `SL → Entry` at **$+1.0R$** and booking $50\%$ at **`TP1`** reduces max drawdown from **18.62R to 10.60R** but does **not** turn a profit (`PF 0.76` vs `0.96`; total **−10.60R** vs **−3.03R**). The earlier `PF 10.08` / `$2,938.51` figures were produced by keyword→fixed-R and SHA-256 outcome mappings; they are retired.
 
 ---
 
@@ -29,24 +29,28 @@ Unlike reactive copy-trading (which suffers $6\text{–}28\text{s}$ human screen
 - **[System Architecture & Module Contracts](ARCHITECTURE.md)**: End-to-end 12-subpackage topology, domain dataclasses, and hard invariant guarantees.
 - **[Empirical Behavioral & Forensic Analysis](docs/BEHAVIORAL-ANALYSIS.md)**: Complete quantitative & qualitative profile across 784 Telegram messages, 95 canonical setups, 47 management actions, 86 Bitget 1H candle trajectories, and 284 TradingView chart screenshots.
 - **[Engineering Master Plan (Phases 1–6 Implemented, Unvalidated)](docs/MASTER-PLAN.md)**: Implemented architecture, the unmeasured Behavioral Parity Scorecard, and Phase 7 Canary Graduation criteria.
-- **[Operations & Deployment Runbook](docs/OPERATIONS-RUNBOOK.md)**: Production runbook for `https://engine.warga-digital.com`, `systemd` services, OpenLiteSpeed + Cloudflare routing, REST API endpoints, CLI modes, and Operator Action Gates.
+- **[Operations & Deployment Runbook](docs/OPERATIONS-RUNBOOK.md)**: Production runbook for `https://engine.warga-digital.com`, `systemd` services, OpenLiteSpeed + Cloudflare routing, auth/state environment, REST API endpoints, CLI modes, and Operator Action Gates.
+- **[Data Collection Runbook](docs/DATA-COLLECTION.md)**: 1m candle backfill (and Bitget retention limit), chart labelling, paired detection timestamps, funding/OI/order-flow, and pre-tuning gates.
 
 ---
 
-## 📊 Empirical Status (2026-11-10)
+## 📊 Empirical Status (2026-11-12)
 
 > **Validation status: UNVALIDATED.** BPS is `None` while independent direction, vision, and lead-time labels are missing. The numbers below are what the corpus actually supports.
 
 | Dimension | Scope | Current result | Status |
 | :--- | :--- | ---: | :--- |
 | **Behavioral Parity Score ($BPS$)** | 784 msgs · 95 setups · 47 updates | **Unmeasured** | `directional`, `spatial`, `abstain`, `timing` missing |
-| **Leak-free Bayesian Policy** | 5,000 negatives + 91 signals | **98.56% abstain / 4.4% recall** | No longer tautological |
-| **Candle-Driven Backtest** | 91 resolvable setups · 1H · conservative · net fees | **Naive −3.03R / PF 0.96 / DD 18.62R** vs **FSM −7.76R / PF 0.82 / DD 10.50R** | FSM cuts DD, not profitable |
-| **Shadow Lead-Time Parity ($\Delta t$)** | 0 paired detections | **Unmeasured** | Needs logged scan timestamps |
-| **284-Chart Vision Pass** | 216 Light (76.1%) · 68 Dark (23.9%) | **238 legacy detector boxes** | No human labels; IoU unmeasured |
-| **$1,000 Paper Sim (Net of Fees)** | `$20/1R` risk · 91 setups | **$844.80 (−15.52%)** vs naive **$939.40** | Honest baseline |
+| **Leak-free Bayesian Policy** | 5,000 negatives + 91 signals | **98.56% abstain / 4.4% recall (in-sample)** | Not validated |
+| **Chronological OOS Split** | 80/20 by timestamp (cutoff `2026-10-25`) | **97.4% abstain / 4.8% recall (1/21) / 26 false entries** | Fails; see benchmark `phase1_and_3_oos_time_split` |
+| **Candle-Driven Backtest** | 91 resolvable setups · 1H · strict conservative · net fees | **Naive −3.03R / PF 0.96 / DD 18.62R** vs **FSM −10.60R / PF 0.76 / DD 10.60R** | FSM cuts DD, not profitable |
+| **Touch-Fill Sensitivity** | 91 setups · LIMIT fill only if the first bar trades through entry | **27 unfilled / 64 traded; FSM −19.33R / PF 0.50** | Fill assumption dominates |
+| **Shadow Lead-Time Parity ($\Delta t$)** | 0 paired detections | **Unmeasured** | Detection log now written; pairs accumulate forward |
+| **284-Chart Vision Pass** | 216 Light (76.1%) · 68 Dark (23.9%) | **238 legacy detector boxes** | No human labels; IoU `None` |
+| **$1,000 Paper Sim (Net of Fees)** | `$20/1R` risk · 91 setups | **$788.00 (−21.20%)** vs naive **$939.40** | Honest baseline |
 | **Constitutional Codebase Purity** | All `src/proteus/` Python modules | **31/31 files pure** | Zero retail oscillators |
-| **Automated Test Suite (`pytest`)** | Invariant, CV, replay, rate-limit, stream, regression | **41/41 passed** | `100% pass` |
+| **Automated Test Suite (`pytest`)** | Invariant, CV, replay, rate-limit, stream, auth, state, OOS | **50/50 passed** | `100% pass` |
+| **Lint (`ruff`)** | `src/`, `scripts/`, `tests/` | **0 violations** | Clean |
 
 ---
 

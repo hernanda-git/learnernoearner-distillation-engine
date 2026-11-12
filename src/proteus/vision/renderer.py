@@ -7,8 +7,8 @@ enabling `TradingViewBoxExtractor` to verify visual spatial IoU on live market b
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from decimal import Decimal
-from typing import Sequence
 
 from proteus.domain.models import BoundingBox, Candle, Direction, RangeGeometry
 from proteus.vision.chart_extractor import ChartVisualExtraction, TradingViewBoxExtractor
@@ -65,7 +65,7 @@ class SyntheticTradingViewRenderer:
         def _price_to_row(p: float) -> int:
             norm_y = (p - p_min) / span
             clamped = max(0.0, min(1.0, norm_y))
-            return int(round((1.0 - clamped) * (self.height - 1)))
+            return round((1.0 - clamped) * (self.height - 1))
 
         def _price_to_norm_y(p: float) -> float:
             return round(max(0.0, min(1.0, (p - p_min) / span)), 4)

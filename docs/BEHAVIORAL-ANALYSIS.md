@@ -19,7 +19,7 @@ The trader is an **asymmetric, range-based swing/momentum trader** operating on 
 │ Primary Tradable Assets       │ WLD, PUMP, ENA, ZEC, PENGU, INJ, MAGIC, NEAR    │
 │ Macro Anchor Assets (No Trade)│ BTC, ETH (Used purely as market regime compass) │
 │ Median Stop-Loss Distance     │ 2.61% (Mean: 2.68%, Range: 0.13% - 7.21%)       │
-│ Planned Risk-to-Reward (R:R)  │ Median: 4.56R (Mean: 4.72R)                     │
+│ Planned Risk-to-Reward (R:R)  │ Median: 4.87R (Mean: 4.72R)                     │
 │ Target Distribution           │ 92.8% of signals have exactly 1 target level    │
 │ Primary Trading Windows (UTC) │ 07:00–09:00 (London) & 13:00–17:00 (NY)         │
 │ Sleep / Inactive Window (UTC) │ 21:00–04:00 (Regularly derisks before sleeping) │
@@ -66,7 +66,7 @@ Querying token frequencies across all 95 signals:
 
 ### 2.3 Stop-Loss Geometry & Risk Architecture
 Analyzing $|P_{\text{entry}} - P_{\text{stop}}| / P_{\text{entry}}$ across all signals:
-- **Median SL Distance**: **$2.60\%$**
+- **Median SL Distance**: **$2.61\%$**
 - **Average SL Distance**: **$2.67\%$**
 - **Standard Deviation**: $\pm 1.18\%$
 - **Minimum SL Distance**: $0.13\%$
@@ -87,7 +87,7 @@ Analyzing target distribution and planned R:R:
   - 2 Targets: 4 signals (4.1%)
   - No explicit Target (Market Scalp): 3 signals (3.1%)
 - **Planned Risk-to-Reward Ratio**:
-  - **Median Planned R:R**: **$4.56R$**
+  - **Median Planned R:R**: **$4.87R$**
   - **Average Planned R:R**: **$4.72R$**
 
 **Behavioral Insight**:  
@@ -212,7 +212,7 @@ If a stop loss is hit due to a momentary wick sweep, but the higher-timeframe st
 ### 6.3 Real Bitget 1H Candle Whipsaw & Survivorship Silence Audit ($N = 86\text{ Resolved Setups}$)
 Auditing `[T₀ − 72h, T₀ + 48h]` Bitget 1H candles (`benchmarks/corpus/signal_candle_trajectories.json`) against Telegram follow-ups proved:
 1. **54.7% ($47 / 86$)** of setups expand to $+1.0R$ in profit before touching initial Stop-Loss.
-2. **61.7% ($29 / 47$)** of those $+1.0R$ winners (**33.7% of all trades**) subsequently reverse and breach the original Stop-Loss within 48 hours. The FSM hypothesis is **not yet validated**: a conservative 1H re-simulation with fees reduces Max Drawdown from **18.62R to 10.50R**, but the strategy remains unprofitable (`PF 0.82` vs naive `0.96`). The previous `15.14R → 2.00R` and `PF 2.48 → 10.08` figures came from keyword→fixed-R and SHA-256 mappings and are retired.
+2. **61.7% ($29 / 47$)** of those $+1.0R$ winners (**33.7% of all trades**) subsequently reverse and breach the original Stop-Loss within 48 hours. The FSM hypothesis is **not yet validated**: a strict-conservative 1H re-simulation with fees reduces Max Drawdown from **18.62R to 10.60R**, but the strategy remains unprofitable (`PF 0.76` vs naive `0.96`; total `−10.60R` vs `−3.03R`). The previous `15.14R → 2.00R` and `PF 2.48 → 10.08` figures came from keyword→fixed-R and SHA-256 mappings and are retired.
 3. **Survivorship Silence Bias**: **53.8%** of setups that received zero follow-up mention in Telegram had actually hit their initial $-1.0R$ stop-loss first on the exchange chart.
 
 ### 6.4 284-Screenshot Computer Vision Profile (`benchmarks/corpus/vision_annotations.json`)

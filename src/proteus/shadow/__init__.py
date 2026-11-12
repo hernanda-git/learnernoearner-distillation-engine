@@ -7,15 +7,17 @@ every asset through the 7-module Project Proteus pipeline in real time.
 
 from __future__ import annotations
 
+import json
 import os
+from collections.abc import Sequence
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
-from typing import Sequence
+from datetime import UTC, datetime
 
 from proteus.engine import ProteusDistillationEngine
 from proteus.market import TRADABLE_UNIVERSE
 from proteus.market.bitget import BitgetPublicMarketClient
 from proteus.market.bitget_ws import BitgetCandleStream
+from proteus.paths import state_path
 
 
 @dataclass(frozen=True)
@@ -104,6 +106,27 @@ class ForwardShadowScanner:
             fetched.update(self.client.fetch_candles_batch(missing))
         return fetched
 
+    @staticmethod
+    def _append_detection(
+        symbol: str,
+        detected_at_utc: str,
+        decision: object,
+        setup: object,
+    ) -> None:
+        path = state_path("shadow_detections.jsonl")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        row = {
+            "symbol": symbol,
+            "detected_at_utc": detected_at_utc,
+            "action": decision.action.value,
+            "entry_price": str(setup.entry_price),
+            "stop_loss": str(setup.stop_loss),
+            "take_profit": str(setup.take_profit),
+            "confidence": decision.confidence,
+        }
+        with path.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(row) + "\n")
+
     def scan_live_universe(
         self,
         symbols: Sequence[str] | None = None,
@@ -144,6 +167,15 @@ class ForwardShadowScanner:
                 abstentions += 1
             else:
                 active_entries += 1
+                if setup is not None:
+                    self._append_detection(
+                        sym,
+                        exec_candle.timestamp_utc.isoformat()
+                        if hasattr(exec_candle.timestamp_utc, "isoformat")
+                        else str(exec_candle.timestamp_utc),
+                        decision,
+                        setup,
+                    )
 
             states.append(
                 AssetShadowState(
@@ -169,7 +201,7 @@ class ForwardShadowScanner:
             )
 
         return LiveShadowSnapshot(
-            scanned_at_utc=datetime.now(timezone.utc).isoformat(),
+            scanned_at_utc=datetime.now(UTC).isoformat(),
             btc_1d_close=btc_close,
             eth_1d_close=eth_close,
             macro_regime=regime.value,

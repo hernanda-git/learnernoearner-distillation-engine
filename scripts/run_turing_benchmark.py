@@ -13,14 +13,14 @@ SRC_DIR = REPO_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
-from proteus.backtest import LifecycleBacktestSimulator  # noqa: E402
-from proteus.constitution import BoundedSelfCorrector, ConstitutionalIdentityGuard  # noqa: E402
-from proteus.market.lakehouse import NegativeSpaceDatasetBuilder  # noqa: E402
-from proteus.paper import VirtualPaperExchange  # noqa: E402
-from proteus.policy.bayesian import BayesianCognitivePolicy  # noqa: E402
-from proteus.replay import EmpiricalCorpusReplay  # noqa: E402
-from proteus.shadow.lead_time import ShadowLeadTimeComparator  # noqa: E402
-from proteus.vision.chart_extractor import VisionCorpusAnalyzer  # noqa: E402
+from proteus.backtest import LifecycleBacktestSimulator
+from proteus.constitution import BoundedSelfCorrector, ConstitutionalIdentityGuard
+from proteus.market.lakehouse import NegativeSpaceDatasetBuilder
+from proteus.paper import VirtualPaperExchange
+from proteus.policy.bayesian import BayesianCognitivePolicy, evaluate_time_split
+from proteus.replay import EmpiricalCorpusReplay
+from proteus.shadow.lead_time import ShadowLeadTimeComparator
+from proteus.vision.chart_extractor import VisionCorpusAnalyzer
 
 
 def main() -> int:
@@ -29,9 +29,10 @@ def main() -> int:
     replay_report = EmpiricalCorpusReplay().run()
     dataset = NegativeSpaceDatasetBuilder().build_dataset(negative_count=5000)
     bayesian_metrics = BayesianCognitivePolicy().fit(dataset).evaluate_dataset(dataset)
+    oos_metrics = evaluate_time_split(dataset)
     backtest_report = LifecycleBacktestSimulator().run_comparative_backtest()
     vision_summary = VisionCorpusAnalyzer.summarize_corpus()
-    lead_time_summary = ShadowLeadTimeComparator().evaluate_shadow_lead_time()
+    lead_time_summary = ShadowLeadTimeComparator().evaluate_shadow_lead_time(persist=False)
     paper_sim = VirtualPaperExchange().run_historical_paper_simulation()
 
     summary = {
@@ -44,6 +45,9 @@ def main() -> int:
             "active_parameters": active_constitution.to_dict(),
         },
         "phase1_and_3_bayesian_policy_5091_bars": dataclasses.asdict(bayesian_metrics),
+        "phase1_and_3_oos_time_split": (
+            dataclasses.asdict(oos_metrics) if oos_metrics is not None else None
+        ),
         "phase2_vision_corpus_284_charts": dataclasses.asdict(vision_summary),
         "phase4_corpus_replay_turing_scorecard": dataclasses.asdict(replay_report),
         "phase4_candle_backtest_91_setups": dataclasses.asdict(backtest_report),
@@ -56,7 +60,7 @@ def main() -> int:
         "phase6_fee_adjusted_paper_simulation": paper_sim,
     }
     print(json.dumps(summary, indent=2))
-    return 0 if pure_codebase else 1
+    return 0 if (pure_codebase and replay_report.parity_metrics.passed) else 1
 
 
 if __name__ == "__main__":

@@ -12,6 +12,7 @@ Includes Phase 6 Extensions:
 from __future__ import annotations
 
 import json
+import os
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from decimal import Decimal
@@ -26,6 +27,7 @@ from proteus.domain.models import (
     TradeState,
 )
 from proteus.fsm import TradeLifecycleFSM
+from proteus.paths import state_path
 from proteus.shadow import LiveShadowSnapshot
 
 DEFAULT_LEDGER_PATH = Path(__file__).resolve().parents[3] / "benchmarks" / "paper_ledger.json"
@@ -54,6 +56,7 @@ class VirtualPaperPosition:
     eviction_reason: str | None = None
     opened_at_utc: str = ""
     updated_at_utc: str = ""
+    position_id: str = ""
 
 
 @dataclass(frozen=True)
@@ -71,6 +74,7 @@ class VirtualPaperLedger:
     positions: dict[str, VirtualPaperPosition]
     peak_equity_usdt: float = 0.0
     max_drawdown_pct: float = 0.0
+    closed_positions: tuple[VirtualPaperPosition, ...] = ()
 
     def to_dict(self) -> dict[str, object]:
         return asdict(self)
@@ -86,7 +90,7 @@ class VirtualPaperExchange:
         risk_per_trade_usdt: float = 20.0,
         max_open_positions: int = 3,
     ) -> None:
-        self.ledger_path = ledger_path or DEFAULT_LEDGER_PATH
+        self.ledger_path = ledger_path or state_path("paper_ledger.json", seed=False)
         self.starting_equity_usdt = starting_equity_usdt
         self.risk_per_trade_usdt = risk_per_trade_usdt
         self.max_open_positions = max_open_positions
@@ -121,16 +125,60 @@ class VirtualPaperExchange:
             TradeState.CLOSED_EARLY.value,
         )
 
+    def _closed_log_path(self) -> Path:
+        return self.ledger_path.with_name("paper_closed_trades.jsonl")
+
+    def _load_logged_ids(self) -> set[str]:
+        path = self._closed_log_path()
+        if not path.exists():
+            return set()
+        logged: set[str] = set()
+        for line in path.read_text(encoding="utf-8").splitlines():
+            try:
+                logged.add(str(json.loads(line).get("position_id", "")))
+            except json.JSONDecodeError:
+                continue
+        return logged
+
+    def _append_closed_log(
+        self, position: VirtualPaperPosition, logged: set[str]
+    ) -> None:
+        if not position.position_id or position.position_id in logged:
+            return
+        path = self._closed_log_path()
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(asdict(position)) + "\n")
+        logged.add(position.position_id)
+
+    @staticmethod
+    def _remember_closed(
+        closed: list[VirtualPaperPosition], position: VirtualPaperPosition
+    ) -> None:
+        if position.position_id not in {p.position_id for p in closed}:
+            closed.append(position)
+
     def process_shadow_snapshot(self, snapshot: LiveShadowSnapshot) -> VirtualPaperLedger:
         existing: dict[str, VirtualPaperPosition] = {}
+        closed: list[VirtualPaperPosition] = []
         prev_peak = self.starting_equity_usdt
         prev_dd = 0.0
         if self.ledger_path.exists():
             raw = json.loads(self.ledger_path.read_text(encoding="utf-8"))
             for sym, pos_dict in raw.get("positions", {}).items():
-                existing[sym] = VirtualPaperPosition(**pos_dict)
+                data = dict(pos_dict)
+                data.setdefault("position_id", f"{sym}:{data.get('opened_at_utc', '')}")
+                existing[sym] = VirtualPaperPosition(**data)
+            for pos_dict in raw.get("closed_positions", []):
+                data = dict(pos_dict)
+                data.setdefault(
+                    "position_id",
+                    f"{data.get('symbol', '?')}:{data.get('opened_at_utc', '')}",
+                )
+                closed.append(VirtualPaperPosition(**data))
             prev_peak = float(raw.get("peak_equity_usdt", self.starting_equity_usdt))
             prev_dd = float(raw.get("max_drawdown_pct", 0.0))
+        logged = self._load_logged_ids()
 
         scan_dt = datetime.fromisoformat(snapshot.scanned_at_utc)
 
@@ -205,7 +253,10 @@ class VirtualPaperExchange:
                     eviction_reason=cur.eviction_reason,
                     opened_at_utc=cur.opened_at_utc,
                     updated_at_utc=snapshot.scanned_at_utc,
+                    position_id=cur.position_id,
                 )
+                if self._is_terminal(pos_state.state.value):
+                    self._append_closed_log(existing[sym], logged)
 
         # Pass 2: Admit new signals with Phase 6.4 Margin Velocity Slot Eviction
         for asset in snapshot.states:
@@ -246,7 +297,7 @@ class VirtualPaperExchange:
                     + float(evicted.unrealized_r) * float(evicted.remaining_size_fraction),
                     2,
                 )
-                existing[evicted.symbol] = VirtualPaperPosition(
+                evicted_pos = VirtualPaperPosition(
                     symbol=evicted.symbol,
                     direction=evicted.direction,
                     order_mode=evicted.order_mode,
@@ -265,7 +316,15 @@ class VirtualPaperExchange:
                     eviction_reason=f"margin_velocity_eviction_for_{sym}",
                     opened_at_utc=evicted.opened_at_utc,
                     updated_at_utc=snapshot.scanned_at_utc,
+                    position_id=evicted.position_id,
                 )
+                self._append_closed_log(evicted_pos, logged)
+                existing[evicted.symbol] = evicted_pos
+
+            if sym in existing and self._is_terminal(existing[sym].state):
+                prior = existing[sym]
+                self._remember_closed(closed, prior)
+                self._append_closed_log(prior, logged)
 
             direction = "LONG" if asset.action == "ENTER_LONG" else "SHORT"
             mode = asset.order_mode or "LIMIT"
@@ -274,6 +333,14 @@ class VirtualPaperExchange:
                 float(asset.synthesized_sl),
                 self.risk_per_trade_usdt,
                 mode,
+            )
+            entry_float = float(asset.last_close)
+            sl_float = float(asset.synthesized_sl)
+            tp_float = float(asset.synthesized_tp)
+            planned_rr = (
+                f"{abs(tp_float - entry_float) / abs(entry_float - sl_float):.4f}"
+                if abs(entry_float - sl_float) > 1e-12
+                else "0.00"
             )
             existing[sym] = VirtualPaperPosition(
                 symbol=sym,
@@ -284,7 +351,7 @@ class VirtualPaperExchange:
                 stop_loss=asset.synthesized_sl,
                 current_sl=asset.synthesized_sl,
                 take_profit=asset.synthesized_tp,
-                planned_rr="4.56",
+                planned_rr=planned_rr,
                 state=TradeState.ACTIVE.value,
                 remaining_size_fraction="1.00",
                 realized_r="0.00",
@@ -294,15 +361,17 @@ class VirtualPaperExchange:
                 eviction_reason=None,
                 opened_at_utc=snapshot.scanned_at_utc,
                 updated_at_utc=snapshot.scanned_at_utc,
+                position_id=f"{sym}:{snapshot.scanned_at_utc}",
             )
 
-        realized_r_sum = sum(float(p.realized_r) for p in existing.values())
+        all_positions = [*existing.values(), *closed]
+        realized_r_sum = sum(float(p.realized_r) for p in all_positions)
         unrealized_r_sum = sum(
             float(p.unrealized_r) * float(p.remaining_size_fraction)
             for p in existing.values()
             if not self._is_terminal(p.state)
         )
-        total_fees = round(sum(p.fees_paid_usdt for p in existing.values()), 2)
+        total_fees = round(sum(p.fees_paid_usdt for p in all_positions), 2)
         realized_usdt = round(realized_r_sum * self.risk_per_trade_usdt - total_fees, 2)
         unrealized_usdt = round(unrealized_r_sum * self.risk_per_trade_usdt, 2)
         current_eq = round(self.starting_equity_usdt + realized_usdt + unrealized_usdt, 2)
@@ -312,8 +381,8 @@ class VirtualPaperExchange:
         )
 
         open_cnt = sum(1 for p in existing.values() if not self._is_terminal(p.state))
-        closed_cnt = len(existing) - open_cnt
-        evictions_cnt = sum(1 for p in existing.values() if p.eviction_reason is not None)
+        closed_cnt = sum(1 for p in all_positions if self._is_terminal(p.state))
+        evictions_cnt = sum(1 for p in all_positions if p.eviction_reason is not None)
 
         ledger = VirtualPaperLedger(
             starting_equity_usdt=self.starting_equity_usdt,
@@ -329,8 +398,12 @@ class VirtualPaperExchange:
             positions=existing,
             peak_equity_usdt=peak_eq,
             max_drawdown_pct=dd_pct,
+            closed_positions=tuple(closed),
         )
-        self.ledger_path.write_text(json.dumps(ledger.to_dict(), indent=2) + "\n", encoding="utf-8")
+        self.ledger_path.parent.mkdir(parents=True, exist_ok=True)
+        temp_path = self.ledger_path.with_name(self.ledger_path.name + ".tmp")
+        temp_path.write_text(json.dumps(ledger.to_dict(), indent=2) + "\n", encoding="utf-8")
+        os.replace(temp_path, self.ledger_path)
         return ledger
 
     def run_historical_paper_simulation(self) -> dict[str, object]:

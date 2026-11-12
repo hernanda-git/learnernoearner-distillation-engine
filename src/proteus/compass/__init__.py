@@ -6,8 +6,8 @@ regime gates for high-beta altcoin admission.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from decimal import Decimal
-from typing import Sequence
 
 from proteus.domain.models import Candle, Direction, MacroRegime
 from proteus.market import MACRO_COMPASS_ASSETS, normalize_base_symbol
@@ -37,7 +37,7 @@ class MacroCompassGate:
 
         support_1d = min(c.low for c in prior)
         high_3d = max(c.high for c in prior)
-        mid_3d = (high_3d + support_1d) / Decimal("2")
+        mid_3d = (high_3d + support_1d) / Decimal(2)
 
         if current.close < support_1d:
             return MacroRegime.BREAKDOWN

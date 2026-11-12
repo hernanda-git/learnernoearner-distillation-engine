@@ -69,7 +69,9 @@ class ComparativeBacktestReport:
     resolution: str = "1H"
     intrabar_policy: str = "conservative"
     fee_model: str = "bitget_maker_2bps+taker_6bps"
+    entry_fill_policy: str = "assume"
     unresolved_signals: int = 0
+    unfilled_signals: int = 0
     notes: str = ""
 
 
@@ -81,10 +83,12 @@ class LifecycleBacktestSimulator:
         corpus_dir: Path | None = None,
         round_trip_fee_pct: float = DEFAULT_ROUND_TRIP_FEE_PCT,
         intrabar_policy: Literal["conservative", "favorable"] = "conservative",
+        entry_fill_policy: Literal["assume", "touch"] = "assume",
     ) -> None:
         self.corpus_dir = corpus_dir or DEFAULT_CORPUS_DIR
         self.round_trip_fee_pct = max(0.0, float(round_trip_fee_pct))
         self.intrabar_policy = intrabar_policy
+        self.entry_fill_policy = entry_fill_policy
 
     # -- statistics ---------------------------------------------------------
 
@@ -104,11 +108,9 @@ class LifecycleBacktestSimulator:
         max_dd = 0.0
         for r in r_series:
             equity += r
-            if equity > peak:
-                peak = equity
+            peak = max(peak, equity)
             dd = peak - equity
-            if dd > max_dd:
-                max_dd = dd
+            max_dd = max(max_dd, dd)
 
         total_r = round(sum(r_series), 2)
         return RegimePerformance(
@@ -140,8 +142,11 @@ class LifecycleBacktestSimulator:
     ) -> float:
         """Return realized R from the post-entry 1H bars.
 
-        Conservative intrabar rule: when a bar touches both the stop and any
-        favorable level, the stop is assumed to have been hit first.
+        Conservative intrabar rule: when a bar touches any stop level that
+        exists during that bar (including a stop moved to breakeven by the
+        FSM) and a favorable level, the stop is assumed to have been hit
+        first. This prevents the simulator from booking a target on a bar that
+        also traded through the newly-tightened stop.
         """
         risk = abs(entry - stop_loss)
         if risk <= 0.0 or not bars:
@@ -157,28 +162,31 @@ class LifecycleBacktestSimulator:
         def r_of(price: float) -> float:
             return ((price - entry) / risk) if is_long else ((entry - price) / risk)
 
+        def stop_touched(high: float, low: float) -> bool:
+            return (low <= cur_sl) if is_long else (high >= cur_sl)
+
+        def target_touched(high: float, low: float) -> bool:
+            return (high >= take_profit) if is_long else (low <= take_profit)
+
         for row in bars:
             high = float(row[2])
             low = float(row[3])
-            close = float(row[4])
+            target_r = r_of(take_profit)
 
-            if is_long:
-                sl_hit = low <= cur_sl
-                tp_hit = high >= take_profit
-                hit_1r = high >= entry + risk
-                hit_15r = high >= entry + 1.5 * risk
-            else:
-                sl_hit = high >= cur_sl
-                tp_hit = low <= take_profit
-                hit_1r = low <= entry - risk
-                hit_15r = low <= entry - 1.5 * risk
+            # 1. Any stop already in force at the open of this bar.
+            if stop_touched(high, low):
+                realized += remaining * r_of(cur_sl)
+                return realized
 
-            if self.intrabar_policy == "conservative":
-                if sl_hit:
-                    realized += remaining * r_of(cur_sl)
-                    return realized
+            # 2. A target below the TP1 trigger is a full exit before the FSM
+            #    has a chance to book a partial.
+            if target_r < 1.5 and target_touched(high, low):
+                realized += remaining * r_of(take_profit)
+                return realized
 
             if use_fsm:
+                hit_1r = (high >= entry + risk) if is_long else (low <= entry - risk)
+                hit_15r = (high >= entry + 1.5 * risk) if is_long else (low <= entry - 1.5 * risk)
                 if hit_15r and not tp1_done:
                     realized += 0.5 * 1.5
                     remaining = 0.5
@@ -189,23 +197,31 @@ class LifecycleBacktestSimulator:
                     cur_sl = entry
                     be_done = True
 
-            if tp_hit:
+            # 3. Conservative: a stop moved inside this bar is hit first.
+            if self.intrabar_policy == "conservative" and stop_touched(high, low):
+                realized += remaining * r_of(cur_sl)
+                return realized
+
+            # 4. Target.
+            if target_touched(high, low):
                 realized += remaining * r_of(take_profit)
                 return realized
 
-            if self.intrabar_policy == "favorable":
-                # Re-check the stop against the possibly-moved breakeven level.
-                if is_long:
-                    sl_now = low <= cur_sl
-                else:
-                    sl_now = high >= cur_sl
-                if sl_now:
-                    realized += remaining * r_of(cur_sl)
-                    return realized
+            # 5. Favorable: only now re-check the moved stop.
+            if self.intrabar_policy == "favorable" and stop_touched(high, low):
+                realized += remaining * r_of(cur_sl)
+                return realized
 
         # No exit: mark the remaining position at the last close.
         realized += remaining * r_of(float(bars[-1][4]))
         return realized
+
+    @staticmethod
+    def _entry_traded_through(direction: str, entry: float, first_bar: list[float]) -> bool:
+        """Did the first post-signal bar trade through a resting entry price?"""
+        high = float(first_bar[2])
+        low = float(first_bar[3])
+        return low <= entry if direction == "LONG" else high >= entry
 
     def _fee_r(self, entry: float, risk: float) -> float:
         if risk <= 0.0:
@@ -245,26 +261,25 @@ class LifecycleBacktestSimulator:
                     f"${tok.lower()}" in txt
                     or f"#{tok.lower()}" in txt
                     or re.search(rf"\b{re.escape(tok.lower())}\b", txt)
+                ) and any(
+                    k in txt
+                    for k in (
+                        "full tp",
+                        "tp1",
+                        "booked",
+                        "took profit",
+                        "sl to entry",
+                        "stoploss to entry",
+                        "hit sl",
+                        "invalidation",
+                        "stopped",
+                        "took a loss",
+                        "closed",
+                        "sleep",
+                    )
                 ):
-                    if any(
-                        k in txt
-                        for k in (
-                            "full tp",
-                            "tp1",
-                            "booked",
-                            "took profit",
-                            "sl to entry",
-                            "stoploss to entry",
-                            "hit sl",
-                            "invalidation",
-                            "stopped",
-                            "took a loss",
-                            "closed",
-                            "sleep",
-                        )
-                    ):
-                        found = True
-                        break
+                    found = True
+                    break
             mentioned[sig["id"]] = found
         return mentioned
 
@@ -280,6 +295,7 @@ class LifecycleBacktestSimulator:
         proteus_r: list[float] = []
         fees_r = 0.0
         unresolved = 0
+        unfilled = 0
 
         for sig in sorted(signals, key=lambda s: s["received_at"] or s["created_at"]):
             row = candles_by_id.get(sig["id"])
@@ -297,16 +313,23 @@ class LifecycleBacktestSimulator:
                 continue
 
             scale = float(row.get("scale_applied") or 1.0)
+            fallback_rr = 4.87 if direction == "LONG" else 4.46
             tps = sig.get("take_profits") or []
             if tps:
                 take_profit = float(tps[0]) * scale
             else:
-                take_profit = entry + 4.56 * risk if direction == "LONG" else entry - 4.56 * risk
+                take_profit = entry + fallback_rr * risk if direction == "LONG" else entry - fallback_rr * risk
 
             if (direction == "LONG" and take_profit <= entry) or (
                 direction == "SHORT" and take_profit >= entry
             ):
-                take_profit = entry + 4.56 * risk if direction == "LONG" else entry - 4.56 * risk
+                take_profit = entry + fallback_rr * risk if direction == "LONG" else entry - fallback_rr * risk
+
+            if self.entry_fill_policy == "touch" and not self._entry_traded_through(
+                direction, entry, bars[0]
+            ):
+                unfilled += 1
+                continue
 
             fee_r = self._fee_r(entry, risk)
             fees_r += fee_r
@@ -380,9 +403,12 @@ class LifecycleBacktestSimulator:
             ),
             real_candle_audit=audit,
             intrabar_policy=self.intrabar_policy,
+            entry_fill_policy=self.entry_fill_policy,
             unresolved_signals=unresolved,
+            unfilled_signals=unfilled,
             notes=(
                 "P&L is simulated from real Bitget 1H post-entry candles only. "
-                "1H OHLC cannot resolve intrabar order; conservative policy is used."
+                "1H OHLC cannot resolve intrabar order; conservative policy is used. "
+                "Entry fills are assumed unless entry_fill_policy='touch'."
             ),
         )
