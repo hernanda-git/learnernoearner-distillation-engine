@@ -149,6 +149,10 @@ def main(argv: list[str] | None = None) -> int:
         signal = signals.get(payload.get("signal_id"))
         candle_row = candle_rows.get(payload.get("signal_id"))
         bars = payload.get("candles") or []
+        t0_ms = candle_row.get("t0_ms") if candle_row else None
+        if t0_ms is None:
+            t0_ms = int(payload.get("start_ms", 0)) + 72 * 3600 * 1000
+        bars = [row for row in bars if int(row[0]) >= int(t0_ms)]
         if signal is None or candle_row is None or not bars:
             continue
         direction = signal["direction"]
