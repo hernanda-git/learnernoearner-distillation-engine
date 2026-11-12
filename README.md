@@ -48,7 +48,7 @@ Unlike reactive copy-trading (which suffers $6\text{–}28\text{s}$ human screen
 | **Shadow Lead-Time Parity ($\Delta t$)** | 0 paired detections | **Unmeasured** | Detection log now written; pairs accumulate forward |
 | **284-Chart Vision Pass** | 216 Light (76.1%) · 68 Dark (23.9%) | **238 legacy detector boxes** | No human labels; IoU `None` |
 | **$1,000 Paper Sim (Net of Fees)** | `$20/1R` risk · 91 setups | **$788.00 (−21.20%)** vs naive **$939.40** | Honest baseline |
-| **Constitutional Codebase Purity** | All `src/proteus/` Python modules | **31/31 files pure** | Zero retail oscillators |
+| **Constitutional Codebase Purity** | All `src/proteus/` Python modules | **32/32 files pure** | Zero retail oscillators |
 | **Automated Test Suite (`pytest`)** | Invariant, CV, replay, rate-limit, stream, auth, state, OOS | **50/50 passed** | `100% pass` |
 | **Lint (`ruff`)** | `src/`, `scripts/`, `tests/` | **0 violations** | Clean |
 

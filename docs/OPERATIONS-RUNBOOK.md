@@ -31,7 +31,7 @@
 7. **Tab 7 — Self-Monitor Watchdog & AI Agent Evolver**: Live status of all 6 runtime probes (`LatchHealer`), 4-stage AI-Agent Self-Improvement trace (`TelemetryScout` → `AdversarialCritic` → `TuringVerifier` → `HashChainCommitter`), and the `FAJ1` SHA-256 hash-chained journal.
 
 ### 2.2 JSON REST Endpoints
-- `GET /health` or `GET /health/telemetry` — Fast health, air-gap, constitutional purity (`31/31` files), computed BPS (`null` until all components are measured), and watchdog status check.
+- `GET /health` or `GET /health/telemetry` — Fast health, air-gap, constitutional purity (`32/32` files), computed BPS (`null` until all components are measured), and watchdog status check.
 - `GET /api/v1/dashboard` — Full telemetry payload powering all 7 tabs.
 - `POST /api/v1/scan` — Trigger an immediate Bitget public candle scan, step `VirtualPaperExchange`, and evaluate `SelfMonitoringWatchdog`.
 - `POST /api/v1/self-correct` — Test a parameter proposal `{parameter, observed_value, learning_rate, candidate_bps}` through `BoundedSelfCorrector`.
