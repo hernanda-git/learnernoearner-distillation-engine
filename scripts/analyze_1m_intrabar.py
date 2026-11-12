@@ -173,18 +173,27 @@ def main(argv: list[str] | None = None) -> int:
         ):
             take_profit = entry + fallback_rr * risk if direction == "LONG" else entry - fallback_rr * risk
 
-        first_bar = bars[0]
-        filled = (
-            float(first_bar[3]) <= entry if direction == "LONG" else float(first_bar[2]) >= entry
+        fill_index = next(
+            (
+                index
+                for index, row in enumerate(bars)
+                if (
+                    float(row[3]) <= entry
+                    if direction == "LONG"
+                    else float(row[2]) >= entry
+                )
+            ),
+            None,
         )
-        if not filled:
+        if fill_index is None:
             unfilled += 1
             continue
+        entry_bars = bars[fill_index:]
         fee_r = (entry / risk) * ROUND_TRIP_FEE_PCT
-        naive.append(_simulate(direction, entry, stop_loss, take_profit, bars, False) - fee_r)
-        fsm.append(_simulate(direction, entry, stop_loss, take_profit, bars, True) - fee_r)
+        naive.append(_simulate(direction, entry, stop_loss, take_profit, entry_bars, False) - fee_r)
+        fsm.append(_simulate(direction, entry, stop_loss, take_profit, entry_bars, True) - fee_r)
 
-        first_1r_ms, first_sl_ms = _first_hits(entry, stop_loss, bars, direction)
+        first_1r_ms, first_sl_ms = _first_hits(entry, stop_loss, entry_bars, direction)
         trajectory = trajectories.get(payload["signal_id"], {})
         if first_1r_ms is not None and first_sl_ms is not None:
             one_m_1r_first = first_1r_ms < first_sl_ms
@@ -199,7 +208,8 @@ def main(argv: list[str] | None = None) -> int:
                 "signal_id": payload["signal_id"],
                 "symbol": signal["pair_token"],
                 "telegram_msg_num": signal.get("telegram_msg_num"),
-                "bars_1m": len(bars),
+                "bars_1m": len(entry_bars),
+                "entry_at_ms": int(entry_bars[0][0]),
                 "naive_r": round(naive[-1], 4),
                 "fsm_r": round(fsm[-1], 4),
                 "first_1r_ms": first_1r_ms,
