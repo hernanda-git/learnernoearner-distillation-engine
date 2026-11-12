@@ -90,7 +90,7 @@ def _simulate(
         if target_hit(high, low):
             realized += remaining * r_of(take_profit)
             return realized
-    realized += remaining * r_of(bars[-1][4])
+    realized += remaining * r_of(float(bars[-1][4]))
     return realized
 
 
