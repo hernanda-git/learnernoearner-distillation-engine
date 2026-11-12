@@ -140,7 +140,12 @@ def main(argv: list[str] | None = None) -> int:
     rows: list[dict[str, Any]] = []
 
     for path in sorted(args.data_dir.glob("*.json")):
-        payload = json.loads(path.read_text(encoding="utf-8"))
+        if path.name in {"MANIFEST.json", "ANALYSIS.json"}:
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
         signal = signals.get(payload.get("signal_id"))
         candle_row = candle_rows.get(payload.get("signal_id"))
         bars = payload.get("candles") or []
