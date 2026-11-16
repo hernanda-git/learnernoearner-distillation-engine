@@ -240,8 +240,9 @@ trade path.
 
 ### 7.1 Alpha core
 
-`proteus.alpha` is a separately validated portfolio built on 185 Bitget
-perpetuals and 870,306 4H bars (2019-07 → 2026-11-15):
+`proteus.alpha` is a separately validated portfolio built on 185 fetched Bitget
+perpetuals — 105 crypto symbols after excluding 80 tokenized-stock/commodity RWA
+contracts — and 751,778 4H crypto bars (2019-07 → 2026-11-15):
 
 * long-only time-series momentum, 14/60-day lookbacks, top 8;
 * inverse-vol weights, 15% annualized volatility target, 2× gross cap;
@@ -249,9 +250,9 @@ perpetuals and 870,306 4H bars (2019-07 → 2026-11-15):
 * weekly calendar-anchored rebalance, 4× ATR stops, 30% circuit breaker;
 * 8 bps/side and explicit funding.
 
-Net of costs: **18.1% CAGR / 0.90 Sharpe / 24.5% MaxDD**; walk-forward OOS
-**17.2% / 0.81**; 2024–2026 holdout **24.5% / 1.01**; 3× cost stress
-**13.7% / 0.71**. Full evidence: `docs/ALPHA-RESEARCH.md`.
+Net of costs: **16.6% CAGR / 0.83 Sharpe / 24.5% MaxDD**; walk-forward OOS
+**14.5% / 0.70**; 2024–2026 holdout **21.3% / 0.90**; 3× cost stress
+**12.3% / 0.66**. Full evidence: `docs/ALPHA-RESEARCH.md`.
 
 ### 7.2 New graduation gate
 

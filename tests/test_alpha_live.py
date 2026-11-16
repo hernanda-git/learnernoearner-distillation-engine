@@ -15,6 +15,7 @@ from proteus.alpha.live import (
     AlphaLiveTrader,
     LivePosition,
     LiveState,
+    select_live_universe,
     snapshot_state,
 )
 from proteus.alpha.research import default_config
@@ -24,10 +25,17 @@ from proteus.domain.models import Candle
 class FakeClient:
     """Deterministic public-market stand-in for the live trader."""
 
-    def __init__(self, symbols: list[str], *, days: int = 260) -> None:
+    def __init__(
+        self,
+        symbols: list[str],
+        *,
+        days: int = 260,
+        rwa_symbols: set[str] | None = None,
+    ) -> None:
         self.symbols = symbols
         self.days = days
         self.requests = 0
+        self.rwa_symbols = rwa_symbols or set()
 
     def get_json(self, path: str, attempts: int | None = None) -> dict:
         if "tickers" in path:
@@ -39,7 +47,11 @@ class FakeClient:
         if "contracts" in path:
             return {
                 "data": [
-                    {"symbol": symbol, "isRwa": "false"} for symbol in self.symbols
+                    {
+                        "symbol": symbol,
+                        "isRwa": "YES" if symbol in self.rwa_symbols else "NO",
+                    }
+                    for symbol in self.symbols
                 ]
             }
         return {"data": []}
@@ -185,3 +197,23 @@ def test_force_rebalance_reenters_and_charges_fees(tmp_path: Path) -> None:
     trader.step(force_rebalance=True, now=datetime(2022, 12, 1, 7, 0, tzinfo=UTC))
     assert trader.state.costs_usdt >= costs
     assert trader.state.equity_usdt <= 1_000.0
+
+
+def test_rwa_contracts_are_excluded_from_the_live_universe() -> None:
+    symbols = ["BTCUSDT", "ETHUSDT", "SOXLUSDT", "WLDUSDT"]
+    client = FakeClient(symbols, rwa_symbols={"SOXLUSDT"})
+    universe = select_live_universe(client)
+    assert "SOXLUSDT" not in universe
+    assert "WLDUSDT" in universe
+    assert "BTCUSDT" in universe
+
+
+def test_universe_fails_closed_without_contract_metadata() -> None:
+    class EmptyContracts(FakeClient):
+        def get_json(self, path: str, attempts: int | None = None) -> dict:
+            if "contracts" in path:
+                return {"data": []}
+            return super().get_json(path, attempts)
+
+    with pytest.raises(RuntimeError):
+        select_live_universe(EmptyContracts(["BTCUSDT"]))

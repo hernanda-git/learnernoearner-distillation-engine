@@ -128,10 +128,19 @@ def select_universe(top: int, min_volume_usdt: float) -> tuple[list[str], dict[s
         for row in (tickers_payload.get("data") or [])
         if isinstance(row, dict) and row.get("symbol", "").endswith("USDT")
     }
-    contracts = {
-        row["symbol"]: row
-        for row in (contracts_payload.get("data") or [])
-        if isinstance(row, dict)
+    contract_rows = [
+        row for row in (contracts_payload.get("data") or []) if isinstance(row, dict)
+    ]
+    if not contract_rows:
+        raise RuntimeError(
+            "Bitget contracts endpoint returned no data; refusing to guess RWA classification"
+        )
+    contracts = {row["symbol"]: row for row in contract_rows}
+    # Bitget encodes this flag as "YES"/"NO", not a JSON boolean.
+    rwa = {
+        symbol
+        for symbol, row in contracts.items()
+        if str(row.get("isRwa", "NO")).upper() in ("YES", "TRUE")
     }
 
     ranked: list[tuple[str, float]] = []
@@ -139,8 +148,7 @@ def select_universe(top: int, min_volume_usdt: float) -> tuple[list[str], dict[s
         base = to_base(symbol)
         if base in NON_CRYPTO_BASE:
             continue
-        contract = contracts.get(symbol, {})
-        if str(contract.get("isRwa", "false")).lower() == "true":
+        if symbol in rwa:
             continue
         try:
             volume = float(row.get("usdtVolume") or 0.0)
@@ -154,7 +162,7 @@ def select_universe(top: int, min_volume_usdt: float) -> tuple[list[str], dict[s
     selected = [symbol for symbol, _ in ranked[:top]]
     for base in EXTRA_PROBE:
         symbol = f"{base}USDT"
-        if symbol in tickers and symbol not in selected:
+        if symbol in tickers and symbol not in selected and symbol not in rwa:
             selected.append(symbol)
     for required in ("BTCUSDT", "ETHUSDT"):
         if required not in selected:

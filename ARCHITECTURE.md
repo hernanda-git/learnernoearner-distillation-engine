@@ -92,3 +92,59 @@
 4. **Directional Safety Guard**: `BTC` and `ETH` are never traded directly; high-beta Longs freeze during `BTC` 1D `BREAKDOWN`, and high-beta Shorts freeze during `BTC` 1D `BULLISH_EXPANSION`.
 5. **Execution Mode Separation**: Structural retests (`MIDRANGE_RETEST`, `RANGE_HIGH_REJECTION`) emit `OrderMode.LIMIT` (`2.0 bps` Maker); liquidity sweeps (`LIQUIDITY_SWEEP_RECLAIM`) emit `OrderMode.MARKET` (`6.0 bps` Taker).
 6. **Constitutional Self-Correction Rollback**: `BoundedSelfCorrector` and `AgenticSelfImprover` automatically reject and roll back any parameter update that violates `CONSTITUTIONAL_CORRIDORS` or drops $BPS < 0.85$.
+
+---
+
+## 4. Trading Core: Alpha Engine (`proteus.alpha`)
+
+The distillation pipeline above is **research + telemetry**. The trading path is
+a separate, portfolio-level engine validated in `docs/ALPHA-RESEARCH.md`.
+
+```text
+Bitget public 4H panel (RWA excluded)
+        │
+        ▼
+daily UTC bars ──► rolling vol / ATR / SMA / 14-60d momentum
+        │
+        ▼
+BTC 200d SMA × 1.02 + 60d momentum gate ──► risk-off = 100% cash
+        │
+        ▼
+top 8 positive-momentum coins above SMA50
+        │
+        ▼
+inverse-vol weights · 15% vol target · 2x gross cap · 25% asset cap
+        │
+        ▼
+weekly calendar-anchored rebalance · 4x ATR stops · 30% circuit breaker
+        │
+        ▼
+alpha_ledger.json + alpha_closed_trades.jsonl + /api/v1/alpha
+```
+
+| Module | Responsibility |
+|---|---|
+| `alpha/panel.py` | 4H JSONL → completed UTC daily bars; resilient to partial files |
+| `alpha/signals.py` | O(N) rolling volatility, ATR, SMA, momentum, dollar volume |
+| `alpha/portfolio.py` | `AlphaConfig`, eligibility, time-series score, regime gate, weights, vol targeting |
+| `alpha/simulator.py` | Open-to-open backtest, fees, funding, ATR stops, drawdown breaker |
+| `alpha/metrics.py` | Drawdowns, deflated Sharpe, CSCV PBO, block bootstrap |
+| `alpha/research.py` | 16-config grid, walk-forward, holdout, benchmarks, report JSON |
+| `alpha/live.py` | Daily paper book, panel cache, RWA-filtered universe, atomic ledger |
+
+**Hard invariants of the trading core**
+
+1. **No look-ahead.** A backtest target is computed at the close of day `d` and
+   executed at the open of `d + 1`. The live book uses the last completed daily
+   close and the latest 4H mark.
+2. **No RWA.** `isRwa == "YES"` contracts (tokenized stocks, ETFs, commodities)
+   are excluded before selection. The universe fails closed if contract
+   classification is unavailable.
+3. **No slot churn.** At most one rebalance per UTC day; positions are carried
+   between rebalances and never evicted to make room for a new signal.
+4. **Calendar anchoring.** Rebalance days are a function of the UTC date, so a
+   full run and a single-year run hold the book on the same days.
+5. **Explicit costs.** 8 bps/side plus funding are charged in every backtest and
+   in the live ledger; the 3× stress case remains profitable.
+6. **Long-only.** Crypto short legs are squeeze-prone; `allow_shorts=False` in
+   the frozen core.

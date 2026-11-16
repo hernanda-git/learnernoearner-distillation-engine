@@ -105,13 +105,18 @@ def select_live_universe(client: Any, *, top: int = 120) -> list[str]:
     from proteus.market import TRADABLE_UNIVERSE
 
     selected: list[str] = []
+    rwa: set[str] = set()
     try:
         payload = client.get_json("/api/v2/mix/market/tickers?productType=USDT-FUTURES")
         contracts = client.get_json("/api/v2/mix/market/contracts?productType=USDT-FUTURES")
+        contract_rows = contracts.get("data") or []
+        if not contract_rows:
+            raise RuntimeError("Bitget contracts endpoint returned no data")
+        # Bitget encodes this flag as "YES"/"NO", not a JSON boolean.
         rwa = {
             row.get("symbol", "")
-            for row in (contracts.get("data") or [])
-            if str(row.get("isRwa", "false")).lower() == "true"
+            for row in contract_rows
+            if str(row.get("isRwa", "NO")).upper() in ("YES", "TRUE")
         }
         ranked: list[tuple[str, float]] = []
         for row in payload.get("data") or []:
@@ -130,11 +135,13 @@ def select_live_universe(client: Any, *, top: int = 120) -> list[str]:
             ranked.append((symbol, volume))
         ranked.sort(key=lambda item: item[1], reverse=True)
         selected = [symbol for symbol, _ in ranked[:top]]
-    except Exception:  # noqa: BLE001 - ticker discovery must fall back to the static universe
-        selected = []
+    except Exception as error:
+        raise RuntimeError(f"cannot classify Bitget RWA contracts: {error}") from error
 
     for base in TRADABLE_UNIVERSE:
         symbol = f"{base.upper()}USDT"
+        if symbol in rwa:
+            continue
         if symbol not in selected:
             selected.append(symbol)
     for required in ("BTCUSDT", "ETHUSDT"):
@@ -404,6 +411,7 @@ class AlphaLiveTrader:
                 atr_window=self.config.atr_window,
             )
             for symbol, series in panel.series.items()
+            if symbol in self.universe
         }
 
     def step(self, *, force_rebalance: bool = False, now: datetime | None = None) -> dict[str, Any]:
