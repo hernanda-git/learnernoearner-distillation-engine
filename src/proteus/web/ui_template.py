@@ -309,8 +309,8 @@ INDEX_HTML = r"""<!DOCTYPE html>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Validated Core (Net, 2023–2026)</div>
-        <div class="kpi-val" style="color:var(--success);">0.83</div>
-        <div class="kpi-sub">Sharpe · 16.6% CAGR · 24.5% Max DD · OOS 0.70</div>
+        <div class="kpi-val" style="color:var(--success);">0.86</div>
+        <div class="kpi-sub">Sharpe · 17.4% CAGR · 25.0% Max DD · OOS 0.69</div>
       </div>
     </section>
 

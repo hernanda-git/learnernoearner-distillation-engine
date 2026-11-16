@@ -258,7 +258,7 @@ class AlphaLiveTrader:
         state_path: Path,
         panel_dir: Path,
         starting_equity_usdt: float = 1_000.0,
-        universe_top: int = 120,
+        universe_top: int = 140,
     ) -> None:
         self.config = config
         self.client = client

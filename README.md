@@ -9,21 +9,21 @@
 ## ⚡ Trading Core (2026-11-16): Validated Alpha Portfolio
 
 The clone is **research**. The trading path is a separate, cost-aware portfolio
-validated on 185 fetched Bitget perpetuals — 105 crypto symbols after excluding
-80 tokenized-stock/commodity RWA contracts — with 751,778 4H bars (2019-07 →
+validated on 185 fetched Bitget perpetuals — 121 crypto symbols after excluding
+80 tokenized-stock/commodity RWA contracts — with 813,083 4H bars (2019-07 →
 2026-11-15):
 
 | Book | CAGR | Sharpe | Max DD | Positive years |
 |---|---:|---:|---:|---|
-| **Alpha core (net)** | **16.6%** | **0.83** | **24.5%** | 2023, 2024, 2026 (2025 −1.8%) |
-| Walk-forward OOS | 14.5% | 0.70 | 27.5% | 2024, 2026 |
-| Holdout 2024–2026 | 21.3% | 0.90 | 24.5% | 2024, 2026 |
+| **Alpha core (net)** | **17.4%** | **0.86** | **25.0%** | 2023, 2024, 2025, 2026 |
+| Walk-forward OOS | 14.3% | 0.69 | 28.4% | 2024, 2026 |
+| Holdout 2024–2026 | 23.0% | 0.95 | 25.0% | 2024, 2026 |
 | BTC buy-and-hold | 14.9% | 0.52 | 76.7% | 2021, 2023, 2024 |
 
 The core is long-only time-series momentum (14/60-day lookbacks, top 8,
 inverse-vol, 15% vol target) gated by BTC's 200-day trend. It rebalances at most
 once per UTC day, carries positions between rebalances, and has **no slot
-eviction**. It survives 3× fees and funding (12.3% CAGR / 0.66 Sharpe).
+eviction**. It survives 3× fees and funding (13.1% CAGR / 0.69 Sharpe).
 
 **Why the cutover was forced.** The live clone ledger reached **1,404 closed
 positions, 1,293 margin evictions, $1,948.86 in fees on a $1,000 account, and
@@ -59,7 +59,7 @@ Unlike reactive copy-trading (which suffers $6\text{–}28\text{s}$ human screen
 - **[AI Agent Instructions](AGENTS.md)**: Mandatory startup rules for coding agents operating in this repository.
 - **[System Architecture & Module Contracts](ARCHITECTURE.md)**: End-to-end 13-subpackage topology, domain dataclasses, and hard invariant guarantees.
 - **[Empirical Behavioral & Forensic Analysis](docs/BEHAVIORAL-ANALYSIS.md)**: Complete quantitative & qualitative profile across 784 Telegram messages, 95 canonical setups, 47 management actions, 86 Bitget 1H candle trajectories, and 284 TradingView chart screenshots.
-- **[Alpha Research: The Validated Trading Core](docs/ALPHA-RESEARCH.md)**: Literature review, 105-symbol crypto panel (185 fetched, 80 RWA excluded), frozen strategy, walk-forward/PBO/DSR results, cost stress, limitations, and the paper-to-canary gate.
+- **[Alpha Research: The Validated Trading Core](docs/ALPHA-RESEARCH.md)**: Literature review, 121-symbol crypto panel (185 fetched, 80 RWA excluded), frozen strategy, walk-forward/PBO/DSR results, cost stress, limitations, and the paper-to-canary gate.
 - **[Engineering Master Plan (Phases 1–6 Implemented, Unvalidated)](docs/MASTER-PLAN.md)**: Implemented architecture, the unmeasured Behavioral Parity Scorecard, and Phase 7 Canary Graduation criteria.
 - **[Operations & Deployment Runbook](docs/OPERATIONS-RUNBOOK.md)**: Production runbook for `https://engine.warga-digital.com`, `systemd` services, OpenLiteSpeed + Cloudflare routing, auth/state environment, REST API endpoints, CLI modes, and Operator Action Gates.
 - **[Data Collection Runbook](docs/DATA-COLLECTION.md)**: 1m candle backfill (and Bitget retention limit), chart labelling, paired detection timestamps, funding/OI/order-flow, and pre-tuning gates.
@@ -72,7 +72,7 @@ Unlike reactive copy-trading (which suffers $6\text{–}28\text{s}$ human screen
 
 | Dimension | Scope | Current result | Status |
 | :--- | :--- | ---: | :--- |
-| **Alpha core (net of costs)** | 105 crypto perps · 751,778 4H bars · effective 2023–2026 | **16.6% CAGR / 0.83 Sharpe / 24.5% MaxDD**; WF OOS **14.5% / 0.70**; 3× cost stress **12.3% / 0.66** | **Profitable**; forward paper pending |
+| **Alpha core (net of costs)** | 121 crypto perps · 813,083 4H bars · effective 2023–2026 | **17.4% CAGR / 0.86 Sharpe / 25.0% MaxDD**; WF OOS **14.3% / 0.69**; 3× cost stress **13.1% / 0.69** | **Profitable**; forward paper pending |
 | **Live clone ledger (retired)** | 45 symbols · 15m rotation · 3 slots | **1,404 closed · 1,293 evictions · $1,948.86 fees · −$510.46 equity** | **Removed from trade path** |
 | **Behavioral Parity Score ($BPS$)** | 784 msgs · 95 setups · 47 updates | **Unmeasured** | `directional`, `spatial`, `abstain`, `timing` missing |
 | **Leak-free Bayesian Policy** | 5,000 negatives + 91 signals | **98.56% abstain / 4.4% recall (in-sample)** | Not validated |

@@ -1,8 +1,8 @@
 # Alpha Research: The Validated Trading Core
 
-**Status:** Implemented, backtested on 185 fetched Bitget perpetuals — **105
+**Status:** Implemented, backtested on 185 fetched Bitget perpetuals — **121
 crypto symbols** after excluding 80 tokenized-stock/commodity RWA contracts —
-with **751,778 4H bars** (2019-07 → 2026-11-15), and deployed as the default
+with **813,083 4H bars** (2019-07 → 2026-11-15), and deployed as the default
 paper-trading path.
 **Date:** 2026-11-16
 **Code:** `src/proteus/alpha/`, `scripts/fetch_research_panel.py`,
@@ -23,17 +23,17 @@ The trading core is now a separate, evidence-first portfolio:
 
 | Book | CAGR | Vol | Sharpe | Max DD | Calmar | Positive years |
 |---|---:|---:|---:|---:|---:|---|
-| **Alpha core (net)** | **16.6%** | 21.2% | **0.83** | **24.5%** | 0.68 | 2023, 2024, 2026 |
-| Walk-forward OOS | 14.5% | 23.2% | 0.70 | 27.5% | 0.53 | 2024, 2026 |
-| Holdout 2024-01 → 2026-11 | 21.3% | — | 0.90 | 24.5% | — | 2024, 2026 |
+| **Alpha core (net)** | **17.4%** | 21.2% | **0.86** | **25.0%** | 0.69 | 2023, 2024, 2025, 2026 |
+| Walk-forward OOS | 14.3% | 23.4% | 0.69 | 28.4% | 0.50 | 2024, 2026 |
+| Holdout 2024-01 → 2026-11 | 23.0% | — | 0.95 | 25.0% | — | 2024, 2026 |
 | BTC buy-and-hold | 14.9% | 57.0% | 0.52 | 76.7% | 0.19 | 2021, 2023, 2024 |
-| Equal-weight crypto universe | 16.6% | 85.8% | 0.60 | 85.6% | 0.19 | 2021, 2023, 2024, 2026 |
+| Equal-weight crypto universe | 18.0% | 85.8% | 0.61 | 85.6% | 0.21 | 2021, 2023, 2024, 2026 |
 
 The core matches BTC's return with roughly one-third of its drawdown and a
 materially higher Sharpe. It is **not** a high-confidence alpha claim: after
-correcting for the 17 configurations examined, the deflated Sharpe is 0.0003
-(probability of backtest overfitting 0.385). The pre-registered single-trial
-DSR is 1.0, the bootstrap 5th-percentile Sharpe is −0.021, and the edge survives
+correcting for the 17 configurations examined, the deflated Sharpe is 0.005
+(probability of backtest overfitting 0.333). The pre-registered single-trial
+DSR is 1.0, the bootstrap 5th-percentile Sharpe is 0.007, and the edge survives
 3× costs. The forward paper ledger is the final arbiter; the backtest is the
 entry ticket, not the proof.
 
@@ -137,8 +137,8 @@ classification endpoint is unavailable.
 |---|---|
 | Venue | Bitget USDT-FUTURES (public, no keys) |
 | Resolution | 4H, aggregated to completed UTC daily bars |
-| Symbols | 185 fetched; **105 crypto** after excluding 80 RWA contracts (Bitget currently lists 421 tokenized-stock/ETF/commodity contracts) |
-| Bars | **751,778** 4H crypto bars (118,528 RWA bars excluded) |
+| Symbols | 185 fetched; **121 crypto** after excluding 80 RWA contracts (Bitget currently lists 421 tokenized-stock/ETF/commodity contracts) |
+| Bars | **813,083** 4H crypto bars (118,528 RWA bars excluded) |
 | First bar | 2019-07-10 (BTCUSDT) |
 | Last bar | 2026-11-15 |
 | Cost of data | free; ~25 minutes from the VPS at 8 req/s |
@@ -161,7 +161,16 @@ A symbol is eligible only when all of the following hold:
    Otherwise the book is flat.
 6. **Next open exists** in the backtest, so a signal can be executed.
 
-### 4.2 Survivorship bias
+### 4.2 Research panel vs live universe
+
+The validated panel is the **corrected** top-140 crypto set: the fetcher ranks
+crypto first, excludes the 80 RWA contracts, and the 16 crypto names displaced
+by RWA were backfilled explicitly. The live daemon uses the same rule (top 140
+crypto + the trader's crypto universe), so the live universe is a close superset
+of the 121-symbol validation set. A live-specific name that lacks 365 days of
+history is simply not eligible.
+
+### 4.3 Survivorship bias
 
 Bitget's public API only serves contracts that still exist. The panel is
 therefore a survivor set, which flatters long-only momentum. Two checks bound
@@ -202,7 +211,7 @@ instance is `default_config()` in `src/proteus/alpha/research.py`.
 1. **Design panel** (84 symbols) was used to choose the strategy family:
    time-series vs cross-sectional, long-only vs long/short, the regime gate,
    and a 16-config grid of lookbacks × breadth × volatility target.
-2. **Validation panel** (105 crypto symbols) is the out-of-universe test. The
+2. **Validation panel** (121 crypto symbols) is the out-of-universe test. The
    frozen core was not re-tuned on it.
 3. **Walk-forward:** expanding window; for each test year the configuration with
    the best in-sample Sharpe is applied to the next year. This measures the
@@ -225,19 +234,19 @@ instance is `default_config()` in `src/proteus/alpha/research.py`.
 
 | Metric | Value |
 |---|---:|
-| CAGR | 16.6% |
+| CAGR | 17.4% |
 | Annualized volatility | 21.2% |
-| Sharpe | 0.83 |
-| Max drawdown | 24.5% |
-| Calmar | 0.68 |
-| Active-day hit rate | 52.4% |
-| Trades | 1,105 |
+| Sharpe | 0.86 |
+| Max drawdown | 25.0% |
+| Calmar | 0.69 |
+| Active-day hit rate | 52.1% |
+| Trades | 1,109 |
 | Rebalances | 306 |
-| Cost drag | 7.3% of starting equity |
+| Cost drag | 7.4% of starting equity |
 | Funding drag | 12.0% of starting equity |
 
 **Yearly:** 2021 `0.0%` (no seasoned universe), 2022 `0.0%` (BTC regime gate
-flat), 2023 `+42.3%`, 2024 `+68.0%`, 2025 `−1.8%`, 2026 `+4.9%`.
+flat), 2023 `+42.3%`, 2024 `+66.8%`, 2025 `+1.0%`, 2026 `+6.8%`.
 
 The two zero years are not missing data: the universe had fewer than eight
 seasoned symbols in 2021, and the 200-day gate kept the book flat through the
@@ -249,26 +258,26 @@ recovery (2026).
 
 | Metric | Value |
 |---|---:|
-| CAGR | 14.5% |
-| Volatility | 23.2% |
-| Sharpe | 0.70 |
-| Max drawdown | 27.5% |
-| Calmar | 0.53 |
-| Yearly | 2024 `+51.2%`, 2025 `−6.9%`, 2026 `+4.9%` |
+| CAGR | 14.3% |
+| Volatility | 23.4% |
+| Sharpe | 0.69 |
+| Max drawdown | 28.4% |
+| Calmar | 0.50 |
+| Yearly | 2024 `+49.4%`, 2025 `−8.0%`, 2026 `+6.8%` |
 
 ### 7.3 Holdout 2024-01-01 → 2026-11-15
 
 | Metric | Value |
 |---|---:|
-| CAGR | 21.3% |
-| Sharpe | 0.90 |
-| Max drawdown | 24.5% |
+| CAGR | 23.0% |
+| Sharpe | 0.95 |
+| Max drawdown | 25.0% |
 
 ### 7.4 Cross-universe
 
 | Universe | Symbols | CAGR | Sharpe | Max DD |
 |---|---:|---:|---:|---:|
-| All crypto | 105 | 16.6% | 0.83 | 24.5% |
+| All crypto | 121 | 17.4% | 0.86 | 25.0% |
 | Fixed (listed before 2023) | 43 | 16.2% | 0.81 | 27.0% |
 | Majors | 26 | 15.7% | 0.81 | 25.2% |
 
@@ -276,12 +285,12 @@ recovery (2026).
 
 | Variant | CAGR | Sharpe | Max DD |
 |---|---:|---:|---:|
-| Base (8 bps/side, 2.0/0.5 bps funding) | 16.6% | 0.83 | 24.5% |
-| 2× costs and funding | 14.4% | 0.74 | 25.4% |
-| 3× costs and funding | 12.3% | 0.66 | 26.3% |
-| No ATR stop | 17.1% | 0.83 | 24.5% |
-| 20% circuit breaker | 10.7% | 0.69 | 22.3% |
-| 14-day rebalance | 12.3% | 0.67 | 24.4% |
+| Base (8 bps/side, 2.0/0.5 bps funding) | 17.4% | 0.86 | 25.0% |
+| 2× costs and funding | 15.2% | 0.77 | 26.0% |
+| 3× costs and funding | 13.1% | 0.69 | 26.9% |
+| No ATR stop | 17.8% | 0.86 | 24.4% |
+| 20% circuit breaker | 9.9% | 0.70 | 21.4% |
+| 14-day rebalance | 13.0% | 0.70 | 24.4% |
 
 The edge survives 3× costs. The ATR stop costs ~0.5pp of CAGR in the backtest
 but is retained as an operational blow-up guard; the 20% breaker is too tight
@@ -293,12 +302,12 @@ two-weekly.
 | Statistic | Value | Reading |
 |---|---:|---|
 | Grid configurations | 16 | 15/16 positive |
-| Median grid Sharpe | 0.58 | the family, not one config |
-| PBO (CSCV, 252 splits) | 0.385 | ~39% chance the in-sample winner underperforms OOS |
+| Median grid Sharpe | 0.56 | the family, not one config |
+| PBO (CSCV, 252 splits) | 0.333 | ~33% chance the in-sample winner underperforms OOS |
 | Deflated Sharpe, 1 trial | 1.000 | pre-registered core |
-| Deflated Sharpe, 17 trials | 0.0003 | search-adjusted; do not overclaim |
-| Bootstrap Sharpe 5/50/95 | −0.021 / 0.825 / 1.695 | 5th percentile crosses zero |
-| Bootstrap CAGR 5/95 | −2.5% / 41.5% | wide, as expected for 4 trading years |
+| Deflated Sharpe, 17 trials | 0.005 | search-adjusted; do not overclaim |
+| Bootstrap Sharpe 5/50/95 | 0.007 / 0.848 / 1.702 | 5th percentile barely above zero |
+| Bootstrap CAGR 5/95 | −2.0% / 42.3% | wide, as expected for 4 trading years |
 
 The honest conclusion: **the family has a positive edge and the core is
 profitable, but the statistical confidence after a 16-config search is modest.**
@@ -325,9 +334,9 @@ strategy.
 5. **Regime dependence.** The book is flat when BTC is below its 200-day gate.
    A multi-year bear market produces cash, not alpha. That is a feature, but it
    means the CAGR is earned in risk-on periods.
-6. **2025 was slightly negative (−1.8%).** The strategy is not immune to chop.
-7. **The search-adjusted DSR is low.** Treat the 16.6% as an upper-bound
-   estimate and the walk-forward 14.5% as the planning number.
+6. **2025 was flat (+1.0%).** The strategy is not immune to chop.
+7. **The search-adjusted DSR is low.** Treat the 17.4% as an upper-bound
+   estimate and the walk-forward 14.3% as the planning number.
 8. **No live-capital claim.** The isolation charter still forbids live keys in
    this repository.
 
@@ -355,7 +364,7 @@ python scripts/run_alpha_backtest.py --mode walkforward
 ```
 
 The report JSON is written to `reports/alpha/alpha-research.json` (gitignored).
-The 105-symbol crypto panel is ~50 MB; it is data, not source, and is also
+The 121-symbol crypto panel is ~55 MB; it is data, not source, and is also
 gitignored.
 
 ---
