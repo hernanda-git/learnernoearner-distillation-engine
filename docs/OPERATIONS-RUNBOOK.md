@@ -104,9 +104,57 @@ ssh valarion@46.202.155.192 '
 
 The pre-fix ledger is retained as a backup but is **not** carried forward: its FSM state was reset every scan. A fresh $1,000 ledger is created by the daemon.
 
+### 2.7 Alpha Paper Daemon (default trading path)
+
+Since 2026-11-16 the daemon defaults to `--strategy alpha`. It runs the frozen
+`docs/ALPHA-RESEARCH.md` portfolio: one decision per UTC day, positions carried
+between rebalances, **no margin-velocity eviction**.
+
+```bash
+# One forced cycle (first run backfills ~400 days for ~120 symbols, then rebalances)
+python scripts/run_paper_trader.py --mode live-step --strategy alpha
+
+# 24/7 paper daemon (the systemd unit inherits alpha by default)
+python scripts/run_paper_trader.py --mode daemon --strategy alpha --interval 300
+```
+
+| Artifact | Location |
+|---|---|
+| Alpha ledger | `$PROTEUS_STATE_DIR/alpha_ledger.json` |
+| Closed-trade log | `$PROTEUS_STATE_DIR/alpha_closed_trades.jsonl` |
+| 4H panel cache | `$PROTEUS_STATE_DIR/alpha_panel/4h/*.jsonl` |
+| Read-only API | `GET /api/v1/alpha` |
+| Console | **Alpha Book** tab (`/`) |
+
+Behaviour:
+
+* The first cycle selects the universe (top ~120 by 24h USDT volume plus the
+  trader's empirical list, excluding stable/RWA contracts), backfills the cache,
+  and opens the first book. Expect several minutes of REST traffic.
+* Subsequent cycles update only the last 18 4H bars per symbol (or just the open
+  positions between rebalances) and mark the book to market.
+* A rebalance happens on the first cycle after `00:05 UTC` of a new day. A
+  symbol is eligible only with ≥365 days of history, ≥$2M 7-day dollar volume,
+  annualized vol ≤300%, a positive 14/60-day risk-adjusted momentum, and
+  `close > SMA50`; BTC must be above `SMA200 × 1.02` with positive 60-day
+  momentum.
+* A 4× ATR stop and a 30% drawdown breaker can close or flatten positions
+  between rebalances.
+* The retired `paper_ledger.json` (the 3-slot clone) is not read or written by
+  this path and is not carried forward.
+
+The research CLIs are independent of the daemon:
+
+```bash
+python scripts/fetch_research_panel.py --out data/research/panel --start 2021-01-01
+python scripts/run_alpha_backtest.py --mode report --out reports/alpha
+python scripts/run_alpha_backtest.py --mode walkforward
+```
+
 ---
 
 ## 3. CLI & Service Management Commands
+
 
 ### 3.1 Local / Development CLI Commands
 ```bash
@@ -117,11 +165,15 @@ python -m pytest -v
 #    Exit code is 1 while BPS is unmeasured.
 python scripts/run_turing_benchmark.py
 
-# 3. Simulate $1,000 paper account across all 91 resolvable historical setups
-python scripts/run_paper_trader.py --mode historical
+# 3. Simulate the retired clone across the historical setups (research only)
+python scripts/run_paper_trader.py --mode historical --strategy distillation
 
-# 4. Run a single live Bitget scan & step paper ledger
-python scripts/run_paper_trader.py --mode live-step --refresh-live
+# 4. Alpha paper book: one forced cycle, then the 24/7 daemon
+python scripts/run_paper_trader.py --mode live-step --strategy alpha
+python scripts/run_paper_trader.py --mode daemon --strategy alpha --interval 300
+
+# 4b. Legacy distillation scanner (research telemetry only)
+python scripts/run_paper_trader.py --mode live-step --strategy distillation --refresh-live
 
 # 5. Run Self-Monitoring Watchdog & 4-stage AI-Agent Self-Improver
 python scripts/run_self_improver.py --learning-rate 0.12

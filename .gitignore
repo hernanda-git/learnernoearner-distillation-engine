@@ -49,3 +49,7 @@ data/
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
+
+# Generated research artifacts
+reports/
+reports_*.txt

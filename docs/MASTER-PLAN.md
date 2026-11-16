@@ -218,3 +218,51 @@ All six phases are implemented. The evidence layer is **unvalidated**: BPS is `N
 | **Phase 4: Turing Harness & Backtest** | `src/proteus/replay/` & `backtest/` | **IMPLEMENTED / UNVALIDATED** | BPS `None` (unmeasured components); chronological OOS recall `4.8%` (1/21); strict-conservative 91-setup backtest: Naive `−3.03R / PF 0.96 / DD 18.62R` vs FSM `−10.60R / PF 0.76 / DD 10.60R`; touch-fill sensitivity `−19.33R / PF 0.50` with 27/91 unfilled |
 | **Phase 5: Forward Shadow Mode** | `src/proteus/shadow/` & `paper/` | **IMPLEMENTED** | Live systemd daemon + stateful `VirtualPaperExchange` with Bitget Maker (`2 bps`) / Taker (`6 bps`) fees & 3-slot eviction; lead time unmeasured until detections are logged |
 | **Phase 6: Self-Monitor, AI Evolver & Web UI** | `src/proteus/constitution/`, `monitor/`, `evolver/`, `web/` | **IMPLEMENTED** | 6-probe `SelfMonitoringWatchdog` (`LatchHealer`), 4-stage `AgenticSelfImprover` (`FAJ1` SHA-256 hash-chain journal; updates rejected while BPS is unmeasured), and 7-tab console |
+
+---
+
+## 7. Trading Core Pivot (2026-11-16)
+
+The Phase 1–6 layers remain the **research** system: corpus, geometry, vision,
+behavioral replay, and the parity scorecard. They no longer size or rotate the
+book. The live paper ledger proved why:
+
+| Live clone ledger (2026-11-16) | Value |
+|---|---:|
+| Closed positions | 1,404 |
+| Margin-velocity evictions | 1,293 |
+| Fees paid | $1,948.86 |
+| Starting equity | $1,000.00 |
+| Ending equity | −$510.46 |
+
+The 15-minute, three-slot rotation was a fee engine. It is retired from the
+trade path.
+
+### 7.1 Alpha core
+
+`proteus.alpha` is a separately validated portfolio built on 185 Bitget
+perpetuals and 870,306 4H bars (2019-07 → 2026-11-15):
+
+* long-only time-series momentum, 14/60-day lookbacks, top 8;
+* inverse-vol weights, 15% annualized volatility target, 2× gross cap;
+* BTC 200-day regime gate (2% buffer + 60-day momentum);
+* weekly calendar-anchored rebalance, 4× ATR stops, 30% circuit breaker;
+* 8 bps/side and explicit funding.
+
+Net of costs: **18.1% CAGR / 0.90 Sharpe / 24.5% MaxDD**; walk-forward OOS
+**17.2% / 0.81**; 2024–2026 holdout **24.5% / 1.01**; 3× cost stress
+**13.7% / 0.71**. Full evidence: `docs/ALPHA-RESEARCH.md`.
+
+### 7.2 New graduation gate
+
+The old Phase 7 gate (BPS ≥ 0.85) measured fidelity to the trader, not P&L. The
+trading gate is now:
+
+1. ≥ 30 calendar days and ≥ 15 closed alpha positions forward;
+2. net profit factor ≥ 1.2 after fees and funding;
+3. max drawdown ≤ 25%;
+4. realized costs within 2× the model;
+5. no unhandled daemon exception.
+
+Only then consider a $1–$2 risk-per-trade canary, with the paper ledger running
+as the control.

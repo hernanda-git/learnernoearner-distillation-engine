@@ -1,4 +1,4 @@
-# Project Proteus: Trader Distillation Engine (`@learnernoearner`)
+# Project Proteus: Distillation Research + Alpha Trading Engine (`@learnernoearner`)
 
 > **Live Web Console**: [`https://engine.warga-digital.com`](https://engine.warga-digital.com) (`127.0.0.1:18085` · 24/7 Systemd Daemon)  
 > **Companion Copy-Trader**: [`https://trade.warga-digital.com`](https://trade.warga-digital.com) (`fatty-multi-exchange-trader` · `:18081`)  
@@ -6,7 +6,36 @@
 
 ---
 
+## ⚡ Trading Core (2026-11-16): Validated Alpha Portfolio
+
+The clone is **research**. The trading path is a separate, cost-aware portfolio
+validated on 185 Bitget perpetuals (870,306 4H bars, 2019-07 → 2026-11-15):
+
+| Book | CAGR | Sharpe | Max DD | Positive years |
+|---|---:|---:|---:|---|
+| **Alpha core (net)** | **18.1%** | **0.90** | **24.5%** | 2023, 2024, 2025, 2026 |
+| Walk-forward OOS | 17.2% | 0.81 | 27.5% | 2024, 2026 |
+| Holdout 2024–2026 | 24.5% | 1.01 | 24.5% | 2024, 2025, 2026 |
+| BTC buy-and-hold | 14.9% | 0.52 | 76.7% | 2021, 2023, 2024 |
+
+The core is long-only time-series momentum (14/60-day lookbacks, top 8,
+inverse-vol, 15% vol target) gated by BTC's 200-day trend. It rebalances at most
+once per UTC day, carries positions between rebalances, and has **no slot
+eviction**. It survives 3× fees and funding (13.7% CAGR / 0.71 Sharpe).
+
+**Why the cutover was forced.** The live clone ledger reached **1,404 closed
+positions, 1,293 margin evictions, $1,948.86 in fees on a $1,000 account, and
+−$510.46 equity** in roughly four days. The 15-minute, three-slot rotation was
+a fee engine. The old ledger is retired; the alpha ledger starts fresh at
+$1,000 and is the only paper-trading path.
+
+Full evidence, literature review, limitations, and graduation gates:
+**[docs/ALPHA-RESEARCH.md](docs/ALPHA-RESEARCH.md)**.
+
+---
+
 ## 🎯 Mission & Paradigm
+
 
 **Project Proteus** reverse-engineers the implicit market heuristics, 3-tier horizontal range perception, visual chart saliency, and intraday risk management of discretionary crypto trader `@learnernoearner` into an autonomous, self-monitoring, self-improving decision engine.
 
@@ -28,18 +57,21 @@ Unlike reactive copy-trading (which suffers $6\text{–}28\text{s}$ human screen
 - **[AI Agent Instructions](AGENTS.md)**: Mandatory startup rules for coding agents operating in this repository.
 - **[System Architecture & Module Contracts](ARCHITECTURE.md)**: End-to-end 12-subpackage topology, domain dataclasses, and hard invariant guarantees.
 - **[Empirical Behavioral & Forensic Analysis](docs/BEHAVIORAL-ANALYSIS.md)**: Complete quantitative & qualitative profile across 784 Telegram messages, 95 canonical setups, 47 management actions, 86 Bitget 1H candle trajectories, and 284 TradingView chart screenshots.
+- **[Alpha Research: The Validated Trading Core](docs/ALPHA-RESEARCH.md)**: Literature review, 185-symbol data panel, frozen strategy, walk-forward/PBO/DSR results, cost stress, limitations, and the paper-to-canary gate.
 - **[Engineering Master Plan (Phases 1–6 Implemented, Unvalidated)](docs/MASTER-PLAN.md)**: Implemented architecture, the unmeasured Behavioral Parity Scorecard, and Phase 7 Canary Graduation criteria.
 - **[Operations & Deployment Runbook](docs/OPERATIONS-RUNBOOK.md)**: Production runbook for `https://engine.warga-digital.com`, `systemd` services, OpenLiteSpeed + Cloudflare routing, auth/state environment, REST API endpoints, CLI modes, and Operator Action Gates.
 - **[Data Collection Runbook](docs/DATA-COLLECTION.md)**: 1m candle backfill (and Bitget retention limit), chart labelling, paired detection timestamps, funding/OI/order-flow, and pre-tuning gates.
 
 ---
 
-## 📊 Empirical Status (2026-11-12)
+## 📊 Empirical Status (2026-11-16)
 
 > **Validation status: UNVALIDATED.** BPS is `None` while independent direction, vision, and lead-time labels are missing. The numbers below are what the corpus actually supports.
 
 | Dimension | Scope | Current result | Status |
 | :--- | :--- | ---: | :--- |
+| **Alpha core (net of costs)** | 185 Bitget perps · 870,306 4H bars · effective 2023–2026 | **18.1% CAGR / 0.90 Sharpe / 24.5% MaxDD**; WF OOS **17.2% / 0.81**; 3× cost stress **13.7% / 0.71** | **Profitable**; forward paper pending |
+| **Live clone ledger (retired)** | 45 symbols · 15m rotation · 3 slots | **1,404 closed · 1,293 evictions · $1,948.86 fees · −$510.46 equity** | **Removed from trade path** |
 | **Behavioral Parity Score ($BPS$)** | 784 msgs · 95 setups · 47 updates | **Unmeasured** | `directional`, `spatial`, `abstain`, `timing` missing |
 | **Leak-free Bayesian Policy** | 5,000 negatives + 91 signals | **98.56% abstain / 4.4% recall (in-sample)** | Not validated |
 | **Chronological OOS Split** | 80/20 by timestamp (cutoff `2026-10-25`) | **97.4% abstain / 4.8% recall (1/21) / 26 false entries** | Fails; see benchmark `phase1_and_3_oos_time_split` |
@@ -90,6 +122,8 @@ learnernoearner-distillation-engine/
 │   └── OPERATIONS-RUNBOOK.md                # VPS systemd, OpenLiteSpeed/CF, CLI & API runbook
 ├── scripts/
 │   ├── extract_corpus_readonly.py           # Air-gapped read-only SQLite/JSONL extractor
+│   ├── fetch_research_panel.py              # Multi-year 4H panel fetcher (Bitget public API)
+│   ├── run_alpha_backtest.py                # Alpha core, grid, walk-forward, PBO/DSR CLI
 │   ├── run_turing_benchmark.py              # Full Phases 1–6 Turing, Bayes & backtest CLI
 │   ├── run_shadow_daemon.py                 # Single-pass Bitget public-REST shadow scanner
 │   ├── run_paper_trader.py                  # Virtual Paper Exchange (historical, live-step, daemon)
@@ -97,6 +131,7 @@ learnernoearner-distillation-engine/
 │   └── run_web_ui.py                        # 7-tab Web Console & JSON API server (:18085)
 ├── src/
 │   └── proteus/                             # Autonomous clone engine package
+│       ├── alpha/                           # Validated long-only TSMOM portfolio (live + research)
 │       ├── domain/                          # Immutable domain models & value objects
 │       ├── market/                          # Multi-TF lakehouse, rate-limited REST + websocket candle stream
 │       ├── compass/                         # BTC/ETH 1D macro regime gate

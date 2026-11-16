@@ -332,6 +332,15 @@ class BitgetPublicMarketClient:
             (symbol, granularity), []
         )
 
+    def get_json(self, path: str, attempts: int | None = None) -> dict[str, Any]:
+        """Fetch a public JSON endpoint through the same limiter and relay path."""
+        url = path if path.startswith("http") else f"https://api.bitget.com{path}"
+        payload, _status = self._get_json(url, attempts=attempts)
+        if payload is None and self.ssh_relay_host:
+            relayed = self._fetch_via_relay([url])
+            payload = relayed[0] if relayed else None
+        return payload or {}
+
     def fetch_candle_range(
         self,
         symbol: str,

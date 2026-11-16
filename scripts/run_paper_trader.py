@@ -22,7 +22,10 @@ SRC_DIR = REPO_ROOT / "src"
 if str(SRC_DIR) not in sys.path:
     sys.path.insert(0, str(SRC_DIR))
 
+from proteus.alpha import default_config
+from proteus.alpha.live import AlphaLiveTrader
 from proteus.evolver import AgenticSelfImprover
+from proteus.market.bitget import BitgetPublicMarketClient
 from proteus.market.bitget_ws import BitgetCandleStream
 from proteus.monitor import SelfMonitoringWatchdog
 from proteus.paper import VirtualPaperExchange
@@ -51,6 +54,55 @@ def _load_or_scan_snapshot(
     snapshot = scanner.scan_live_universe()
     snapshot_path.write_text(json.dumps(snapshot.to_dict(), indent=2) + "\n", encoding="utf-8")
     return snapshot
+
+
+def _run_alpha(args: argparse.Namespace) -> int:
+    """Run the validated alpha portfolio (daily rebalance, no slot churn)."""
+    ledger_path = state_path("alpha_ledger.json", seed=False)
+    client = BitgetPublicMarketClient(ssh_relay_host="valarion@46.202.155.192")
+    trader = AlphaLiveTrader(
+        default_config(),
+        client=client,
+        state_path=ledger_path,
+        panel_dir=ledger_path.parent / "alpha_panel" / "4h",
+        starting_equity_usdt=args.equity,
+    )
+    if args.mode == "live-step":
+        print(json.dumps(trader.step(force_rebalance=True), indent=2))
+        return 0
+
+    def _terminate(_signum: int, _frame: object) -> None:
+        raise KeyboardInterrupt
+
+    signal.signal(signal.SIGTERM, _terminate)
+    interval = max(60, args.interval)
+    try:
+        while True:
+            try:
+                snapshot = trader.step()
+                print(
+                    json.dumps(
+                        {
+                            "scanned_at_utc": snapshot.get("updated_at_utc"),
+                            "strategy": "alpha",
+                            "equity_usdt": snapshot.get("equity_usdt"),
+                            "return_pct": snapshot.get("return_pct"),
+                            "positions": len(snapshot.get("positions", [])),
+                            "gross": snapshot.get("gross"),
+                            "net": snapshot.get("net"),
+                            "regime_bull": snapshot.get("regime_bull"),
+                            "last_rebalance_day": snapshot.get("last_rebalance_day"),
+                            "costs_usdt": snapshot.get("costs_usdt"),
+                            "funding_usdt": snapshot.get("funding_usdt"),
+                        }
+                    ),
+                    flush=True,
+                )
+            except Exception as error:  # noqa: BLE001 - daemon must survive a bad cycle
+                print(json.dumps({"strategy": "alpha", "error": str(error)}), flush=True)
+            time.sleep(interval)
+    except KeyboardInterrupt:
+        return 0
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -86,7 +138,16 @@ def main(argv: list[str] | None = None) -> int:
         default=300,
         help="Polling interval in seconds for --mode daemon (default: 300s / 5m).",
     )
+    parser.add_argument(
+        "--strategy",
+        choices=("alpha", "distillation"),
+        default="alpha",
+        help="Trading path: validated alpha portfolio (default) or the behavioral clone.",
+    )
     args = parser.parse_args(argv)
+
+    if args.mode != "historical" and args.strategy == "alpha":
+        return _run_alpha(args)
 
     exchange = VirtualPaperExchange(
         starting_equity_usdt=args.equity,

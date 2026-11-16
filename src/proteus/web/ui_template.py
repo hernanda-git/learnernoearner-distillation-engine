@@ -280,43 +280,44 @@ INDEX_HTML = r"""<!DOCTYPE html>
   </header>
 
   <main class="container">
-    <!-- Top Executive KPI Strip -->
+    <!-- Top Executive KPI Strip: live alpha book -->
     <section class="kpi-strip">
       <div class="kpi-card">
-        <div class="kpi-label">Virtual Paper Equity</div>
-        <div class="kpi-val" id="kpi-equity" style="color:var(--success);">$1,000.00</div>
-        <div class="kpi-sub" id="kpi-equity-sub">Base: $1,000 · Risk: $20 (2.0%)/1R</div>
+        <div class="kpi-label">Alpha Book Equity</div>
+        <div class="kpi-val" id="alpha-kpi-equity" style="color:var(--success);">$1,000.00</div>
+        <div class="kpi-sub" id="alpha-kpi-return">Net of fees and funding</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-label">97-Signal Sim Equity (After Fees)</div>
-        <div class="kpi-val" id="kpi-hist-eq" style="color:var(--accent);">$2,938.51</div>
-        <div class="kpi-sub" id="kpi-hist-sub">+199.8% Gross · Max DD: 4.0% (2.0R)</div>
+        <div class="kpi-label">Alpha Net Return / Max DD</div>
+        <div class="kpi-val" id="alpha-kpi-return-val" style="color:var(--accent);">0.00%</div>
+        <div class="kpi-sub" id="alpha-kpi-dd">Max DD 0.00%</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-label">Distilled FSM Profit Factor</div>
-        <div class="kpi-val" id="kpi-pf" style="color:var(--success);">10.08</div>
-        <div class="kpi-sub">vs 2.48 Naive Set-and-Forget (4.06×)</div>
+        <div class="kpi-label">Open Book</div>
+        <div class="kpi-val" id="alpha-kpi-open">0 positions</div>
+        <div class="kpi-sub" id="alpha-kpi-exposure">Gross 0.00 · Net 0.00</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Macro Compass (1D Anchor)</div>
-        <div class="kpi-val" id="kpi-btc">BTC: $74,573</div>
-        <div class="kpi-sub" id="kpi-eth">ETH: $2,132.88 · Never Traded Directly</div>
+        <div class="kpi-val" id="kpi-btc">BTC: —</div>
+        <div class="kpi-sub" id="kpi-eth">ETH: —</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-label">2-Hour Coupled Impulse Lock</div>
-        <div class="kpi-val" style="color:var(--purple);">119.1m / 123.6m</div>
-        <div class="kpi-sub">SL→Entry @ 119.1m · TP1 @ 123.6m</div>
+        <div class="kpi-label">Alpha Regime Gate</div>
+        <div class="kpi-val" id="alpha-kpi-regime" style="color:var(--purple);">—</div>
+        <div class="kpi-sub" id="alpha-kpi-last">Last rebalance —</div>
       </div>
       <div class="kpi-card">
-        <div class="kpi-label">Shadow Lead-Time Parity (Δt)</div>
-        <div class="kpi-val" id="kpi-lead" style="color:var(--success);">−16.5s</div>
-        <div class="kpi-sub">100% Front-Run / Simultaneous vs Human</div>
+        <div class="kpi-label">Validated Core (Net, 2023–2026)</div>
+        <div class="kpi-val" style="color:var(--success);">0.90</div>
+        <div class="kpi-sub">Sharpe · 18.1% CAGR · 24.5% Max DD · OOS 0.81</div>
       </div>
     </section>
 
     <!-- Navigation Tabs -->
     <nav class="tabs">
-      <button class="tab-btn active" onclick="switchTab('tab-shadow', this)">1. Live Shadow Radar &amp; Paper Exchange</button>
+      <button class="tab-btn active" onclick="switchTab('tab-alpha', this)">Alpha Book (Validated)</button>
+      <button class="tab-btn" onclick="switchTab('tab-shadow', this)">1. Live Shadow Radar &amp; Research Paper Exchange</button>
       <button class="tab-btn" onclick="switchTab('tab-backtest', this)">2. 97-Setup Backtest &amp; Real-Candle Whipsaw Audit</button>
       <button class="tab-btn" onclick="switchTab('tab-signals', this)">3. All 97 Canonical Signals &amp; 48h MFE/MAE</button>
       <button class="tab-btn" onclick="switchTab('tab-profile', this)">4. Behavioral Profile &amp; 47 In-Flight Actions</button>
@@ -325,8 +326,47 @@ INDEX_HTML = r"""<!DOCTYPE html>
       <button class="tab-btn" onclick="switchTab('tab-evolver', this)">7. Self-Monitor Watchdog &amp; AI Agent Evolver</button>
     </nav>
 
+    <!-- TAB 0: ALPHA BOOK -->
+    <div id="tab-alpha" class="tab-pane active">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">ALPHA PORTFOLIO — DAILY REBALANCE, NO SLOT CHURN</span>
+          <span class="badge badge-accent" id="alpha-status-badge">Awaiting first cycle</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>Direction</th>
+                <th class="num">Weight</th>
+                <th class="num">Notional (USDT)</th>
+                <th class="num">Entry</th>
+                <th class="num">Last</th>
+                <th class="num">Unrealized (USDT)</th>
+              </tr>
+            </thead>
+            <tbody id="alpha-positions"></tbody>
+          </table>
+        </div>
+        <p class="kpi-sub">The book is long-only time-series momentum on the volume-ranked USDT perpetuals. It rebalances at most once per UTC day, carries positions between rebalances, and never evicts a position to open another. Validated net of 8 bps/side and funding in <strong>docs/ALPHA-RESEARCH.md</strong>.</p>
+      </div>
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">CURRENT TARGET BOOK (WEIGHT OF EQUITY)</span>
+          <span class="badge badge-muted" id="alpha-target-count">0 targets</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Symbol</th><th class="num">Target Weight</th></tr></thead>
+            <tbody id="alpha-targets"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <!-- TAB 1: LIVE SHADOW RADAR & PAPER EXCHANGE -->
-    <div id="tab-shadow" class="tab-pane active">
+    <div id="tab-shadow" class="tab-pane">
       <div class="panel">
         <div class="panel-header">
           <span class="panel-title">ACTIVE VIRTUAL PAPER EXCHANGE LEDGER (MAX 3 CONCURRENT SLOTS · BITGET MAKER 2 BPS / TAKER 6 BPS)</span>
@@ -784,8 +824,6 @@ INDEX_HTML = r"""<!DOCTYPE html>
 
       const pl = d.paper_ledger || {};
       if (pl.current_equity_usdt !== undefined) {
-        document.getElementById('kpi-equity').textContent = `$${fmtNum(pl.current_equity_usdt, 2)}`;
-        document.getElementById('kpi-equity-sub').textContent = `Realized: $${fmtNum(pl.realized_pnl_usdt, 2)} · Unrealized: $${fmtNum(pl.unrealized_pnl_usdt, 2)} · Fees: $${fmtNum(pl.total_fees_paid_usdt, 2)}`;
         document.getElementById('paper-slots-badge').textContent = `Open Slots: ${pl.open_positions_count || 0} / ${pl.max_open_positions || 3} (Evictions: ${pl.margin_evictions_count || 0})`;
       }
 
@@ -1070,8 +1108,58 @@ INDEX_HTML = r"""<!DOCTYPE html>
       }
     }
 
+    async function loadAlpha() {
+      try {
+        const resp = await fetch('/api/v1/alpha');
+        renderAlpha(await resp.json());
+      } catch (error) {
+        // Keep the last good render; a transient API failure must not blank the book.
+      }
+    }
+
+    function renderAlpha(a) {
+      if (!a) return;
+      const badge = document.getElementById('alpha-status-badge');
+      if (a.status) {
+        badge.textContent = a.status === 'NO_LEDGER' ? 'Awaiting first cycle' : a.status;
+        return;
+      }
+      const positions = a.positions || [];
+      const targets = a.targets || [];
+      document.getElementById('alpha-kpi-equity').textContent = `$${fmtNum(a.equity_usdt, 2)}`;
+      document.getElementById('alpha-kpi-return').textContent = `Fees $${fmtNum(a.costs_usdt, 2)} · Funding $${fmtNum(a.funding_usdt, 2)}`;
+      document.getElementById('alpha-kpi-return-val').textContent = `${fmtNum(a.return_pct, 2)}%`;
+      document.getElementById('alpha-kpi-dd').textContent = `Max DD ${fmtNum(a.max_drawdown_pct, 2)}%`;
+      document.getElementById('alpha-kpi-open').textContent = `${positions.length} positions`;
+      document.getElementById('alpha-kpi-exposure').textContent = `Gross ${fmtNum(a.gross, 2)} · Net ${fmtNum(a.net, 2)}`;
+      document.getElementById('alpha-kpi-regime').textContent = a.regime_bull ? 'BULL — longs admitted' : 'BEAR — flat';
+      document.getElementById('alpha-kpi-last').textContent = `Last rebalance ${a.last_rebalance_day || '—'}`;
+      badge.textContent = `Universe ${a.universe || 0} · ${a.regime_bull ? 'RISK-ON' : 'RISK-OFF'}`;
+      document.getElementById('alpha-target-count').textContent = `${targets.length} targets`;
+      document.getElementById('alpha-positions').innerHTML = positions.length
+        ? positions.map(p => {
+            const pnl = Number(p.unrealized_usdt || 0);
+            const color = pnl > 0 ? 'var(--success)' : (pnl < 0 ? 'var(--error)' : 'var(--muted)');
+            return `<tr>
+              <td><strong>${p.symbol}</strong></td>
+              <td><span class="badge ${p.direction === 'LONG' ? 'badge-success' : 'badge-error'}">${p.direction}</span></td>
+              <td class="num">${fmtNum(Number(p.weight) * 100, 2)}%</td>
+              <td class="num">${fmtNum(p.dollars, 2)}</td>
+              <td class="num">${p.entry_price}</td>
+              <td class="num">${p.last_price}</td>
+              <td class="num" style="color:${color};">${fmtNum(pnl, 2)}</td>
+            </tr>`;
+          }).join('')
+        : '<tr><td colspan="7">No open positions — the regime gate or the ranking is flat.</td></tr>';
+      document.getElementById('alpha-targets').innerHTML = targets.length
+        ? targets.map(t => `<tr><td><strong>${t.symbol}</strong></td><td class="num">${fmtNum(Number(t.weight) * 100, 2)}%</td></tr>`).join('')
+        : '<tr><td colspan="2">Flat target book</td></tr>';
+    }
+
     loadDashboard();
+    loadAlpha();
     setInterval(loadDashboard, 30000);
+    setInterval(loadAlpha, 30000);
   </script>
 </body>
 </html>

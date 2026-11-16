@@ -23,6 +23,7 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 
+from proteus.alpha.live import LiveState, snapshot_state
 from proteus.constitution import BoundedSelfCorrector, ConstitutionalIdentityGuard
 from proteus.evolver import AgenticSelfImprover
 from proteus.monitor import SelfMonitoringWatchdog
@@ -101,6 +102,18 @@ class ProteusWebHandler(BaseHTTPRequestHandler):
         return payload if isinstance(payload, dict) else None
 
     @staticmethod
+    def _alpha_payload() -> dict[str, Any]:
+        path = state_path("alpha_ledger.json", seed=False)
+        if not path.exists():
+            return {"strategy": "alpha", "status": "NO_LEDGER"}
+        try:
+            raw = json.loads(path.read_text(encoding="utf-8"))
+            state = LiveState.from_dict(raw)
+        except (json.JSONDecodeError, TypeError, ValueError) as error:
+            return {"strategy": "alpha", "status": "INVALID_LEDGER", "detail": str(error)}
+        return snapshot_state(state, config_name="core")
+
+    @staticmethod
     def _health_payload() -> dict[str, Any]:
         now = time.monotonic()
         cached = _HEALTH_CACHE["payload"]
@@ -159,6 +172,9 @@ class ProteusWebHandler(BaseHTTPRequestHandler):
             return
         if self.path in ("/health", "/health/telemetry"):
             self._send_json(self._health_payload())
+            return
+        if self.path.startswith("/api/v1/alpha"):
+            self._send_json(self._alpha_payload())
             return
         if self.path.startswith("/api/v1/dashboard"):
             refresh = "refresh=1" in self.path
