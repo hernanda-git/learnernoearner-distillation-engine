@@ -64,6 +64,7 @@ class LiveState:
     regime_bull: bool = True
     gross: float = 0.0
     net: float = 0.0
+    universe_count: int = 0
     updated_at_utc: str = ""
 
     def to_dict(self) -> dict[str, Any]:
@@ -96,6 +97,7 @@ class LiveState:
             regime_bull=bool(raw.get("regime_bull", True)),
             gross=float(raw.get("gross", 0.0)),
             net=float(raw.get("net", 0.0)),
+            universe_count=int(raw.get("universe_count", 0) or 0),
             updated_at_utc=str(raw.get("updated_at_utc", "")),
         )
 
@@ -420,6 +422,7 @@ class AlphaLiveTrader:
             self.universe = select_live_universe(self.client, top=self.universe_top)
             start_ms = int((now - timedelta(days=LIVE_GAP_DAYS)).timestamp() * 1000)
             self.store.backfill(self.client, self.universe, start_ms=start_ms)
+        self.state.universe_count = len(self.universe)
 
         day = now.date().isoformat()
         rebalance_due = force_rebalance or (
@@ -506,6 +509,7 @@ def snapshot_state(
     state: LiveState, *, config_name: str = "core", universe: int = 0
 ) -> dict[str, Any]:
     """Serialize a ledger into the API/UI shape without touching the network."""
+    universe = universe or state.universe_count
     equity = state.equity_usdt
     peak = max(state.peak_equity_usdt, equity, 1e-9)
     positions = []
