@@ -27,7 +27,7 @@ The trading core is now a separate, evidence-first portfolio:
 | Walk-forward OOS | 14.3% | 23.4% | 0.69 | 28.4% | 0.50 | 2024, 2026 |
 | Holdout 2024-01 → 2026-11 | 23.0% | — | 0.95 | 25.0% | — | 2024, 2026 |
 | BTC buy-and-hold | 14.9% | 57.0% | 0.52 | 76.7% | 0.19 | 2021, 2023, 2024 |
-| Equal-weight crypto universe | 18.0% | 85.8% | 0.61 | 85.6% | 0.21 | 2021, 2023, 2024, 2026 |
+| Equal-weight crypto universe | 18.0% | 87.5% | 0.61 | 85.6% | 0.21 | 2021, 2023, 2024, 2026 |
 
 The core matches BTC's return with roughly one-third of its drawdown and a
 materially higher Sharpe. It is **not** a high-confidence alpha claim: after
