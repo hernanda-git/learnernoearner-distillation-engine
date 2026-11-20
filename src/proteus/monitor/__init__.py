@@ -81,7 +81,9 @@ class SelfMonitoringWatchdog:
         alpha_ledger_path: Path | None = None,
         alpha_panel_dir: Path | None = None,
     ) -> None:
-        self.state_path = state_path or resolve_state_path("self_monitor_state.json")
+        self.state_path = state_path or resolve_state_path(
+            "self_monitor_state.json", seed=False
+        )
         self.shadow_path = shadow_path or resolve_state_path("live_shadow_snapshot.json")
         self.ledger_path = ledger_path or resolve_state_path("paper_ledger.json", seed=False)
         self.alpha_ledger_path = alpha_ledger_path or resolve_state_path(
