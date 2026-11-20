@@ -46,7 +46,7 @@
 │         • $1,000 Base · $20 (2.0%)/1R Risk · Max 3 Concurrent Slots          │
 │         • +1.0R (~119.1m): Auto "sl to entry" (rescues 61.7% of whipsaws)    │
 │         • +1.5R (~123.6m): Auto 50% "tp1 booked"                             │
-│         • UTC 21:00+: Bedtime derisk · Stalled slot eviction when 3/3 full   │
+│         • UTC 21:00+: Bedtime derisk · Full book declines new signals        │
 └──────────────────────────────────────┬───────────────────────────────────────┘
                                        │
                                        ▼
@@ -76,9 +76,9 @@
 | **Replay** | `proteus.replay` | `EmpiricalCorpusReplay`: replays 784 messages, 95 setups, and 47 management updates (BPS `None`, unmeasured) |
 | **Backtest** | `proteus.backtest` | `LifecycleBacktestSimulator`: candle-driven Naive vs. FSM + 86-signal real-candle whipsaw audit |
 | **Shadow** | `proteus.shadow` & `lead_time` | `ForwardShadowScanner` (live Bitget scan) & `ShadowLeadTimeComparator` (unmeasured until detections are logged) |
-| **Paper** | `proteus.paper` | `VirtualPaperExchange`: `$1,000` ledger, Bitget Maker/Taker fees (`2 bps`/`6 bps`), 3-slot margin velocity eviction |
+| **Paper** | `proteus.paper` | `VirtualPaperExchange`: `$1,000` ledger, Bitget Maker/Taker fees (`2 bps`/`6 bps`), 3-slot cap (no eviction churn) |
 | **Constitution** | `proteus.constitution` | `ConstitutionalIdentityGuard` (AST anti-indicator scanner + corridors) & `BoundedSelfCorrector` |
-| **Monitor** | `proteus.monitor` | `SelfMonitoringWatchdog`: 6 runtime health probes + 6-cycle `LatchHealer` recovery |
+| **Monitor** | `proteus.monitor` | `SelfMonitoringWatchdog`: active-path runtime probes (idle paths report `SKIP`) + 6-cycle `LatchHealer` recovery |
 | **Evolver** | `proteus.evolver` | `AgenticSelfImprover` (`TelemetryScout` → `AdversarialCritic` → `TuringVerifier` → `HashChainCommitter`) |
 | **Web UI** | `proteus.web` | `ProteusWebHandler` & `INDEX_HTML`: 7-tab institutional dark-mode console on `127.0.0.1:18085` |
 
