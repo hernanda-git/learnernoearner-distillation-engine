@@ -196,7 +196,7 @@ class ProteusWebHandler(BaseHTTPRequestHandler):
             if not refresh and cached is not None and now - _DASHBOARD_CACHE["at"] < _CACHE_TTL_SECONDS:
                 self._send_json(cached)
                 return
-            payload = build_dashboard_payload(persist=False)
+            payload = build_dashboard_payload(persist=False, monitor_persist=True)
             _DASHBOARD_CACHE["at"] = now
             _DASHBOARD_CACHE["payload"] = payload
             self._send_json(payload)

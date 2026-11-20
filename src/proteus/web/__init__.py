@@ -29,18 +29,29 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 CORPUS_DIR = REPO_ROOT / "benchmarks" / "corpus"
 
 
-def build_dashboard_payload(*, persist: bool = True) -> dict[str, Any]:
+def build_dashboard_payload(
+    *, persist: bool = True, monitor_persist: bool | None = None
+) -> dict[str, Any]:
     """Assemble the complete, high-density telemetry payload for the Web UI.
 
-    ``persist=False`` makes every GET path side-effect free: the watchdog is
-    evaluated without saving its latch state, the self-improver never bootstraps,
-    and the lead-time comparator only reads.
+    ``persist=False`` makes every GET path side-effect free: the self-improver never
+    bootstraps and the lead-time comparator only reads. ``monitor_persist`` lets a
+    read-only GET still advance the watchdog clock (throttled to one evaluation per
+    ``MIN_EVALUATION_INTERVAL_SECONDS``), so a latch can heal without a POST.
     """
     pure_codebase, scanned_files = ConstitutionalIdentityGuard.verify_codebase_purity()
     corrector = BoundedSelfCorrector()
     active_const = corrector.load_active_parameters(seed=persist)
 
-    mon_snapshot = SelfMonitoringWatchdog().evaluate_and_heal(persist=persist)
+    persist_monitor = persist if monitor_persist is None else monitor_persist
+    mon_snapshot = SelfMonitoringWatchdog().evaluate_and_heal(
+        persist=persist_monitor,
+        min_interval_seconds=(
+            SelfMonitoringWatchdog.MIN_EVALUATION_INTERVAL_SECONDS
+            if persist_monitor
+            else 0.0
+        ),
+    )
     improver = AgenticSelfImprover()
     journal_rows = improver.load_journal()
     if not journal_rows and persist:

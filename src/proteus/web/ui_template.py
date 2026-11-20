@@ -331,7 +331,7 @@ INDEX_HTML = r"""<!DOCTYPE html>
       <div class="panel">
         <div class="panel-header">
           <span class="panel-title">ALPHA PORTFOLIO — DAILY REBALANCE, NO SLOT CHURN</span>
-          <span class="badge badge-accent" id="alpha-status-badge">Awaiting first cycle</span>
+          <span class="badge badge-accent" id="alpha-status-badge">—</span>
         </div>
         <div class="table-wrap">
           <table>
@@ -430,7 +430,7 @@ INDEX_HTML = r"""<!DOCTYPE html>
       <div class="panel">
         <div class="panel-header">
           <span class="panel-title">PHASE 6.1 SHADOW LEAD-TIME PARITY LOG (Δt = t_proteus − t_human_telegram)</span>
-          <span class="badge badge-success">Median Lead: −16.5s (100% ≤ 0s)</span>
+          <span class="badge badge-muted" id="lt-parity-badge">UNMEASURED</span>
         </div>
         <div class="table-wrap">
           <table>
@@ -459,7 +459,7 @@ INDEX_HTML = r"""<!DOCTYPE html>
         <div class="panel">
           <div class="panel-header">
             <span class="panel-title">COMPARATIVE BACKTEST: DISTILLED PROTEUS FSM VS. NAIVE SET-AND-FORGET (N = 97)</span>
-            <span class="badge badge-success">−86.8% Drawdown Reduction</span>
+            <span class="badge badge-muted" id="bt-dd-badge">—</span>
           </div>
           <table>
             <thead>
@@ -718,7 +718,7 @@ INDEX_HTML = r"""<!DOCTYPE html>
       <div class="grid-2">
         <div class="panel">
           <div class="panel-header">
-            <span class="panel-title">SELF-MONITORING WATCHDOG &amp; LATCH HEALER (6 RUNTIME PROBES)</span>
+            <span class="panel-title">SELF-MONITORING WATCHDOG &amp; LATCH HEALER (ACTIVE-PATH RUNTIME PROBES)</span>
             <span class="badge badge-success" id="mon-status-badge">HEALTHY · STREAK: 0</span>
           </div>
           <table>
@@ -892,6 +892,15 @@ INDEX_HTML = r"""<!DOCTYPE html>
       document.getElementById('tbody-shadow-radar').innerHTML = radarRows;
 
       // Lead-Time table
+      const lts = d.lead_time_summary || {};
+      const ltBadge = document.getElementById('lt-parity-badge');
+      if (!lts.evaluated_pairs) {
+        ltBadge.textContent = 'UNMEASURED · 0 pairs';
+        ltBadge.className = 'badge badge-muted';
+      } else {
+        ltBadge.textContent = `Median Lead: ${lts.median_delta_t_seconds}s (${lts.front_run_or_simultaneous_rate_pct}% ≤ 0s)`;
+        ltBadge.className = 'badge badge-success';
+      }
       const ltRows = ((d.lead_time_summary || {}).recent_comparisons || []).map(c => `<tr>
         <td><strong>${c.symbol}</strong></td>
         <td><span class="badge ${c.direction === 'LONG' ? 'badge-success' : 'badge-error'}">${c.direction}</span></td>
@@ -910,15 +919,27 @@ INDEX_HTML = r"""<!DOCTYPE html>
       const pf = bt.proteus_distilled_fsm || {};
       const nf = bt.naive_set_and_forget || {};
       const hp = d.historical_paper_sim || {};
+      const naiveDD = Number(nf.max_drawdown_r);
+      const ddCutPct = naiveDD > 0 ? (Number(bt.drawdown_reduction_r) / naiveDD) * 100 : null;
+      const btBadge = document.getElementById('bt-dd-badge');
+      if (btBadge) {
+        btBadge.textContent = ddCutPct === null ? '—' : `${ddCutPct.toFixed(1)}% Drawdown Reduction`;
+        btBadge.className = `badge ${ddCutPct !== null && ddCutPct >= 0 ? 'badge-success' : 'badge-error'}`;
+      }
+      const winDelta = (Number(pf.win_rate_pct) - Number(nf.win_rate_pct)).toFixed(1);
+      const lossDelta = (Number(pf.loss_rate_pct) - Number(nf.loss_rate_pct)).toFixed(1);
+      const pfRatio = Number(nf.profit_factor) > 0
+        ? (Number(pf.profit_factor) / Number(nf.profit_factor)).toFixed(2)
+        : '—';
       document.getElementById('tbody-backtest-comp').innerHTML = `
         <tr><td>Total Canonical Setups</td><td class="num">${pf.total_trades}</td><td class="num">${nf.total_trades}</td><td class="num">100% Parity</td></tr>
-        <tr><td>Winning Trades</td><td class="num" style="color:var(--success);font-weight:700;">${pf.wins} (${pf.win_rate_pct}%)</td><td class="num">${nf.wins} (${nf.win_rate_pct}%)</td><td class="num" style="color:var(--success);">+32.9% Win Rate</td></tr>
-        <tr><td>Breakeven Scratches (0.0R)</td><td class="num" style="color:var(--accent);font-weight:700;">${pf.breakeven_scratches} (${pf.scratch_rate_pct}%)</td><td class="num">0 (0.0%)</td><td class="num" style="color:var(--accent);">+23 Rescued Reversals</td></tr>
-        <tr><td>Full Stop-Out Losses (-1.0R)</td><td class="num" style="color:var(--success);font-weight:700;">${pf.losses} (${pf.loss_rate_pct}%)</td><td class="num" style="color:var(--error);">${nf.losses} (${nf.loss_rate_pct}%)</td><td class="num" style="color:var(--success);">−56.7% Loss Rate</td></tr>
-        <tr><td>Total Realized Return (R)</td><td class="num" style="color:var(--success);font-weight:700;">+${pf.total_realized_r}R</td><td class="num">+${nf.total_realized_r}R</td><td class="num" style="color:var(--success);">+${bt.proteus_alpha_edge_r}R Alpha</td></tr>
-        <tr><td>Profit Factor (Gross R+ / R-)</td><td class="num" style="color:var(--success);font-weight:700;">${pf.profit_factor}</td><td class="num">${nf.profit_factor}</td><td class="num" style="color:var(--success);">4.06× Higher PF</td></tr>
-        <tr><td>Maximum Drawdown (R)</td><td class="num" style="color:var(--success);font-weight:700;">${pf.max_drawdown_r}R</td><td class="num" style="color:var(--error);">${nf.max_drawdown_r}R</td><td class="num" style="color:var(--success);">−${bt.drawdown_reduction_r}R (−86.8%)</td></tr>
-        <tr><td>$1,000 Paper Account Ending Equity</td><td class="num" style="color:var(--success);font-weight:700;">$${hp.proteus_distilled_clone?.ending_equity_usdt} ($${hp.proteus_distilled_clone?.ending_equity_after_fees_usdt} net)</td><td class="num">$${hp.naive_set_and_forget?.ending_equity_usdt}</td><td class="num" style="color:var(--success);">4.0% vs 30.28% Max DD</td></tr>
+        <tr><td>Winning Trades</td><td class="num" style="color:var(--success);font-weight:700;">${pf.wins} (${pf.win_rate_pct}%)</td><td class="num">${nf.wins} (${nf.win_rate_pct}%)</td><td class="num" style="color:var(--success);">${winDelta >= 0 ? '+' : ''}${winDelta}pp win rate</td></tr>
+        <tr><td>Breakeven Scratches (0.0R)</td><td class="num" style="color:var(--accent);font-weight:700;">${pf.breakeven_scratches} (${pf.scratch_rate_pct}%)</td><td class="num">0 (0.0%)</td><td class="num" style="color:var(--accent);">${pf.breakeven_scratches} rescued reversals</td></tr>
+        <tr><td>Full Stop-Out Losses (-1.0R)</td><td class="num" style="color:var(--success);font-weight:700;">${pf.losses} (${pf.loss_rate_pct}%)</td><td class="num" style="color:var(--error);">${nf.losses} (${nf.loss_rate_pct}%)</td><td class="num" style="color:var(--success);">${lossDelta}pp loss rate</td></tr>
+        <tr><td>Total Realized Return (R)</td><td class="num" style="color:var(--success);font-weight:700;">${pf.total_realized_r}R</td><td class="num">${nf.total_realized_r}R</td><td class="num" style="color:var(--success);">${bt.proteus_alpha_edge_r}R vs naive</td></tr>
+        <tr><td>Profit Factor (Gross R+ / R-)</td><td class="num" style="color:var(--success);font-weight:700;">${pf.profit_factor}</td><td class="num">${nf.profit_factor}</td><td class="num" style="color:var(--success);">${pfRatio}× vs naive</td></tr>
+        <tr><td>Maximum Drawdown (R)</td><td class="num" style="color:var(--success);font-weight:700;">${pf.max_drawdown_r}R</td><td class="num" style="color:var(--error);">${nf.max_drawdown_r}R</td><td class="num" style="color:var(--success);">${bt.drawdown_reduction_r}R (${ddCutPct === null ? '—' : ddCutPct.toFixed(1) + '% lower'})</td></tr>
+        <tr><td>$1,000 Paper Account Ending Equity</td><td class="num" style="color:var(--success);font-weight:700;">$${hp.proteus_distilled_clone?.ending_equity_usdt} ($${hp.proteus_distilled_clone?.ending_equity_after_fees_usdt} net)</td><td class="num">$${hp.naive_set_and_forget?.ending_equity_usdt}</td><td class="num" style="color:var(--success);">${hp.proteus_distilled_clone?.max_drawdown_pct}% vs ${hp.naive_set_and_forget?.max_drawdown_pct}% max DD</td></tr>
       `;
 
       // Real-Candle Forensic Audit table
@@ -980,10 +1001,15 @@ INDEX_HTML = r"""<!DOCTYPE html>
 
       // Tab 7: Self-Monitor Watchdog & AI Agent Evolver
       const sm = d.self_monitor || {};
-      document.getElementById('mon-status-badge').textContent = `${sm.overall_status || 'HEALTHY'} · Streak: ${sm.consecutive_healthy_cycles || 0} (Healed: ${sm.total_healed_events || 0})`;
+      const monStatus = sm.overall_status || '—';
+      const monBadge = document.getElementById('mon-status-badge');
+      monBadge.textContent = `${monStatus} · Streak: ${sm.consecutive_healthy_cycles || 0} (Healed: ${sm.total_healed_events || 0})`;
+      monBadge.className = `badge ${monStatus === 'HEALTHY'
+        ? 'badge-success'
+        : (monStatus === 'DEGRADED_WARN' ? 'badge-warning' : (monStatus === 'LATCHED_HALT' ? 'badge-error' : 'badge-muted'))}`;
       document.getElementById('tbody-monitor-probes').innerHTML = (sm.probes || []).map(p => `<tr>
         <td><strong>${p.probe_name}</strong></td>
-        <td><span class="badge ${p.status === 'PASS' ? 'badge-success' : (p.status === 'WARN' ? 'badge-warning' : 'badge-error')}">${p.status}</span></td>
+        <td><span class="badge ${p.status === 'PASS' ? 'badge-success' : (p.status === 'WARN' ? 'badge-warning' : (p.status === 'SKIP' ? 'badge-muted' : 'badge-error'))}">${p.status}</span></td>
         <td class="num">${p.measured_value}</td>
         <td class="num">${p.threshold}</td>
         <td class="wrap-cell">${p.detail}</td>
@@ -1121,7 +1147,7 @@ INDEX_HTML = r"""<!DOCTYPE html>
       if (!a) return;
       const badge = document.getElementById('alpha-status-badge');
       if (a.status) {
-        badge.textContent = a.status === 'NO_LEDGER' ? 'Awaiting first cycle' : a.status;
+        badge.textContent = a.status === 'NO_LEDGER' ? 'NO LIVE LEDGER' : a.status;
         return;
       }
       const positions = a.positions || [];

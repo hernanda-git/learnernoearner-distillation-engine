@@ -3,10 +3,13 @@
 Includes Phase 6 Extensions:
 - Phase 6.2: Bitget USDT-FUTURES fee model (Maker 2.0 bps = 0.02% for LIMIT entries,
   Taker 6.0 bps = 0.06% for MARKET entries & stop/market exits) + LIMIT band fill check.
-- Phase 6.4: Portfolio Margin Velocity Cap (`max_open_positions = 3`). When slots are
-  full and a higher-conviction setup arrives, evicts the most stalled open trade
-  (-0.15R <= unrealized_r <= +0.35R) to free margin ("closed $POWER $10 profit so we
-  can have margin to take another trade").
+- Phase 6.4: Portfolio margin cap (`max_open_positions = 3`). The former
+  "margin velocity eviction" is removed: measured over 1,414 paper trades it fired on
+  92% of closures, averaged +0.006R, and paid ~$1.38 (0.069R) in fees per event, i.e.
+  a structural -0.063R per eviction. A full book now simply declines the new signal.
+- Risk is scaled to current equity (`risk_pct_of_equity`, default 2%) with an
+  insolvency guard, and entries are rejected when round-trip fees exceed 20% of the
+  risk budget.
 """
 
 from __future__ import annotations
@@ -17,6 +20,7 @@ from dataclasses import asdict, dataclass
 from datetime import datetime
 from decimal import Decimal
 from pathlib import Path
+from typing import Any
 
 from proteus.domain.models import (
     Direction,
@@ -57,6 +61,7 @@ class VirtualPaperPosition:
     opened_at_utc: str = ""
     updated_at_utc: str = ""
     position_id: str = ""
+    risk_usdt: float = 20.0
 
 
 @dataclass(frozen=True)
@@ -89,11 +94,17 @@ class VirtualPaperExchange:
         starting_equity_usdt: float = 1000.0,
         risk_per_trade_usdt: float = 20.0,
         max_open_positions: int = 3,
+        risk_pct_of_equity: float = 0.02,
+        max_round_trip_fee_r: float = 0.20,
+        min_stop_distance_pct: float = 0.005,
     ) -> None:
         self.ledger_path = ledger_path or state_path("paper_ledger.json", seed=False)
         self.starting_equity_usdt = starting_equity_usdt
         self.risk_per_trade_usdt = risk_per_trade_usdt
         self.max_open_positions = max_open_positions
+        self.risk_pct_of_equity = risk_pct_of_equity
+        self.max_round_trip_fee_r = max_round_trip_fee_r
+        self.min_stop_distance_pct = min_stop_distance_pct
         self.fsm = TradeLifecycleFSM()
 
     @staticmethod
@@ -163,8 +174,11 @@ class VirtualPaperExchange:
         closed: list[VirtualPaperPosition] = []
         prev_peak = self.starting_equity_usdt
         prev_dd = 0.0
+        prev_equity = self.starting_equity_usdt
+        raw: dict[str, Any] = {}
         if self.ledger_path.exists():
             raw = json.loads(self.ledger_path.read_text(encoding="utf-8"))
+            prev_equity = float(raw.get("current_equity_usdt", self.starting_equity_usdt))
             for sym, pos_dict in raw.get("positions", {}).items():
                 data = dict(pos_dict)
                 data.setdefault("position_id", f"{sym}:{data.get('opened_at_utc', '')}")
@@ -181,6 +195,18 @@ class VirtualPaperExchange:
         logged = self._load_logged_ids()
 
         scan_dt = datetime.fromisoformat(snapshot.scanned_at_utc)
+        solvent = prev_equity > 0.0
+        risk_budget = (
+            round(
+                min(
+                    self.risk_per_trade_usdt,
+                    max(0.0, prev_equity * self.risk_pct_of_equity),
+                ),
+                2,
+            )
+            if solvent
+            else 0.0
+        )
 
         # Pass 1: Step all currently open positions through TradeLifecycleFSM
         just_closed: set[str] = set()
@@ -221,7 +247,7 @@ class VirtualPaperExchange:
                 notional = self.compute_position_notional_usdt(
                     float(cur.entry_price),
                     float(cur.stop_loss),
-                    self.risk_per_trade_usdt,
+                    float(cur.risk_usdt),
                 )
                 fees = cur.fees_paid_usdt
                 if (
@@ -274,52 +300,12 @@ class VirtualPaperExchange:
                 k for k, p in existing.items() if not self._is_terminal(p.state)
             ]
             if len(active_syms) >= self.max_open_positions:
-                # Phase 6.4: Find a stalled position (-0.15R <= unrealized_r <= +0.35R)
-                # with lower conviction than the incoming setup
-                stalled_candidates = [
-                    existing[k]
-                    for k in active_syms
-                    if -0.15 <= float(existing[k].unrealized_r) <= 0.35
-                    and existing[k].confidence <= asset.confidence
-                ]
-                if not stalled_candidates:
-                    continue
-                stalled_candidates.sort(key=lambda p: (float(p.unrealized_r), p.confidence))
-                evicted = stalled_candidates[0]
-                notional = self.compute_position_notional_usdt(
-                    float(evicted.entry_price),
-                    float(evicted.stop_loss),
-                    self.risk_per_trade_usdt,
-                )
-                exit_fee = round(notional * BITGET_TAKER_FEE_PCT, 4)
-                locked_r = round(
-                    float(evicted.realized_r)
-                    + float(evicted.unrealized_r) * float(evicted.remaining_size_fraction),
-                    2,
-                )
-                evicted_pos = VirtualPaperPosition(
-                    symbol=evicted.symbol,
-                    direction=evicted.direction,
-                    order_mode=evicted.order_mode,
-                    archetype=evicted.archetype,
-                    entry_price=evicted.entry_price,
-                    stop_loss=evicted.stop_loss,
-                    current_sl=evicted.current_sl,
-                    take_profit=evicted.take_profit,
-                    planned_rr=evicted.planned_rr,
-                    state=TradeState.CLOSED_EARLY.value,
-                    remaining_size_fraction="0.00",
-                    realized_r=f"{locked_r:.2f}",
-                    unrealized_r="0.00",
-                    fees_paid_usdt=round(evicted.fees_paid_usdt + exit_fee, 4),
-                    confidence=evicted.confidence,
-                    eviction_reason=f"margin_velocity_eviction_for_{sym}",
-                    opened_at_utc=evicted.opened_at_utc,
-                    updated_at_utc=snapshot.scanned_at_utc,
-                    position_id=evicted.position_id,
-                )
-                self._append_closed_log(evicted_pos, logged)
-                existing[evicted.symbol] = evicted_pos
+                # No slot churn: a full book declines the new setup. The measured
+                # eviction rule cost ~0.063R per event in fees (see module docstring).
+                continue
+
+            if not solvent or risk_budget <= 0.0:
+                continue
 
             if sym in existing and self._is_terminal(existing[sym].state):
                 prior = existing[sym]
@@ -328,14 +314,28 @@ class VirtualPaperExchange:
 
             direction = "LONG" if asset.action == "ENTER_LONG" else "SHORT"
             mode = asset.order_mode or "LIMIT"
-            entry_fee = self.compute_entry_fee_usdt(
-                float(asset.last_close),
-                float(asset.synthesized_sl),
-                self.risk_per_trade_usdt,
-                mode,
-            )
             entry_float = float(asset.last_close)
             sl_float = float(asset.synthesized_sl)
+            # Below this the notional floor makes the stop carry less risk than
+            # budgeted, while round-trip fees stay proportional to notional.
+            if abs(entry_float - sl_float) / max(1e-12, entry_float) < self.min_stop_distance_pct:
+                continue
+            entry_fee = self.compute_entry_fee_usdt(
+                entry_float,
+                sl_float,
+                risk_budget,
+                mode,
+            )
+            entry_notional = self.compute_position_notional_usdt(
+                entry_float,
+                sl_float,
+                risk_budget,
+            )
+            round_trip_fee_r = (
+                entry_fee + entry_notional * BITGET_TAKER_FEE_PCT
+            ) / risk_budget
+            if round_trip_fee_r > self.max_round_trip_fee_r:
+                continue
             tp_float = float(asset.synthesized_tp)
             planned_rr = (
                 f"{abs(tp_float - entry_float) / abs(entry_float - sl_float):.4f}"
@@ -362,18 +362,24 @@ class VirtualPaperExchange:
                 opened_at_utc=snapshot.scanned_at_utc,
                 updated_at_utc=snapshot.scanned_at_utc,
                 position_id=f"{sym}:{snapshot.scanned_at_utc}",
+                risk_usdt=risk_budget,
             )
 
         all_positions = [*existing.values(), *closed]
-        realized_r_sum = sum(float(p.realized_r) for p in all_positions)
-        unrealized_r_sum = sum(
-            float(p.unrealized_r) * float(p.remaining_size_fraction)
-            for p in existing.values()
-            if not self._is_terminal(p.state)
-        )
         total_fees = round(sum(p.fees_paid_usdt for p in all_positions), 2)
-        realized_usdt = round(realized_r_sum * self.risk_per_trade_usdt - total_fees, 2)
-        unrealized_usdt = round(unrealized_r_sum * self.risk_per_trade_usdt, 2)
+        realized_usdt = round(
+            sum(float(p.realized_r) * float(p.risk_usdt) for p in all_positions)
+            - total_fees,
+            2,
+        )
+        unrealized_usdt = round(
+            sum(
+                float(p.unrealized_r) * float(p.remaining_size_fraction) * float(p.risk_usdt)
+                for p in existing.values()
+                if not self._is_terminal(p.state)
+            ),
+            2,
+        )
         current_eq = round(self.starting_equity_usdt + realized_usdt + unrealized_usdt, 2)
         peak_eq = round(max(prev_peak, current_eq, self.starting_equity_usdt), 2)
         dd_pct = round(

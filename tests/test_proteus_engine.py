@@ -475,11 +475,11 @@ def test_phase6_shadow_lead_time_comparator(tmp_path: Path) -> None:
     assert summary.status == "UNMEASURED"
 
 
-def test_phase6_fee_model_and_margin_velocity_slot_eviction(tmp_path: Path) -> None:
+def test_phase6_fee_model_and_full_book_declines_new_signal(tmp_path: Path) -> None:
     from proteus.paper import VirtualPaperExchange
     from proteus.shadow import AssetShadowState, LiveShadowSnapshot
 
-    def _state(sym: str, conf: float) -> AssetShadowState:
+    def _state(sym: str, conf: float, sl: str = "9.74") -> AssetShadowState:
         return AssetShadowState(
             symbol=sym,
             last_close="10.00",
@@ -496,7 +496,7 @@ def test_phase6_fee_model_and_margin_velocity_slot_eviction(tmp_path: Path) -> N
             abstain_prob=round(1.0 - conf, 2),
             archetype="MIDRANGE_RETEST",
             order_mode="LIMIT",
-            synthesized_sl="9.74",
+            synthesized_sl=sl,
             synthesized_tp="11.18",
             rationale="Midrange retest",
         )
@@ -518,16 +518,97 @@ def test_phase6_fee_model_and_margin_velocity_slot_eviction(tmp_path: Path) -> N
     )
 
     exchange = VirtualPaperExchange(
-        ledger_path=tmp_path / "evict_ledger.json",
+        ledger_path=tmp_path / "slots_ledger.json",
         max_open_positions=3,
     )
     ledger = exchange.process_shadow_snapshot(snap)
-    # Max 3 open positions enforced; WLD (lowest confidence 0.72, 0.00R stalled) evicted for PEPE (0.91)
+    # The fourth signal is declined; no position is churned to make room.
     assert ledger.open_positions_count == 3
-    assert ledger.margin_evictions_count == 1
-    assert ledger.positions["WLD"].state == "CLOSED_EARLY"
-    assert ledger.positions["WLD"].eviction_reason == "margin_velocity_eviction_for_PEPE"
+    assert ledger.margin_evictions_count == 0
+    assert ledger.positions["WLD"].state == "ACTIVE"
+    assert "PEPE" not in ledger.positions
+    assert ledger.positions["WLD"].risk_usdt == 20.0
     assert ledger.total_fees_paid_usdt > 0.0
+
+    # A stop so tight that round-trip fees exceed 20% of the risk budget is rejected.
+    tight = VirtualPaperExchange(ledger_path=tmp_path / "tight_ledger.json")
+    tight_ledger = tight.process_shadow_snapshot(
+        LiveShadowSnapshot(
+            scanned_at_utc="2026-11-09T09:00:00+00:00",
+            btc_1d_close="75000",
+            eth_1d_close="2150",
+            macro_regime="RANGE_BOUND",
+            universe_evaluated=1,
+            active_entries=1,
+            abstentions=0,
+            states=[_state("TIGHT", 0.91, sl="9.99")],
+        )
+    )
+    assert tight_ledger.open_positions_count == 0
+
+
+def test_paper_risk_scales_with_equity_and_halts_when_insolvent(tmp_path: Path) -> None:
+    import json
+
+    from proteus.paper import VirtualPaperExchange
+    from proteus.shadow import AssetShadowState, LiveShadowSnapshot
+
+    state = AssetShadowState(
+        symbol="WLD",
+        last_close="10.00",
+        range_low_72h="9.50",
+        mid_range_72h="10.00",
+        range_high_72h="10.50",
+        equilibrium_width_pct="10.5%",
+        swept_low=False,
+        swept_high=False,
+        reclaimed_midrange=True,
+        in_no_mans_land=False,
+        action="ENTER_LONG",
+        confidence=0.72,
+        abstain_prob=0.28,
+        archetype="MIDRANGE_RETEST",
+        order_mode="LIMIT",
+        synthesized_sl="9.74",
+        synthesized_tp="11.18",
+        rationale="Midrange retest",
+    )
+    snapshot = LiveShadowSnapshot(
+        scanned_at_utc="2026-11-09T08:00:00+00:00",
+        btc_1d_close="75000",
+        eth_1d_close="2150",
+        macro_regime="RANGE_BOUND",
+        universe_evaluated=1,
+        active_entries=1,
+        abstentions=0,
+        states=[state],
+    )
+    ledger_path = tmp_path / "scaled_ledger.json"
+    ledger_path.write_text(
+        json.dumps(
+            {
+                "starting_equity_usdt": 1000.0,
+                "current_equity_usdt": 500.0,
+                "positions": {},
+                "closed_positions": [],
+            }
+        )
+    )
+    ledger = VirtualPaperExchange(ledger_path=ledger_path).process_shadow_snapshot(snapshot)
+    assert ledger.positions["WLD"].risk_usdt == 10.0  # 2% of 500, not the fixed 20
+
+    ledger_path.write_text(
+        json.dumps(
+            {
+                "starting_equity_usdt": 1000.0,
+                "current_equity_usdt": -488.58,
+                "positions": {},
+                "closed_positions": [],
+            }
+        )
+    )
+    insolvent = VirtualPaperExchange(ledger_path=ledger_path).process_shadow_snapshot(snapshot)
+    assert insolvent.open_positions_count == 0
 
 
 def test_constitutional_identity_guard_and_anti_indicator_purity(tmp_path: Path) -> None:
@@ -642,6 +723,108 @@ def test_self_monitoring_watchdog_and_latch_healer(tmp_path: Path) -> None:
     assert snap_healed.latch_active is False
     assert snap_healed.total_healed_events == 1
     assert snap_healed.overall_status in ("HEALTHY", "DEGRADED_WARN")
+
+
+def test_watchdog_skips_retired_paths_instead_of_latching(tmp_path: Path) -> None:
+    import json
+    import os
+    import time
+
+    from proteus.monitor import SelfMonitoringWatchdog
+
+    paper = tmp_path / "paper_ledger.json"
+    paper.write_text(
+        json.dumps(
+            {
+                "starting_equity_usdt": 1000.0,
+                "current_equity_usdt": -488.58,
+                "max_drawdown_pct": 173.49,
+                "positions": {},
+            }
+        )
+    )
+    shadow = tmp_path / "shadow.json"
+    shadow.write_text(json.dumps({"scanned_at_utc": "2026-11-16T02:40:05+00:00"}))
+    old = time.time() - 4 * 86400
+    for path in (paper, shadow):
+        os.utime(path, (old, old))
+
+    watchdog = SelfMonitoringWatchdog(
+        state_path=tmp_path / "monitor.json",
+        shadow_path=shadow,
+        ledger_path=paper,
+        alpha_ledger_path=tmp_path / "none.json",
+        alpha_panel_dir=tmp_path / "no_panel",
+    )
+    snap = watchdog.evaluate_and_heal(env={})
+    probes = {probe.probe_name: probe for probe in snap.probes}
+    assert probes["paper_drawdown_circuit_breaker"].status == "SKIP"
+    assert probes["position_protection_integrity"].status == "SKIP"
+    assert probes["shadow_feed_freshness"].status == "SKIP"
+    assert snap.latch_active is False
+    assert snap.overall_status in ("HEALTHY", "DEGRADED_WARN")
+
+
+def test_watchdog_latches_live_alpha_drawdown_and_stale_ledger(tmp_path: Path) -> None:
+    import json
+    from datetime import UTC, datetime
+
+    from proteus.monitor import SelfMonitoringWatchdog
+
+    alpha = tmp_path / "alpha_ledger.json"
+    alpha.write_text(
+        json.dumps(
+            {
+                "equity_usdt": 600.0,
+                "peak_equity_usdt": 1000.0,
+                "updated_at_utc": datetime.now(UTC).isoformat(),
+            }
+        )
+    )
+    watchdog = SelfMonitoringWatchdog(
+        state_path=tmp_path / "monitor.json",
+        shadow_path=tmp_path / "none.json",
+        ledger_path=tmp_path / "none.json",
+        alpha_ledger_path=alpha,
+        alpha_panel_dir=tmp_path / "no_panel",
+    )
+    snap = watchdog.evaluate_and_heal(env={})
+    probes = {probe.probe_name: probe for probe in snap.probes}
+    assert probes["live_strategy_drawdown_circuit_breaker"].status == "FAIL"
+    assert probes["live_ledger_freshness"].status == "PASS"
+    assert snap.latch_active is True
+
+    # A healthy book with a frozen ledger must still fail: a dead daemon is the risk.
+    alpha.write_text(
+        json.dumps(
+            {
+                "equity_usdt": 1000.0,
+                "peak_equity_usdt": 1000.0,
+                "updated_at_utc": "2026-01-01T00:00:00+00:00",
+            }
+        )
+    )
+    healed_probes = {
+        probe.probe_name: probe for probe in watchdog.evaluate_and_heal(env={}).probes
+    }
+    assert healed_probes["live_strategy_drawdown_circuit_breaker"].status == "PASS"
+    assert healed_probes["live_ledger_freshness"].status == "FAIL"
+
+
+def test_watchdog_throttles_persisted_evaluations(tmp_path: Path) -> None:
+    from proteus.monitor import SelfMonitoringWatchdog
+
+    watchdog = SelfMonitoringWatchdog(
+        state_path=tmp_path / "monitor.json",
+        shadow_path=tmp_path / "none.json",
+        ledger_path=tmp_path / "none.json",
+        alpha_ledger_path=tmp_path / "none.json",
+        alpha_panel_dir=tmp_path / "no_panel",
+    )
+    first = watchdog.evaluate_and_heal(env={}, min_interval_seconds=60.0)
+    second = watchdog.evaluate_and_heal(env={}, min_interval_seconds=60.0)
+    assert second.evaluated_at_utc == first.evaluated_at_utc
+    assert second.consecutive_healthy_cycles == first.consecutive_healthy_cycles
 
 
 def test_agentic_self_improver_and_faj1_hash_chain_journal(tmp_path: Path) -> None:

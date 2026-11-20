@@ -2,8 +2,11 @@
 
 Synthesizes proven reliability patterns from `fatty-multi-exchange-trader` (`LatchHealer`)
 and `fomoalpha` (deterministic safety gates):
-- Evaluates 6 independent runtime probes on every scan cycle.
-- Enforces a 60s wall-clock outage floor before latching degraded state.
+- Evaluates the runtime probes of the *active* trading path. A path whose state has not
+  been written for `ACTIVE_PATH_STALENESS_SECONDS` is idle/retired and reports `SKIP`
+  instead of latching the whole engine on a fossil ledger.
+- Enforces a 60s wall-clock outage floor before latching degraded state, and only
+  re-evaluates persisted state once per `min_interval_seconds`.
 - Automatically heals latches after 6 consecutive healthy cycles (`CONSECUTIVE_CYCLES_TO_HEAL = 6`).
 - Persists state and probe telemetry to `benchmarks/self_monitor_state.json`.
 """
@@ -36,7 +39,7 @@ DEFAULT_LEDGER_PATH = (
 @dataclass(frozen=True)
 class HealthProbeResult:
     probe_name: str
-    status: str  # "PASS", "WARN", "FAIL"
+    status: str  # "PASS", "WARN", "FAIL", "SKIP"
     measured_value: str
     threshold: str
     detail: str
@@ -61,19 +64,48 @@ class SelfMonitoringWatchdog:
     """Autonomous self-monitoring watchdog with LatchHealer recovery."""
 
     CONSECUTIVE_CYCLES_TO_HEAL: int = 6
+    MIN_EVALUATION_INTERVAL_SECONDS: float = 60.0
     MAX_FEED_STALENESS_SECONDS: float = 1800.0
     MIN_LIVE_ABSTENTION_RATIO: float = 0.55
-    MAX_ALLOWED_DRAWDOWN_PCT: float = 7.0  # 3.5R at 2.0% risk/trade
+    MAX_ALLOWED_DRAWDOWN_PCT: float = 7.0  # paper path: 3.5R at 2.0% risk/trade
+    MAX_ALLOWED_ALPHA_DRAWDOWN_PCT: float = 30.0  # alpha config max_drawdown_stop
+    ACTIVE_PATH_STALENESS_SECONDS: float = 3600.0
+    ALPHA_LEDGER_STALENESS_SECONDS: float = 1800.0  # daemon writes every 300s
+    ALPHA_PANEL_STALENESS_SECONDS: float = 30 * 3600.0  # refreshed once per UTC day
 
     def __init__(
         self,
         state_path: Path | None = None,
         shadow_path: Path | None = None,
         ledger_path: Path | None = None,
+        alpha_ledger_path: Path | None = None,
+        alpha_panel_dir: Path | None = None,
     ) -> None:
         self.state_path = state_path or resolve_state_path("self_monitor_state.json")
         self.shadow_path = shadow_path or resolve_state_path("live_shadow_snapshot.json")
         self.ledger_path = ledger_path or resolve_state_path("paper_ledger.json", seed=False)
+        self.alpha_ledger_path = alpha_ledger_path or resolve_state_path(
+            "alpha_ledger.json", seed=False
+        )
+        self.alpha_panel_dir = alpha_panel_dir or (
+            self.alpha_ledger_path.parent / "alpha_panel" / "4h"
+        )
+
+    @staticmethod
+    def _age_seconds(path: Path, now: datetime) -> float | None:
+        if not path.exists():
+            return None
+        return max(0.0, now.timestamp() - path.stat().st_mtime)
+
+    @staticmethod
+    def _skip(probe_name: str, measured_value: str, threshold: str, detail: str) -> HealthProbeResult:
+        return HealthProbeResult(
+            probe_name=probe_name,
+            status="SKIP",
+            measured_value=measured_value,
+            threshold=threshold,
+            detail=detail,
+        )
 
     def evaluate_and_heal(
         self,
@@ -81,8 +113,32 @@ class SelfMonitoringWatchdog:
         now_utc: datetime | None = None,
         *,
         persist: bool = True,
+        min_interval_seconds: float = 0.0,
     ) -> SelfMonitorSnapshot:
         now = now_utc or datetime.now(UTC)
+
+        # Wall-clock bounded evaluation: callers that persist on every request
+        # (the public dashboard) must not advance the heal counter per request.
+        if persist and min_interval_seconds > 0 and self.state_path.exists():
+            try:
+                cached = json.loads(self.state_path.read_text(encoding="utf-8"))
+                last = datetime.fromisoformat(str(cached["evaluated_at_utc"]))
+                if (now - last).total_seconds() < min_interval_seconds:
+                    return SelfMonitorSnapshot(
+                        evaluated_at_utc=str(cached["evaluated_at_utc"]),
+                        overall_status=str(cached["overall_status"]),
+                        latch_active=bool(cached["latch_active"]),
+                        latch_reason=cached.get("latch_reason"),
+                        consecutive_healthy_cycles=int(cached.get("consecutive_healthy_cycles", 0)),
+                        cycles_required_to_heal=int(
+                            cached.get("cycles_required_to_heal", self.CONSECUTIVE_CYCLES_TO_HEAL)
+                        ),
+                        total_healed_events=int(cached.get("total_healed_events", 0)),
+                        probes=[HealthProbeResult(**probe) for probe in cached.get("probes", [])],
+                    )
+            except (OSError, KeyError, TypeError, ValueError):
+                pass
+
         probes: list[HealthProbeResult] = []
 
         # Probe 1: Air-Gap & Secret Hygiene
@@ -132,8 +188,84 @@ class SelfMonitoringWatchdog:
                 )
             )
 
-        # Probe 3: Live Shadow Feed Freshness & Probe 4: Abstention Discipline
-        if self.shadow_path.exists():
+        # Probe 3: Active live-strategy drawdown & ledger freshness (alpha path)
+        alpha_ledger: dict[str, Any] | None = None
+        if self.alpha_ledger_path.exists():
+            try:
+                alpha_ledger = json.loads(self.alpha_ledger_path.read_text(encoding="utf-8"))
+            except (json.JSONDecodeError, OSError) as exc:
+                probes.append(
+                    HealthProbeResult(
+                        probe_name="live_strategy_drawdown_circuit_breaker",
+                        status="FAIL",
+                        measured_value="UNREADABLE_LEDGER",
+                        threshold=f"<= {self.MAX_ALLOWED_ALPHA_DRAWDOWN_PCT:.1f}% DD",
+                        detail=f"{self.alpha_ledger_path.name}: {exc}",
+                    )
+                )
+        if alpha_ledger is not None:
+            equity = float(alpha_ledger.get("equity_usdt", alpha_ledger.get("starting_equity_usdt", 0.0)))
+            peak = float(alpha_ledger.get("peak_equity_usdt", equity) or equity)
+            dd_pct = max(0.0, ((peak - equity) / max(1.0, peak)) * 100.0)
+            probes.append(
+                HealthProbeResult(
+                    probe_name="live_strategy_drawdown_circuit_breaker",
+                    status=(
+                        "PASS" if dd_pct <= self.MAX_ALLOWED_ALPHA_DRAWDOWN_PCT else "FAIL"
+                    ),
+                    measured_value=f"{dd_pct:.2f}% DD (${equity:.2f})",
+                    threshold=f"<= {self.MAX_ALLOWED_ALPHA_DRAWDOWN_PCT:.1f}% DD",
+                    detail="Active alpha book equity vs peak; the trader derisks at its own max_drawdown_stop.",
+                )
+            )
+
+            updated_raw = str(alpha_ledger.get("updated_at_utc", ""))
+            try:
+                updated_age = max(0.0, (now - datetime.fromisoformat(updated_raw)).total_seconds())
+            except ValueError:
+                updated_age = None
+            probes.append(
+                HealthProbeResult(
+                    probe_name="live_ledger_freshness",
+                    status=(
+                        "PASS"
+                        if updated_age is not None
+                        and updated_age <= self.ALPHA_LEDGER_STALENESS_SECONDS
+                        else "FAIL"
+                    ),
+                    measured_value=(
+                        f"{updated_age:.0f}s age" if updated_age is not None else "NO_TIMESTAMP"
+                    ),
+                    threshold=f"<= {self.ALPHA_LEDGER_STALENESS_SECONDS:.0f}s",
+                    detail="The alpha daemon rewrites alpha_ledger.json every cycle; a stale ledger means it stopped.",
+                )
+            )
+
+        panel_age: float | None = None
+        if self.alpha_panel_dir.exists():
+            panel_files = list(self.alpha_panel_dir.glob("*.jsonl"))
+            if panel_files:
+                newest = max(path.stat().st_mtime for path in panel_files)
+                panel_age = max(0.0, now.timestamp() - newest)
+        probes.append(
+            HealthProbeResult(
+                probe_name="alpha_panel_freshness",
+                status=(
+                    "PASS"
+                    if panel_age is not None and panel_age <= self.ALPHA_PANEL_STALENESS_SECONDS
+                    else "WARN"
+                ),
+                measured_value=(
+                    f"{panel_age / 3600.0:.1f}h age" if panel_age is not None else "NO_PANEL"
+                ),
+                threshold=f"<= {self.ALPHA_PANEL_STALENESS_SECONDS / 3600.0:.0f}h",
+                detail="4H candle panel is refreshed at the daily rebalance; older data means the feed stalled.",
+            )
+        )
+
+        # Probe 4: Shadow feed freshness & abstention discipline (only while that path is live)
+        shadow_age = self._age_seconds(self.shadow_path, now)
+        if shadow_age is not None and shadow_age <= self.ACTIVE_PATH_STALENESS_SECONDS:
             shadow = json.loads(self.shadow_path.read_text(encoding="utf-8"))
             scan_dt = datetime.fromisoformat(shadow["scanned_at_utc"])
             age_s = max(0.0, (now - scan_dt).total_seconds())
@@ -162,18 +294,29 @@ class SelfMonitoringWatchdog:
                 )
             )
         else:
+            measured = (
+                f"{shadow_age / 3600.0:.1f}h idle" if shadow_age is not None else "MISSING"
+            )
             probes.append(
-                HealthProbeResult(
-                    probe_name="shadow_feed_freshness",
-                    status="WARN",
-                    measured_value="MISSING",
-                    threshold="<= 1800s",
-                    detail="No live_shadow_snapshot.json found yet.",
+                self._skip(
+                    "shadow_feed_freshness",
+                    measured,
+                    f"active within {self.ACTIVE_PATH_STALENESS_SECONDS:.0f}s",
+                    "Shadow overlay is not running; its snapshot is not a live safety input.",
+                )
+            )
+            probes.append(
+                self._skip(
+                    "abstention_regime_discipline",
+                    measured,
+                    "active shadow path",
+                    "No live shadow scans to evaluate abstention discipline against.",
                 )
             )
 
-        # Probe 5: Paper Drawdown Circuit Breaker & Probe 6: Position Protection Integrity
-        if self.ledger_path.exists():
+        # Probe 5: Paper drawdown & position protection (only while that path is live)
+        paper_age = self._age_seconds(self.ledger_path, now)
+        if paper_age is not None and paper_age <= self.ACTIVE_PATH_STALENESS_SECONDS:
             ledger = json.loads(self.ledger_path.read_text(encoding="utf-8"))
             start_eq = float(ledger.get("starting_equity_usdt", 1000.0))
             cur_eq = float(ledger.get("current_equity_usdt", 1000.0))
@@ -212,6 +355,24 @@ class SelfMonitoringWatchdog:
                     ),
                     threshold="100% of open positions have SL & TP attached",
                     detail="Every open virtual position has a structural SL and TP.",
+                )
+            )
+        else:
+            measured = f"{paper_age / 3600.0:.1f}h idle" if paper_age is not None else "MISSING"
+            probes.append(
+                self._skip(
+                    "paper_drawdown_circuit_breaker",
+                    measured,
+                    f"active within {self.ACTIVE_PATH_STALENESS_SECONDS:.0f}s",
+                    "Distillation paper path is not running; its frozen ledger cannot latch the engine.",
+                )
+            )
+            probes.append(
+                self._skip(
+                    "position_protection_integrity",
+                    measured,
+                    "active paper path",
+                    "No live paper positions to protect.",
                 )
             )
 
