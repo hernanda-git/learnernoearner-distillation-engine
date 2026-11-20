@@ -13,7 +13,7 @@ MUST read and obey `IDENTITY.md` before modifying any code, model weights, or do
    - **Macro Compass (`proteus.compass`)**: `BTC` and `ETH` are never traded directly; they act strictly as 1D regime filters.
    - **3-Tier Range & Visual Saliency (`proteus.geometry`, `proteus.vision`)**: Decisions are driven by 72h `Range High`, `50% Mid Range`, `Range Low`, session wick sweeps, and TradingView RGB box saliency ($\text{IoU} \ge 0.80$).
    - **Abstention & 80/20 Bias (`proteus.policy`)**: Maintain $\ge 95\%$ negative-space abstention accuracy and the asymmetric conviction gap ($\theta_{\text{Short}} - \theta_{\text{Long}} \ge 0.15$).
-   - **Asymmetric Risk & 2-Hour Coupled FSM (`proteus.params`, `proteus.fsm`)**: Preserve tighter Short stops (~2.17% SL, ~4.46R TP) vs. Long stops (~2.67% SL, ~4.87R TP), the $+1.0R$ `SL_TO_ENTRY` + $50\%$ `TP1` 2-hour impulse lock, UTC 21:00+ bedtime derisking, and 3-slot margin velocity eviction.
+   - **Asymmetric Risk & 2-Hour Coupled FSM (`proteus.params`, `proteus.fsm`)**: Preserve tighter Short stops (~2.17% SL, ~4.46R TP) vs. Long stops (~2.67% SL, ~4.87R TP), the $+1.0R$ `SL_TO_ENTRY` + $50\%$ `TP1` 2-hour impulse lock, UTC 21:00+ bedtime derisking, and the 3-slot cap that declines new signals instead of churning slots.
 4. **Bounded Self-Correction Only (`proteus.constitution`)**:
    - All parameter fine-tuning MUST flow through `BoundedSelfCorrector.propose_fine_tune()`, which enforces Constitutional Corridors and rolls back any update that drops Behavioral Parity Score ($BPS$) below `0.85`.
 5. **Verification Gate**:

@@ -146,9 +146,9 @@ learnernoearner-distillation-engine/
 │       ├── replay/                          # 95-signal & 784-message empirical replay engine
 │       ├── backtest/                        # candle-driven backtester + real-candle whipsaw audit
 │       ├── shadow/                          # Live Bitget shadow scanner & lead-time comparator
-│       ├── paper/                           # Virtual Paper Exchange (fees + 3-slot eviction)
+│       ├── paper/                           # Virtual Paper Exchange (fees + equity-scaled 3-slot cap)
 │       ├── constitution/                    # ConstitutionalIdentityGuard & BoundedSelfCorrector
-│       ├── monitor/                         # 6-probe SelfMonitoringWatchdog & LatchHealer
+│       ├── monitor/                         # Active-path SelfMonitoringWatchdog & LatchHealer
 │       ├── evolver/                         # 4-stage AI-Agent Self-Improver & SHA-256 journal
 │       ├── web/                             # 7-tab institutional HTML/JS console & REST API
 │       └── engine.py                        # End-to-end pipeline orchestrator

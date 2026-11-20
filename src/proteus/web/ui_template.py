@@ -818,9 +818,15 @@ INDEX_HTML = r"""<!DOCTYPE html>
       document.getElementById('top-bps').textContent = `BPS: ${fmtNum(d.turing_replay.parity_metrics.bps, 4)}`;
 
       const ls = d.live_shadow || {};
-      document.getElementById('top-regime').textContent = `MACRO: ${ls.macro_regime || 'RANGE_BOUND'}`;
+      const scanAgeH = ls.scanned_at_utc
+        ? (Date.now() - Date.parse(ls.scanned_at_utc)) / 3.6e6
+        : null;
+      const staleSuffix = (scanAgeH !== null && scanAgeH > 2) ? ` · ${scanAgeH.toFixed(0)}h old` : '';
+      document.getElementById('top-regime').textContent = `MACRO: ${ls.macro_regime || '—'}${staleSuffix}`;
       if (ls.btc_1d_close) document.getElementById('kpi-btc').textContent = `BTC: $${Number(ls.btc_1d_close).toLocaleString()}`;
-      if (ls.eth_1d_close) document.getElementById('kpi-eth').textContent = `ETH: $${Number(ls.eth_1d_close).toLocaleString()} · Compass Gate`;
+      if (ls.eth_1d_close) document.getElementById('kpi-eth').textContent = staleSuffix
+        ? `ETH: $${Number(ls.eth_1d_close).toLocaleString()}${staleSuffix}`
+        : `ETH: $${Number(ls.eth_1d_close).toLocaleString()} · Compass Gate`;
 
       const pl = d.paper_ledger || {};
       if (pl.current_equity_usdt !== undefined) {

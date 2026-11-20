@@ -21,7 +21,7 @@ We do **not** curve-fit arbitrary indicators to historical noise. We model the h
 5. **The 2-Hour Coupled Impulse FSM & Circadian Derisking**:
    - At the **~2.0-hour impulse mark** (8 bars on 15m, $+1.0R \text{ to } +1.5R$), the engine migrates Stop-Loss to Entry (`sl to entry` at median `119.1m`) and books $50\%$ partial profit (`tp1 booked` at median `123.6m`). The FSM hypothesis is **not yet validated**: a conservative 1H re-simulation with fees reduces Max Drawdown from `18.62R` to `10.50R` but remains unprofitable (`PF 0.82`). See `docs/AUDIT-2026-11-10.md`.
    - At **UTC 21:00–23:59 (Bedtime Window)**, unmonitored profitable trades are derisked before sleep.
-   - At **3/3 active portfolio slots**, stalled trades ($-0.15R \le \text{unrealized\_r} \le +0.35R$) are evicted when a higher-conviction setup arrives.
+   - At **3/3 active portfolio slots**, a new setup is declined and stalled trades are held. The slot-churn eviction was retired on 2026-11-20 after it closed 92% of paper trades at an average cost of ~0.06R in fees per event.
 
 ---
 
